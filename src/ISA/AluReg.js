@@ -35,19 +35,19 @@ class DecodeReg extends AluReg {
             
             // sl
             case 3: 
-                this.output = this.rs1 << this.rs2; 
+                this.output = this.rs1 << (this.rs2 & 0x1F); 
                 console.log("SlReg executed on, ", this.func)
                 break;
 
             // sr
             case 4:
-                this.output = this.rs1 >>> this.rs2;
+                this.output = this.rs1 >>> (this.rs2 & 0x1F);
                 console.log("SrReg executed on, ", this.func)
                 break;
             
             // sra
             case 5:
-                this.output = this.rs1 >> this.rs2; 
+                this.output = this.rs1 >> (this.rs2 & 0x1F); 
                 console.log("SraReg executed on, ", this.func)
                 break;
             
@@ -86,7 +86,7 @@ class DecodeReg extends AluReg {
             case 9: 
             case 10: 
             case 14: 
-            case 15: console.log("Unused Instruction: ", this.func); break;
+            case 15: console.log("Unused func in AluReg: ", this.func); break;
         }
     }
 }
