@@ -1,10 +1,12 @@
 import { compile_reg, compile_imm, compile_long } from "./compilers";
+
 class ShiftRight {
     constructor({ pred, rd, rs1, op2 }) {
         this.type = isNaN(op2) == "string" ? "sr" : (Number(op2) > 0x0FFF ? "srl" : "sri");
         this.rd = rd;
         this.rs1 = rs1;
         this.op2 = op2;
+        
         switch (this.type) {
             case "sr":
                 this.binary = compile_reg(pred, rd, rs1, op2, 4);
@@ -17,6 +19,7 @@ class ShiftRight {
                 break;
         }
     }
+
     execute({ reg }) {
         reg[this.rd] = (reg[this.rs1] >>> (this.type == "sr" ? reg[this.op2] & 0x1F : Number(this.op2) & 0x1F)) | 0;
     }
