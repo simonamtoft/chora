@@ -1,13 +1,13 @@
-import { toNum, toOther } from '../../../helper'
+import { parseNum, parseReg } from '../../../helper'
 
 export const compile_reg = (pred, rd, rs1, rs2, func) => {
     let binary = [0];
 
-    pred = toNum(pred);
-    func = toNum(func);
-    rd = toOther(rd);
-    rs1 = toOther(rs1);
-    rs2 = toOther(rs2);
+    pred = parseNum(pred);
+    func = parseNum(func);
+    rd = parseReg(rd);
+    rs1 = parseReg(rs1);
+    rs2 = parseReg(rs2);
 
     binary[0] |= pred << 27;
     binary[0] |= 0b01000 << 22;
@@ -21,11 +21,11 @@ export const compile_reg = (pred, rd, rs1, rs2, func) => {
 export const compile_imm = (pred, func, rd, rs1, imm) => {
     let binary = [0];
 
-    pred = toNum(pred);
-    func = toNum(func);
-    imm = toNum(imm);
-    rd = toOther(rd);
-    rs1 = toOther(rs1);
+    pred = parseNum(pred);
+    func = parseNum(func);
+    imm = parseNum(imm);
+    rd = parseReg(rd);
+    rs1 = parseReg(rs1);
 
     binary[0] |= pred << 27;
     binary[0] |= func << 22;
@@ -38,11 +38,11 @@ export const compile_imm = (pred, func, rd, rs1, imm) => {
 export const compile_long = (pred, rd, rs1, func, long) => {
     let binary = [0, 0];
 
-    pred = toNum(pred);
-    func = toNum(func);
-    long = toNum(long);
-    rd = toOther(rd);
-    rs1 = toOther(rs1);
+    pred = parseNum(pred);
+    func = parseNum(func);
+    long = parseNum(long);
+    rd = parseReg(rd);
+    rs1 = parseReg(rs1);
 
     binary[0] |= pred << 27;
     binary[0] |= 0b11111 << 22;
