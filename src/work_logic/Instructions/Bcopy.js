@@ -20,7 +20,7 @@ export const compile_reg = (pred, rd, rs1, imm, ps) => {
     return binary;
 };
 
-class Bitcopy {
+class Bcopy {
     constructor(pred, rd, rs1, imm, ps) {
         this.rd = rd;
         this.ps1 = ps1;
@@ -35,4 +35,4 @@ class Bitcopy {
 
 }
 
-export default Bitcopy
+export default Bcopy
