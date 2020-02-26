@@ -1,4 +1,4 @@
-import { compile_reg, compile_imm, compile_long } from "./ALU";
+import { compile_reg, compile_imm, compile_long } from "./compilers";
 class Xor {
     constructor({ pred, rd, rs1, op2 }) {
         this.type = isNaN(op2) == "string" ? "xor" : (Number(op2) > 0x0FFF ? "xorl" : "xori");

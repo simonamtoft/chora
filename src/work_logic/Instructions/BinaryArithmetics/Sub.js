@@ -1,4 +1,4 @@
-import { compile_reg, compile_imm, compile_long } from "./ALU";
+import { compile_reg, compile_imm, compile_long } from "./compilers";
 class Sub {
     constructor({ pred, rd, rs1, op2 }) {
         this.type = isNaN(op2) == "string" ? "sub" : (Number(op2) > 0x0FFF ? "subl" : "subi");
