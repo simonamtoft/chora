@@ -1,7 +1,7 @@
 import { compile_reg, compile_imm, compile_long } from "./ALU";
 class ShiftLeft {
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = typeof op2 == "string" ? "sl" : (Number(op2) > 0x0FFF ? "sll" : "sli");
+        this.type = isNaN(op2) == "string" ? "sl" : (Number(op2) > 0x0FFF ? "sll" : "sli");
         this.rd = rd;
         this.rs1 = rs1;
         this.op2 = op2;

@@ -1,7 +1,7 @@
 import { compile_reg, compile_imm, compile_long } from "./ALU";
 class Xor {
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = typeof op2 == "string" ? "xor" : (Number(op2) > 0x0FFF ? "xorl" : "xori");
+        this.type = isNaN(op2) == "string" ? "xor" : (Number(op2) > 0x0FFF ? "xorl" : "xori");
         this.rd = rd;
         this.rs1 = rs1;
         this.op2 = op2;

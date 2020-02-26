@@ -1,7 +1,7 @@
 import { compile_reg, compile_imm, compile_long } from "./compilers";
 class Nor {
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = typeof op2 == "string" ? "nor" : (Number(op2) > 0x0FFF ? "norl" : "nori");
+        this.type = isNaN(op2) == "string" ? "nor" : (Number(op2) > 0x0FFF ? "norl" : "nori");
         this.rd = rd;
         this.rs1 = rs1;
         this.op2 = op2;
