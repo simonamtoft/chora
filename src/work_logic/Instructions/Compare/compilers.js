@@ -19,7 +19,7 @@ export const compile_reg = (pred, pd, rs1, rs2, func) => {
     return binary;
 };
 
-export const compile_imm = (pred, func, pd, rs1, imm) => {
+export const compile_imm = (pred, pd, rs1, imm, func) => {
     let binary = [0];
 
     pred = parseNum(pred);
