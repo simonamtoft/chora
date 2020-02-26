@@ -29,7 +29,7 @@ class Bcopy {
         this.binary = compile_reg(pred, rd, rs1, imm, ps); 
     }
 
-    execute() {
+    execute({ reg }) {
         reg[this.rd] = (reg[this.rs1] & !(1 << this.imm)) | (reg[thiss.ps] << this.imm);
     }
 

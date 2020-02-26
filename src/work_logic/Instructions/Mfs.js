@@ -24,7 +24,7 @@ class Mfs {
         this.memory = compile_reg(pred, rs1, sd);
     }
 
-    execute() {
+    execute({ reg }) {
         reg[this.rd] = reg[this.ss]
     }
 }

@@ -25,7 +25,7 @@ class Mts {
         this.memory = compile_reg(pred, rs1, sd);
     }
 
-    execute() {
+    execute({ reg }) {
         reg[this.sd] = reg[this.rs1]
     }
 }
