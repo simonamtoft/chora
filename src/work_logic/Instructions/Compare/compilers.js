@@ -16,6 +16,7 @@ export const compile_reg = (pred, pd, rs1, rs2, func) => {
     binary[0] |= rs2 << 7;
     binary[0] |= 0b011 << 4;
     binary[0] |= func << 0;
+
     return binary;
 };
 
@@ -35,6 +36,7 @@ export const compile_imm = (pred, pd, rs1, imm, func) => {
     binary[0] |= imm << 7;
     binary[0] |= 0b110 << 4;
     binary[0] |= func << 0;
+    
     return binary;
 };
 
