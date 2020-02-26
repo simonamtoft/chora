@@ -1,0 +1,44 @@
+export const compile_reg = (pred, rd, rs1, rs2, func) => {
+    let binary = [0];
+    pred = typeof pred == "number" ? pred : Number(pred);
+    rd = typeof rd == "number" ? rd : Number(rd.match(/\d+/i)[0]);
+    rs1 = typeof rs1 == "number" ? rs1 : Number(rs1.match(/\d+/i)[0]);
+    rs2 = typeof rs2 == "number" ? rs2 : Number(rs2.match(/\d+/i)[0]);
+    func = typeof func == "number" ? func : Number(func);
+    binary[0] |= pred << 27;
+    binary[0] |= 0b01000 << 22;
+    binary[0] |= rd << 17;
+    binary[0] |= rs1 << 12;
+    binary[0] |= rs2 << 7;
+    binary[0] |= func << 0;
+    return binary;
+};
+export const compile_imm = (pred, func, rd, rs1, imm) => {
+    let binary = [0];
+    pred = typeof pred == "number" ? pred : Number(pred);
+    func = typeof func == "number" ? func : Number(func);
+    rd = typeof rd == "number" ? rd : Number(rd.match(/\d+/i)[0]);
+    rs1 = typeof rs1 == "number" ? rs1 : Number(rs1.match(/\d+/i)[0]);
+    imm = typeof imm == "number" ? imm : Number(imm.match(/\d+/i)[0]);
+    binary[0] |= pred << 27;
+    binary[0] |= func << 22;
+    binary[0] |= rd << 17;
+    binary[0] |= rs1 << 12;
+    binary[0] |= imm << 0;
+    return binary;
+};
+export const compile_long = (pred, rd, rs1, func, long) => {
+    let binary = [0, 0];
+    pred = typeof pred == "number" ? pred : Number(pred);
+    func = typeof func == "number" ? func : Number(func);
+    rd = typeof rd == "number" ? rd : Number(rd.match(/\d+/i)[0]);
+    rs1 = typeof rs1 == "number" ? rs1 : Number(rs1.match(/\d+/i)[0]);
+    long = typeof long == "number" ? long : Number(long.match(/\d+/i)[0]);
+    binary[0] |= pred << 27;
+    binary[0] |= 0b11111 << 22;
+    binary[0] |= rd << 17;
+    binary[0] |= rs1 << 12;
+    binary[0] |= func;
+    binary[1] = long & 0xFFFFFFFF;
+    return binary;
+};
