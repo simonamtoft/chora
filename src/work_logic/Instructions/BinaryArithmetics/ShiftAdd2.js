@@ -1,7 +1,7 @@
 import { compile_reg, compile_imm, compile_long } from "./compilers";
 class ShiftAdd2 {
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = typeof op2 == "string" ? "shadd2" : (Number(op2) > 0x0FFF ? "shadd2l" : "shadd2i");
+        this.type = isNaN(op2) == "string" ? "shadd2" : (Number(op2) > 0x0FFF ? "shadd2l" : "shadd2i");
         this.rd = rd;
         this.rs1 = rs1;
         this.op2 = op2;
