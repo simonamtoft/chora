@@ -19,7 +19,7 @@ class Add {
                 this.binary = compile_long(pred, rd, rs1, this.func, op2);
                 break;
             default: 
-                console.log("not implemented")
+                console.log("not implemented");
                 break;
         }
     }

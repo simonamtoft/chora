@@ -18,7 +18,7 @@ class ShiftAdd {
                 this.binary = compile_long(pred, rd, rs1, 12, op2);
                 break;
             default: 
-                console.log("not implemented")
+                console.log("not implemented");
                 break;
         }
     }
