@@ -1,19 +1,20 @@
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 class UserEditor extends Component {
     constructor(props) {
-        super(props)
+        super(props);
         
         this.state = {
-            editor: '',
-        }
+            editor: "",
+        };
     }
 
     handleEditorChange = (event) => {
         this.setState({
             editor: event.target.value
-        })
-        this.sendToParent(event.target.value)
+        });
+
+        this.sendToParent(event.target.value); 
     }
 
     sendToParent = (value) => {
@@ -21,7 +22,7 @@ class UserEditor extends Component {
     }
     
     render() {
-        const {editor} = this.state
+        const {editor} = this.state;
 
         return(
             <React.Fragment>
@@ -30,8 +31,8 @@ class UserEditor extends Component {
                     onChange={this.handleEditorChange}>
                 </textarea>  
             </React.Fragment>
-        )
+        ); 
     }
 }
 
-export default UserEditor
+export default UserEditor;
