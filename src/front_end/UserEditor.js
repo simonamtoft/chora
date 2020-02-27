@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 class UserEditor extends Component {
-    constructor(parentCallback) {
-        super(parentCallback);
+    constructor(props) {
+        super(props);
         
         this.state = {
             editor: "",
@@ -14,11 +14,11 @@ class UserEditor extends Component {
             editor: event.target.value
         });
 
-        this.sendToParent(event.target.value); 
+        this.sendToParent(event.target.value);
     }
 
     sendToParent = (value) => {
-        this.parentCallback(value);
+        this.props.parentCallback(value);
     }
     
     render() {
@@ -31,7 +31,7 @@ class UserEditor extends Component {
                     onChange={this.handleEditorChange}>
                 </textarea>  
             </React.Fragment>
-        ); 
+        );
     }
 }
 
