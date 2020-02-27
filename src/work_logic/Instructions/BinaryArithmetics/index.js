@@ -8,4 +8,4 @@ import Nor from "./Nor";
 import ShiftAdd from "./ShiftAdd";
 import ShiftAdd2 from "./ShiftAdd2";
 
-export { Add, Sub, Xor, ShiftLeft, ShiftRight, ShiftRightArithmetic, Nor, ShiftAdd, ShiftAdd2 };
+export default { Add, Sub, Xor, ShiftLeft, ShiftRight, ShiftRightArithmetic, Nor, ShiftAdd, ShiftAdd2 };
