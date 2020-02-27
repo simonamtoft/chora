@@ -1,4 +1,4 @@
-import { compile_reg } from "./compilers";
+//import { compile_reg } from "./compilers";
 
 class Mulu {
     constructor({ pred, rs1, rs2, sl, sh }) {
@@ -8,7 +8,7 @@ class Mulu {
         this.rs1 = rs1;
         this.rs2 = rs2;
         this.func = 0b0000;
-        this.binary = compile_reg(pred, pd, rs1, rs2, this.func)
+        //this.binary = compile_reg(pred, pd, rs1, rs2, this.func);
     }
 
     execute( { reg } ) {

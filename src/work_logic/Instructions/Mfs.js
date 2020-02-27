@@ -1,4 +1,4 @@
-import { parseNum, parseReg } from '../../../helper'
+import { parseNum, parseReg } from "../../../helper";
 
 export const compile_reg = (pred, rd, ss) => {
     let binary = [0];
@@ -21,12 +21,12 @@ class Mfs {
         this.pred = pred;
         this.rd = rd;
         this.ss = ss;
-        this.memory = compile_reg(pred, rs1, sd);
+        this.memory = compile_reg(pred, rd, ss);
     }
 
     execute({ reg }) {
-        reg[this.rd] = reg[this.ss]
+        reg[this.rd] = reg[this.ss];
     }
 }
 
-export default Mfs
+export default Mfs;

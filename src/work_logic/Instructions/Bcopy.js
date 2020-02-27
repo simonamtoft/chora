@@ -1,4 +1,4 @@
-import { parseNum, parseReg } from '../../../helper'
+import { parseNum, parseReg } from "../../../helper";
 
 export const compile_reg = (pred, rd, rs1, imm, ps) => {
     let binary = [0];
@@ -23,16 +23,16 @@ export const compile_reg = (pred, rd, rs1, imm, ps) => {
 class Bcopy {
     constructor(pred, rd, rs1, imm, ps) {
         this.rd = rd;
-        this.ps1 = ps1;
-        this.ps2 = ps2;
-        this.imm = imm; 
+        this.rs1 = rs1;
+        this.imm = imm;
+        this.ps = ps; 
         this.binary = compile_reg(pred, rd, rs1, imm, ps); 
     }
 
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] & !(1 << this.imm)) | (reg[thiss.ps] << this.imm);
+        reg[this.rd] = (reg[this.rs1] & !(1 << this.imm)) | (reg[this.ps] << this.imm);
     }
 
 }
 
-export default Bcopy
+export default Bcopy;

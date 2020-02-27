@@ -1,6 +1,6 @@
-import { parseNum, parseReg } from '../../../helper'
+import { parseNum, parseReg } from "../../../helper";
 
-export const compile_reg = (pred, rs1, sd) => {
+const compile_reg = (pred, rs1, sd) => {
     let binary = [0];
 
     pred = parseNum(pred);
@@ -10,7 +10,6 @@ export const compile_reg = (pred, rs1, sd) => {
     binary[0] |= pred << 27;
     binary[0] |= 0b01001 << 22;
     binary[0] |= rs1 << 12;
-    binary[0] |= imm << 7;
     binary[0] |= 0b010 << 4;
     binary[0] |= sd << 0;
 
@@ -26,8 +25,8 @@ class Mts {
     }
 
     execute({ reg }) {
-        reg[this.sd] = reg[this.rs1]
+        reg[this.sd] = reg[this.rs1];
     }
 }
 
-export default Mts
+export default Mts;

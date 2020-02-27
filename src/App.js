@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import "./css/App.css";
 
-import Registers from "./work_logic/Processor/Registers";
+//import Registers from "./work_logic/Processor/Registers";
 import UserEditor from "./front_end/UserEditor";
 
 class App extends Component {
     constructor() {
         super();
 
-        let reg = new Registers();
+        //let reg = new Registers();
 
         this.state = {
             editor: ""

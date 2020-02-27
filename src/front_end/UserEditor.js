@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 
 class UserEditor extends Component {
-    constructor(props) {
-        super(props);
+    constructor(parentCallback) {
+        super(parentCallback);
         
         this.state = {
             editor: "",
@@ -18,7 +18,7 @@ class UserEditor extends Component {
     }
 
     sendToParent = (value) => {
-        this.props.parentCallback(value);
+        this.parentCallback(value);
     }
     
     render() {
