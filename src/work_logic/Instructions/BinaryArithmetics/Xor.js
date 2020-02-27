@@ -16,7 +16,7 @@ class Xor {
                 this.binary = compile_long(pred, rd, rs1, 2, op2);
                 break;
             default: 
-                console.log("not implemented")
+                console.log("not implemented");
                 break;
         }
     }

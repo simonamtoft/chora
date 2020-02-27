@@ -16,7 +16,7 @@ class Sub {
                 this.binary = compile_long(pred, rd, rs1, 1, op2);
                 break;
             default: 
-                console.log("not implemented")
+                console.log("not implemented");
                 break;
         }
     }
