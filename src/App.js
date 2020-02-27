@@ -1,15 +1,33 @@
 import React, { Component } from "react";
 import './css/App.css';
 
-import CPU from './work_logic/CPU/CPU'
+import Registers from './work_logic/Processor/Registers'
+import UserEditor from "./front_end/UserEditor";
 
+class App extends Component {
+  constructor() {
+    super()
 
-function App() {
-  return (
-    <div className="App">
-      <CPU/>
-    </div>
-  );
+    let reg = new Registers()
+
+    this.state = {
+      editor: ''
+    }
+  }
+
+  getUserInput = (instructions) => {
+    this.setState({editor: instructions})
+  }
+  
+  render() {
+    return (
+      <div className="App">
+        <UserEditor parentCallback = {this.getUserInput}/>
+        <p>App ser: {this.state.editor}</p>
+      </div>
+    );
+  }
+  
 }
 
 export default App
