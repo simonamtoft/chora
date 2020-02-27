@@ -15,6 +15,9 @@ class Xor {
             case "xorl":
                 this.binary = compile_long(pred, rd, rs1, 2, op2);
                 break;
+            default: 
+                console.log("not implemented")
+                break;
         }
     }
     execute({ reg }) {

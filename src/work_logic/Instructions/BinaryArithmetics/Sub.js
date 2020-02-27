@@ -15,6 +15,9 @@ class Sub {
             case "subl":
                 this.binary = compile_long(pred, rd, rs1, 1, op2);
                 break;
+            default: 
+                console.log("not implemented")
+                break;
         }
     }
     execute({ reg }) {

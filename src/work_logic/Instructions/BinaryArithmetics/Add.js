@@ -18,11 +18,14 @@ class Add {
             case "addl":
                 this.binary = compile_long(pred, rd, rs1, this.func, op2);
                 break;
+            default: 
+                console.log("not implemented")
+                break;
         }
     }
 
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] + (this.type == "add" ? reg[this.op2] : Number(this.op2))) | 0;
+        reg[this.rd] = (reg[this.rs1] + (this.type === "add" ? reg[this.op2] : Number(this.op2))) | 0;
     }
 }
 

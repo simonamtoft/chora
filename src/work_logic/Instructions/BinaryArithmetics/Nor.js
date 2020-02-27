@@ -17,6 +17,9 @@ class Nor {
             case "norl":
                 this.binary = compile_long(pred, rd, rs1, 11, op2);
                 break;
+            default: 
+                console.log("not implemented")
+                break;
         }
     }
     

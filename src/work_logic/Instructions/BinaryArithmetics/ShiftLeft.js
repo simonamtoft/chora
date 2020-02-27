@@ -17,6 +17,9 @@ class ShiftLeft {
             case "sll":
                 this.binary = compile_long(pred, rd, rs1, 3, op2);
                 break;
+            default: 
+                console.log("not implemented")
+                break;
         }
     }
 
