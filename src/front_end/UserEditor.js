@@ -4,6 +4,7 @@ class UserEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {editor: "",};
+        this.textEditor = React.createRef();
     }
 
     handleEditorChange = (event) => {
@@ -16,12 +17,17 @@ class UserEditor extends Component {
         this.props.parentCallback(value);
     }
     
+    componentDidMount() {
+        this.textEditor.current.focus();
+    }
+
     render() {
         const {editor} = this.state;
 
         return(
             <React.Fragment>
                 <textarea 
+                    ref={this.textEditor}
                     value={editor}
                     onChange={this.handleEditorChange}>
                 </textarea>  
