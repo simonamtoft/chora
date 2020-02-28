@@ -53,21 +53,20 @@ class App extends Component {
     }
 
     executeInstructions = () => {
-
-        // Check if there is anything to be executed
         let que = this.state.instructions;
         let queLength = que.split(/\r\n|\r|\n/).length;
+        
         if ( que === "" || que == null) {
             console.log("Error: Instruction queue is empty.");
-            return -1;
         } else if (this.state.instCount == queLength) {
             console.log("Error: All instructions already executed");
-            return -1;
-        }
-        
-        // Execute remaining instructions
-        for (let i = this.state.instCount; i < queLength; i++) {
-            this.executeNextInstruction();
+        } else {
+
+            // Execute remaining instructions
+            for (let i = this.state.instCount; i < queLength; i++) {
+                this.executeNextInstruction();
+            }
+
         }
     }
 
@@ -75,7 +74,6 @@ class App extends Component {
         this.setState({type : "", rd: "", r1: "", op2: "", instCount: 0});
         console.log("Reset");
     }
-
 
     render() {
         return (
@@ -89,7 +87,6 @@ class App extends Component {
             </div>
         );
     }
-
 }
 
 export default App;
