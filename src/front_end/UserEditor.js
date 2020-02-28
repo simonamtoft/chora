@@ -3,21 +3,16 @@ import React, { Component } from "react";
 class UserEditor extends Component {
     constructor(props) {
         super(props);
-        
-        this.state = {
-            editor: "",
-        };
+        this.state = {editor: "",};
     }
 
     handleEditorChange = (event) => {
-        this.setState({
-            editor: event.target.value
-        });
-
+        this.setState({editor: event.target.value});
         this.sendToParent(event.target.value);
     }
 
     sendToParent = (value) => {
+        // eslint-disable-next-line react/prop-types
         this.props.parentCallback(value);
     }
     
