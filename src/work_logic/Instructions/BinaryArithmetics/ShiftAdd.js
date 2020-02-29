@@ -1,30 +1,27 @@
-import { compile_reg, compile_imm, compile_long } from "./compilers";
-
-class ShiftAdd {
+import BinaryArithmetics from "./BinaryArithmetics";
+/** 
+ * Shift-by-1-then-Add instruction class. 
+ * @extends BinaryArithmetics
+ */
+class ShiftAdd extends BinaryArithmetics {
+    /**
+     * Create ShiftAdd instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rd   - Destination register
+     * @param {string}          fields.rs1  - First source register
+     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     */
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = isNaN(op2) == "string" ? "shadd" : (Number(op2) > 0x0FFF ? "shaddl" : "shaddi");
-        this.rd = rd;
-        this.rs1 = rs1;
-        this.op2 = op2;
-
-        switch (this.type) {
-            case "shadd":
-                this.binary = compile_reg(pred, rd, rs1, op2, 12);
-                break;
-            case "shaddi":
-                this.binary = compile_imm(pred, 12, rd, rs1, op2);
-                break;
-            case "shaddl":
-                this.binary = compile_long(pred, rd, rs1, 12, op2);
-                break;
-            default: 
-                console.log("not implemented");
-                break;
-        }
+        super({ name: "shadd", func: 12, pred, rd, rs1, op2 });
     }
-    
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
-        reg[this.rd] = ((reg[this.rs1] << 1) + (this.type == "shadd" ? reg[this.op2] : Number(this.op2))) | 0;
+        reg[this.rd] = ((reg[this.rs1] << 1) + (this.type == "r" ? reg[this.op2] : Number(this.op2))) | 0;
     }
 }
 

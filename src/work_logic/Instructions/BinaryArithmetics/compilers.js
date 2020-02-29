@@ -46,6 +46,7 @@ export const compile_long = (pred, rd, rs1, func, long) => {
     rd = parseReg(rd);
     rs1 = parseReg(rs1);
 
+    binary[0] |= 1 << 31;
     binary[0] |= pred << 27;
     binary[0] |= 0b11111 << 22;
     binary[0] |= rd << 17;

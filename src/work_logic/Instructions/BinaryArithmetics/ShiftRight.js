@@ -1,30 +1,27 @@
-import { compile_reg, compile_imm, compile_long } from "./compilers";
-
-class ShiftRight {
+import BinaryArithmetics from "./BinaryArithmetics";
+/** 
+ * Shift right instruction class. 
+ * @extends BinaryArithmetics
+ */
+class ShiftRight extends BinaryArithmetics {
+    /**
+     * Create ShiftRight instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rd   - Destination register
+     * @param {string}          fields.rs1  - First source register
+     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     */
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = isNaN(op2) == "string" ? "sr" : (Number(op2) > 0x0FFF ? "srl" : "sri");
-        this.rd = rd;
-        this.rs1 = rs1;
-        this.op2 = op2;
-        
-        switch (this.type) {
-            case "sr":
-                this.binary = compile_reg(pred, rd, rs1, op2, 4);
-                break;
-            case "sri":
-                this.binary = compile_imm(pred, 4, rd, rs1, op2);
-                break;
-            case "srl":
-                this.binary = compile_long(pred, rd, rs1, 4, op2);
-                break;
-            default: 
-                console.log("not implemented");
-                break;
-        }
+        super({ name: "sr", func: 4, pred, rd, rs1, op2 });
     }
-
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] >>> (this.type == "sr" ? reg[this.op2] & 0x1F : Number(this.op2) & 0x1F)) | 0;
+        reg[this.rd] = (reg[this.rs1] >>> (this.type == "r" ? reg[this.op2] & 0x1F : Number(this.op2) & 0x1F)) | 0;
     }
 }
 

@@ -1,27 +1,28 @@
 import { compile_reg, compile_imm, compile_long } from "./compilers";
-class Sub {
+import BinaryArithmetics from "./BinaryArithmetics";
+/** 
+ * Subtraction instruction class. 
+ * @extends BinaryArithmetics
+ */
+class Sub extends BinaryArithmetics {
+    /**
+     * Create Sub instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rd   - Destination register
+     * @param {string}          fields.rs1  - First source register
+     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     */
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = isNaN(op2) == "string" ? "sub" : (Number(op2) > 0x0FFF ? "subl" : "subi");
-        this.rd = rd;
-        this.rs1 = rs1;
-        this.op2 = op2;
-        switch (this.type) {
-            case "sub":
-                this.binary = compile_reg(pred, rd, rs1, op2, 1);
-                break;
-            case "subi":
-                this.binary = compile_imm(pred, 1, rd, rs1, op2);
-                break;
-            case "subl":
-                this.binary = compile_long(pred, rd, rs1, 1, op2);
-                break;
-            default: 
-                console.log("not implemented");
-                break;
-        }
+        super({ name: "sub", func: 1, pred, rd, rs1, op2 });
     }
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] - (this.type == "sub" ? reg[this.op2] : Number(this.op2))) | 0;
+        reg[this.rd] = (reg[this.rs1] - (this.type == "r" ? reg[this.op2] : Number(this.op2))) | 0;
     }
 }
 

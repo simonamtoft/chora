@@ -1,31 +1,27 @@
-import { compile_reg, compile_imm, compile_long } from "./compilers";
-
-class Add {
+import BinaryArithmetics from "./BinaryArithmetics";
+/** 
+ * Addition instruction class. 
+ * @extends BinaryArithmetics
+ */
+class Add extends BinaryArithmetics {
+    /**
+     * Create Add instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rd   - Destination register
+     * @param {string}          fields.rs1  - First source register
+     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     */
     constructor({ pred, rd, rs1, op2 }) {
-        this.type = isNaN(op2) ? "add" : (Number(op2) > 0x0FFF ? "addl" : "addi");
-        this.rd = rd;
-        this.rs1 = rs1;
-        this.op2 = op2;
-        this.func = 0;
-
-        switch (this.type) {
-            case "add":
-                this.binary = compile_reg(pred, rd, rs1, op2, this.func);
-                break;
-            case "addi":
-                this.binary = compile_imm(pred, this.func, rd, rs1, op2);
-                break;
-            case "addl":
-                this.binary = compile_long(pred, rd, rs1, this.func, op2);
-                break;
-            default: 
-                console.log("not implemented");
-                break;
-        }
+        super({ name: "add", func: 0, pred, rd, rs1, op2 });
     }
-
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] + (this.type === "add" ? reg[this.op2] : Number(this.op2))) | 0;
+        reg[this.rd] = (reg[this.rs1] + (this.type === "r" ? reg[this.op2] : Number(this.op2))) | 0;
     }
 }
 
