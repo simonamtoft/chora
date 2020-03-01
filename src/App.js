@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "./css/App.css";
 
 //import Registers from "./work_logic/Processor/Registers";
@@ -27,7 +28,7 @@ class App extends Component {
         this.setState({instructions: instructions});
     }
 
-    executeNextInstruction = () => {
+    stepInst = () => {
 
         // Check if there is anything to be executed
         let que = this.state.instructions;
@@ -53,7 +54,7 @@ class App extends Component {
         console.log(`Instruction: ${type} ${rd} ${r1} ${op2} executed`);  
     }
 
-    executeInstructions = () => {
+    runInst = () => {
         let que = this.state.instructions;
         let queLength = que.split(/\r\n|\r|\n/).length;
         
@@ -65,13 +66,13 @@ class App extends Component {
 
             // Execute remaining instructions
             for (let i = this.state.instCount; i < queLength; i++) {
-                this.executeNextInstruction();
+                this.stepInst();
             }
 
         }
     }
 
-    resetExecution = () => {
+    resetInst = () => {
         this.setState({type : "", rd: "", r1: "", op2: "", instCount: 0});
         console.log("Reset");
     }
@@ -79,12 +80,27 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <UserEditor parentCallback = {this.getUserInput}/>
-                <UserButtons 
-                    executeNextInstruction = {this.executeNextInstruction} 
-                    executeInstructions = {this.executeInstructions}
-                    resetExecution = {this.resetExecution}
-                />           
+                <Tabs defaultIndex={0}>
+                    <TabList>
+                        <Tab>Editor</Tab>
+                        <Tab>Simulator</Tab>
+                    </TabList>
+                    
+                    <TabPanel>
+                        <UserEditor parentCallback = {this.getUserInput}/>
+                    </TabPanel>
+                        
+                    <TabPanel>
+                        <UserButtons 
+                            stepInst = {this.stepInst} 
+                            runInst = {this.runInst}
+                            resetInst = {this.resetInst}
+                        /> 
+                    </TabPanel>
+                </Tabs>
+
+                
+                          
             </div>
         );
     }

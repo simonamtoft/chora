@@ -9,24 +9,24 @@ class UserButtons extends Component {
         this.textEditor = React.createRef();
     }
 	
-	executeNextInstruction = () => {
-	    this.props.executeNextInstruction();
+	stepInst = () => {
+	    this.props.stepInst();
 	}
 
-	executeInstructions = () => {
-	    this.props.executeInstructions();
+	runInst = () => {
+	    this.props.runInst();
 	}
 
-	resetExecution = () => {
-	    this.props.resetExecution();
+	resetInst = () => {
+	    this.props.resetInst();
 	}
 
 	render() {
 	    return(
 	        <div>
-	            <button className="button next" onClick={this.executeNextInstruction}>Next</button>
-	            <button className="button execute" onClick={this.executeInstructions}>Execute Instructions</button>
-	            <button className="button reset" onClick={this.resetExecution}>Reset</button>
+	            <button type="button" className="btn step col-md-4" onClick={this.stepInst}>Step</button>
+	            <button type="button" className="btn run col-md-4" onClick={this.runInst}>Run</button>
+	            <button type="button" className="btn reset col-md-4" onClick={this.resetInst}>Reset</button>
 	        </div>  
 	    );
 	}

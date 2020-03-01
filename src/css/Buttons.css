@@ -1,11 +1,11 @@
 :root {
-	--next-color: #008CBA;
-	--execute-color: #4CAF50;
+	--step-color: #008CBA;
+	--run-color: #4CAF50;
 	--reset-color: #f44336;
 }
 
 .button {
-	/* Default button */
+	/* Default button. Currently using Bootstrap instead.*/
 	background-color: white; 
 	color: black; 
 	padding: 16px 32px;
@@ -19,21 +19,21 @@
 	width: 33%;
 }
   
-.next {
-	border: 2px solid var(--next-color);
+.step {
+	border: 2px solid var(--step-color);
 }
   
-.next:hover {
-	background-color: var(--next-color);
+.step:hover {
+	background-color: var(--step-color);
 	color: white;
 }
   
-.execute {
-	border: 2px solid var(--execute-color);
+.run {
+	border: 2px solid var(--run-color);
 }
   
-.execute:hover {
-	background-color: var(--execute-color);
+.run:hover {
+	background-color: var(--run-color);
 	color: white;
 }
   
