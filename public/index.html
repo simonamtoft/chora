@@ -4,14 +4,21 @@
     <title>Chora</title>
     <meta charset="utf-8" />
     
-
+    <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.4.1.js"
     integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
     crossorigin="anonymous"></script>
-
-    <script src="../plugin/codemirror/lib/codemirror.js"></script>
+    
+    <!-- Create a simple CodeMirror instance -->
     <link rel="stylesheet" href="../plugin/codemirror/lib/codemirror.css">
-    <script src="../plugin/codemirror/mode/javascript/javascript.js"></script>
+    <script src="../plugin/codemirror/lib/codemirror.js"></script>
+    <script>
+      var editor = CodeMirror.fromTextArea(myTextarea, {
+        lineNumbers: true
+      });
+    </script>
+    <!--<script src="../plugin/codemirror/mode/javascript/javascript.js"></script>-->
+
   </head>
   <body>
     <div id="root"></div>
