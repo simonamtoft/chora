@@ -3,6 +3,7 @@ import "./css/App.css";
 
 //import Registers from "./work_logic/Processor/Registers";
 import UserEditor from "./front_end/UserEditor";
+import UserButtons from "./front_end/UserButtons";
 
 class App extends Component {
     constructor() {
@@ -58,7 +59,7 @@ class App extends Component {
         
         if ( que === "" || que == null) {
             console.log("Error: Instruction queue is empty.");
-        } else if (this.state.instCount == queLength) {
+        } else if (this.state.instCount === queLength) {
             console.log("Error: All instructions already executed");
         } else {
 
@@ -78,12 +79,12 @@ class App extends Component {
     render() {
         return (
             <div className="App">
-                <UserEditor parentCallback = {this.getUserInput}/>      
-                <div>
-                    <button onClick={this.executeNextInstruction}>Next</button>
-                    <button onClick={this.executeInstructions}>Execute Instructions</button>
-                    <button onClick={this.resetExecution}>Reset</button>
-                </div>             
+                <UserEditor parentCallback = {this.getUserInput}/>
+                <UserButtons 
+                    executeNextInstruction = {this.executeNextInstruction} 
+                    executeInstructions = {this.executeInstructions}
+                    resetExecution = {this.resetExecution}
+                />           
             </div>
         );
     }
