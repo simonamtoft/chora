@@ -1,17 +1,25 @@
-import { compile_reg } from "./compilers";
+import Predicate from "./Predicate";
 
-class Pxor {
-    constructor({ pred, ps1, ps2, pd }) {
-        this.pd = pd;
-        this.ps1 = ps1;
-        this.ps2 = ps2;
-        this.pd = pd
-        this.func = 0b0110;
-        this.binary = compile_reg(pred, pd, ps1, ps2, this.func);
-    }
-
+class Pxor extends Predicate {
+	/**
+     * Create Pxor instruction.
+     * @param {Object}          fields      - Fields to set 
+     * @param {string|number}   fields.pred - Instruction predicate
+	 * @param {string}			fields.pd 	- Destination register
+     * @param {string}          fields.ps1  - First predicate register
+     * @param {string}          fields.ps2  - Second predicate register
+     */
+    constructor({ pred, pd, ps1, ps2 }) {
+		super({name: "pxor", pred, pd, ps1, ps2, func:0b1010})
+	}
+	
+	/**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute( { reg } ) {
-        reg[this.pd] = (reg[this.ps1] ^ reg[this.ps2]);
+        reg[this.pd] = (reg[this.ps1] ^ reg[this.ps2]) & 0x1;
     }
 }
 
