@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as BA from "./index";
+import * as BA from "../work_logic/Instructions/BinaryArithmetics/index";
 let initial_state = {
     reg: {
         r0: 0,

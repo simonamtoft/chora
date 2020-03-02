@@ -3,7 +3,7 @@ import { compile_reg, compile_imm, compile_long } from "./compilers";
 /** 
  * Represents a BinaryArithmetics instruction. Sets common fields. 
  */
-export default class BinaryArithmetics {
+class BinaryArithmetics {
     /**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
@@ -49,3 +49,5 @@ export default class BinaryArithmetics {
         console.error("Missing execute handler for", this);
     }
 }
+
+export default BinaryArithmetics;
