@@ -71,3 +71,32 @@ test("Cmpneq instructions", () => {
     expect(a.binary[1]).toBe(undefined);
     expect(state.reg.p2).toBe(e);
 });
+test("Cmplt instructions", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new C.Cmplt({
+        pred: 1,
+        pd: "p1",
+        rs1: "r2",
+        op2: "r3"
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmplt");
+    expect(a.binary[0]).toBe(0x0A0221B2 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p1).toBe(e);
+
+    state.reg.r3 = -1;
+    a = new C.Cmplt({
+        pred: 1,
+        pd: "p2",
+        rs1: "r3",
+        op2: -1
+    });
+    e = 0 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmplti");
+    expect(a.binary[0]).toBe(0x0A043FE2 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p2).toBe(e);
+});
