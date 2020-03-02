@@ -2,6 +2,7 @@ import BinaryArithmetics from "./BinaryArithmetics";
 /** 
  * Shift-by-2-then-Add instruction class. 
  * @extends BinaryArithmetics
+ * @category BinaryArithmetics
  */
 class ShiftAdd2 extends BinaryArithmetics {
     /**

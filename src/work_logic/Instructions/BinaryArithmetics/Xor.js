@@ -2,6 +2,7 @@ import BinaryArithmetics from "./BinaryArithmetics";
 /** 
  * Bitwise Exclusive OR instruction class. 
  * @extends BinaryArithmetics
+ * @category BinaryArithmetics
  */
 class Xor extends BinaryArithmetics {
     /**

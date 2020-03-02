@@ -1,0 +1,16 @@
+{
+    "recurseDepth": 10,
+    "opts": {
+        "template": "node_modules/better-docs"
+    },
+    "tags": {
+        "allowUnknownTags": ["category"]
+    },
+    "plugins": [
+        "node_modules/better-docs/category"
+    ],
+    "source": {
+        "include": ["src"],
+        "includePattern": "\\.(jsx|js|ts|tsx)$"
+    }
+}

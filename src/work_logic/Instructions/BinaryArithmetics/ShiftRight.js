@@ -2,6 +2,7 @@ import BinaryArithmetics from "./BinaryArithmetics";
 /** 
  * Shift right instruction class. 
  * @extends BinaryArithmetics
+ * @category BinaryArithmetics
  */
 class ShiftRight extends BinaryArithmetics {
     /**

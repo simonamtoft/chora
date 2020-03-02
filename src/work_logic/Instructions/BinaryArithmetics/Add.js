@@ -2,6 +2,7 @@ import BinaryArithmetics from "./BinaryArithmetics";
 /** 
  * Addition instruction class. 
  * @extends BinaryArithmetics
+ * @category BinaryArithmetics
  */
 class Add extends BinaryArithmetics {
     /**

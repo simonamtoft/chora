@@ -2,6 +2,7 @@ import { compile_reg, compile_imm, compile_long } from "./compilers";
 
 /** 
  * Represents a BinaryArithmetics instruction. Sets common fields. 
+ * @category InstructionTypes
  */
 class BinaryArithmetics {
     /**
