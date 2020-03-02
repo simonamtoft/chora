@@ -1,22 +1,28 @@
-import { compile_reg, compile_imm } from "./compilers";
-
-class Cmplt {
+import Compare from "./Compare";
+/** 
+ * Cmplt instruction class. 
+ * @extends Compare
+ */
+class Cmplt extends Compare {
+    /**
+     * Create Btest instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.pd   - Destination register
+     * @param {string}          fields.rs1  - First source register
+     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     */
     constructor({ pred, pd, rs1, op2 }) {
-        this.type = isNaN(op2) ? "cmplt" : "cmplti";
-        this.pd = pd;
-        this.rs1 = rs1;
-        this.op2 = op2;
-        this.func = 0b0010;
-    
-        if (this.type == "cmplt") {
-            this.binary = compile_reg(pred, pd, rs1, op2, this.func);
-        } else {
-            this.binary = compile_imm(pred, pd, rs1, op2, this.func);
-        }
+        super({name: "cmplt", func: 0b0010, pred, pd, rs1, op2 });
     }
 
+    /**
+     * Executes the instruction
+     * @param {Object}                  state       - Processor state
+     * @param {Object.<string, number>} state.reg   - Registers
+     */
     execute( { reg } ) {
-        reg[this.pd] = reg[this.rs1] < (this.type == "cmplt" ? 
+        reg[this.pd] = reg[this.rs1] < (this.type == "r" ? 
             reg[this.op2] : Number(this.op2));
     }
 }
