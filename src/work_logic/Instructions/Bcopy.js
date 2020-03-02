@@ -20,7 +20,19 @@ export const compile_reg = (pred, rd, rs1, imm, ps) => {
     return binary;
 };
 
+/** 
+ * Bitcopy instruction class. 
+ */
 class Bcopy {
+    /**
+     * Create Bcopy instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rd   - Destination register
+     * @param {string}          fields.rs1  - First source register
+     * @param {number}          fields.imm  - Second operand, immediate value.
+     * @param {string}          fields.ps   - Predicate register
+     */
     constructor(pred, rd, rs1, imm, ps) {
         this.rd = rd;
         this.rs1 = rs1;
@@ -29,6 +41,11 @@ class Bcopy {
         this.binary = compile_reg(pred, rd, rs1, imm, ps); 
     }
 
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
         reg[this.rd] = (reg[this.rs1] & !(1 << this.imm)) | (reg[this.ps] << this.imm);
     }

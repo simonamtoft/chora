@@ -16,16 +16,29 @@ export const compile_reg = (pred, rd, ss) => {
     return binary;
 };
 
+/** 
+ * Move from special instruction class. 
+ */
 class Mfs {
-    constructor(pred, rd, ss) {
+    /**
+     * Create Mfs instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rd   - Destination register
+     */
+    constructor(pred, rd) {
         this.pred = pred;
         this.rd = rd;
-        this.ss = ss;
-        this.memory = compile_reg(pred, rd, ss);
+        this.memory = compile_reg(pred, rd, "s5");
     }
 
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
-        reg[this.rd] = reg[this.ss];
+        reg[this.rd] = reg["s5"];
     }
 }
 
