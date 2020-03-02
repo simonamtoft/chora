@@ -16,7 +16,17 @@ const compile_reg = (pred, rs1, sd) => {
     return binary;
 };
 
+/** 
+ * Move to special instruction class. 
+ */
 class Mts {
+    /**
+     * Create Mts instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rs1  - Source register
+     * @param {string}          fields.sd   - Special destination register
+     */
     constructor(pred, rs1, sd) {
         this.pred = pred;
         this.rs1 = rs1;
@@ -24,6 +34,11 @@ class Mts {
         this.memory = compile_reg(pred, rs1, sd);
     }
 
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute({ reg }) {
         reg[this.sd] = reg[this.rs1];
     }
