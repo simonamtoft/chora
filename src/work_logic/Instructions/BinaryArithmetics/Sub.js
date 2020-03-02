@@ -1,4 +1,3 @@
-import { compile_reg, compile_imm, compile_long } from "./compilers";
 import BinaryArithmetics from "./BinaryArithmetics";
 /** 
  * Subtraction instruction class. 

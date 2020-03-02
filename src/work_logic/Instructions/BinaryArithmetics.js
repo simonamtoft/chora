@@ -1,7 +1,8 @@
-import { compile_reg, compile_imm, compile_long } from "./compilers";
+import { compile_reg, compile_imm, compile_long } from "./BinaryArithmetics/compilers";
 
 /** 
  * Represents a BinaryArithmetics instruction. Sets common fields. 
+ * @abstract
  */
 class BinaryArithmetics {
     /**
