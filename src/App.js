@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import {Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "./css/App.css";
 
 //import Registers from "./work_logic/Processor/Registers";
@@ -79,28 +78,14 @@ class App extends Component {
 
     render() {
         return (
-            <div className="App">
-                <Tabs defaultIndex={0}>
-                    <TabList>
-                        <Tab>Editor</Tab>
-                        <Tab>Simulator</Tab>
-                    </TabList>
-                    
-                    <TabPanel>
-                        <UserEditor parentCallback = {this.getUserInput}/>
-                    </TabPanel>
-                        
-                    <TabPanel>
-                        <UserButtons 
-                            stepInst = {this.stepInst} 
-                            runInst = {this.runInst}
-                            resetInst = {this.resetInst}
-                        /> 
-                    </TabPanel>
-                </Tabs>
+            <div>
+                <UserEditor parentCallback = {this.getUserInput}/>
 
-                
-                          
+                <UserButtons 
+                    stepInst = {this.stepInst} 
+                    runInst = {this.runInst}
+                    resetInst = {this.resetInst}
+                />      
             </div>
         );
     }
