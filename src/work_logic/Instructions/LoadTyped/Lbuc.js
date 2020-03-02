@@ -1,13 +1,14 @@
 import LoadTyped from "./LoadTyped";
+import { toUint32 } from "../../../helper";
 
 /** 
- * Lws instruction class. 
+ * Lbuc instruction class. 
  * @extends LoadTyped
  * @category LoadTyped
  */
-class Lws extends LoadTyped{
+class Lbuc extends LoadTyped{
     /**
-     * Create Lws instruction.
+     * Create Lbuc instruction.
      * @param {Object}          fields      - Fields to set 
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rd   - Destination register
@@ -16,7 +17,7 @@ class Lws extends LoadTyped{
 	 * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-        super({name: "lws", pred, rd, ra, type: 0b000100, imm});
+		super({name: "lbuc", pred, rd, ra, type: 0b100110, imm});
     }
 
     /**
@@ -24,9 +25,9 @@ class Lws extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, sc }) {
-        reg[this.rd] = sc[reg[this.ra] + (this.Imm << 2)]; 
+    execute({ reg, dc }) {
+        reg[this.rd] = toUint32(dc[reg[this.ra] + this.Imm] & 0xFF); 
     }
 }
 
-export default Lws;
+export default Lbuc;

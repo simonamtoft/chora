@@ -1,22 +1,23 @@
 import LoadTyped from "./LoadTyped";
+import { toInt32 } from "../../../helper";
 
 /** 
- * Lws instruction class. 
+ * Lhs instruction class. 
  * @extends LoadTyped
  * @category LoadTyped
  */
-class Lws extends LoadTyped{
+class Lhs extends LoadTyped{
     /**
-     * Create Lws instruction.
+     * Create Lhs instruction.
      * @param {Object}          fields      - Fields to set 
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.ra  	- First source register
      * @param {string}   		fields.type - Second operand. Can be a second source register or immediate value.
-	 * @param {number}			fields.imm	- Immediate value 
+     * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-        super({name: "lws", pred, rd, ra, type: 0b000100, imm});
+		super({name: "lhs", pred, rd, ra, type: 0b001100, imm});
     }
 
     /**
@@ -25,8 +26,8 @@ class Lws extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, sc }) {
-        reg[this.rd] = sc[reg[this.ra] + (this.Imm << 2)]; 
+        reg[this.rd] = toInt32(sc[reg[this.ra] + (this.Imm << 1)] & 0xFFFF); 
     }
 }
 
-export default Lws;
+export default Lhs;
