@@ -4,7 +4,7 @@ class Registers extends Component {
     constructor() {
         super();
 
-        let Reg = {
+        this.state = {
             "r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
             "r6" : 0, "r7" : 0, "r8" : 0, "r9" : 0, "r10" : 0, 
             "r11" : 0, "r12" : 0, "r13" : 0, "r14" : 0, "r15" : 0,
@@ -14,12 +14,14 @@ class Registers extends Component {
             "r31" : 0,
             "s1" : 0, "s2" : 0, "s3" : 0, "s4" : 0, "s5" : 0,
             "s6" : 0, "s7" : 0, "s8" : 0, "s9" : 0, "s10" : 0,
-            "s11" : 0, "s12" : 0, "s13" : 0, "s14" : 0, "s15" : 0
+            "s11" : 0, "s12" : 0, "s13" : 0, "s14" : 0, "s15" : 0,
+            "p0": 1, "p1": 0, "p2" : 0, "p3" : 0, "p4" : 0, "p5" : 0,
+            "p6" : 0, "p7" : 0
         };
+    }
 
-        this.state = {
-            reg: Reg,
-        };
+    setRegVal = (reg, value) => {
+        this.setState({[reg]: value})
     }
 
     render () {
