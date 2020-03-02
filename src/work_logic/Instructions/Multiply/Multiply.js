@@ -19,7 +19,7 @@ export default class Multiply {
         this.rs1 = rs1;
         this.rs2 = rs2;
         this.func = func; 
-        this.binary = compile_reg();
+        this.binary = compile_reg(pred, rs1, rs2, func);
     }
     
     execute(){
