@@ -1,5 +1,10 @@
 import Predicate from "./Predicate";
 
+/** 
+ * Pand instruction class. 
+ * @extends Predicate
+ * @category Predicate
+ */
 class Pxor extends Predicate {
 	/**
      * Create Pxor instruction.

@@ -1,5 +1,10 @@
 import Predicate from "./Predicate";
 
+/** 
+ * Pand instruction class. 
+ * @extends Predicate
+ * @category Predicate
+ */
 class Por extends Predicate {
 	/**
      * Create Por instruction.
