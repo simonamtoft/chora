@@ -1,7 +1,9 @@
 import Multiply from "./Multiply";
+
 /** 
  * Mul instruction class. 
  * @extends Multiply
+ * @category Multiply
  */
 class Mul extends Multiply {
     /**
