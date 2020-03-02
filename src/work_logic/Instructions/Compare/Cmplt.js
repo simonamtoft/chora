@@ -1,7 +1,9 @@
 import Compare from "./Compare";
+
 /** 
  * Cmplt instruction class. 
  * @extends Compare
+ * @category Compare
  */
 class Cmplt extends Compare {
     /**
