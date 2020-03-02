@@ -25,11 +25,11 @@ export default class Compare {
 
         switch (this.type) {
             case "r":
-                this.binary = compile_reg(pred, pd, rs1, op2, this.func);
+                this.binary = compile_reg(pred, pd, rs1, op2, func);
                 break;
             case "i":
                 this.name += "i";
-                this.binary = compile_imm(pred, this.func, pd, rs1, op2);
+                this.binary = compile_imm(pred, func, pd, rs1, op2);
                 break;
             default:
                 console.log("not implemented");

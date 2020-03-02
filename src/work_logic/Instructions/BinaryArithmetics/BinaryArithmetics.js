@@ -23,21 +23,21 @@ class BinaryArithmetics {
         this.func = func;
         
         // nor, shadd, shadd2 do not exist as AluImm variant
-        if([0b1011, 0b1100, 0b1101].includes(this.func) && this.type == "i"){
+        if([0b1011, 0b1100, 0b1101].includes(func) && this.type == "i"){
             this.type = "l";
         }
 
         switch (this.type) {
             case "r":
-                this.binary = compile_reg(pred, rd, rs1, op2, this.func);
+                this.binary = compile_reg(pred, rd, rs1, op2, func);
                 break;
             case "i":
                 this.name += "i";
-                this.binary = compile_imm(pred, this.func, rd, rs1, op2);
+                this.binary = compile_imm(pred, func, rd, rs1, op2);
                 break;
             case "l":
                 this.name += "l";
-                this.binary = compile_long(pred, rd, rs1, this.func, op2);
+                this.binary = compile_long(pred, rd, rs1, func, op2);
                 break;
             default:
                 console.log("not implemented");
