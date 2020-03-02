@@ -1,4 +1,5 @@
 import Compare from "./Compare";
+
 /** 
  * Cmplt instruction class. 
  * @extends Compare

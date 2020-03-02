@@ -1,4 +1,5 @@
 import BinaryArithmetics from "./BinaryArithmetics";
+
 /** 
  * Bitwise Exclusive OR instruction class. 
  * @extends BinaryArithmetics
@@ -15,7 +16,8 @@ class Xor extends BinaryArithmetics {
      */
     constructor({ pred, rd, rs1, op2 }) {
         super({ name: "xor", func: 2, pred, rd, rs1, op2 });
-    }
+	}
+	
     /**
      * Executes the instruction
      * @param {Object}                  state        - Processor state

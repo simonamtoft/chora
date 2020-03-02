@@ -1,4 +1,5 @@
 import Compare from "./Compare";
+
 /** 
  * Cmpeq instruction class. 
  * @extends Compare

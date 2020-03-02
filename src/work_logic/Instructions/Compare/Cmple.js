@@ -1,7 +1,9 @@
 import Compare from "./Compare";
+
 /** 
  * Btest instruction class. 
  * @extends Compare
+ * @category Compare
  */
 class Cmple extends Compare {
     /**
