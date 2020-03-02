@@ -5,7 +5,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: BinaryArithmetics/ShiftRightArithmetic.js</title>
+    <title>JSDoc: Multiply/Mul.js</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -54,7 +54,7 @@
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
                         <p>Source</p>
-                        <h1>BinaryArithmetics/ShiftRightArithmetic.js</h1>
+                        <h1>Multiply/Mul.js</h1>
                     </header>
                     
                     
@@ -64,35 +64,36 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import BinaryArithmetics from "./BinaryArithmetics";
+            <pre class="prettyprint source linenums"><code>import Multiply from "./Multiply";
 /** 
- * Shift right arithmetic instruction class. 
- * @extends BinaryArithmetics
- * @category BinaryArithmetics
+ * Mul instruction class. 
+ * @extends Multiply
  */
-class ShiftRightArithmetic extends BinaryArithmetics {
+class Mul extends Multiply {
     /**
-     * Create ShiftRightArithmetic instruction.
+     * Create Mul instruction.
      * @param {Object}          fields      - Fields to set
      * @param {string|number}   fields.pred - Predicate
-     * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.rs1  - First source register
-     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     * @param {string}          fields.rs2  - Second source register
      */
-    constructor({ pred, rd, rs1, op2 }) {
-        super({ name: "sra", func: 5, pred, rd, rs1, op2 });
+    constructor({ pred, rs1, rs2 }) {
+        super({name: "mul", func: 0b0000, pred, rs1, rs2});
     }
+
     /**
      * Executes the instruction
-     * @param {Object}                  state        - Processor state
-     * @param {Object.&lt;string, number>} state.reg    - Registers
+     * @param {Object}                  state       - Processor state
+     * @param {Object.&lt;string, number>} state.reg   - Registers
      */
-    execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] >> (this.type == "r" ? reg[this.op2] &amp; 0x1F : Number(this.op2) &amp; 0x1F)) | 0;
+    execute( { reg } ) {
+        reg["s2"] = reg[this.rs1] * reg[this.rs2];
+        reg["s3"] = (reg[this.rs1] * reg[this.rs2]) >>> 32;
     }
 }
 
-export default ShiftRightArithmetic;</code></pre>
+export default Mul;
+</code></pre>
         </article>
     </section>
 

@@ -5,7 +5,7 @@
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: BinaryArithmetics/ShiftRightArithmetic.js</title>
+    <title>JSDoc: Multiply/Multiply.js</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -54,7 +54,7 @@
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
                         <p>Source</p>
-                        <h1>BinaryArithmetics/ShiftRightArithmetic.js</h1>
+                        <h1>Multiply/Multiply.js</h1>
                     </header>
                     
                     
@@ -64,35 +64,35 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import BinaryArithmetics from "./BinaryArithmetics";
+            <pre class="prettyprint source linenums"><code>import { compile_reg } from "./compilers";
+
 /** 
- * Shift right arithmetic instruction class. 
- * @extends BinaryArithmetics
- * @category BinaryArithmetics
+ * Represents a Multiply instruction. Sets common fields. 
  */
-class ShiftRightArithmetic extends BinaryArithmetics {
+export default class Multiply {
     /**
-     * Create ShiftRightArithmetic instruction.
-     * @param {Object}          fields      - Fields to set
-     * @param {string|number}   fields.pred - Predicate
-     * @param {string}          fields.rd   - Destination register
+     * Create base instruction.
+     * @param {Object}          fields      - Fields to set 
+     * @param {string}          fields.name - Name of instruction
+     * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rs1  - First source register
-     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
+     * @param {string}          fields.rs2  - Second source register
+     * @param {number}          fields.func - Instruction function
      */
-    constructor({ pred, rd, rs1, op2 }) {
-        super({ name: "sra", func: 5, pred, rd, rs1, op2 });
+    constructor({ name, pred, rs1, rs2, func }) {
+        this.name = name;
+        this.pred = pred;
+        this.rs1 = rs1;
+        this.rs2 = rs2;
+        this.func = func; 
+        this.binary = compile_reg(pred, rs1, rs2, func);
     }
-    /**
-     * Executes the instruction
-     * @param {Object}                  state        - Processor state
-     * @param {Object.&lt;string, number>} state.reg    - Registers
-     */
-    execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] >> (this.type == "r" ? reg[this.op2] &amp; 0x1F : Number(this.op2) &amp; 0x1F)) | 0;
+    
+    execute(){
+        console.error("Missing execute handler for", this);
     }
 }
-
-export default ShiftRightArithmetic;</code></pre>
+</code></pre>
         </article>
     </section>
 

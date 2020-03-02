@@ -3,8 +3,7 @@ import { compile_reg, compile_imm } from "./compilers";
 /** 
  * Represents a Compare instruction. Sets common fields. 
  */
-
-export default class Compare {
+class Compare {
     /**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
@@ -29,7 +28,7 @@ export default class Compare {
                 break;
             case "i":
                 this.name += "i";
-                this.binary = compile_imm(pred, func, pd, rs1, op2);
+                this.binary = compile_imm(pred, pd, rs1, op2, func);
                 break;
             default:
                 console.log("not implemented");
@@ -41,3 +40,5 @@ export default class Compare {
         console.error("Missing execute handler for", this);
     }
 }
+
+export default Compare;

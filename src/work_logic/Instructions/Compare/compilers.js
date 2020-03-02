@@ -5,7 +5,7 @@ export const compile_reg = (pred, pd, rs1, rs2, func) => {
 
     pred = parseNum(pred);
     func = parseNum(func);
-    pd = parseNum(pd);
+    pd = parseReg(pd);
     rs1 = parseReg(rs1);
     rs2 = parseReg(rs2);
 
@@ -33,7 +33,7 @@ export const compile_imm = (pred, pd, rs1, imm, func) => {
     binary[0] |= 0b01000 << 22;
     binary[0] |= pd << 17;
     binary[0] |= rs1 << 12;
-    binary[0] |= imm << 7;
+    binary[0] |= ((imm & 0x1F) << 7);
     binary[0] |= 0b110 << 4;
     binary[0] |= func << 0;
     

@@ -2,6 +2,7 @@ import Compare from "./Compare";
 /** 
  * Cmpeq instruction class. 
  * @extends Compare
+ * @category Compare
  */
 class Cmpeq extends Compare {
     /**
@@ -16,9 +17,14 @@ class Cmpeq extends Compare {
         super({name: "cmpeq", func: 0b0000, pred, pd, rs1, op2});
     }
 
+    /**
+     * Executes the instruction
+     * @param {Object}                  state        - Processor state
+     * @param {Object.<string, number>} state.reg    - Registers
+     */
     execute( { reg } ) {
-        reg[this.pd] = reg[this.rs1] == (this.type === "r" ? 
-            reg[this.op2] : Number(this.op2));
+        reg[this.pd] = Number(reg[this.rs1] == (this.type === "r" ? 
+            reg[this.op2] : ((Number(this.op2) << 27) >> 27)));
     }
 }
 

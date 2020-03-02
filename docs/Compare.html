@@ -1,11 +1,9 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     
     <meta charset="utf-8">
-    <title>JSDoc: BinaryArithmetics/ShiftRightArithmetic.js</title>
+    <title>JSDoc: Compare</title>
 
     <script src="https://cdn.jsdelivr.net/gh/google/code-prettify@master/loader/run_prettify.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
@@ -53,48 +51,354 @@
             <div class="column is-9-desktop">
                 <div class="content" id="main-content-wrapper">
                     <header class="page-title">
-                        <p>Source</p>
-                        <h1>BinaryArithmetics/ShiftRightArithmetic.js</h1>
+                        <p>Class</p>
+                        <h1>Compare</h1>
                     </header>
                     
                     
 
 
 
-    
-    <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import BinaryArithmetics from "./BinaryArithmetics";
-/** 
- * Shift right arithmetic instruction class. 
- * @extends BinaryArithmetics
- * @category BinaryArithmetics
- */
-class ShiftRightArithmetic extends BinaryArithmetics {
-    /**
-     * Create ShiftRightArithmetic instruction.
-     * @param {Object}          fields      - Fields to set
-     * @param {string|number}   fields.pred - Predicate
-     * @param {string}          fields.rd   - Destination register
-     * @param {string}          fields.rs1  - First source register
-     * @param {string|number}   fields.op2  - Second operand. Can be a second source register or immediate value.
-     */
-    constructor({ pred, rd, rs1, op2 }) {
-        super({ name: "sra", func: 5, pred, rd, rs1, op2 });
-    }
-    /**
-     * Executes the instruction
-     * @param {Object}                  state        - Processor state
-     * @param {Object.&lt;string, number>} state.reg    - Registers
-     */
-    execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] >> (this.type == "r" ? reg[this.op2] &amp; 0x1F : Number(this.op2) &amp; 0x1F)) | 0;
-    }
-}
 
-export default ShiftRightArithmetic;</code></pre>
-        </article>
-    </section>
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>Compare<span class="signature">(fields)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">Represents a Compare instruction. Sets common fields.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <h3 class="title"><span>Constructor</span></h3>
+                <div class="members">
+                    <div class="member">
+
+
+    
+    <h4 class="name" id="Compare">
+        <a class="href-link" href="#Compare">#</a>
+        
+        <span class="code-name">
+            
+                new Compare<span class="signature">(fields)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Create base instruction.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>fields</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Fields to set</td>
+</tr>
+
+  
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Name of instruction</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>func</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Instruction function</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>pred</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Instruction predicate</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>pd</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Destination register</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>rs1</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">First source register</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>op2</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Second operand. Can be a second source register or immediate value.</td>
+</tr>
+
+  
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="Compare_Compare.js.html" class="button">View Source</a>
+            <span>
+                <a href="Compare_Compare.js.html">Compare/Compare.js</a>, <a href="Compare_Compare.js.html#line17">line 17</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
 
 
 

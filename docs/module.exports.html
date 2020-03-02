@@ -44,7 +44,7 @@
             <div class="column is-3" id="sidebarNav">
                 <div class="sidebar">
                     <nav>
-                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="Btest.html">Btest</a></li><li><a href="Cmpeq.html">Cmpeq</a></li><li><a href="Cmple.html">Cmple</a></li><li><a href="Cmplt.html">Cmplt</a></li><li><a href="Cmpneq.html">Cmpneq</a></li><li><a href="Cmpule.html">Cmpule</a></li><li><a href="Cmpult.html">Cmpult</a></li><li><a href="module.exports.html">exports</a></li></ul></div><div class="category"><h2>BinaryArithmetics</h2><h3>Classes</h3><ul><li><a href="Add.html">Add</a></li><li><a href="Nor.html">Nor</a></li><li><a href="ShiftAdd.html">ShiftAdd</a></li><li><a href="ShiftAdd2.html">ShiftAdd2</a></li><li><a href="ShiftLeft.html">ShiftLeft</a></li><li><a href="ShiftRight.html">ShiftRight</a></li><li><a href="ShiftRightArithmetic.html">ShiftRightArithmetic</a></li><li><a href="Sub.html">Sub</a></li><li><a href="Xor.html">Xor</a></li></ul></div><div class="category"><h2>InstructionTypes</h2><h3>Classes</h3><ul><li><a href="BinaryArithmetics.html">BinaryArithmetics</a></li></ul></div>
+                        <h2><a href="index.html">Home</a></h2><div class="category"><h3>Classes</h3><ul><li><a href="BinaryArithmetics.html">BinaryArithmetics</a></li><li><a href="Btest.html">Btest</a></li><li><a href="Cmple.html">Cmple</a></li><li><a href="Cmplt.html">Cmplt</a></li><li><a href="Cmpule.html">Cmpule</a></li><li><a href="Cmpult.html">Cmpult</a></li><li><a href="Compare.html">Compare</a></li><li><a href="module.exports.html">exports</a></li><li><a href="Mul.html">Mul</a></li><li><a href="Mulu.html">Mulu</a></li></ul></div><div class="category"><h2>BinaryArithmetics</h2><h3>Classes</h3><ul><li><a href="Add.html">Add</a></li><li><a href="Nor.html">Nor</a></li><li><a href="ShiftAdd.html">ShiftAdd</a></li><li><a href="ShiftAdd2.html">ShiftAdd2</a></li><li><a href="ShiftLeft.html">ShiftLeft</a></li><li><a href="ShiftRight.html">ShiftRight</a></li><li><a href="ShiftRightArithmetic.html">ShiftRightArithmetic</a></li><li><a href="Sub.html">Sub</a></li><li><a href="Xor.html">Xor</a></li></ul></div><div class="category"><h2>Compare</h2><h3>Classes</h3><ul><li><a href="Cmpeq.html">Cmpeq</a></li><li><a href="Cmpneq.html">Cmpneq</a></li></ul></div>
                     </nav>
                 </div>
             </div>
@@ -66,7 +66,7 @@
     
         <h2><span class="attribs"><span class="type-signature"></span></span>exports<span class="signature">(fields)</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Represents a Compare instruction. Sets common fields.</div>
+            <div class="class-description">Represents a Multiply instruction. Sets common fields.</div>
         
     
 </header>
@@ -181,29 +181,6 @@
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>func</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">number</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Instruction function</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
       <td class="name"><code>pred</code></td>
   
 
@@ -224,29 +201,6 @@
   
 
   <td class="description last">Instruction predicate</td>
-</tr>
-
-  
-    
-<tr class="deep-level-1">
-  
-      <td class="name"><code>pd</code></td>
-  
-
-  <td class="type">
-  
-      
-<span class="param-type">string</span>
-
-
-  
-  </td>
-
-  
-
-  
-
-  <td class="description last">Destination register</td>
 </tr>
 
   
@@ -276,15 +230,35 @@
     
 <tr class="deep-level-1">
   
-      <td class="name"><code>op2</code></td>
+      <td class="name"><code>rs2</code></td>
   
 
   <td class="type">
   
       
 <span class="param-type">string</span>
-|
 
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Second source register</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>func</code></td>
+  
+
+  <td class="type">
+  
+      
 <span class="param-type">number</span>
 
 
@@ -295,7 +269,7 @@
 
   
 
-  <td class="description last">Second operand. Can be a second source register or immediate value.</td>
+  <td class="description last">Instruction function</td>
 </tr>
 
   
@@ -342,9 +316,329 @@
 
     
         <p class="tag-source">
-            <a href="Compare_Compare.js.html" class="button">View Source</a>
+            <a href="Multiply_Multiply.js.html" class="button">View Source</a>
             <span>
-                <a href="Compare_Compare.js.html">Compare/Compare.js</a>, <a href="Compare_Compare.js.html#line18">line 18</a>
+                <a href="Multiply_Multiply.js.html">Multiply/Multiply.js</a>, <a href="Multiply_Multiply.js.html#line16">line 16</a>
+            </span>
+        </p>
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+                </div>
+            </div>
+        
+    
+    </div>
+    
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>exports<span class="signature">(fields)</span><span class="type-signature"></span></h2>
+        
+            <div class="class-description">Represents a Predicate instruction. Sets common fields.</div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+            <div class='vertical-section'>
+                <h3 class="title"><span>Constructor</span></h3>
+                <div class="members">
+                    <div class="member">
+
+
+    
+    <h4 class="name" id="exports">
+        <a class="href-link" href="#exports">#</a>
+        
+        <span class="code-name">
+            
+                new exports<span class="signature">(fields)</span><span class="type-signature"></span>
+            
+        </span>
+    </h4>
+    
+
+    
+    
+    <div class="description">
+        Create base instruction.
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        
+<tr class="deep-level-0">
+  
+      <td class="name"><code>fields</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">Object</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Fields to set</td>
+</tr>
+
+  
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>name</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Name of instruction</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>pred</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+|
+
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Instruction predicate</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>rs1</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">First source register</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>rs2</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">string</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Second source register</td>
+</tr>
+
+  
+    
+<tr class="deep-level-1">
+  
+      <td class="name"><code>func</code></td>
+  
+
+  <td class="type">
+  
+      
+<span class="param-type">number</span>
+
+
+  
+  </td>
+
+  
+
+  
+
+  <td class="description last">Instruction function</td>
+</tr>
+
+  
+
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    
+
+    
+
+    
+
+    
+        <p class="tag-source">
+            <a href="Predicate_Predicate.js.html" class="button">View Source</a>
+            <span>
+                <a href="Predicate_Predicate.js.html">Predicate/Predicate.js</a>, <a href="Predicate_Predicate.js.html#line16">line 16</a>
             </span>
         </p>
     
@@ -411,7 +705,7 @@
 
 <footer class="footer">
     <div class="content has-text-centered">
-        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Mon Mar 02 2020 14:49:29 GMT+0100 (Central European Standard Time)</p>
+        <p>Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.3</a> on Mon Mar 02 2020 20:28:34 GMT+0100 (Central European Standard Time)</p>
         <p class="sidebar-created-by">
             <a href="https://github.com/SoftwareBrothers/better-docs" target="_blank">BetterDocs theme</a> provided with <i class="fas fa-heart"></i> by 
             <a href="http://softwarebrothers.co" target="_blank">SoftwareBrothers - JavaScript Development Agency</a>

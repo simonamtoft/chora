@@ -6,4 +6,4 @@ import Cmpneq from "./Cmpneq";
 import Cmpule from "./Cmpule";
 import Cmpult from "./Cmpult";
 
-export default { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult };
+export { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult };
