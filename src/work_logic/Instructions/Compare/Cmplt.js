@@ -2,10 +2,11 @@ import Compare from "./Compare";
 /** 
  * Cmplt instruction class. 
  * @extends Compare
+ * @category Compare
  */
 class Cmplt extends Compare {
     /**
-     * Create Btest instruction.
+     * Create Cmplt instruction.
      * @param {Object}          fields      - Fields to set
      * @param {string|number}   fields.pred - Predicate
      * @param {string}          fields.pd   - Destination register
@@ -22,8 +23,8 @@ class Cmplt extends Compare {
      * @param {Object.<string, number>} state.reg   - Registers
      */
     execute( { reg } ) {
-        reg[this.pd] = reg[this.rs1] < (this.type == "r" ? 
-            reg[this.op2] : Number(this.op2));
+        reg[this.pd] = Number(reg[this.rs1] < (this.type == "r" ? 
+            reg[this.op2] : (Number(this.op2) << 27) >> 27));
     }
 }
 

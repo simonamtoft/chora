@@ -6,7 +6,7 @@ import Compare from "./Compare";
  */
 class Cmpneq extends Compare {
     /**
-     * Create Btest instruction.
+     * Create Cmpneq instruction.
      * @param {Object}          fields      - Fields to set
      * @param {string|number}   fields.pred - Predicate
      * @param {string}          fields.pd   - Destination register
