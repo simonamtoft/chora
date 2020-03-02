@@ -1,19 +1,28 @@
-//import { compile_reg } from "./compilers";
-
-class Mulu {
-    constructor({ pred, rs1, rs2, sl, sh }) {
-        this.sl = sl;
-        this.sh = sh;
-        this.pred = pred;
-        this.rs1 = rs1;
-        this.rs2 = rs2;
-        this.func = 0b0000;
-        //this.binary = compile_reg(pred, pd, rs1, rs2, this.func);
+import Multiply from "./Multiply";
+/** 
+ * Mulu instruction class. 
+ * @extends Multiply
+ */
+class Mulu extends Multiply {
+    /**
+     * Create Mulu instruction.
+     * @param {Object}          fields      - Fields to set
+     * @param {string|number}   fields.pred - Predicate
+     * @param {string}          fields.rs1  - First source register
+     * @param {string}          fields.rs2  - Second source register
+     */
+    constructor({ pred, rs1, rs2 }) {
+        super({name: "mulu", func: 0b0001, pred, rs1, rs2});
     }
 
+    /**
+     * Executes the instruction
+     * @param {Object}                  state       - Processor state
+     * @param {Object.<string, number>} state.reg   - Registers
+     */
     execute( { reg } ) {
-        reg[this.sl] = (reg[this.rs1] >>> 0) * (reg[this.rs2] >>> 0);
-        reg[this.sh] = ((reg[this.rs1] >>> 0) * (reg[this.rs2] >>> 0)) >>> 32;
+        reg["s2"] = (reg[this.rs1] >>> 0) * (reg[this.rs2] >>> 0);
+        reg["s3"] = ((reg[this.rs1] >>> 0) * (reg[this.rs2] >>> 0)) >>> 32;
     }
 }
 
