@@ -1,5 +1,6 @@
 import LoadTyped from "./LoadTyped";
 import { toInt32 } from "../../../helper";
+
 /** 
  * Lbl instruction class. 
  * @extends LoadTyped

@@ -1,4 +1,5 @@
 import BinaryArithmetics from "./BinaryArithmetics";
+
 /** 
  * Shift-by-2-then-Add instruction class. 
  * @extends BinaryArithmetics
@@ -15,7 +16,8 @@ class ShiftAdd2 extends BinaryArithmetics {
      */
     constructor({ pred, rd, rs1, op2 }) {
         super({ name: "shadd2", func: 13, pred, rd, rs1, op2 });
-    }
+	}
+	
     /**
      * Executes the instruction
      * @param {Object}                  state        - Processor state

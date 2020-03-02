@@ -1,4 +1,5 @@
 import BinaryArithmetics from "./BinaryArithmetics";
+
 /** 
  * Shift left instruction class. 
  * @extends BinaryArithmetics
@@ -15,7 +16,8 @@ class ShiftLeft extends BinaryArithmetics {
      */
     constructor({ pred, rd, rs1, op2 }) {
         super({ name: "sl", func: 3, pred, rd, rs1, op2 });
-    }
+	}
+	
     /**
      * Executes the instruction
      * @param {Object}                  state        - Processor state
