@@ -1,29 +1,16 @@
-import React, { Component, Fragment } from "react";
-import { frontEnd } from "../../App";
+import React, { Fragment } from "react";
 
-class ConsoleOutput extends Component {
-	constructor(props) {
-		super(props);
-	}
-	
-	render() {
-		return (
-			<Fragment>
-				{/*<frontEnd.Consumer>
-				{consoleOutput => */}
-						<textarea
-							type="text"
-							className = "col-12"
-							placeholder = "Console Output"
-							value={this.props.consoleOutput}
-						/>	
-					{/*}
-				</frontEnd.Consumer>*/}
-				
-			</Fragment>
-		)
-	}
-
+const ConsoleOutput = (props) => {
+	return (
+		<Fragment>
+			<textarea
+				type="text"
+				className = "col-12"
+				placeholder = "Console Output"
+				value={props.consoleOutput}
+			/>	
+		</Fragment>
+	)
 }
 
 export default ConsoleOutput;
