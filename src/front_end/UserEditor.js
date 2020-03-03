@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 
 class UserEditor extends Component {
     constructor(props) {
@@ -25,14 +25,14 @@ class UserEditor extends Component {
         const {editor} = this.state;
 
         return(
-            <React.Fragment>
+            <Fragment>
 				<textarea 
 					className = "col-12"
                     ref={this.textEditor}
                     value={editor}
                     onChange={this.handleEditorChange}>
                 </textarea>  
-            </React.Fragment>
+            </Fragment>
         );
     }
 }

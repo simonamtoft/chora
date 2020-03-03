@@ -4,7 +4,7 @@ import "./css/App.css";
 //import Registers from "./work_logic/Processor/Registers";
 import FrontEnd from "./front_end/FrontEnd"
 
-export const frontEnd = React.createContext();
+//export const frontEnd = React.createContext();
 
 class App extends Component {
     constructor() {
@@ -88,14 +88,13 @@ class App extends Component {
     render() {
         return (
 			<div>
-				<frontEnd.Provider consoleOutput = {this.state.consoleOutput}>
-					<FrontEnd
-						parentCallback={this.getUserInput}
-						stepInst = {this.stepInst}
-						runInst = {this.runInst}
-						resetInst = {this.resetInst}
-					/>
-				</frontEnd.Provider>
+				<FrontEnd
+					parentCallback={this.getUserInput}
+					stepInst = {this.stepInst}
+					runInst = {this.runInst}
+					resetInst = {this.resetInst}
+					consoleOutput = {this.state.consoleOutput}
+				/>
             </div>
         );
     }

@@ -4,7 +4,7 @@ import ConsoleOutput from "./ConsoleOutput";
 import DisplayReg from "./DisplayReg";
 import DisplayMachine from "./DisplayMachine";
 
-class UserEditor extends Component {
+class Simulator extends Component {
     constructor(props) {
         super(props);
     }
@@ -20,7 +20,7 @@ class UserEditor extends Component {
 					/>      
 					<DisplayMachine/>
 					<ConsoleOutput
-						console = {this.props.console}
+						consoleOutput = {this.props.consoleOutput}
 					/>
 				</div>
 
@@ -34,4 +34,4 @@ class UserEditor extends Component {
     }
 }
 
-export default UserEditor;
+export default Simulator;

@@ -9,16 +9,16 @@ class ConsoleOutput extends Component {
 	render() {
 		return (
 			<Fragment>
-				<frontEnd.Consumer>
-					{consoleOutput => 
+				{/*<frontEnd.Consumer>
+				{consoleOutput => */}
 						<textarea
 							type="text"
 							className = "col-12"
 							placeholder = "Console Output"
-							value={consoleOutput}
+							value={this.props.consoleOutput}
 						/>	
-					}
-				</frontEnd.Consumer>
+					{/*}
+				</frontEnd.Consumer>*/}
 				
 			</Fragment>
 		)

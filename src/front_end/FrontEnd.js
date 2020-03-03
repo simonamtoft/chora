@@ -25,14 +25,14 @@ class FrontEnd extends Component {
 					<div role="tabpanel" className="tab-pane active" id="editor">
 						<UserEditor
 							parentCallback = {this.props.parentCallback}
-						/>
+						/> {/**/}
 					</div>
 					<div role="tabpanel" className="tab-pane" id="simulator">
 						<Simulator
 							stepInst = {this.props.stepInst}
 							runInst = {this.props.runInst}
 							resetInst = {this.props.resetInst}
-							console = {this.props.console}
+							consoleOutput = {this.props.consoleOutput}
 						/>
 					</div>
 				</div>
