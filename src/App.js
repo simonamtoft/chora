@@ -7,12 +7,13 @@ import FrontEnd from "./front_end/FrontEnd"
 //export const frontEnd = React.createContext();
 
 class App extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         //let reg = new Registers();
 
         this.state = {
+			isRunning: false, 
 			consoleOutput: "",
             instructions: "",
             instCount: 0, 
@@ -23,7 +24,7 @@ class App extends Component {
                 op2: "",
 			},
 
-        };
+		};
     }
 
     getUserInput = (instructions) => {
@@ -36,30 +37,39 @@ class App extends Component {
 		}));
 	}
 
-    stepInst = () => {
-        // Check if there is anything to be executed
-        let que = this.state.instructions;
+	checkStep(que, instCount, queLength) {
+		// Check if there is anything to be executed
         if ( que === "" || que == null) {
             console.log("Error: Instruction queue is empty.");
-            return -1;
-        } else if (this.state.instCount === que.split(/\r\n|\r|\n/).length) {
+            return false;
+        } else if (instCount === queLength) {
             console.log("Error: All instructions executed.");
-            return -1;
+            return false;
+		} 
+		return true;
+	}
+
+    stepInst = () => {
+		let que = this.state.instructions;
+		let instCount = this.state.instCount;
+		let queLength = que.split(/\r\n|\r|\n/).length;
+
+		// Run next instruction if any
+		if (this.checkStep(que, instCount, queLength)) {
+			
+			this.setState((prevState) => ({
+				instCount: prevState.instCount + 1,
+			}));
+
+			// Decode and set next instruction
+			let instnext = que.split("\n")[this.state.instCount];
+			let [type, rd, r1, op2] = instnext.split(" ");
+			this.setState({type : type, rd: rd, r1: r1, op2: op2});
+
+			// Execute Instruction
+			this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`)
+			console.log(`Instruction ${this.state.instCount}: ${type} ${rd} ${r1} ${op2} executed`);
 		}
-		
-        // Increment counter
-        this.setState((prevState) => ({
-            instCount: prevState.instCount + 1
-		}));
-
-        // Decode and set next instruction
-        let instnext = que.split("\n")[this.state.instCount];
-        let [type, rd, r1, op2] = instnext.split(" ");
-        this.setState({type : type, rd: rd, r1: r1, op2: op2});
-
-		// Execute Instruction
-		this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`)
-		console.log(`Instruction: ${type} ${rd} ${r1} ${op2} executed`);  
     }
 
     runInst = () => {
@@ -67,19 +77,8 @@ class App extends Component {
         let queLength = que.split(/\r\n|\r|\n/).length;
 		let instCount = this.state.instCount
 
-        if ( que === "" || que == null) {
-            console.log("Error: Instruction queue is empty.");
-        } else if (instCount === queLength) {
-            console.log("Error: All instructions already executed");
-        } else {
-
-			// Execute remaining instructions
-            for (let i = instCount; i < queLength; i++) {
-                this.stepInst();
-            }
-
-        }
-    }
+		// Run remaining instructions
+	}
 
     resetInst = () => {
 		this.setState({consoleOutput: "", type : "", rd: "", r1: "", op2: "", instCount: 0});
