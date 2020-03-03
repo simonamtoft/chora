@@ -2,8 +2,9 @@ import React, { Component } from "react";
 import "./css/App.css";
 
 //import Registers from "./work_logic/Processor/Registers";
-import UserEditor from "./front_end/UserEditor";
-import UserButtons from "./front_end/UserButtons";
+import FrontEnd from "./front_end/FrontEnd"
+
+export const frontEnd = React.createContext();
 
 class App extends Component {
     constructor() {
@@ -12,6 +13,7 @@ class App extends Component {
         //let reg = new Registers();
 
         this.state = {
+			consoleOutput: "",
             instructions: "",
             instCount: 0, 
             inst: {
@@ -27,8 +29,13 @@ class App extends Component {
         this.setState({instructions: instructions});
     }
 
-    stepInst = () => {
+	addConsoleOutput = (line) => {
+		this.setState((prevState) => ({
+			consoleOutput: prevState.consoleOutput + line + '\n'
+		}));
+	}
 
+    stepInst = () => {
         // Check if there is anything to be executed
         let que = this.state.instructions;
         if ( que === "" || que == null) {
@@ -49,7 +56,8 @@ class App extends Component {
         let [type, rd, r1, op2] = instnext.split(" ");
         this.setState({type : type, rd: rd, r1: r1, op2: op2});
 
-        // Execute Instruction
+		// Execute Instruction
+		this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`)
         console.log(`Instruction: ${type} ${rd} ${r1} ${op2} executed`);  
     }
 
@@ -72,20 +80,23 @@ class App extends Component {
     }
 
     resetInst = () => {
-        this.setState({type : "", rd: "", r1: "", op2: "", instCount: 0});
+		this.setState({consoleOutput: "", type : "", rd: "", r1: "", op2: "", instCount: 0});
         console.log("Reset");
     }
 
     render() {
         return (
-            <div>
-                <UserEditor parentCallback = {this.getUserInput}/>
-
-                <UserButtons 
-                    stepInst = {this.stepInst} 
-                    runInst = {this.runInst}
-                    resetInst = {this.resetInst}
-                />      
+			<div>
+				<frontEnd.Provider consoleOutput = {this.state.consoleOutput}>
+					
+					<FrontEnd
+						parentCallback={this.getUserInput}
+						stepInst = {this.stepInst}
+						runInst = {this.runInst}
+						resetInst = {this.resetInst}
+					/>
+				</frontEnd.Provider>
+				
             </div>
         );
     }
