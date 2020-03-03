@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import { frontEnd } from "../../App";
 
 class ConsoleOutput extends Component {
@@ -8,7 +8,7 @@ class ConsoleOutput extends Component {
 	
 	render() {
 		return (
-			<React.Fragment>
+			<Fragment>
 				<frontEnd.Consumer>
 					{consoleOutput => 
 						<textarea
@@ -20,7 +20,7 @@ class ConsoleOutput extends Component {
 					}
 				</frontEnd.Consumer>
 				
-			</React.Fragment>
+			</Fragment>
 		)
 	}
 

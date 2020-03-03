@@ -21,7 +21,8 @@ class App extends Component {
                 rd: "",
                 r1: "",
                 op2: "",
-            },
+			},
+
         };
     }
 
@@ -88,7 +89,6 @@ class App extends Component {
         return (
 			<div>
 				<frontEnd.Provider consoleOutput = {this.state.consoleOutput}>
-					
 					<FrontEnd
 						parentCallback={this.getUserInput}
 						stepInst = {this.stepInst}
@@ -96,7 +96,6 @@ class App extends Component {
 						resetInst = {this.resetInst}
 					/>
 				</frontEnd.Provider>
-				
             </div>
         );
     }

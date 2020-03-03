@@ -1,6 +1,6 @@
 /* eslint-disable react/prop-types */
 /* eslint-disable no-mixed-spaces-and-tabs */
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import "../../css/Buttons.css";
 
 class UserButtons extends Component {
@@ -22,11 +22,11 @@ class UserButtons extends Component {
 
 	render() {
 	    return(
-	        <React.Fragment>
+	        <Fragment>
 	            <button type="button" className="btn step col-4" onClick={this.stepInst}>Step</button>
 	            <button type="button" className="btn run col-4" onClick={this.runInst}>Run</button>
 	            <button type="button" className="btn reset col-4" onClick={this.resetInst}>Reset</button>
-	        </React.Fragment>  
+	        </Fragment>  
 	    );
 	}
 }
