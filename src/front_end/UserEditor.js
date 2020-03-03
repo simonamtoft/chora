@@ -26,7 +26,8 @@ class UserEditor extends Component {
 
         return(
             <React.Fragment>
-                <textarea 
+				<textarea 
+					className = "col-12"
                     ref={this.textEditor}
                     value={editor}
                     onChange={this.handleEditorChange}>
