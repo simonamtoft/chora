@@ -45,12 +45,12 @@ class App extends Component {
         } else if (this.state.instCount === que.split(/\r\n|\r|\n/).length) {
             console.log("Error: All instructions executed.");
             return -1;
-        }
-
+		}
+		
         // Increment counter
         this.setState((prevState) => ({
             instCount: prevState.instCount + 1
-        }));
+		}));
 
         // Decode and set next instruction
         let instnext = que.split("\n")[this.state.instCount];
@@ -59,21 +59,22 @@ class App extends Component {
 
 		// Execute Instruction
 		this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`)
-        console.log(`Instruction: ${type} ${rd} ${r1} ${op2} executed`);  
+		console.log(`Instruction: ${type} ${rd} ${r1} ${op2} executed`);  
     }
 
     runInst = () => {
         let que = this.state.instructions;
         let queLength = que.split(/\r\n|\r|\n/).length;
-        
+		let instCount = this.state.instCount
+
         if ( que === "" || que == null) {
             console.log("Error: Instruction queue is empty.");
-        } else if (this.state.instCount === queLength) {
+        } else if (instCount === queLength) {
             console.log("Error: All instructions already executed");
         } else {
 
-            // Execute remaining instructions
-            for (let i = this.state.instCount; i < queLength; i++) {
+			// Execute remaining instructions
+            for (let i = instCount; i < queLength; i++) {
                 this.stepInst();
             }
 
@@ -90,9 +91,9 @@ class App extends Component {
 			<div>
 				<FrontEnd
 					parentCallback={this.getUserInput}
-					stepInst = {this.stepInst}
-					runInst = {this.runInst}
-					resetInst = {this.resetInst}
+					stepClick = {this.stepInst}
+					runClick = {this.runInst}
+					resetClick = {this.resetInst}
 					consoleOutput = {this.state.consoleOutput}
 				/>
             </div>
