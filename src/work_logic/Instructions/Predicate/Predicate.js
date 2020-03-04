@@ -3,7 +3,7 @@ import { compile_reg } from "./compilers";
 /** 
  * Represents a Predicate instruction. Sets common fields. 
  */
-export default class Predicate {
+class Predicate {
     /**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
@@ -18,8 +18,8 @@ export default class Predicate {
         this.name = name;
 		this.pred = pred;
 		this.pd = pd;
-        this.rs1 = rs1;
-        this.rs2 = rs2;
+        this.ps1 = ps1;
+        this.ps2 = ps2;
         this.func = func; 
         this.binary = compile_reg(pred, pd, ps1, ps2, func);
     }

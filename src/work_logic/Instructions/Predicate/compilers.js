@@ -5,7 +5,7 @@ export const compile_reg = (pred, pd, ps1, ps2, func) => {
 
     pred = parseNum(pred);
     func = parseNum(func);
-    pd = parseNum(pd);
+    pd = parseReg(pd);
     ps1 = parseReg(ps1);
     ps2 = parseReg(ps2);
 
