@@ -23,8 +23,8 @@ class Mul extends Multiply {
      * @param {Object.<string, number>} state.reg   - Registers
      */
     execute( { reg } ) {
-        reg["s2"] = reg[this.rs1] * reg[this.rs2];
-        reg["s3"] = (reg[this.rs1] * reg[this.rs2]) >>> 32;
+        reg["s2"] = Math.imul(reg[this.rs1], reg[this.rs2]);
+        reg["s3"] = (reg[this.rs1] * reg[this.rs2] / (2**32)) | 0;
     }
 }
 
