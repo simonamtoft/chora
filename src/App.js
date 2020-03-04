@@ -3,6 +3,7 @@ import "./css/App.css";
 
 //import Registers from "./work_logic/Processor/Registers";
 import FrontEnd from "./front_end/FrontEnd"
+import { parseInputInst } from './helper';
 
 //export const frontEnd = React.createContext();
 
@@ -20,17 +21,13 @@ class App extends Component {
             instructions: "",
             inst: {
                 type: "",
-                rd: "",
-                r1: "",
-                op2: "",
+                des: "",
+                s1: "",
+                s2: "",
 			},
 
 		};
 	}
-	
-	// Class variables
-
-	// Class variables
 
 	/**
 	 * Sets state.instructions to input
@@ -81,11 +78,11 @@ class App extends Component {
 
 			// Decode and set next instruction
 			let instnext = que.split("\n")[this.instCount];
-			let [type, rd, r1, op2] = instnext.split(" ");
-			this.setState({type : type, rd: rd, r1: r1, op2: op2});
+			let [type, des, s1, s2] = parseInputInst(instnext);
+			this.setState({type : type, des: des, s1: s1, s2: s2});
 
 			// Execute Instruction
-			this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`) // replace with instruction execution
+			this.addConsoleOutput(`${type} ${des} ${s1} ${s2}`) // replace with instruction execution
 		}
     }
 
@@ -107,7 +104,7 @@ class App extends Component {
 
     resetInst = () => {
 		this.instCount = 0;
-		this.setState({consoleOutput: "", type : "", rd: "", r1: "", op2: "", instCount: 0});
+		this.setState({consoleOutput: "", type : "", des: "", s1: "", s2: ""});
         console.log("Reset");
     }
 
