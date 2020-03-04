@@ -10,13 +10,14 @@ class App extends Component {
     constructor(props) {
         super(props);
 
-        //let reg = new Registers();
+		this.instCount = 0;
+		//reg = new Registers();
+
 
         this.state = {
 			isRunning: false, 
 			consoleOutput: "",
             instructions: "",
-            instCount: 0, 
             inst: {
                 type: "",
                 rd: "",
@@ -25,62 +26,87 @@ class App extends Component {
 			},
 
 		};
-    }
+	}
+	
+	// Class variables
 
+	// Class variables
+
+	/**
+	 * Sets state.instructions to input
+	 * @param {string} 	instructions 	- User input instructions
+	 */
     getUserInput = (instructions) => {
         this.setState({instructions: instructions});
     }
 
+	/**
+	 * Adds input to consoleOutput and goes to new line
+	 * @param {string | number} 	line 	- Line to be added to consoleOutput
+	 */
 	addConsoleOutput = (line) => {
 		this.setState((prevState) => ({
 			consoleOutput: prevState.consoleOutput + line + '\n'
 		}));
 	}
 
-	checkStep(que, instCount, queLength) {
-		// Check if there is anything to be executed
+	/**
+	 * Check if there is an instruction to be executed
+	 * @param {string} 		que 		- All instructions in editor
+	 * @param {number}		queLength 	- Number of instructions in total
+	 */ 
+	checkStep(que, queLength) {
         if ( que === "" || que == null) {
             console.log("Error: Instruction queue is empty.");
             return false;
-        } else if (instCount === queLength) {
+        } else if (this.instCount === queLength - 1) {
             console.log("Error: All instructions executed.");
             return false;
 		} 
 		return true;
 	}
 
+	/**
+	 * Step one instruction
+	 * @field que : All instructions
+	 * @field queLength: Amount of instructions
+	 */
     stepInst = () => {
 		let que = this.state.instructions;
-		let instCount = this.state.instCount;
 		let queLength = que.split(/\r\n|\r|\n/).length;
 
 		// Run next instruction if any
-		if (this.checkStep(que, instCount, queLength)) {
-			
-			this.setState((prevState) => ({
-				instCount: prevState.instCount + 1,
-			}));
+		if (this.checkStep(que, queLength)) {
+			this.instCount += 1;
 
 			// Decode and set next instruction
-			let instnext = que.split("\n")[this.state.instCount];
+			let instnext = que.split("\n")[this.instCount];
 			let [type, rd, r1, op2] = instnext.split(" ");
 			this.setState({type : type, rd: rd, r1: r1, op2: op2});
 
 			// Execute Instruction
-			this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`)
-			console.log(`Instruction ${this.state.instCount}: ${type} ${rd} ${r1} ${op2} executed`);
+			this.addConsoleOutput(`${type} ${rd} ${r1} ${op2}`) // replace with instruction execution
 		}
     }
 
-    runInst = () => {
+	/**
+	 * Run remaining instruction
+	 * @field que : All instructions
+	 * @field queLength: Amount of instructions
+	 */
+	 runInst = () => {
         let que = this.state.instructions;
-        let queLength = que.split(/\r\n|\r|\n/).length;
-		let instCount = this.state.instCount
-
-		// Run remaining instructions
+		let queLength = que.split(/\r\n|\r|\n/).length;
+		
+		if (this.checkStep(que, queLength)) {
+			while (this.instCount < queLength-1) {
+				this.stepInst();
+			}
+		}
 	}
 
     resetInst = () => {
+		this.instCount = 0;
 		this.setState({consoleOutput: "", type : "", rd: "", r1: "", op2: "", instCount: 0});
         console.log("Reset");
     }
