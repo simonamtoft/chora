@@ -29,7 +29,7 @@ export const compile_imm = (pred, func, rd, rs1, imm) => {
     rs1 = parseReg(rs1);
 
     binary[0] |= pred << 27;
-    binary[0] |= func << 22;
+    binary[0] |= (func & 0x7) << 22;
     binary[0] |= rd << 17;
     binary[0] |= rs1 << 12;
     binary[0] |= imm << 0;
