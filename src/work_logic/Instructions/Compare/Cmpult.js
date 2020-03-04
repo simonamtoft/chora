@@ -7,7 +7,7 @@ import Compare from "./Compare";
  */
 class Cmpult extends Compare {
     /**
-     * Create Btest instruction.
+     * Create Cmpult instruction.
      * @param {Object}          fields      - Fields to set
      * @param {string|number}   fields.pred - Predicate
      * @param {string}          fields.pd   - Destination register
@@ -24,8 +24,8 @@ class Cmpult extends Compare {
      * @param {Object.<string, number>} state.reg   - Registers
      */   execute( { reg } ) {
         reg[this.pd] = 
-            (reg[this.rs1] >>> 0) < ((this.type == "r" ? 
-                reg[this.op2] : Number(this.op2))) >>> 0;
+            Number((reg[this.rs1] >>> 0) < ((this.type == "r" ? 
+                reg[this.op2] : Number(this.op2))) >>> 0);
     }
 }
 

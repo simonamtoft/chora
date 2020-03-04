@@ -100,3 +100,119 @@ test("Cmplt instructions", () => {
     expect(a.binary[1]).toBe(undefined);
     expect(state.reg.p2).toBe(e);
 });
+test("Cmple instructions", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new C.Cmple({
+        pred: 1,
+        pd: "p1",
+        rs1: "r2",
+        op2: "r3"
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmple");
+    expect(a.binary[0]).toBe(0x0A0221B3 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p1).toBe(e);
+
+    state.reg.r3 = -1;
+    a = new C.Cmple({
+        pred: 1,
+        pd: "p2",
+        rs1: "r3",
+        op2: -1
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmplei");
+    expect(a.binary[0]).toBe(0x0A043FE3 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p2).toBe(e);
+});
+test("Cmpult instructions", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new C.Cmpult({
+        pred: 1,
+        pd: "p1",
+        rs1: "r2",
+        op2: "r3"
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmpult");
+    expect(a.binary[0]).toBe(0x0A0221B4 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p1).toBe(e);
+
+    state.reg.r3 = 3;
+    a = new C.Cmpult({
+        pred: 1,
+        pd: "p2",
+        rs1: "r3",
+        op2: -1
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmpulti");
+    expect(a.binary[0]).toBe(0x0A043FE4 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p2).toBe(e);
+});
+test("Cmpule instructions", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new C.Cmpule({
+        pred: 1,
+        pd: "p1",
+        rs1: "r2",
+        op2: "r3"
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmpule");
+    expect(a.binary[0]).toBe(0x0A0221B5 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p1).toBe(e);
+
+    state.reg.r3 = 3;
+    a = new C.Cmpule({
+        pred: 1,
+        pd: "p2",
+        rs1: "r3",
+        op2: -1
+    });
+    e = 1 | 0;
+    a.execute(state);
+    expect(a.name).toBe("cmpulei");
+    expect(a.binary[0]).toBe(0x0A043FE5 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p2).toBe(e);
+});
+test("Btest instructions", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new C.Btest({
+        pred: 1,
+        pd: "p1",
+        rs1: "r2",
+        op2: "r3"
+    });
+    e = 0 | 0;
+    a.execute(state);
+    expect(a.name).toBe("btest");
+    expect(a.binary[0]).toBe(0x0A0221B6 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p1).toBe(e);
+
+    state.reg.r3 = 3;
+    a = new C.Btest({
+        pred: 1,
+        pd: "p2",
+        rs1: "r3",
+        op2: -1
+    });
+    e = 0 | 0;
+    a.execute(state);
+    expect(a.name).toBe("btesti");
+    expect(a.binary[0]).toBe(0x0A043FE6 | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.p2).toBe(e);
+});
