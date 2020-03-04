@@ -23,9 +23,9 @@ class Sbs extends StoreTyped {
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-	execute({ reg, dc }) {
-		dc[reg[this.ra] + Imm] &= 0xFFFFFF00;
-		dc[reg[this.ra] + Imm] |= reg[this.rs] & 0xFF;
+	execute({ reg, sc }) {
+		sc[reg[this.ra] + Imm] &= 0xFFFFFF00;
+		sc[reg[this.ra] + Imm] |= reg[this.rs] & 0xFF;
 	}
 }
 
