@@ -1,4 +1,4 @@
-import { parseNum, parseReg } from "../../../helper";
+import { parseNum, parseReg } from "../../helper";
 
 export const compile_reg = (pred, rd, rs1, imm, ps) => {
     let binary = [0];
@@ -33,7 +33,8 @@ class Bcopy {
      * @param {number}          fields.imm  - Second operand, immediate value.
      * @param {string}          fields.ps   - Predicate register
      */
-    constructor(pred, rd, rs1, imm, ps) {
+    constructor({pred, rd, rs1, imm, ps}) {
+        this.name = "bcopy";
         this.rd = rd;
         this.rs1 = rs1;
         this.imm = imm;
@@ -47,7 +48,7 @@ class Bcopy {
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] & !(1 << this.imm)) | (reg[this.ps] << this.imm);
+        reg[this.rd] = (reg[this.rs1] & ~(1 << this.imm)) | (reg[this.ps] << this.imm);
     }
 
 }
