@@ -1,32 +1,6 @@
 import React, { Fragment } from "react";
 import "../../css/DisplayReg.css"
 
-const RegRow = ({idx, registers}) => {
-	return(
-		<tr>
-			<th scope="row">r{idx}</th>
-			<td>{registers[`r${idx}`]}</td>
-		</tr>
-	)
-}
-
-const SregRow = ({idx, registers}) => {
-	return(
-		<tr>
-			<th scope="row">s{idx}</th>
-			<td>{registers[`s${idx}`]}</td>
-		</tr>
-	)
-}
-
-const PregRow = ({idx, registers}) => {
-	return(
-		<tr>
-			<th scope="row">p{idx}</th>
-			<td>{registers[`p${idx}`]}</td>
-		</tr>
-	)
-}
 const DisplayReg = (props) => {
 	return (
 		<Fragment>
@@ -119,6 +93,33 @@ const RenderRegTable = ({registers}) => {
 				{PregRow({idx: 7, registers: registers})}
 			</tbody>
 		</table>
+	)
+}
+
+const RegRow = ({idx, registers}) => {
+	return(
+		<tr>
+			<th scope="row">r{idx}</th>
+			<td>{registers[`r${idx}`]}</td>
+		</tr>
+	)
+}
+
+const SregRow = ({idx, registers}) => {
+	return(
+		<tr>
+			<th scope="row">s{idx}</th>
+			<td>{registers[`s${idx}`]}</td>
+		</tr>
+	)
+}
+
+const PregRow = ({idx, registers}) => {
+	return(
+		<tr>
+			<th scope="row">p{idx}</th>
+			<td>{registers[`p${idx}`]}</td>
+		</tr>
 	)
 }
 
