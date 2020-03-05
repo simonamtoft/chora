@@ -1,0 +1,10 @@
+.reg-table {
+	display: block;
+	height: 410px;
+	overflow: auto;
+}
+
+.reg-tab {
+	margin: none;
+}
+
