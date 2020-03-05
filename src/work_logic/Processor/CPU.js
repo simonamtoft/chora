@@ -315,7 +315,9 @@ class CPU extends Component {
 				break;
 			default:
 				console.log(`Instruction ${inst.type} not implemented.`);
+				return -1;
 		}
+		console.log(`Instruction ${inst.type} executed.`)
 	}
 
 	render() {
