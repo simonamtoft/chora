@@ -11,7 +11,7 @@ import Swl from "./Swl";
 import Swm from "./Swm";
 import Sws from "./Sws";
 
-export default { 
+export { 
 	Sbc, Sbl, Sbm, Sbs,
 	Shc, Shl, Shm, Shs,
 	Swc, Swl, Swm, Sws

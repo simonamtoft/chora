@@ -19,7 +19,7 @@ import Lbul from "./Lbul";
 import Lbuc from "./Lbuc";
 import Lbum from "./Lbum";
 
-export default { 
+export { 
 	Lws, Lwl, Lwc, Lwm, 
 	Lhs, Lhl, Lhc, Lhm, 
 	Lbs, Lbl, Lbc, Lbm, 
