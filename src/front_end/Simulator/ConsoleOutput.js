@@ -8,6 +8,7 @@ const ConsoleOutput = (props) => {
 				className = "col-12"
 				placeholder = "Console Output"
 				value={props.consoleOutput}
+				readOnly
 			/>	
 		</Fragment>
 	)

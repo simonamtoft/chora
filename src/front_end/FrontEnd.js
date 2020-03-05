@@ -26,6 +26,7 @@ const FrontEnd = (props) => {
 						runClick = {props.runClick}
 						resetClick = {props.resetClick}
 						consoleOutput = {props.consoleOutput}
+						registers = {props.registers}
 					/>
 				</div>
 			</div>

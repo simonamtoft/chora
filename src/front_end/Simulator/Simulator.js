@@ -20,7 +20,9 @@ const Simulator = (props) => {
 			</div>
 
 			<div className="col-3">
-				<DisplayReg/>
+				<DisplayReg
+					registers = {props.registers}
+				/>
 			</div>
 		</div>
 	)

@@ -1,0 +1,6 @@
+
+.tbody {
+	display: block;
+	height: 150px;
+	overflow: auto;
+}

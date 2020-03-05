@@ -6,6 +6,7 @@ const DisplayMachine = () => {
 			<textarea
 				className = "col-12"
 				placeholder = "Machine Code"
+				readOnly
 			/>	
 		</Fragment>
 	)
