@@ -10,6 +10,23 @@ const RegRow = ({idx, registers}) => {
 	)
 }
 
+const SregRow = ({idx, registers}) => {
+	return(
+		<tr>
+			<th scope="row">s{idx}</th>
+			<td>{registers[`s${idx}`]}</td>
+		</tr>
+	)
+}
+
+const PregRow = ({idx, registers}) => {
+	return(
+		<tr>
+			<th scope="row">p{idx}</th>
+			<td>{registers[`p${idx}`]}</td>
+		</tr>
+	)
+}
 const DisplayReg = (props) => {
 	return (
 		<Fragment>
@@ -34,6 +51,7 @@ const DisplayReg = (props) => {
 	)
 }
 
+// Render the 31 reg, 15 sreg and 8 predicate values in the table
 const RenderRegTable = ({registers}) => {
 	return (
 		<table className="table table-striped table-sm tbody col-12">
@@ -76,6 +94,29 @@ const RenderRegTable = ({registers}) => {
 				{RegRow({idx: 29, registers: registers})}
 				{RegRow({idx: 30, registers: registers})}
 				{RegRow({idx: 31, registers: registers})}
+				{SregRow({idx: 1, registers: registers})}
+				{SregRow({idx: 2, registers: registers})}
+				{SregRow({idx: 3, registers: registers})}
+				{SregRow({idx: 4, registers: registers})}
+				{SregRow({idx: 5, registers: registers})}
+				{SregRow({idx: 6, registers: registers})}
+				{SregRow({idx: 7, registers: registers})}
+				{SregRow({idx: 8, registers: registers})}
+				{SregRow({idx: 9, registers: registers})}
+				{SregRow({idx: 10, registers: registers})}
+				{SregRow({idx: 11, registers: registers})}
+				{SregRow({idx: 12, registers: registers})}
+				{SregRow({idx: 13, registers: registers})}
+				{SregRow({idx: 14, registers: registers})}
+				{SregRow({idx: 15, registers: registers})}
+				{PregRow({idx: 0, registers: registers})}
+				{PregRow({idx: 1, registers: registers})}
+				{PregRow({idx: 2, registers: registers})}
+				{PregRow({idx: 3, registers: registers})}
+				{PregRow({idx: 4, registers: registers})}
+				{PregRow({idx: 5, registers: registers})}
+				{PregRow({idx: 6, registers: registers})}
+				{PregRow({idx: 7, registers: registers})}
 			</tbody>
 		</table>
 	)
