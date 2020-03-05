@@ -12,8 +12,7 @@ class App extends Component {
         super(props);
 
 		this.instCount = 0;
-		//reg = new Registers();
-
+		//this.reg = new Registers();
 
         this.state = {
 			isRunning: false, 
@@ -56,7 +55,7 @@ class App extends Component {
         if ( que === "" || que == null) {
             console.log("Error: Instruction queue is empty.");
             return false;
-        } else if (this.instCount === queLength - 1) {
+        } else if (this.instCount === queLength) {
             console.log("Error: All instructions executed.");
             return false;
 		} 
@@ -74,15 +73,18 @@ class App extends Component {
 
 		// Run next instruction if any
 		if (this.checkStep(que, queLength)) {
-			this.instCount += 1;
+			
 
 			// Decode and set next instruction
 			let instnext = que.split("\n")[this.instCount];
-			let [type, des, s1, s2] = parseInputInst(instnext);
+			let [type, des, s1, s2] = parseInputInst(instnext);//.split(" ");
+			//let [type, des, s1, s2] = parseInputInst(instnext);
 			this.setState({type : type, des: des, s1: s1, s2: s2});
 
 			// Execute Instruction
 			this.addConsoleOutput(`${type} ${des} ${s1} ${s2}`) // replace with instruction execution
+			
+			this.instCount += 1;
 		}
     }
 
@@ -96,7 +98,7 @@ class App extends Component {
 		let queLength = que.split(/\r\n|\r|\n/).length;
 		
 		if (this.checkStep(que, queLength)) {
-			while (this.instCount < queLength-1) {
+			while (this.instCount < queLength) {
 				this.stepInst();
 			}
 		}
