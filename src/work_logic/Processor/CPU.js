@@ -66,7 +66,7 @@ class CPU extends Component {
 		let BinaryInst 	= {pred: inst.pred, rd: inst.des, rs1: inst.s1, op2: inst.s2};
 		let CompInst 	= {pred: inst.pred, pd: inst.des, rs1: inst.s1, op2: inst.s2};
 		let LoadInst 	= {pred: inst.pred, rd: inst.des, ra: inst.s1, imm: inst.s2};
-		let MulInst 	= {pred: inst.pred, rs1: inst.s1, rs2: inst.s2};
+		let MulInst 	= {pred: inst.pred, rs1: inst.des, rs2: inst.s1};
 		let PredInst 	= {pred: inst.pred, pd: inst.des, ps1: inst.s1, ps2: inst.s2};
 		//let StackInst 	= {};
 		let StoreInst 	= {pred: inst.pred, ra: inst.des, rs: inst.s1, imm: inst.s2};
@@ -302,21 +302,20 @@ class CPU extends Component {
 
 			// Rest
 			case "bcopy":
-				cInst = new Bcopy();
+				cInst = new Bcopy({pred: inst.pred, rd: inst.des, rs1: inst.s1, imm: inst.s2}); //missing ps?
 				cInst.execute(state);
 				break;
 			case "mfs":
-				cInst = new Mfs();
+				cInst = new Mfs({pred: inst.pred, rd: inst.des, ss: inst.s1});
 				cInst.execute(state);
 				break;
 			case "mts":
-				cInst = new Mts();
+				cInst = new Mts({pred: inst.pred, rs1: inst.s1, sd: inst.des}); // not sure if SD is correct set
 				cInst.execute(state);
 				break;
 			default:
 				console.log(`Instruction ${inst.type} not implemented.`);
 		}
-		console.log(`Instruction ${inst.type} executed by CPU.`)
 	}
 
 	render() {
