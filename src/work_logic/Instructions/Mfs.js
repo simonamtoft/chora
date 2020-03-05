@@ -3,6 +3,8 @@ import { parseNum, parseReg } from "../../helper";
 export const compile_reg = (pred, rd, ss) => {
     let binary = [0];
 
+	console.log(`${ss}`)
+
     pred = parseNum(pred);
     rd = parseReg(rd);
     ss = parseReg(ss); 
@@ -25,11 +27,13 @@ class Mfs {
      * @param {Object}          fields      - Fields to set
      * @param {string|number}   fields.pred - Predicate
      * @param {string}          fields.rd   - Destination register
+	 * @param {string}			fields.ss	- Special source register
      */
-    constructor(pred, rd) {
+    constructor({pred, rd, ss}) {
         this.pred = pred;
-        this.rd = rd;
-        this.memory = compile_reg(pred, rd, "s5");
+		this.rd = rd;
+		this.ss = ss;
+        this.memory = compile_reg(pred, rd, ss);
     }
 
     /**
@@ -38,7 +42,7 @@ class Mfs {
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg }) {
-        reg[this.rd] = reg["s5"];
+        reg[this.rd] = reg[this.ss];
     }
 }
 

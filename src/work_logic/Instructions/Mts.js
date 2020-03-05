@@ -27,7 +27,7 @@ class Mts {
      * @param {string}          fields.rs1  - Source register
      * @param {string}          fields.sd   - Special destination register
      */
-    constructor(pred, rs1, sd) {
+    constructor({pred, rs1, sd}) {
         this.pred = pred;
         this.rs1 = rs1;
         this.sd = sd;
