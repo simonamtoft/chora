@@ -13,7 +13,6 @@ class UserEditor extends Component {
     }
 
     sendToParent = (value) => {
-        // eslint-disable-next-line react/prop-types
         this.props.parentCallback(value);
     }
     
