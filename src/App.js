@@ -8,15 +8,13 @@ import { parseInputInst } from './helper';
 class App extends Component {
     constructor(props) {
         super(props);
-
+		this.cpu = new CPU();
 		this.instCount = 0;
         this.state = {
 			consoleOutput: "",
             instructions: "",
 		};
 	}
-
-	cpu = new CPU();
 
 	/**
 	 * Sets state.instructions to input
@@ -66,6 +64,10 @@ class App extends Component {
 			let [type, des, s1, s2] = parseInputInst(instnext);
 			this.cpu.executeInstruction({pred: 0, type: type, des: des, s1: s1, s2: s2});
 			this.instCount += 1;
+
+			// Important that state is updated somewhere to re-render children etc.
+			// Could be another state
+			this.addConsoleOutput(`${type}, ${des}, ${s1}, ${s2}`)
 		}
     }
 
@@ -87,7 +89,8 @@ class App extends Component {
 
     resetInst = () => {
 		this.instCount = 0;
-		this.setState({consoleOutput: "", type : "", des: "", s1: "", s2: ""});
+		this.cpu.resetReg();
+		this.setState({consoleOutput: ""});
         console.log("Reset");
 	}
 
@@ -95,6 +98,7 @@ class App extends Component {
         return (
 			<div>
 				<FrontEnd
+					registers = {this.cpu.getReg()}
 					parentCallback={this.getUserInput}
 					stepClick = {this.stepInst}
 					runClick = {this.runInst}
