@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import "../../css/DisplayReg.css"
+import "../../css/Simulator.css"
 
 const DisplayReg = (props) => {
 	return (
@@ -28,7 +28,7 @@ const DisplayReg = (props) => {
 // Render the 31 reg, 15 sreg and 8 predicate values in the table
 const RenderRegTable = ({registers}) => {
 	return (
-		<table className="table table-striped table-sm tbody col-12">
+		<table className="table table-striped table-sm reg-table col-12">
 			<thead>
 				<tr>
 					<th scope="col">Register</th>
