@@ -24,7 +24,7 @@ class Xor extends BinaryArithmetics {
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg }) {
-        reg[this.rd] = (reg[this.rs1] ^ (this.type == "r" ? reg[this.op2] : Number(this.op2))) | 0;
+        reg[this.rd] = (reg[this.rs1] ^ (this.type === "r" ? reg[this.op2] : Number(this.op2))) | 0;
     }
 }
 

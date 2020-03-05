@@ -5,7 +5,7 @@ import LoadTyped from "./LoadTyped";
  * @extends LoadTyped
  * @category LoadTyped
  */
-class Lws extends LoadTyped{
+class Lws extends LoadTyped {
     /**
      * Create Lws instruction.
      * @param {Object}          fields      - Fields to set 

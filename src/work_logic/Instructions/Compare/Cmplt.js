@@ -24,7 +24,7 @@ class Cmplt extends Compare {
      * @param {Object.<string, number>} state.reg   - Registers
      */
     execute( { reg } ) {
-        reg[this.pd] = Number(reg[this.rs1] < (this.type == "r" ? 
+        reg[this.pd] = Number(reg[this.rs1] < (this.type === "r" ? 
             reg[this.op2] : (Number(this.op2) << 27) >> 27));
     }
 }

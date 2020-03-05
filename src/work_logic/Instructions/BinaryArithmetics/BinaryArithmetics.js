@@ -23,7 +23,7 @@ class BinaryArithmetics {
         this.func = func;
         
         // nor, shadd, shadd2 do not exist as AluImm variant
-        if([0b1011, 0b1100, 0b1101].includes(func) && this.type == "i"){
+        if([0b1011, 0b1100, 0b1101].includes(func) && this.type === "i"){
             this.type = "l";
         }
 

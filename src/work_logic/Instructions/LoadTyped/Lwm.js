@@ -29,4 +29,4 @@ class Lwm extends LoadTyped{
     }
 }
 
-export default Lws;
+export default Lwm;
