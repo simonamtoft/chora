@@ -66,8 +66,14 @@ class App extends Component {
 			this.instCount += 1;
 
 			// Important that state is updated somewhere to re-render children etc.
+			// This should instead be output to "Original code" field of "DisplayMachine.js"
 			// Could be another state
-			this.addConsoleOutput(`${type}, ${des}, ${s1}, ${s2}`)
+			if (s2 === undefined) {
+				this.addConsoleOutput(`${type}, ${des}, ${s1}`)
+			} else {
+				this.addConsoleOutput(`${type}, ${des}, ${s1}, ${s2}`)
+			}
+			
 		}
     }
 
