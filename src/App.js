@@ -1,32 +1,22 @@
 import React, { Component } from "react";
 import "./css/App.css";
 
-//import Registers from "./work_logic/Processor/Registers";
 import FrontEnd from "./front_end/FrontEnd"
+import CPU from "./work_logic/Processor/CPU"
 import { parseInputInst } from './helper';
-
-//export const frontEnd = React.createContext();
 
 class App extends Component {
     constructor(props) {
         super(props);
 
 		this.instCount = 0;
-		//this.reg = new Registers();
-
         this.state = {
-			isRunning: false, 
 			consoleOutput: "",
             instructions: "",
-            inst: {
-                type: "",
-                des: "",
-                s1: "",
-                s2: "",
-			},
-
 		};
 	}
+
+	cpu = new CPU();
 
 	/**
 	 * Sets state.instructions to input
@@ -63,27 +53,18 @@ class App extends Component {
 	}
 
 	/**
-	 * Step one instruction
+	 * Step one instruction, if any left to execute
 	 * @field que : All instructions
 	 * @field queLength: Amount of instructions
 	 */
     stepInst = () => {
 		let que = this.state.instructions;
 		let queLength = que.split(/\r\n|\r|\n/).length;
-
-		// Run next instruction if any
+		
 		if (this.checkStep(que, queLength)) {
-			
-
-			// Decode and set next instruction
 			let instnext = que.split("\n")[this.instCount];
-			let [type, des, s1, s2] = parseInputInst(instnext);//.split(" ");
-			//let [type, des, s1, s2] = parseInputInst(instnext);
-			this.setState({type : type, des: des, s1: s1, s2: s2});
-
-			// Execute Instruction
-			this.addConsoleOutput(`${type} ${des} ${s1} ${s2}`) // replace with instruction execution
-			
+			let [type, des, s1, s2] = parseInputInst(instnext);
+			this.cpu.executeInstruction({pred: 0, type: type, des: des, s1: s1, s2: s2});
 			this.instCount += 1;
 		}
     }
@@ -108,7 +89,7 @@ class App extends Component {
 		this.instCount = 0;
 		this.setState({consoleOutput: "", type : "", des: "", s1: "", s2: ""});
         console.log("Reset");
-    }
+	}
 
     render() {
         return (
@@ -119,7 +100,7 @@ class App extends Component {
 					runClick = {this.runInst}
 					resetClick = {this.resetInst}
 					consoleOutput = {this.state.consoleOutput}
-				/>
+				/>	
             </div>
         );
     }
