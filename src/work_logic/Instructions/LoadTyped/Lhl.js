@@ -13,11 +13,10 @@ class Lhl extends LoadTyped{
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.ra  	- First source register
-     * @param {string}   		fields.type - Second operand. Can be a second source register or immediate value.
 	 * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-        super({name: "lhl", pred, rd, ra, type: 0b001101, imm});
+        super({name: "lhl", pred, rd, ra, type: 0b00101, imm});
     }
 
     /**
@@ -25,8 +24,8 @@ class Lhl extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, gm }) {
-        reg[this.rd] = toInt32(gm[reg[this.ra] + (this.Imm << 1)] & 0xFFFF); 
+    execute({ reg, lm }) {
+        reg[this.rd] = toInt32(lm[reg[this.ra] + (this.imm << 1)] & 0xFFFF); 
     }
 }
 

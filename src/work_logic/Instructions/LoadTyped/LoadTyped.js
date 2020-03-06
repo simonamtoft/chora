@@ -12,7 +12,7 @@ export default class LoadTyped {
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.ra  	- First source register
-     * @param {string}   		fields.type - Second operand. Can be a second source register or immediate value.
+     * @param {string}   		fields.type - Instruction type
 	 * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ name, pred, rd, ra, type, imm }) {
