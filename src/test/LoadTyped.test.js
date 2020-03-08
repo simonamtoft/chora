@@ -141,3 +141,63 @@ test("Lhm instruction", () => {
     expect(a.binary[1]).toBe(undefined);
     expect(state.reg.r1).toBe(0x0000FFFF | 0);
 });
+test("Lbs instruction", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new LDT.Lbs({
+        pred: 1,
+        rd: "r1",
+        ra: "r2",
+        imm: 0x3F
+    });
+    state.sc[state.reg.r2 + (0x3F)] = 0xFFFFFFFF|0;
+    a.execute(state);
+    expect(a.name).toBe("lbs");
+    expect(a.binary[0]).toBe(0xA82243F | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.r1).toBe(0x000000FF | 0);
+});
+test("Lbl instruction", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new LDT.Lbl({
+        pred: 1,
+        rd: "r1",
+        ra: "r2",
+        imm: 0x3F
+    });
+    state.lm[state.reg.r2 + (0x3F)] = 0xFFFFFFFF|0;
+    a.execute(state);
+    expect(a.name).toBe("lbl");
+    expect(a.binary[0]).toBe(0xA8224BF | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.r1).toBe(0x000000FF | 0);
+});
+test("Lbc instruction", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new LDT.Lbc({
+        pred: 1,
+        rd: "r1",
+        ra: "r2",
+        imm: 0x3F
+    });
+    state.dc[state.reg.r2 + (0x3F)] = 0xFFFFFFFF|0;
+    a.execute(state);
+    expect(a.name).toBe("lbc");
+    expect(a.binary[0]).toBe(0xA82253F | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.r1).toBe(0x000000FF | 0);
+});
+test("Lbm instruction", () => {
+    let a, e, state = JSON.parse(JSON.stringify(initial_state));
+    a = new LDT.Lbm({
+        pred: 1,
+        rd: "r1",
+        ra: "r2",
+        imm: 0x3F
+    });
+    state.gm[state.reg.r2 + (0x3F)] = 0xFFFFFFFF|0;
+    a.execute(state);
+    expect(a.name).toBe("lbm");
+    expect(a.binary[0]).toBe(0xA8225BF | 0);
+    expect(a.binary[1]).toBe(undefined);
+    expect(state.reg.r1).toBe(0x000000FF | 0);
+});

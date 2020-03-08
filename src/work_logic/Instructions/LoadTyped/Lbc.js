@@ -17,7 +17,7 @@ class Lbc extends LoadTyped{
      * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-        super({name: "lbc", pred, rd, ra, type: 0b010110, imm});
+        super({name: "lbc", pred, rd, ra, type: 0b01010, imm});
     }
 
     /**
@@ -26,7 +26,7 @@ class Lbc extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, dc }) {
-        reg[this.rd] = toInt32(dc[reg[this.ra] + this.Imm] & 0xFF); 
+        reg[this.rd] = toInt32(dc[reg[this.ra] + this.imm] & 0xFF); 
     }
 }
 
