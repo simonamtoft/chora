@@ -24,7 +24,12 @@ class Lwl extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, lm }) {
-        reg[this.rd] = lm[reg[this.ra] + (this.imm << 2)]; 
+        let hh = lm[reg[this.ra] + (this.imm << 2) + 3];
+        let hl = lm[reg[this.ra] + (this.imm << 2) + 2];
+        let lh = lm[reg[this.ra] + (this.imm << 2) + 1];
+        let ll = lm[reg[this.ra] + (this.imm << 2)];
+
+        reg[this.rd] = (hh << 24) | (hl << 16) | (lh << 8) | ll;
     }
 }
 

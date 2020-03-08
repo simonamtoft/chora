@@ -1,5 +1,4 @@
 import LoadTyped from "./LoadTyped";
-import { toUint32 } from "../../../helper";
 
 /** 
  * Lbus instruction class. 
@@ -25,7 +24,7 @@ class Lbus extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, sc }) {
-        reg[this.rd] = toUint32(sc[reg[this.ra] + this.imm] & 0xFF); 
+        reg[this.rd] = sc[reg[this.ra] + this.imm] & 0xFF; 
     }
 }
 
