@@ -13,11 +13,10 @@ class Lbum extends LoadTyped{
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.ra  	- First source register
-     * @param {string}   		fields.type - Second operand. Can be a second source register or immediate value.
-	 * @param {number}			fields.imm	- Immediate value 
+	   * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-		super({name: "lbum", pred, rd, ra, type: 0b100111, imm});
+		super({name: "lbum", pred, rd, ra, type: 0b10011, imm});
     }
 
     /**
@@ -26,7 +25,7 @@ class Lbum extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, gm }) {
-        reg[this.rd] = toUint32(gm[reg[this.ra] + this.Imm] & 0xFF); 
+        reg[this.rd] = toUint32(gm[reg[this.ra] + this.imm] & 0xFF); 
     }
 }
 

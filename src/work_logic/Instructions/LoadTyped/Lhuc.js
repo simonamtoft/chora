@@ -13,11 +13,10 @@ class Lhuc extends LoadTyped{
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.ra  	- First source register
-     * @param {string}   		fields.type - Second operand. Can be a second source register or immediate value.
-	 * @param {number}			fields.imm	- Immediate value 
+	   * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-		super({name: "lhuc", pred, rd, ra, type: 0b011110, imm});
+		super({name: "lhuc", pred, rd, ra, type: 0b01110, imm});
     }
 
     /**
@@ -26,7 +25,7 @@ class Lhuc extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, dc }) {
-        reg[this.rd] = toUint32(dc[reg[this.ra] + (this.Imm << 1)] & 0xFFFF); 
+        reg[this.rd] = toUint32(dc[reg[this.ra] + (this.imm << 1)] & 0xFFFF); 
     }
 }
 
