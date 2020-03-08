@@ -25,7 +25,7 @@ class Lhl extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, lm }) {
-        reg[this.rd] = toInt32(lm[reg[this.ra] + (this.imm << 1)] & 0xFFFF); 
+        reg[this.rd] = ((lm[reg[this.ra] + (this.imm << 1)]) << 16) >> 16; 
     }
 }
 

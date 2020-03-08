@@ -1,5 +1,4 @@
 import LoadTyped from "./LoadTyped";
-import { toInt32 } from "../../../helper";
 
 /** 
  * Lhc instruction class. 
@@ -25,7 +24,7 @@ class Lhc extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, dc }) {
-        reg[this.rd] = toInt32(dc[reg[this.ra] + (this.imm << 1)] & 0xFFFF); 
+        reg[this.rd] = ((dc[reg[this.ra] + (this.imm << 1)]) << 16) >> 16; 
     }
 
 }
