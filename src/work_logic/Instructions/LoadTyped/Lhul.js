@@ -24,8 +24,10 @@ class Lhul extends LoadTyped {
    * @param {Object.<string, number>} state.reg    - Registers
    */
   execute({ reg, lm }) {
-    let hi = lm[reg[this.ra] + (this.imm << 1) + 1];
-    let lo = lm[reg[this.ra] + (this.imm << 1)];
+	let address = reg[this.ra] + (this.imm << 1)
+    let hi = lm[address + 1];
+	let lo = lm[address];
+	
     reg[this.rd] = (hi << 8) | lo;
   }
 }

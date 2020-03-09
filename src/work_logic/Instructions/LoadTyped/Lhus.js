@@ -15,7 +15,7 @@ class Lhus extends LoadTyped {
    * @param {number}			fields.imm	- Immediate value 
    */
   constructor({ pred, rd, ra, imm }) {
-    super({ name: "lhus", pred, rd, ra, type: 0b01100, imm });
+	super({ name: "lhus", pred, rd, ra, type: 0b01100, imm });
   }
 
   /**
@@ -24,8 +24,9 @@ class Lhus extends LoadTyped {
    * @param {Object.<string, number>} state.reg    - Registers
    */
   execute({ reg, sc }) {
-    let hi = sc[reg[this.ra] + (this.imm << 1) + 1];
-    let lo = sc[reg[this.ra] + (this.imm << 1)];
+	let address = reg[this.ra] + (this.imm << 1);
+    let hi = sc[address + 1];
+    let lo = sc[address];
 
     reg[this.rd] = (hi << 8) | lo;
   }
