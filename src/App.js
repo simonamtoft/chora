@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import "./css/App.css";
-
 import FrontEnd from "./front_end/FrontEnd"
 import CPU from "./work_logic/Processor/CPU"
 import { parseInputInst } from './helper';
@@ -21,6 +20,7 @@ class App extends Component {
 	 * @param {string} 	instructions 	- User input instructions
 	 */
     getUserInput = (instructions) => {
+		this.resetInst();
         this.setState({instructions: instructions});
     }
 
@@ -62,7 +62,7 @@ class App extends Component {
 		if (this.checkStep(que, queLength)) {
 			let instnext = que.split("\n")[this.instCount];
 			let [type, des, s1, s2] = parseInputInst(instnext);
-			this.cpu.executeInstruction({pred: 0, type: type, des: des, s1: s1, s2: s2});
+			this.cpu.execute({pred: 0, type: type, des: des, s1: s1, s2: s2});
 			this.instCount += 1;
 
 			// Important that state is updated somewhere to re-render children etc.
@@ -73,7 +73,6 @@ class App extends Component {
 			} else {
 				this.addConsoleOutput(`${type}, ${des}, ${s1}, ${s2}`)
 			}
-			
 		}
     }
 
@@ -95,7 +94,7 @@ class App extends Component {
 
     resetInst = () => {
 		this.instCount = 0;
-		this.cpu.resetReg();
+		this.cpu.reset();
 		this.setState({consoleOutput: ""});
         console.log("Reset");
 	}
@@ -104,7 +103,7 @@ class App extends Component {
         return (
 			<div>
 				<FrontEnd
-					registers = {this.cpu.getReg()}
+					registers = {this.cpu.reg.getReg()}
 					parentCallback={this.getUserInput}
 					stepClick = {this.stepInst}
 					runClick = {this.runInst}
