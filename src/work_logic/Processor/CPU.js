@@ -1,4 +1,3 @@
-import React, { Component } from "react";
 import { Add, Sub, Xor, Nor, ShiftLeft, ShiftRight, 
 	ShiftRightArithmetic, ShiftAdd, ShiftAdd2 } from "../Instructions/BinaryArithmetics/index"
 import { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult } from "../Instructions/Compare/index";
