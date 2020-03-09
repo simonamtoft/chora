@@ -1,4 +1,4 @@
-class RegisterFiles {
+class Storage {
 	constructor() {
 		this.reg = {
 			"r0" : 0,
@@ -15,13 +15,17 @@ class RegisterFiles {
 			"p0": 1, "p1": 0, "p2" : 0, "p3" : 0, "p4" : 0, "p5" : 0,
 			"p6" : 0, "p7" : 0
 		};
+		this.sc = {};
+        this.gm = {};
+        this.lm = {};
+        this.dc = {};
 	}
 	
-	getReg() {
-		return this.reg; 
-	}
-
-	resetReg() {
+	reset() {
+		this.sc = {};
+		this.gm = {};
+        this.lm = {};
+        this.dc = {};
 		this.reg = {
 			"r0" : 0,
             "r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
@@ -38,6 +42,30 @@ class RegisterFiles {
             "p6" : 0, "p7" : 0
         };
 	}
+	
+	getCache() {
+		return {sc: this.sc, gm: this.gm, lm: this.lm, dc: this.dc};
+	}
+	
+    getSc() {
+        return this.sc;
+	}
+	
+    getGm() {
+        return this.gm;
+	}
+	
+    getLm() {
+        return this.lm;
+    }
+
+    getDc() {
+        return this.dc;
+    }
+
+	getReg() {
+		return this.reg; 
+	}
 }
 
-export default RegisterFiles;
+export default Storage;

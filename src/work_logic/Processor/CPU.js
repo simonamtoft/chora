@@ -11,23 +11,21 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws} from "../In
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import RegisterFiles from "./RegisterFiles";
-import LocalMemory from "./LocalMemory";
+import Storage from "./Storage";
 
 class CPU extends Component {
     constructor() {
 		super();
-		this.reg = new RegisterFiles;
-		this.mem = new LocalMemory;
+		this.s = new Storage;
 	}
 	
 	reset() {
-		this.reg.resetReg();
-		this.mem.resetCache();
+		this.s.resetReg();
+		this.s.resetCache();
 	}
 
 	execute(instruction) {
-		this.pickInst(this.reg, instruction);
+		this.pickInst(this.s, instruction);
 	}
 
 	pickInst = (state, inst) => {
