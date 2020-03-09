@@ -11,17 +11,19 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws} from "../In
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import Registers from "../Memory/Registers";
+import RegisterFiles from "./RegisterFiles";
+import LocalMemory from "./LocalMemory";
 
 class CPU extends Component {
     constructor() {
 		super();
-		this.reg = new Registers();
+		this.reg = new RegisterFiles;
+		this.mem = new LocalMemory;
 	}
 	
 	reset() {
 		this.reg.resetReg();
-		// Also reset memory here
+		this.mem.resetCache();
 	}
 
 	execute(instruction) {
