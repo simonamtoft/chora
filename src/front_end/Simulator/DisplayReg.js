@@ -46,7 +46,7 @@ const DisplayReg = (props) => {
 
 const RenderCacheTable = (cache) => {
 	return (
-		<table className="table table-striped table-sm reg-table col-12">
+		<table className="table table-striped table-sm col-12">
 			<thead>
 				<tr>
 					<th scope="col">Address</th>
@@ -91,7 +91,7 @@ const CacheRow = (cache, key) => {
 
 const RenderRegTable = (registers) => {
 	return (
-		<table className="table table-striped table-sm reg-table col-12">
+		<table className="table table-striped table-sm col-12">
 			<thead>
 				<tr>
 					<th scope="col">Register</th>
