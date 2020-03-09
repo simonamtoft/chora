@@ -1,4 +1,4 @@
-class Registers {
+class RegisterFiles {
 	constructor() {
 		this.reg = {
 			"r0" : 0,
@@ -17,11 +17,11 @@ class Registers {
 		};
 	}
 	
-	getReg = () => {
+	getReg() {
 		return this.reg; 
 	}
 
-	resetReg = () => {
+	resetReg() {
 		this.reg = {
 			"r0" : 0,
             "r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
@@ -40,4 +40,4 @@ class Registers {
 	}
 }
 
-export default Registers;
+export default RegisterFiles;
