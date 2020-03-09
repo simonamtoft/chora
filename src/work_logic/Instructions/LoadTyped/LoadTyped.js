@@ -4,7 +4,7 @@ import { toUint32 } from "../../../helper";
 /** 
  * Represents a LoadTyped instruction. Sets common fields. 
  */
-export default class LoadTyped {
+class LoadTyped {
     /**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
@@ -29,4 +29,4 @@ export default class LoadTyped {
         console.error("Missing execute handler for", this);
     }
 }
-
+export default LoadTyped;

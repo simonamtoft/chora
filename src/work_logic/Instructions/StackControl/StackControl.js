@@ -22,3 +22,4 @@ class StackControl {
 	}
 
 }
+export default StackControl;
