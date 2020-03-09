@@ -1,5 +1,4 @@
 import LoadTyped from "./LoadTyped";
-import { toUint32 } from "../../../helper";
 
 /** 
  * Lbul instruction class. 
@@ -25,7 +24,7 @@ class Lbul extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, lm }) {
-        reg[this.rd] = toUint32(lm[reg[this.ra] + this.imm] & 0xFF); 
+        reg[this.rd] = lm[reg[this.ra] + this.imm] & 0xFF; 
     }
 }
 

@@ -1,12 +1,11 @@
 import LoadTyped from "./LoadTyped";
-import { toInt32 } from "../../../helper";
 
 /** 
  * Lbl instruction class. 
  * @extends LoadTyped
  * @category LoadTyped
  */
-class Lbl extends LoadTyped{
+class Lbl extends LoadTyped {
     /**
      * Create Lbl instruction.
      * @param {Object}          fields      - Fields to set 
@@ -15,9 +14,9 @@ class Lbl extends LoadTyped{
      * @param {string}          fields.ra  	- First source register
 	 * @param {number}			fields.imm	- Immediate value 
      */
-	constructor({ pred, rd, ra, imm }) {
-		super({name: "lbl", pred, rd, ra, type: 0b01001, imm});
-	}
+    constructor({ pred, rd, ra, imm }) {
+        super({ name: "lbl", pred, rd, ra, type: 0b01001, imm });
+    }
 
     /**
      * Executes the instruction
@@ -25,9 +24,8 @@ class Lbl extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, lm }) {
-        reg[this.rd] = ((lm[reg[this.ra] + this.imm]) << 24) >> 24 ; 
+        reg[this.rd] = (lm[reg[this.ra] + this.imm] << 24) >> 24;
     }
-
 }
 
 export default Lbl;

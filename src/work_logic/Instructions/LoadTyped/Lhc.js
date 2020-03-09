@@ -24,7 +24,10 @@ class Lhc extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, dc }) {
-        reg[this.rd] = ((dc[reg[this.ra] + (this.imm << 1)]) << 16) >> 16; 
+        let hi = dc[reg[this.ra] + (this.imm << 1) + 1];
+        let lo = dc[reg[this.ra] + (this.imm << 1)];
+
+        reg[this.rd] = (((hi << 8) | lo) << 16) >> 16; 
     }
 
 }

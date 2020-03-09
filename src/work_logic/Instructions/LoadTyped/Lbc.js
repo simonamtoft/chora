@@ -5,7 +5,7 @@ import LoadTyped from "./LoadTyped";
  * @extends LoadTyped
  * @category LoadTyped
  */
-class Lbc extends LoadTyped{
+class Lbc extends LoadTyped {
     /**
      * Create Lbc instruction.
      * @param {Object}          fields      - Fields to set 
@@ -16,7 +16,7 @@ class Lbc extends LoadTyped{
      * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-        super({name: "lbc", pred, rd, ra, type: 0b01010, imm});
+        super({ name: "lbc", pred, rd, ra, type: 0b01010, imm });
     }
 
     /**
@@ -25,7 +25,7 @@ class Lbc extends LoadTyped{
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute({ reg, dc }) {
-        reg[this.rd] = ((dc[reg[this.ra] + this.imm]) << 24) >> 24; 
+        reg[this.rd] = (dc[reg[this.ra] + this.imm] << 24) >> 24;
     }
 }
 
