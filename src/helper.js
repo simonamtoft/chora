@@ -9,6 +9,5 @@ export const parseInputInst = (inst) => {
 	return [type, des, s1, s2];
 }
 export const addressToHex = (address) => {
-	address = Number(address)*4;
-	return `0x${address.toString(16)}`;
+	return `0x${Number(address).toString(16)}`;
 }

@@ -10,7 +10,16 @@ const DisplayReg = (props) => {
 					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Reg</a>
 				</li>
 				<li className="nav-item">
-					<a href="#memory" className="nav-link" data-toggle="tab" role="tab">Mem</a>
+					<a href="#sc" className="nav-link" data-toggle="tab" role="tab">sc</a>
+				</li>
+				<li className="nav-item">
+					<a href="#gm" className="nav-link" data-toggle="tab" role="tab">gm</a>
+				</li>
+				<li className="nav-item">
+					<a href="#lm" className="nav-link" data-toggle="tab" role="tab">lm</a>
+				</li>
+				<li className="nav-item">
+					<a href="#dc" className="nav-link" data-toggle="tab" role="tab">dc</a>
 				</li>
 			</ul>
 
@@ -18,8 +27,17 @@ const DisplayReg = (props) => {
 				<div role="tabpanel" className="tab-pane active" id="registers">
 					{RenderRegTable(props.registers)}
 				</div>
-				<div role="tabpanel" className="tab-pane" id="memory">
-					{RenderCacheTable(props.cache)}
+				<div role="tabpanel" className="tab-pane" id="sc">
+					{RenderCacheTable(props.cache.sc)}
+				</div>
+				<div role="tabpanel" className="tab-pane" id="gm">
+					{RenderCacheTable(props.cache.gm)}
+				</div>
+				<div role="tabpanel" className="tab-pane" id="lm">
+					{RenderCacheTable(props.cache.lm)}
+				</div>
+				<div role="tabpanel" className="tab-pane" id="dc">
+					{RenderCacheTable(props.cache.dc)}
 				</div>
 			</div>
 		</Fragment>
@@ -32,7 +50,10 @@ const RenderCacheTable = (cache) => {
 			<thead>
 				<tr>
 					<th scope="col">Address</th>
-					<th scope="col">Decimal</th>
+					<th scope="col">+0</th>
+					<th scope="col">+1</th>
+					<th scope="col">+2</th>
+					<th scope="col">+3</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -43,20 +64,14 @@ const RenderCacheTable = (cache) => {
 }
 
 const GenCacheRows = (cache) => {
-	var rows = [];
-	var key;
+	let rows = [];
+	let key, i;
+	let size = Object.keys(cache).length;
 
-	for (key in cache.sc) {
-		rows.push(CacheRow(cache.sc, key))
-	}
-	for (key in cache.gm) {
-		rows.push(CacheRow(cache.gm, key))
-	}
-	for (key in cache.lm) {
-		rows.push(CacheRow(cache.lm, key))
-	}
-	for (key in cache.dc) {
-		rows.push(CacheRow(cache.dc, key))
+	for (i = 0; i < size; i += 4) {
+		key = Number(Object.keys(cache)[i]);
+		key = key - (key%4);
+		rows.push(CacheRow(cache, key))
 	}
 
 	return rows;
@@ -67,6 +82,9 @@ const CacheRow = (cache, key) => {
 		<tr>
 			<th scope="row">{addressToHex(key)}</th>
 			<td>{cache[`${key}`]}</td>
+			<td>{cache[`${key+1}`]}</td>
+			<td>{cache[`${key+2}`]}</td>
+			<td>{cache[`${key+3}`]}</td>
 		</tr>
 	)
 }
