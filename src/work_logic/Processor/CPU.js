@@ -13,23 +13,19 @@ import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
 import Storage from "./Storage";
 
-class CPU extends Component {
+class CPU {
     constructor() {
-		super();
-		this.s = new Storage;
+		this.storage = new Storage; // Cache + registers
 	}
 	
 	reset() {
-		this.s.resetReg();
-		this.s.resetCache();
+		// Sets all registers to 0 and caches to empty {}
+		this.storage.reset(); 
 	}
 
-	execute(instruction) {
-		this.pickInst(this.s, instruction);
-	}
-
-	pickInst = (state, inst) => {
+	execute(inst) {
 		let cInst; // Placeholder to execute inst
+		let state = this.storage;
 	
 		// Convert inst into the needed types of instructions
 		let BinaryInst 	= {pred: inst.pred, rd: inst.des, rs1: inst.s1, op2: inst.s2};
@@ -40,6 +36,7 @@ class CPU extends Component {
 		//let StackInst 	= {};
 		let StoreInst 	= {pred: inst.pred, ra: inst.des, rs: inst.s1, imm: inst.s2};
 
+		// Pick and execute inst
 		switch(inst.type) {
 			// BinaryArithmetics
 			case "add": 
@@ -288,8 +285,6 @@ class CPU extends Component {
 		}
 		console.log(`Instruction ${inst.type} executed.`)
 	}
-
-	render() {return}
 }
 
 export default CPU;

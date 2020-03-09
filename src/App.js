@@ -103,8 +103,8 @@ class App extends Component {
         return (
 			<div>
 				<FrontEnd
-					registers = {this.cpu.reg.getReg()}
-					parentCallback={this.getUserInput}
+					registers = {this.cpu.storage.getReg()}
+					parentCallback = {this.getUserInput}
 					stepClick = {this.stepInst}
 					runClick = {this.runInst}
 					resetClick = {this.resetInst}
