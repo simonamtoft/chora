@@ -104,6 +104,7 @@ class App extends Component {
 			<div>
 				<FrontEnd
 					registers = {this.cpu.storage.getReg()}
+					cache = {this.cpu.storage.getCache()}
 					parentCallback = {this.getUserInput}
 					stepClick = {this.stepInst}
 					runClick = {this.runInst}

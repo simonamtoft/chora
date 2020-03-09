@@ -22,6 +22,7 @@ const FrontEnd = (props) => {
 				</div>
 				<div role="tabpanel" className="tab-pane" id="simulator">
 					<Simulator
+						cache = {props.cache}
 						stepClick = {props.stepClick}
 						runClick = {props.runClick}
 						resetClick = {props.resetClick}

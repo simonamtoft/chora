@@ -22,6 +22,7 @@ const Simulator = (props) => {
 			<div className="col-3">
 				<DisplayReg
 					registers = {props.registers}
+					cache = {props.cache}
 				/>
 			</div>
 		</div>

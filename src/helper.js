@@ -8,3 +8,7 @@ export const parseInputInst = (inst) => {
 	let [type, des, s1, s2] = parsedInst.split(/[ 	,]+/);
 	return [type, des, s1, s2];
 }
+export const addressToHex = (address) => {
+	address = Number(address)*4;
+	return `0x${address.toString(16)}`;
+}

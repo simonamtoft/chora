@@ -1,5 +1,6 @@
 import React, { Fragment } from "react";
 import "../../css/Simulator.css"
+import { addressToHex } from "../../helper";
 
 const DisplayReg = (props) => {
 	return (
@@ -15,18 +16,62 @@ const DisplayReg = (props) => {
 
 			<div className="tab-content">
 				<div role="tabpanel" className="tab-pane active" id="registers">
-					{RenderRegTable({registers: props.registers})}
+					{RenderRegTable(props.registers)}
 				</div>
 				<div role="tabpanel" className="tab-pane" id="memory">
-
+					{RenderCacheTable(props.cache)}
 				</div>
 			</div>
 		</Fragment>
 	)
 }
 
-// Render the 31 reg, 15 sreg and 8 predicate values in the table
-const RenderRegTable = ({registers}) => {
+const RenderCacheTable = (cache) => {
+	return (
+		<table className="table table-striped table-sm reg-table col-12">
+			<thead>
+				<tr>
+					<th scope="col">Address</th>
+					<th scope="col">Decimal</th>
+				</tr>
+			</thead>
+			<tbody>
+				{GenCacheRows(cache)}
+			</tbody>
+		</table>
+	)
+}
+
+const GenCacheRows = (cache) => {
+	var rows = [];
+	var key;
+
+	for (key in cache.sc) {
+		rows.push(CacheRow(cache.sc, key))
+	}
+	for (key in cache.gm) {
+		rows.push(CacheRow(cache.gm, key))
+	}
+	for (key in cache.lm) {
+		rows.push(CacheRow(cache.lm, key))
+	}
+	for (key in cache.dc) {
+		rows.push(CacheRow(cache.dc, key))
+	}
+
+	return rows;
+} 
+
+const CacheRow = (cache, key) => {
+	return(
+		<tr>
+			<th scope="row">{addressToHex(key)}</th>
+			<td>{cache[`${key}`]}</td>
+		</tr>
+	)
+}
+
+const RenderRegTable = (registers) => {
 	return (
 		<table className="table table-striped table-sm reg-table col-12">
 			<thead>
@@ -36,89 +81,32 @@ const RenderRegTable = ({registers}) => {
 				</tr>
 			</thead>
 			<tbody>
-				{RegRow({idx: 0, registers: registers})}
-				{RegRow({idx: 1, registers: registers})}
-				{RegRow({idx: 2, registers: registers})}
-				{RegRow({idx: 3, registers: registers})}
-				{RegRow({idx: 4, registers: registers})}
-				{RegRow({idx: 5, registers: registers})}
-				{RegRow({idx: 6, registers: registers})}
-				{RegRow({idx: 7, registers: registers})}
-				{RegRow({idx: 8, registers: registers})}
-				{RegRow({idx: 9, registers: registers})}
-				{RegRow({idx: 10, registers: registers})}
-				{RegRow({idx: 11, registers: registers})}
-				{RegRow({idx: 12, registers: registers})}
-				{RegRow({idx: 13, registers: registers})}
-				{RegRow({idx: 14, registers: registers})}
-				{RegRow({idx: 15, registers: registers})}
-				{RegRow({idx: 16, registers: registers})}
-				{RegRow({idx: 17, registers: registers})}
-				{RegRow({idx: 18, registers: registers})}
-				{RegRow({idx: 19, registers: registers})}
-				{RegRow({idx: 20, registers: registers})}
-				{RegRow({idx: 21, registers: registers})}
-				{RegRow({idx: 22, registers: registers})}
-				{RegRow({idx: 23, registers: registers})}
-				{RegRow({idx: 24, registers: registers})}
-				{RegRow({idx: 25, registers: registers})}
-				{RegRow({idx: 26, registers: registers})}
-				{RegRow({idx: 27, registers: registers})}
-				{RegRow({idx: 28, registers: registers})}
-				{RegRow({idx: 29, registers: registers})}
-				{RegRow({idx: 30, registers: registers})}
-				{RegRow({idx: 31, registers: registers})}
-				{SregRow({idx: 1, registers: registers})}
-				{SregRow({idx: 2, registers: registers})}
-				{SregRow({idx: 3, registers: registers})}
-				{SregRow({idx: 4, registers: registers})}
-				{SregRow({idx: 5, registers: registers})}
-				{SregRow({idx: 6, registers: registers})}
-				{SregRow({idx: 7, registers: registers})}
-				{SregRow({idx: 8, registers: registers})}
-				{SregRow({idx: 9, registers: registers})}
-				{SregRow({idx: 10, registers: registers})}
-				{SregRow({idx: 11, registers: registers})}
-				{SregRow({idx: 12, registers: registers})}
-				{SregRow({idx: 13, registers: registers})}
-				{SregRow({idx: 14, registers: registers})}
-				{SregRow({idx: 15, registers: registers})}
-				{PregRow({idx: 0, registers: registers})}
-				{PregRow({idx: 1, registers: registers})}
-				{PregRow({idx: 2, registers: registers})}
-				{PregRow({idx: 3, registers: registers})}
-				{PregRow({idx: 4, registers: registers})}
-				{PregRow({idx: 5, registers: registers})}
-				{PregRow({idx: 6, registers: registers})}
-				{PregRow({idx: 7, registers: registers})}
+				{GenRegRows(registers)}
 			</tbody>
 		</table>
 	)
 }
 
-const RegRow = ({idx, registers}) => {
-	return(
-		<tr>
-			<th scope="row">r{idx}</th>
-			<td>{registers[`r${idx}`]}</td>
-		</tr>
-	)
+const GenRegRows = (registers) => {
+	var rows = [];
+
+	for (let i = 0; i < 32; i++) {
+		rows.push(RegRow("r", i, registers))
+	}
+	for (let i = 1; i < 16; i++) {
+		rows.push(RegRow("s", i, registers))
+	}
+	for (let i = 0; i < 8; i++) {
+		rows.push(RegRow("p", i, registers))
+	}
+	return rows;
 }
 
-const SregRow = ({idx, registers}) => {
+const RegRow = (letter, idx, registers) => {
 	return(
 		<tr>
-			<th scope="row">s{idx}</th>
-			<td>{registers[`s${idx}`]}</td>
-		</tr>
-	)
-}
-
-const PregRow = ({idx, registers}) => {
-	return(
-		<tr>
-			<th scope="row">p{idx}</th>
-			<td>{registers[`p${idx}`]}</td>
+			<th scope="row">{letter}{idx}</th>
+			<td>{registers[`${letter}${idx}`]}</td>
 		</tr>
 	)
 }
