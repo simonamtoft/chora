@@ -22,6 +22,7 @@ export const compile_reg = (pred, rd, rs1, imm, ps) => {
 
 /** 
  * Bitcopy instruction class. 
+ * @category Bitcopy
  */
 class Bcopy {
     /**

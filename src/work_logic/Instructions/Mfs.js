@@ -18,6 +18,7 @@ export const compile_reg = (pred, rd, ss) => {
 
 /** 
  * Move from special instruction class. 
+ * @category MoveFromSpecial
  */
 class Mfs {
     /**

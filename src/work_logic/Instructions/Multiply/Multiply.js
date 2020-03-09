@@ -3,7 +3,7 @@ import { compile_reg } from "./compilers";
 /** 
  * Represents a Multiply instruction. Sets common fields. 
  */
-export default class Multiply {
+class Multiply {
     /**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
@@ -26,3 +26,4 @@ export default class Multiply {
         console.error("Missing execute handler for", this);
     }
 }
+export default Multiply;

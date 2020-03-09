@@ -18,6 +18,7 @@ const compile_reg = (pred, rs1, sd) => {
 
 /** 
  * Move to special instruction class. 
+ * @category MoveToSpecial
  */
 class Mts {
     /**
