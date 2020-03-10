@@ -51,22 +51,31 @@ class CPU {
 				cInst.execute(state);
 				break;
 			case "xor":
+			case "xori":
+			case "xorl":
 				cInst = new Xor(BinaryInst);
 				cInst.execute(state);
 				break;
 			case "nor": 
+			case "norl": 
 				cInst = new Nor(BinaryInst);
 				cInst.execute(state);
 				break;
-			case "sl": 
+			case "sl":
+			case "sli":
+			case "sll":
 				cInst = new ShiftLeft(BinaryInst);
 				cInst.execute(state);
 				break;
 			case "sr": 
+			case "sri":
+			case "srl":
 				cInst = new ShiftRight(BinaryInst);
 				cInst.execute(state);
 				break;
 			case "sra": 
+			case "srai": 
+			case "sral": 
 				cInst = new ShiftRightArithmetic(BinaryInst);
 				cInst.execute(state);
 				break;
@@ -81,30 +90,37 @@ class CPU {
 			
 			// Compare
 			case "btest": 
+			case "btesti":
 				cInst = new Btest(CompInst);
 				cInst.execute(state);
 				break;
 			case "cmpeq": 
+			case "cmpeqi": 
 				cInst = new Cmpeq(CompInst);
 				cInst.execute(state);
 				break;
-			case "cmple": 
+			case "cmple":
+			case "cmplei": 
 				cInst = new Cmple(CompInst);
 				cInst.execute(state);
 				break;
 			case "cmplt": 
+			case "cmplti": 
 				cInst = new Cmplt(CompInst);
 				cInst.execute(state);
 				break;
-			case "cmpneq": 
+			case "cmpneq":
+			case "cmpneqi": 
 				cInst = new Cmpneq(CompInst);
 				cInst.execute(state);
 				break;
 			case "cmpule": 
+			case "cmpulei": 
 				cInst = new Cmpule(CompInst);
 				cInst.execute(state);
 				break;
 			case "cmpult": 
+			case "cmpulti": 
 				cInst = new Cmpult(CompInst);
 				cInst.execute(state);
 				break;
