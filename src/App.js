@@ -2,26 +2,27 @@ import React, { Component } from "react";
 import "./css/App.css";
 import FrontEnd from "./front_end/FrontEnd"
 import CPU from "./work_logic/Processor/CPU"
-import { parseInputInst } from './helper';
+import Assembler from "./work_logic/Processor/Assembler";
+//import { generateInstQue } from "./work_logic/Processor/Assembler";
 
 class App extends Component {
     constructor(props) {
         super(props);
 		this.cpu = new CPU();
+		this.assembler = new Assembler();
 		this.instCount = 0;
         this.state = {
 			consoleOutput: "",
-            instructions: "",
 		};
 	}
 
-	/**
-	 * Sets state.instructions to input
-	 * @param {string} 	instructions 	- User input instructions
+	/***
+	 * Generate instruction que from editor
+	 * @param {string} 	editor 	- User input instructions
 	 */
-    getUserInput = (instructions) => {
+    getUserInput = (editor) => {
 		this.resetInst();
-        this.setState({instructions: instructions});
+		this.assembler.generateInstQue(editor);
     }
 
 	/**
@@ -35,33 +36,13 @@ class App extends Component {
 	}
 
 	/**
-	 * Check if there is an instruction to be executed
-	 * @param {string} 		que 		- All instructions in editor
-	 * @param {number}		queLength 	- Number of instructions in total
-	 */ 
-	checkStep(que, queLength) {
-        if ( que === "" || que == null) {
-            console.log("Error: Instruction queue is empty.");
-            return false;
-        } else if (this.instCount === queLength) {
-            console.log("Error: All instructions executed.");
-            return false;
-		} 
-		return true;
-	}
-
-	/**
 	 * Step one instruction, if any left to execute
 	 * @field que : All instructions
 	 * @field queLength: Amount of instructions
 	 */
     stepInst = () => {
-		let que = this.state.instructions;
-		let queLength = que.split(/\r\n|\r|\n/).length;
-		
-		if (this.checkStep(que, queLength)) {
-			let instnext = que.split("\n")[this.instCount];
-			let [type, des, s1, s2] = parseInputInst(instnext);
+		if (this.assembler.checkQue(this.instCount)) {
+			let [type, des, s1, s2] = this.assembler.instQue[this.instCount];
 			this.cpu.execute({pred: 0, type: type, des: des, s1: s1, s2: s2});
 			this.instCount += 1;
 
@@ -81,12 +62,9 @@ class App extends Component {
 	 * @field que : All instructions
 	 * @field queLength: Amount of instructions
 	 */
-	 runInst = () => {
-        let que = this.state.instructions;
-		let queLength = que.split(/\r\n|\r|\n/).length;
-		
-		if (this.checkStep(que, queLength)) {
-			while (this.instCount < queLength) {
+	runInst = () => {
+		if (this.assembler.checkQue(this.instCount)) {
+			while (this.instCount < this.assembler.queLength) {
 				this.stepInst();
 			}
 		}
