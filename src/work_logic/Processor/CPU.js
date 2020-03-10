@@ -14,7 +14,7 @@ import Storage from "./Storage";
 
 class CPU {
     constructor() {
-		this.storage = new Storage; // Cache + registers
+		this.storage = new Storage(); // Cache + registers
 	}
 	
 	reset() {
@@ -33,7 +33,7 @@ class CPU {
 		let MulInst 	= {pred: inst.pred, rs1: inst.des, rs2: inst.s1};
 		let PredInst 	= {pred: inst.pred, pd: inst.des, ps1: inst.s1, ps2: inst.s2};
 		//let StackInst 	= {};
-		let StoreInst 	= {pred: inst.pred, ra: inst.des, rs: inst.s1, imm: inst.s2};
+		let StoreInst 	= {pred: inst.pred, ra: inst.des, imm: inst.s1, rs: inst.s2};
 
 		// Pick and execute inst
 		switch(inst.type) {
