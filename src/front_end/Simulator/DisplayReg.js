@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import "../../css/Simulator.css"
-import { addressToHex } from "../../helper";
+import { intToHex } from "../../helper";
 
 const DisplayReg = (props) => {
 	return (
@@ -67,6 +67,8 @@ const GenCacheRows = (cache) => {
 	let rows = [];
 	let key, i;
 	let size = Object.keys(cache).length;
+	
+	
 
 	for (i = 0; i < size; i += 4) {
 		key = Number(Object.keys(cache)[i]);
@@ -80,7 +82,7 @@ const GenCacheRows = (cache) => {
 const CacheRow = (cache, key) => {
 	return(
 		<tr>
-			<th scope="row">{addressToHex(key)}</th>
+			<th scope="row">{intToHex(key)}</th>
 			<td>{cache[`${key}`]}</td>
 			<td>{cache[`${key+1}`]}</td>
 			<td>{cache[`${key+2}`]}</td>
@@ -96,6 +98,7 @@ const RenderRegTable = (registers) => {
 				<tr>
 					<th scope="col">Register</th>
 					<th scope="col">Decimal</th>
+					<th scope="col">Hexadecimal</th>
 				</tr>
 			</thead>
 			<tbody>
@@ -121,10 +124,13 @@ const GenRegRows = (registers) => {
 }
 
 const RegRow = (letter, idx, registers) => {
+	let val = registers[`${letter}${idx}`];
+
 	return(
 		<tr>
 			<th scope="row">{letter}{idx}</th>
-			<td>{registers[`${letter}${idx}`]}</td>
+			<td>{val}</td>
+			<td>{intToHex(val)}</td>
 		</tr>
 	)
 }
