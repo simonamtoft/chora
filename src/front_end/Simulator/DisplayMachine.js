@@ -1,8 +1,9 @@
-import React, { Fragment } from "react";
+import React from "react";
+import "../../css/Simulator.css"
 
 const DisplayMachine = () => {
 	return (
-		<Fragment>
+		<div className="machine-container">
 			<table className="table table-striped table-sm">
 				<thead>
 					<tr>
@@ -16,7 +17,7 @@ const DisplayMachine = () => {
 
 				</tbody>
 			</table>
-		</Fragment>
+		</div>
 	)
 }
 

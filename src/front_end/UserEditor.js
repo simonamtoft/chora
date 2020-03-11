@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from "react";
+import "../css/Editor.css"
 
 class UserEditor extends Component {
     constructor(props) {
@@ -26,7 +27,7 @@ class UserEditor extends Component {
         return(
             <Fragment>
 				<textarea 
-					className = "col-12"
+					className = "col-12 editor"
                     ref={this.textEditor}
                     value={editor}
                     onChange={this.handleEditorChange}>

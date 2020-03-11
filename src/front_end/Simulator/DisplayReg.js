@@ -1,6 +1,8 @@
 import React, { Fragment } from "react";
-import "../../css/Simulator.css"
 import { intToHex } from "../../helper";
+import "../../css/Simulator.css"
+
+const tableBS = "table table-hover table-sm col-12";
 
 const DisplayReg = (props) => {
 	return (
@@ -23,7 +25,7 @@ const DisplayReg = (props) => {
 				</li>
 			</ul>
 
-			<div className="tab-content">
+			<div className="tab-content table-scrolling">
 				<div role="tabpanel" className="tab-pane active" id="registers">
 					{RenderRegTable(props.registers)}
 				</div>
@@ -44,9 +46,26 @@ const DisplayReg = (props) => {
 	)
 }
 
+const RenderRegTable = (registers) => {
+	return (
+		<table className={tableBS}>
+			<thead>
+				<tr>
+					<th scope="col">Register</th>
+					<th scope="col">Decimal</th>
+					<th scope="col">Hexadecimal</th>
+				</tr>
+			</thead>
+			<tbody>
+				{GenRegRows(registers)}
+			</tbody>
+		</table>
+	)
+}
+
 const RenderCacheTable = (cache) => {
 	return (
-		<table className="table table-striped table-sm col-12">
+		<table className={tableBS}>
 			<thead>
 				<tr>
 					<th scope="col">Address</th>
@@ -68,8 +87,6 @@ const GenCacheRows = (cache) => {
 	let key, i;
 	let size = Object.keys(cache).length;
 	
-	
-
 	for (i = 0; i < size; i += 4) {
 		key = Number(Object.keys(cache)[i]);
 		key = key - (key%4);
@@ -88,23 +105,6 @@ const CacheRow = (cache, key) => {
 			<td>{cache[`${key+2}`]}</td>
 			<td>{cache[`${key+3}`]}</td>
 		</tr>
-	)
-}
-
-const RenderRegTable = (registers) => {
-	return (
-		<table className="table table-striped table-sm col-12">
-			<thead>
-				<tr>
-					<th scope="col">Register</th>
-					<th scope="col">Decimal</th>
-					<th scope="col">Hexadecimal</th>
-				</tr>
-			</thead>
-			<tbody>
-				{GenRegRows(registers)}
-			</tbody>
-		</table>
 	)
 }
 

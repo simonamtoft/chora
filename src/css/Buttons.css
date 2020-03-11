@@ -1,11 +1,20 @@
 :root {
+	--run-color: #228B22;
 	--step-color: #008CBA;
-	--run-color: #4CAF50;
-	--reset-color: #f44336;
+	--prev-color: #008CBA;
+	--reset-color: #FF6347;
 }
 
+.button-container {
+	margin: 10px 11%;
+}
+
+/* Default button. Currently using Bootstrap instead.
+ * Still handles the disabled effects.
+ */
 .button {
-	/* Default button. Currently using Bootstrap instead.*/
+	transition-duration: 0.2s;
+	/*
 	background-color: white; 
 	color: black; 
 	padding: 16px 32px;
@@ -14,34 +23,58 @@
 	display: inline-block;
 	font-size: 16px;
 	margin: 4px 2px;
-	transition-duration: 0.1s;
-	cursor: pointer;
 	width: 33%;
+	cursor: pointer;*/
 }
-  
-.step {
-	border: 2px solid var(--step-color);
-}
-  
-.step:hover {
-	background-color: var(--step-color);
-	color: white;
-}
-  
+
+/* Normal CSS */
 .run {
 	border: 2px solid var(--run-color);
 }
-  
-.run:hover {
-	background-color: var(--run-color);
-	color: white;
+.step {
+	border: 2px solid var(--step-color);
 }
-  
+.prev {
+	border: 2px solid var(--prev-color);
+}
 .reset {
 	border: 2px solid var(--reset-color);
 }
-  
+
+
+/* Hovering CSS */
+.button:hover {
+	color: white;
+}
+.run:hover {
+	background-color: var(--run-color);
+}
+.step:hover {
+	background-color: var(--step-color);
+}
+.prev:hover {
+	background-color: var(--prev-color);
+}
 .reset:hover {
 	background-color: var(--reset-color);
-	color: white;
+}
+
+/* Disabled CSS */
+.button:disabled {
+	opacity: 0.5;
+	background-color: white;
+	color: black; 
+	cursor: not-allowed;
+}
+.step:disabled {
+	border: 2px solid var(--step-color);
+}
+.run:disabled {
+	border: 2px solid var(--run-color);
+}
+.prev:disabled {
+	border: 2px solid var(--prev-color);
+}
+.reset:disabled {
+	border: 2px solid var(--reset-color);
 }

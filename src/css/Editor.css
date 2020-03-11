@@ -1,3 +1,5 @@
-.editor-height{
-	height: 94.6vh;
+.editor {
+	height: 95vh;
+	resize: none;
+	overflow-y: scroll;
 }

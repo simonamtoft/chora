@@ -5,7 +5,7 @@ const ConsoleOutput = (props) => {
 		<Fragment>
 			<textarea
 				type="text"
-				className = "col-12"
+				className = "col-12 console-container"
 				placeholder = "Console Output"
 				value={props.consoleOutput}
 				readOnly

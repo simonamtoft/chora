@@ -25,9 +25,11 @@ const FrontEnd = (props) => {
 						cache = {props.cache}
 						stepClick = {props.stepClick}
 						runClick = {props.runClick}
+						prevClick = {props.prevClick}
 						resetClick = {props.resetClick}
 						consoleOutput = {props.consoleOutput}
 						registers = {props.registers}
+						queLength = {props.queLength}
 					/>
 				</div>
 			</div>

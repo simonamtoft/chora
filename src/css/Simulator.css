@@ -1,5 +1,30 @@
-.reg-table {
-	display: block;
-	height: 410px;
-	overflow: auto;
+.table-scrolling {
+	/*display: block;*/
+	height: 100%;
+	width: 95%;
+	position: absolute;
+	overflow-y: scroll;
+}
+
+.sim {
+	display: flex;
+}
+
+.sim-child {
+	display: flex;
+	flex-direction: column;
+}
+
+.machine-container {
+	flex: 1;
+}
+
+.reg-container {
+	height: 85vh;
+}
+
+.console-container {
+	resize: none;
+	overflow-y: scroll;
+	flex: 0.5;
 }

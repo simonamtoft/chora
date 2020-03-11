@@ -77,6 +77,10 @@ class App extends Component {
         console.log("Reset");
 	}
 
+	prevInst = () => {
+		console.log("Prev");
+	}
+
     render() {
         return (
 			<div>
@@ -86,8 +90,10 @@ class App extends Component {
 					parentCallback = {this.getUserInput}
 					stepClick = {this.stepInst}
 					runClick = {this.runInst}
+					prevClick = {this.prevInst}
 					resetClick = {this.resetInst}
 					consoleOutput = {this.state.consoleOutput}
+					queLength = {this.assembler.queLength}
 				/>	
             </div>
         );
