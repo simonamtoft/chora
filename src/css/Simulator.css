@@ -28,3 +28,8 @@
 	overflow-y: scroll;
 	flex: 0.5;
 }
+
+.current-inst {
+	background-color: #008CBA;
+	color: white;
+}

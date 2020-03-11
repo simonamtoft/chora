@@ -30,6 +30,8 @@ const FrontEnd = (props) => {
 						consoleOutput = {props.consoleOutput}
 						registers = {props.registers}
 						queLength = {props.queLength}
+						instQue = {props.instQue}
+						instCount = {props.instCount}
 					/>
 				</div>
 			</div>

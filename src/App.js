@@ -22,6 +22,7 @@ class App extends Component {
 	 */
     getUserInput = (editor) => {
 		this.resetInst();
+		this.assembler.reset();
 		this.assembler.generateInstQue(editor);
     }
 
@@ -30,9 +31,15 @@ class App extends Component {
 	 * @param {string | number} 	line 	- Line to be added to consoleOutput
 	 */
 	addConsoleOutput = (line) => {
-		this.setState((prevState) => ({
-			consoleOutput: prevState.consoleOutput + line + '\n'
-		}));
+		if (line==="") {
+			this.setState((prevState) => ({
+				consoleOutput: prevState.consoleOutput
+			}));
+		} else {
+			this.setState((prevState) => ({
+				consoleOutput: prevState.consoleOutput + line + '\n'
+			}));
+		}
 	}
 
 	/**
@@ -45,16 +52,8 @@ class App extends Component {
 			let [type, des, s1, s2] = this.assembler.instQue[this.instCount];
 			this.cpu.execute({pred: 0, type: type, des: des, s1: s1, s2: s2});
 			this.instCount += 1;
-
-			// Important that state is updated somewhere to re-render children etc.
-			// This should instead be output to "Original code" field of "DisplayMachine.js"
-			// Could be another state
-			if (s2 === undefined) {
-				this.addConsoleOutput(`${type}, ${des}, ${s1}`)
-			} else {
-				this.addConsoleOutput(`${type}, ${des}, ${s1}, ${s2}`)
-			}
-		}
+			this.forceUpdate(); // To re-render
+		} 
     }
 
 	/**
@@ -73,11 +72,11 @@ class App extends Component {
     resetInst = () => {
 		this.instCount = 0;
 		this.cpu.reset();
-		this.setState({consoleOutput: ""});
-        console.log("Reset");
+		this.setState({consoleOutput: ""}); // Also re-renders
 	}
 
 	prevInst = () => {
+		this.instCount -= 1;
 		console.log("Prev");
 	}
 
@@ -94,6 +93,8 @@ class App extends Component {
 					resetClick = {this.resetInst}
 					consoleOutput = {this.state.consoleOutput}
 					queLength = {this.assembler.queLength}
+					instQue = {this.assembler.instQue}
+					instCount = {this.instCount}
 				/>	
             </div>
         );

@@ -17,7 +17,8 @@ const Simulator = (props) => {
 					queLength = {props.queLength}
 				/>
 				<DisplayMachine
-					machineOutput = {props.machineOutput}
+					instQue = {props.instQue}
+					instCount = {props.instCount}
 				/>
 				<ConsoleOutput
 					consoleOutput = {props.consoleOutput}

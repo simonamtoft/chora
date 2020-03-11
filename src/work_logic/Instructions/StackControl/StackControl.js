@@ -10,16 +10,20 @@ class StackControl {
      * @param {string}          fields.name - Name of instruction
      * @param {string|number}   fields.pred - Instruction predicate
      * @param {string}          fields.op   - Type of control
+	 * @param {string}          fields.s1   - Either source register or immediate value
      */
-	constructor({ name, pred, op, imm }) {
+	constructor({ name, pred, op, s1 }) {
+		this.type = isNaN(s1) ? "r" : "i";
 		this.name = name;
 		this.pred = pred;
-		this.type = type;
-		this.ra = ra;
-		this.rs = rs;
-		this.imm = toUint32(imm);
-		this.binary = compile_reg(pred, type, ra, rs, imm);
-	}
+		this.op = op;
 
+		if (this.type == "r") {
+			this.binary = compile_reg(pred, op, s1);
+		} else {
+			this.binary = compile_imm(pred, op, imm);
+		}
+	}
 }
+
 export default StackControl;
