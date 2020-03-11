@@ -1,5 +1,6 @@
 import React from "react";
 import "../../css/Simulator.css"
+import { intToHex } from "../../helper";
 
 const DisplayMachine = (props) => {
 	return (
@@ -12,34 +13,32 @@ const DisplayMachine = (props) => {
 						<th scope="col">Original Code</th>
 					</tr>
 				</thead>
-				
 				<tbody>
-					{GenMachineRows(props.instQue, props.instCount)}
+					{GenMachineRows(props.instQue, props.instCount, props.binary)}
 				</tbody>
 			</table>
 		</div>
 	)
 }
 
-const GenMachineRows = (instQue, instCount) => {
+const GenMachineRows = (instQue, instCount, binary) => {
 	let rows = [];
 
 	for (let i = 0; i < instQue.length; i++) {
-		rows.push(MachineRow(instQue[i], i===instCount));
+		rows.push(MachineRow(instQue[i], binary[i], i===instCount));
 	}
 	return rows;
 }
 
-const MachineRow = (inst, current) => {
+const MachineRow = (inst, binary, current) => {
 	let color = "";
-
 	if (current) {
 		color = "current-inst"
 	}
 
 	return(
 		<tr className={color}>
-			<td>machine</td>
+			<td>{intToHex(binary)}</td>
 			<td>b</td>
 			<td>{inst[0]} {inst[1]} {inst[2]} {inst[3]}</td>
 		</tr>

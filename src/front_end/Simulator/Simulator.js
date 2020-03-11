@@ -19,6 +19,7 @@ const Simulator = (props) => {
 				<DisplayMachine
 					instQue = {props.instQue}
 					instCount = {props.instCount}
+					binary = {props.binary}
 				/>
 				<ConsoleOutput
 					consoleOutput = {props.consoleOutput}

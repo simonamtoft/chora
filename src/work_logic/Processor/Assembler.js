@@ -1,16 +1,19 @@
+import CPU from "./CPU";
 
 class Assembler {
 	constructor() {
 		this.instQue = [];
+		this.binary = [];
 		this.queLength = 0;
+		this.cpu = new CPU();
 	}
 
-	generateInstQue(editor) {
+	run(editor) {
 		let lineCount = editor.split(/\r\n|\r|\n/).length;
 		let line, commentCount = 0;
 		editor = editor.split("\n");
 
-		// Loop over all editor lines
+		// Generate instruction que
 		for (let i = 0; i < lineCount; i++) {
 			line = editor[i];
 
@@ -20,8 +23,12 @@ class Assembler {
 				commentCount += 1;
 			}
 		}
-	
 		this.queLength = this.instQue.length;
+		
+		// Generate binaries
+		for (let i = 0; i < this.queLength; i++) {
+			this.binary[i] = this.cpu.getBinary(this.instQue[i]);
+		}
 	}
 
 	/**
@@ -38,6 +45,11 @@ class Assembler {
             return false;
 		} 
 		return true;
+	}
+
+	reset() {
+		this.instQue = [];
+		this.queLength = 0;
 	}
 }
 

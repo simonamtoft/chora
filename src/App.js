@@ -23,7 +23,7 @@ class App extends Component {
     getUserInput = (editor) => {
 		this.resetInst();
 		this.assembler.reset();
-		this.assembler.generateInstQue(editor);
+		this.assembler.run(editor);
     }
 
 	/**
@@ -49,8 +49,8 @@ class App extends Component {
 	 */
     stepInst = () => {
 		if (this.assembler.checkQue(this.instCount)) {
-			let [type, des, s1, s2] = this.assembler.instQue[this.instCount];
-			this.cpu.execute({pred: 0, type: type, des: des, s1: s1, s2: s2});
+			let inst = this.assembler.instQue[this.instCount];
+			this.cpu.execute(inst);
 			this.instCount += 1;
 			this.forceUpdate(); // To re-render
 		} 
@@ -95,6 +95,7 @@ class App extends Component {
 					queLength = {this.assembler.queLength}
 					instQue = {this.assembler.instQue}
 					instCount = {this.instCount}
+					binary = {this.assembler.binary}
 				/>	
             </div>
         );

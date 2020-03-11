@@ -18,25 +18,35 @@ class CPU {
 	}
 	
 	reset() {
-		// Sets all registers to 0 and caches to empty {}
 		this.storage.reset(); 
 	}
 
+	getBinary(inst) {
+		let cInst = this.execute(inst);
+		return cInst["binary"][0];
+	}
+
 	execute(inst) {
-		let cInst; // Placeholder to execute inst
+		/**
+		 * @param {array} 			inst 	- One instruction on form [type, des, s1, s2]
+		 * @returns {Instruction} 	cInst 	- An instruction with its appropriate fields.
+		*/
+
+		let cInst; 
+		let pred = 0; 	// untill we fix
 		let state = this.storage;
-	
+
 		// Convert inst into the needed types of instructions
-		let BinaryInst 	= {pred: inst.pred, rd: inst.des, rs1: inst.s1, op2: inst.s2};
-		let CompInst 	= {pred: inst.pred, pd: inst.des, rs1: inst.s1, op2: inst.s2};
-		let LoadInst 	= {pred: inst.pred, rd: inst.des, ra: inst.s1, imm: inst.s2};
-		let MulInst 	= {pred: inst.pred, rs1: inst.des, rs2: inst.s1};
-		let PredInst 	= {pred: inst.pred, pd: inst.des, ps1: inst.s1, ps2: inst.s2};
+		let BinaryInst 	= {pred: pred, rd:  inst[1], rs1: inst[2], op2: inst[3]};
+		let CompInst 	= {pred: pred, pd:  inst[1], rs1: inst[2], op2: inst[3]};
+		let LoadInst 	= {pred: pred, rd:  inst[1], ra:  inst[2], imm: inst[3]};
+		let MulInst 	= {pred: pred, rs1: inst[1], rs2: inst[2]};
+		let PredInst 	= {pred: pred, pd:  inst[1], ps1: inst[2], ps2: inst[3]};
 		//let StackInst 	= {};
-		let StoreInst 	= {pred: inst.pred, ra: inst.des, imm: inst.s1, rs: inst.s2};
+		let StoreInst 	= {pred: pred, ra:  inst[1], imm: inst[2], rs:  inst[3]};
 
 		// Pick and execute inst
-		switch(inst.type) {
+		switch(inst[0]) {
 			// BinaryArithmetics
 			case "add": 
 			case "addi": 
@@ -295,10 +305,11 @@ class CPU {
 				cInst.execute(state);
 				break;
 			default:
-				console.log(`Instruction ${inst.type} not implemented.`);
+				console.log(`Instruction ${inst[0]} not implemented.`);
 				return -1;
 		}
-		console.log(`Instruction ${inst.type} executed.`)
+		console.log(`Instruction ${inst[0]} executed.`)
+		return cInst;
 	}
 }
 

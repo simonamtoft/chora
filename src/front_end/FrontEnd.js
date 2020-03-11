@@ -32,6 +32,7 @@ const FrontEnd = (props) => {
 						queLength = {props.queLength}
 						instQue = {props.instQue}
 						instCount = {props.instCount}
+						binary = {props.binary}
 					/>
 				</div>
 			</div>

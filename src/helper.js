@@ -8,6 +8,5 @@ export const intToHex = (integer) => {
 	if (integer < 0) {
 		integer = 0xFFFFFFFF + integer + 1;
 	}
-
-	return `0x${integer.toString(16).toUpperCase()}`;
+	return `0x${integer.toString(16).toUpperCase().padStart(8, "0")}`;
 }
