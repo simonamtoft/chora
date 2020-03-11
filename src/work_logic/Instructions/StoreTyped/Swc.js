@@ -15,7 +15,7 @@ class Swc extends StoreTyped {
      * @param {string|number}   fields.imm  - Immediate offset value
      */
 	constructor({ pred, ra, rs, imm }) {
-		super({name: "swc", pred, type: 0b000110, ra, rs, imm});
+		super({name: "swc", pred, type: 0b00010, ra, rs, imm});
 	}
 
 	/**	
@@ -24,7 +24,11 @@ class Swc extends StoreTyped {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg, dc }) {
-		dc[reg[this.ra] + (this.imm << 2)] = reg[this.rs];
+          let addr = reg[this.ra] + (this.imm << 2);
+          dc[addr+3] = (reg[this.rs] >> 24) & 0xFF;
+          dc[addr+2] = (reg[this.rs] >> 16) & 0xFF;
+          dc[addr+1] = (reg[this.rs] >> 8) & 0xFF;
+          dc[addr]   = (reg[this.rs]) & 0xFF;
 	}
 }
 

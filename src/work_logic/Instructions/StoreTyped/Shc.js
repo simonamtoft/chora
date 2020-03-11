@@ -15,7 +15,7 @@ class Shc extends StoreTyped {
      * @param {string|number}   fields.imm  - Immediate offset value
      */
 	constructor({ pred, ra, rs, imm }) {
-		super({name: "shc", pred, type: 0b001110, ra, rs, imm});
+		super({name: "shc", pred, type: 0b00110, ra, rs, imm});
 	}
 
 	/**	
@@ -24,8 +24,9 @@ class Shc extends StoreTyped {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg, dc }) {
-		dc[reg[this.ra] + (this.imm << 1)] &= 0xFFFF0000;
-		dc[reg[this.ra] + (this.imm << 1)] |= reg[this.rs] & 0xFFFF;
+          let addr = reg[this.ra] + (this.imm << 1);
+          dc[addr+1] = (reg[this.rs] >> 8) & 0xFF;
+          dc[addr]   = (reg[this.rs]) & 0xFF;
 	}
 }
 
