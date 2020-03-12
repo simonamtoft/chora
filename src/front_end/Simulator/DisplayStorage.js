@@ -98,7 +98,7 @@ const GenCacheRows = (cache) => {
 
 const CacheRow = (cache, key) => {
 	return(
-		<tr>
+		<tr key={key}>
 			<th scope="row">{intToHex(key)}</th>
 			<td>{cache[`${key}`]}</td>
 			<td>{cache[`${key+1}`]}</td>
@@ -127,7 +127,7 @@ const RegRow = (letter, idx, registers) => {
 	let val = registers[`${letter}${idx}`];
 
 	return(
-		<tr>
+		<tr key={`${letter}${idx}`}>
 			<th scope="row">{letter}{idx}</th>
 			<td>{val}</td>
 			<td>{intToHex(val)}</td>
