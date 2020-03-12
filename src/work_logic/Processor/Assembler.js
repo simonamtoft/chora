@@ -4,31 +4,28 @@ class Assembler {
 	constructor() {
 		this.instQue = [];
 		this.binary = [];
+		this.labels = {};
 		this.queLength = 0;
 		this.cpu = new CPU();
 	}
 
 	run(editor) {
 		let lineCount = editor.split(/\r\n|\r|\n/).length;
-		let line, commentCount = 0;
+		let line, idx, commentCount = 0;
 		editor = editor.split("\n");
 
-		// Generate instruction que
 		for (let i = 0; i < lineCount; i++) {
 			line = editor[i];
+			idx = i-commentCount
 
 			if (!isComment(line)) {
-				this.instQue[i-commentCount] = parseInst(line);
+				this.parseInst(line, idx);
+				this.binary[idx] = this.cpu.getBinary(this.instQue[idx]);
 			} else {
 				commentCount += 1;
 			}
 		}
 		this.queLength = this.instQue.length;
-		
-		// Generate binaries
-		for (let i = 0; i < this.queLength; i++) {
-			this.binary[i] = this.cpu.getBinary(this.instQue[i]);
-		}
 	}
 
 	/**
@@ -50,13 +47,27 @@ class Assembler {
 	reset() {
 		this.instQue = [];
 		this.binary = [];
+		this.labels = {};
 		this.queLength = 0;
+	}
+
+	parseInst(line, idx) {
+		let parsedLine = parseLine(line);
+		let instructions = ["add", "addi", "addl", "sub", "xor"];
+		let isInst = instructions.includes(parsedLine[1])
+
+		if (isInst) {
+			this.labels[`${parsedLine[0]}`] = idx;
+			this.instQue[idx] = parsedLine.slice(1, 5);
+		} else {
+			this.instQue[idx] = parsedLine;
+		}
 	}
 }
 
 // Check if line is a comment
 const isComment = (line) => {
-	let parsedInst = parseInst(line); 
+	let parsedInst = parseLine(line); 
 
 	if (parsedInst[0] === "#") {
 		return true;
@@ -65,18 +76,14 @@ const isComment = (line) => {
 }
 
 /**
- * parseInst parses a line from the user editor to an instruction.
- * @param {string} 	inst 					- One line from the user editor
- * @returns {array}	[type, des, s1, s2] 	- The four instruction fields
+ *  
+ * @param {string} 	line 					- One line from the user editor
+ * @returns {array}	
  */
-const parseInst = (inst) => {
-	let parsedInst = inst.trim();
-	// Replace special characters. But keep comment tag to skip commented out lines.
-	// eslint-disable-next-line
-	parsedInst = parsedInst.replace(/[=+\[\]]/g, "").replace("#", "# "); 
-	// eslint-disable-next-line
-	let [type, des, s1, s2] = parsedInst.split(/[ 	,]+/);
-	return [type, des, s1, s2];
+const parseLine = (line) => {
+	line = line.trim().replace(/[=+\[\]:]/g, "").replace("#", "# "); 
+	line = line.split(/[ 	,]+/);
+	return line;
 }
 
 export default Assembler;
