@@ -16,7 +16,8 @@
 }
 
 .machine-container {
-	flex: 1;
+	overflow-y: scroll;
+	flex: 1.5;
 }
 
 .reg-container {
