@@ -23,6 +23,13 @@ class CPU {
 
 	getBinary(inst) {
 		let cInst = this.execute(inst);
+
+		// Want a better fix than this..
+		if (cInst["binary"] === undefined) {
+			console.log("Can't get binary!!");
+			return;
+		}
+		
 		return cInst["binary"][0];
 	}
 
