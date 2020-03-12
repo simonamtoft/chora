@@ -2,7 +2,7 @@ import React from "react";
 import "../../css/Simulator.css"
 import { intToHex } from "../../helper";
 
-const DisplayMachine = (props) => {
+const DisplayCode = (props) => {
 	return (
 		<div className="machine-container">
 			<table className="table table-hover table-sm">
@@ -45,4 +45,4 @@ const MachineRow = (inst, binary, current) => {
 	)
 }
 
-export default DisplayMachine;
+export default DisplayCode;

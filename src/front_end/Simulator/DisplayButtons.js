@@ -1,7 +1,7 @@
 import React from "react";
 import "../../css/Buttons.css";
 
-const UserButtons = (props) => {
+const DisplayButtons = (props) => {
 	let buttonBS = [
 		"btn button run col-3", 
 		"btn button step col-3", 
@@ -30,4 +30,4 @@ const UserButtons = (props) => {
 	}
 }
 
-export default UserButtons;
+export default DisplayButtons;

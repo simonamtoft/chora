@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from "react";
 import "../css/Editor.css"
 
-class UserEditor extends Component {
+class DisplayEditor extends Component {
     constructor(props) {
         super(props);
         this.state = {editor: "",};
@@ -37,4 +37,4 @@ class UserEditor extends Component {
     }
 }
 
-export default UserEditor;
+export default DisplayEditor;

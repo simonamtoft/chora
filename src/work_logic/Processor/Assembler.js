@@ -49,6 +49,7 @@ class Assembler {
 
 	reset() {
 		this.instQue = [];
+		this.binary = [];
 		this.queLength = 0;
 	}
 }
@@ -63,6 +64,11 @@ const isComment = (line) => {
 	return false;
 }
 
+/**
+ * parseInst parses a line from the user editor to an instruction.
+ * @param {string} 	inst 					- One line from the user editor
+ * @returns {array}	[type, des, s1, s2] 	- The four instruction fields
+ */
 const parseInst = (inst) => {
 	let parsedInst = inst.trim();
 	// Replace special characters. But keep comment tag to skip commented out lines.

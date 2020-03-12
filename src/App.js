@@ -3,7 +3,6 @@ import "./css/App.css";
 import FrontEnd from "./front_end/FrontEnd"
 import CPU from "./work_logic/Processor/CPU"
 import Assembler from "./work_logic/Processor/Assembler";
-//import { generateInstQue } from "./work_logic/Processor/Assembler";
 
 class App extends Component {
     constructor(props) {

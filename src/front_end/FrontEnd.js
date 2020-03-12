@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import UserEditor from "./UserEditor";
+import DisplayEditor from "./DisplayEditor";
 import Simulator from "./Simulator/Simulator";
 
 const FrontEnd = (props) => {
@@ -16,7 +16,7 @@ const FrontEnd = (props) => {
 
 			<div className="tab-content">
 				<div role="tabpanel" className="tab-pane active" id="editor">
-					<UserEditor
+					<DisplayEditor
 						parentCallback = {props.parentCallback}
 					/>
 				</div>

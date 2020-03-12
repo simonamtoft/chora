@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 
-const ConsoleOutput = (props) => {
+const DisplayConsole = (props) => {
 	return (
 		<Fragment>
 			<textarea
@@ -14,4 +14,4 @@ const ConsoleOutput = (props) => {
 	)
 }
 
-export default ConsoleOutput;
+export default DisplayConsole;

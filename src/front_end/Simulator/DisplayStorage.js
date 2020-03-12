@@ -4,7 +4,7 @@ import "../../css/Simulator.css"
 
 const tableBS = "table table-hover table-sm col-12";
 
-const DisplayReg = (props) => {
+const DisplayStorage = (props) => {
 	return (
 		<Fragment>
 			<ul className ="nav nav-tabs justify-content-center">
@@ -135,4 +135,4 @@ const RegRow = (letter, idx, registers) => {
 	)
 }
 
-export default DisplayReg;
+export default DisplayStorage;

@@ -46,22 +46,6 @@ class Storage {
 	getCache() {
 		return {sc: this.sc, gm: this.gm, lm: this.lm, dc: this.dc};
 	}
-	
-    getSc() {
-        return this.sc;
-	}
-	
-    getGm() {
-        return this.gm;
-	}
-	
-    getLm() {
-        return this.lm;
-    }
-
-    getDc() {
-        return this.dc;
-    }
 
 	getReg() {
 		return this.reg; 
