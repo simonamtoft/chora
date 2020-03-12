@@ -1,4 +1,4 @@
-import { Add, Sub, Xor, Nor, ShiftLeft, ShiftRight, 
+import { Add, Sub, Xor, Nor, ShiftLeft, ShiftRight, Or, And,
 	ShiftRightArithmetic, ShiftAdd, ShiftAdd2 } from "../Instructions/BinaryArithmetics/index"
 import { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult } from "../Instructions/Compare/index";
 import { Lws, Lwl, Lwc, Lwm, Lhs, Lhl, Lhc, Lhm, Lbs, Lbl, Lbc, 
@@ -65,6 +65,18 @@ class CPU {
 			case "subi":
 			case "subl":
 				cInst = new Sub(BinaryInst);
+				cInst.execute(state);
+				break;
+			case "or":
+			case "ori":
+			case "orl":
+				cInst = new Or(BinaryInst);
+				cInst.execute(state);
+				break;
+			case "and":
+			case "andi":
+			case "andl":
+				cInst = new And(BinaryInst);
 				cInst.execute(state);
 				break;
 			case "xor":
@@ -315,7 +327,7 @@ class CPU {
 				console.log(`Instruction ${inst[0]} not implemented.`);
 				return -1;
 		}
-		console.log(`Instruction ${inst[0]} executed.`)
+		//console.log(`Instruction ${inst[0]} executed.`) // mainly used for debugging in beginning...
 		return cInst;
 	}
 }
