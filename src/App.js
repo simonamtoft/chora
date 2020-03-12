@@ -30,15 +30,9 @@ class App extends Component {
 	 * @param {string | number} 	line 	- Line to be added to consoleOutput
 	 */
 	addConsoleOutput = (line) => {
-		if (line==="") {
-			this.setState((prevState) => ({
-				consoleOutput: prevState.consoleOutput
-			}));
-		} else {
-			this.setState((prevState) => ({
-				consoleOutput: prevState.consoleOutput + line + '\n'
-			}));
-		}
+		this.setState((prevState) => ({
+			consoleOutput: prevState.consoleOutput + line + '\n'
+		}));
 	}
 
 	/**
@@ -71,12 +65,13 @@ class App extends Component {
     resetInst = () => {
 		this.instCount = 0;
 		this.cpu.reset();
-		this.setState({consoleOutput: ""}); // Also re-renders
+		this.forceUpdate(); // To re-render
 	}
 
 	prevInst = () => {
 		this.instCount -= 1;
 		console.log("Prev");
+		this.forceUpdate(); // To re-render
 	}
 
     render() {
