@@ -19,13 +19,13 @@ class Assembler {
 			idx = i-commentCount
 
 			if (!isComment(line)) {
-				this.parseInst(line, idx);
-				this.binary[idx] = this.cpu.getBinary(this.instQue[idx]);
+				this.parseLine(line, idx);
 			} else {
 				commentCount += 1;
 			}
 		}
 		this.queLength = this.instQue.length;
+		console.log(this.labels);
 	}
 
 	/**
@@ -51,23 +51,34 @@ class Assembler {
 		this.queLength = 0;
 	}
 
-	parseInst(line, idx) {
-		let parsedLine = parseLine(line);
-		let instructions = ["add", "addi", "addl", "sub", "xor"];
-		let isInst = instructions.includes(parsedLine[1])
+	parseLine(line, idx) {
+		let inst = parseLineToInst(line);
+		let types = [
+			"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
+			"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "btest", "btesti",
+			"cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", "cmpneq", "cmpneqi", "cmpule", "cmpulei",
+			"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
+			"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
+			"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
+			"bcopy", "mfs", "mts",
+		];
+
+		// Check if the instruction type is at spot 2
+		let isInst = types.includes(inst[1]);
 
 		if (isInst) {
-			this.labels[`${parsedLine[0]}`] = idx;
-			this.instQue[idx] = parsedLine.slice(1, 5);
+			this.labels[`${inst[0]}`] = idx;
+			this.instQue[idx] = inst.slice(1, 5);
 		} else {
-			this.instQue[idx] = parsedLine;
+			this.instQue[idx] = inst;
 		}
+		this.binary[idx] = this.cpu.getBinary(this.instQue[idx]);
 	}
 }
 
 // Check if line is a comment
 const isComment = (line) => {
-	let parsedInst = parseLine(line); 
+	let parsedInst = parseLineToInst(line); 
 
 	if (parsedInst[0] === "#") {
 		return true;
@@ -80,7 +91,7 @@ const isComment = (line) => {
  * @param {string} 	line 					- One line from the user editor
  * @returns {array}	
  */
-const parseLine = (line) => {
+const parseLineToInst = (line) => {
 	line = line.trim().replace(/[=+\[\]:]/g, "").replace("#", "# "); 
 	line = line.split(/[ 	,]+/);
 	return line;
