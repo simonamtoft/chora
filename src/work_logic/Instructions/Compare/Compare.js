@@ -23,16 +23,16 @@ class Compare {
 		this.func = func;
 
 		switch (this.type) {
-		case "r":
-			this.binary = compile_reg(pred, pd, rs1, op2, func);
-			break;
-		case "i":
-			this.name += "i";
-			this.binary = compile_imm(pred, pd, rs1, op2, func);
-			break;
-		default:
-			console.log("not implemented");
-			break;
+			case "r":
+				this.binary = compile_reg(pred, pd, rs1, op2, func);
+				break;
+			case "i":
+				this.name += "i";
+				this.binary = compile_imm(pred, pd, rs1, op2, func);
+				break;
+			default:
+				console.log("not implemented");
+				break;
 		}
 	}
     

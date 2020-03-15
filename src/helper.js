@@ -9,4 +9,4 @@ export const intToHex = (integer) => {
 		integer = 0xFFFFFFFF + integer + 1;
 	}
 	return `0x${integer.toString(16).toUpperCase().padStart(8, "0")}`;
-}
+};
