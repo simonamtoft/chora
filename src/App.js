@@ -90,6 +90,7 @@ class App extends Component {
 					instQue = {this.assembler.instQue}
 					instCount = {this.instCount}
 					binary = {this.assembler.binary}
+					error = {this.assembler.error}
 				/>	
             </div>
         );

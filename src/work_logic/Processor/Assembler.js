@@ -1,6 +1,6 @@
 import CPU from "./CPU";
 
-const types = [
+const instTypes = [
 	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
 	"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "btest", "btesti",
 	"cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", "cmpneq", "cmpneqi", "cmpule", "cmpulei",
@@ -16,11 +16,12 @@ const regStr = [
 	"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", 
 	"s10", "s11", "s12", "s13", "s14", "s15",
 	"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7"
-]
+];
 
 class Assembler {
 	constructor() {
-		this.feedback = "";
+		this.error = true;
+		this.feedback = [];
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
@@ -37,13 +38,21 @@ class Assembler {
 			line = editor[i];
 			idx = i-commentCount
 
-			if (!isComment(line) & this.canParse(line)) {
+			if (!isComment(line) & this.canParse(line, i)) {
 				this.parseLine(line, idx);
 			} else {
 				commentCount += 1;
 			}
 		}
 		this.queLength = this.instQue.length;
+
+		if (this.feedback.length !== 0 | this.queLength === 0) {
+			this.error = true;
+		} else {
+			this.error = false;
+		}
+		console.log(this.error);
+		console.log(this.feedback);
 	}
 
 	/**
@@ -63,7 +72,7 @@ class Assembler {
 	}
 
 	reset() {
-		this.feedback = "";
+		this.feedback = [];
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
@@ -74,7 +83,7 @@ class Assembler {
 		let inst = parseLineToInst(line);
 
 		// Check if the instruction type is at spot 2
-		let hasLabel = types.includes(inst[1]);
+		let hasLabel = instTypes.includes(inst[1]);
 		if (hasLabel) {
 			this.labels[`${inst[0]}`] = idx;
 			this.instQue[idx] = inst.slice(1, 5);
@@ -84,43 +93,58 @@ class Assembler {
 		this.binary[idx] = this.cpu.getBinary(this.instQue[idx]);
 	}
 
-	canParse(line) {
+	canParse(line, idx) {
 		let inst = parseLineToInst(line);
 		let parse = true;
+		let feedback = "";
 		
 		// Check type
-		if (!types.includes(inst[0])) {
-			console.log(`Type "${inst[0]}" not recognized.`);
-			return false;
+		if (!instTypes.includes(inst[0])) {
+			feedback += `Type "${inst[0]}" not recognized.\n`;
+			parse = false;
 		}
 		
 		// Check if field 1 is reg
 		if (!regStr.includes(inst[1])) {
-			console.log(`Field 1: "${inst[1]}" is not a register`);
-			return false;
+			parse = false;
+			
+			if (inst[1] !== undefined) {
+				feedback += `Field 1: "${inst[1]}" is not a register.\n`;
+			} else {
+				feedback += "Field 1: Missing";
+			}
 		}
 
 		// Check if field 2 is reg
 		if (!regStr.includes(inst[2])) {
-			console.log(`Field 2: "${inst[2]}" is not a register`);
-			return false;
+			parse = false;
+
+			if (inst[2] !== undefined) {
+				feedback += `Field 2: "${inst[2]}" is not a register.\n`;
+			} else {
+				feedback += "Field 2: Missing";
+			}
 		}
 
 		// Check if field 3 is reg/imm
 		if (!(inst[0] === "Mul" | inst[0] === "Mulu")) {
-			if (inst[3] === undefined) {
-				console.log(`inst 3 undefined`);
-				return false;
-			} else {
-				if (!regStr.includes(inst[3])) {
-					if (isNaN(inst[3])) {
-						console.log(`Field 3: "${inst[3]}" is neither a register or immediate`);
-						return false;
-					} 
-				}					
-			}
+			if (!regStr.includes(inst[3])) {
+				if (isNaN(inst[3])) {
+					parse = false;
+
+					if (inst[3] !== undefined) {
+						feedback += `Field 3: "${inst[3]}" is neither a register or immediate.\n`;
+					} else {
+						feedback += "Field 3: Missing";
+					}
+				} 
+			}					
 		}
-		return true;
+
+		if (feedback !== "") {
+			this.feedback[idx] = feedback;
+		}
+		return parse;
 	}
 }
 
