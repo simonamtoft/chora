@@ -15,7 +15,7 @@ class Lbum extends LoadTyped{
 	   * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-		super({name: "lbum", pred, rd, ra, type: 0b10011, imm});
+        super({name: "lbum", pred, rd, ra, type: 0b10011, imm});
     }
 
     /**
@@ -23,8 +23,8 @@ class Lbum extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, gm }) {
-        reg[this.rd] = gm[reg[this.ra] + this.imm] & 0xFF; 
+    execute({ reg, mem }) {
+        reg[this.rd] = mem[reg[this.ra] + this.imm] & 0xFF; 
     }
 }
 
