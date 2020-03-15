@@ -1,7 +1,26 @@
 import CPU from "./CPU";
 
+const types = [
+	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
+	"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "btest", "btesti",
+	"cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", "cmpneq", "cmpneqi", "cmpule", "cmpulei",
+	"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
+	"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
+	"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
+	"bcopy", "mfs", "mts", // Missing control-flow and StackControl
+];
+const regStr = [
+	"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", 
+	"r11", "r12", "r13", "r14", "r15", "r16", "r17", "r18", "r19", "r20", 
+	"r21", "r22", "r23", "r24", "r25", "r26", "r27", "r28", "r29", "r30", "r31",
+	"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", 
+	"s10", "s11", "s12", "s13", "s14", "s15",
+	"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7"
+]
+
 class Assembler {
 	constructor() {
+		this.feedback = "";
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
@@ -18,7 +37,7 @@ class Assembler {
 			line = editor[i];
 			idx = i-commentCount
 
-			if (!isComment(line) & canParse(line)) {
+			if (!isComment(line) & this.canParse(line)) {
 				this.parseLine(line, idx);
 			} else {
 				commentCount += 1;
@@ -44,6 +63,7 @@ class Assembler {
 	}
 
 	reset() {
+		this.feedback = "";
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
@@ -52,15 +72,6 @@ class Assembler {
 
 	parseLine(line, idx) {
 		let inst = parseLineToInst(line);
-		let types = [
-			"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
-			"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "btest", "btesti",
-			"cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", "cmpneq", "cmpneqi", "cmpule", "cmpulei",
-			"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
-			"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
-			"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
-			"bcopy", "mfs", "mts", // Missing control-flow and StackControl
-		];
 
 		// Check if the instruction type is at spot 2
 		let hasLabel = types.includes(inst[1]);
@@ -72,7 +83,47 @@ class Assembler {
 		}
 		this.binary[idx] = this.cpu.getBinary(this.instQue[idx]);
 	}
+
+	canParse(line) {
+		let inst = parseLineToInst(line);
+		let parse = true;
+		
+		// Check type
+		if (!types.includes(inst[0])) {
+			console.log(`Type "${inst[0]}" not recognized.`);
+			return false;
+		}
+		
+		// Check if field 1 is reg
+		if (!regStr.includes(inst[1])) {
+			console.log(`Field "${inst[1]}" is not a register`);
+			return false;
+		}
+
+		// Check if field 2 is reg
+		if (!regStr.includes(inst[2])) {
+			console.log(`Field "${inst[2]}" is not a register`);
+			return false;
+		}
+
+		// Check if field 3 is reg/imm
+		if (!(inst[0] === "Mul" | inst[0] === "Mulu")) {
+			if (inst[3] === undefined) {
+				console.log(`inst 3 undefined`);
+				return false;
+			} else {
+				if (!regStr.includes(inst[3])) {
+					if (isNaN(inst[3])) {
+						console.log(`Field "${inst[3]}" is neither a register or immediate`);
+						return false;
+					} 
+				}					
+			}
+		}
+		return true;
+	}
 }
+
 
 // Check if line is a comment
 const isComment = (line) => {
@@ -94,26 +145,5 @@ const parseLineToInst = (line) => {
 	line = line.split(/[ 	,]+/);
 	return line;
 }
-
-const canParse = (line) => {
-	let inst = parseLineToInst(line);
-
-	if (inst[0] === undefined) {
-		return false;
-	} else {
-		if (inst[0] === "Mul" | inst[0] === "Mulu") {
-			if (inst[1] === undefined | inst[2] === undefined) {
-				return false;
-			}
-		} else {
-			if (inst[1] === undefined | inst[2] === undefined | inst[3] === undefined | inst[3] === "r") {
-				return false;
-			}
-		}
-	}
-
-	return true;
-}
-
 
 export default Assembler;
