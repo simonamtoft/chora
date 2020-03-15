@@ -7,3 +7,7 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
     1. Implement StackControl with a proper StackCache.
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
 3. Prettify GUI (CSS and CodeMirror)
+
+# Notes to self
+1. When parsing and running ASM, make sure to check the predicate (E.g. (!p6) addi r1 = r0, 255 should only run if p6 is false and it should pass pred: 0b1110 for machine code representation)
+2. Implement pseudo instructions in parser
