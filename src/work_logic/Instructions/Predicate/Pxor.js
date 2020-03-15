@@ -24,7 +24,7 @@ class Pxor extends Predicate {
      * @param {Object.<string, number>} state.reg    - Registers
      */
     execute( { reg } ) {
-        reg[this.pd] = (reg[this.ps1] ^ reg[this.ps2]) & 0x1;
+        reg[this.pd] = ((this.neg1 ? ~reg[this.ps1] : reg[this.ps1]) ^ (this.neg2 ? ~reg[this.ps2] : reg[this.ps2])) & 0x1;
     }
 }
 

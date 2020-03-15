@@ -18,8 +18,10 @@ class Predicate {
         this.name = name;
 		this.pred = pred;
 		this.pd = pd;
-        this.ps1 = ps1;
-        this.ps2 = ps2;
+        this.neg1 = ps1[0] == "!";
+        this.neg2 = ps2[0] == "!";
+        this.ps1 = ps1.replace("!", "");
+        this.ps2 = ps2.replace("!", "");
         this.func = func; 
         this.binary = compile_reg(pred, pd, ps1, ps2, func);
     }
