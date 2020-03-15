@@ -28,7 +28,7 @@ class CPU {
 		if (cInst["binary"] === undefined) {
 			console.log("Can't get binary!!");
 			return;
-		} else if (cInst["rd"] === undefined | cInst["rd"])
+		}
 		
 		return cInst["binary"][0];
 	}
