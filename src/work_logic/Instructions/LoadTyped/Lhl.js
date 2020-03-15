@@ -23,10 +23,10 @@ class Lhl extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, lm }) {
-		let address = reg[this.ra] + (this.imm << 1);
-        let hi = lm[address + 1];
-        let lo = lm[address];
+    execute({ reg, mem }) {
+        let address = reg[this.ra] + (this.imm << 1);
+        let hi = mem[address + 1];
+        let lo = mem[address];
 
         reg[this.rd] = (((hi << 8) | lo) << 16) >> 16; 
     }

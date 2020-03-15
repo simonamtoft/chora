@@ -15,7 +15,7 @@ class Lhc extends LoadTyped{
 	   * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-		super({name: "lhc", pred, rd, ra, type: 0b00110, imm});
+        super({name: "lhc", pred, rd, ra, type: 0b00110, imm});
     }
 
     /**
@@ -23,10 +23,10 @@ class Lhc extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, dc }) {
-		let address = reg[this.ra] + (this.imm << 1);
-        let hi = dc[address + 1];
-        let lo = dc[address];
+    execute({ reg, mem }) {
+        let address = reg[this.ra] + (this.imm << 1);
+        let hi = mem[address + 1];
+        let lo = mem[address];
 
         reg[this.rd] = (((hi << 8) | lo) << 16) >> 16; 
     }

@@ -23,12 +23,12 @@ class Lwl extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, lm }) {
-		let address = reg[this.ra] + (this.imm << 2);
-        let hh = lm[address + 3];
-        let hl = lm[address + 2];
-        let lh = lm[address + 1];
-        let ll = lm[address];
+    execute({ reg, mem }) {
+        let address = reg[this.ra] + (this.imm << 2);
+        let hh = mem[address + 3];
+        let hl = mem[address + 2];
+        let lh = mem[address + 1];
+        let ll = mem[address];
 
         reg[this.rd] = (hh << 24) | (hl << 16) | (lh << 8) | ll;
     }

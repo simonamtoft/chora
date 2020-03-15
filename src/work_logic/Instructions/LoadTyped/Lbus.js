@@ -15,7 +15,7 @@ class Lbus extends LoadTyped{
 	   * @param {number}			fields.imm	- Immediate value 
      */
     constructor({ pred, rd, ra, imm }) {
-		super({name: "lbus", pred, rd, ra, type: 0b10000, imm});
+        super({name: "lbus", pred, rd, ra, type: 0b10000, imm});
     }
 
     /**
@@ -23,8 +23,8 @@ class Lbus extends LoadTyped{
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, sc }) {
-        reg[this.rd] = sc[reg[this.ra] + this.imm] & 0xFF; 
+    execute({ reg, mem }) {
+        reg[this.rd] = mem[reg["s6"] + reg[this.ra] + this.imm] & 0xFF; 
     }
 }
 

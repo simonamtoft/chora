@@ -23,8 +23,8 @@ class Lbl extends LoadTyped {
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute({ reg, lm }) {
-        reg[this.rd] = (lm[reg[this.ra] + this.imm] << 24) >> 24;
+    execute({ reg, mem }) {
+        reg[this.rd] = (mem[reg[this.ra] + this.imm] << 24) >> 24;
     }
 }
 
