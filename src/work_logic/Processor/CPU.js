@@ -43,10 +43,21 @@ class CPU {
 		let pred = 0; 	// untill we fix
 		let state = this.storage;
 
-		// shit fix
-		if (inst[0] === undefined | inst[1] === undefined | inst[2] === undefined | inst[3] === undefined) {
+		// Don't run inst if not an inst yet
+		if (inst[0] === undefined) {
 			return -1;
+		} else {
+			if (inst[0] === "Mul" | inst[0] === "Mulu") {
+				if (inst[1] === undefined | inst[2] === undefined) {
+					return -1;
+				}
+			} else {
+				if (inst[1] === undefined | inst[2] === undefined | inst[3] === undefined | inst[3] === "r") {
+					return -1;
+				}
+			}
 		}
+
 
 		// Convert inst into the needed types of instructions
 		let BinaryInst 	= {pred: pred, rd:  inst[1], rs1: inst[2], op2: inst[3]};
@@ -276,7 +287,6 @@ class CPU {
 				return -1;
 		}
 		cInst.execute(state);
-		//console.log(`Instruction ${inst[0]} executed.`) // mainly used for debugging in beginning...
 		return cInst;
 	}
 }
