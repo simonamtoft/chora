@@ -25,7 +25,6 @@ class Assembler {
 			}
 		}
 		this.queLength = this.instQue.length;
-		console.log(this.labels);
 	}
 
 	/**
@@ -60,13 +59,12 @@ class Assembler {
 			"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
 			"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
 			"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
-			"bcopy", "mfs", "mts",
+			"bcopy", "mfs", "mts", // Missing control-flow and StackControl
 		];
 
 		// Check if the instruction type is at spot 2
-		let isInst = types.includes(inst[1]);
-
-		if (isInst) {
+		let hasLabel = types.includes(inst[1]);
+		if (hasLabel) {
 			this.labels[`${inst[0]}`] = idx;
 			this.instQue[idx] = inst.slice(1, 5);
 		} else {

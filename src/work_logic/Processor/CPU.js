@@ -28,7 +28,7 @@ class CPU {
 		if (cInst["binary"] === undefined) {
 			console.log("Can't get binary!!");
 			return;
-		}
+		} else if (cInst["rd"] === undefined | cInst["rd"])
 		
 		return cInst["binary"][0];
 	}
@@ -42,6 +42,11 @@ class CPU {
 		let cInst; 
 		let pred = 0; 	// untill we fix
 		let state = this.storage;
+
+		// shit fix
+		if (inst[0] === undefined | inst[1] === undefined | inst[2] === undefined | inst[3] === undefined) {
+			return -1;
+		}
 
 		// Convert inst into the needed types of instructions
 		let BinaryInst 	= {pred: pred, rd:  inst[1], rs1: inst[2], op2: inst[3]};
