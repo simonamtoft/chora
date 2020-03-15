@@ -5,7 +5,7 @@ import { Lws, Lwl, Lwc, Lwm, Lhs, Lhl, Lhc, Lhm, Lbs, Lbl, Lbc,
 	Lbm, Lhus, Lhul, Lhuc, Lhum, Lbus, Lbul, Lbuc, Lbum} from "../Instructions/LoadTyped/index";
 import { Mul, Mulu } from "../Instructions/Multiply/index";
 import { Pand, Pxor, Por } from "../Instructions/Predicate/index";
-//import {} from "../Instructions/StackControl/index";
+import { Sens, Sfree, Sres, Sspill } from "../Instructions/StackControl/index";
 import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws} from "../Instructions/StoreTyped/index";
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
@@ -49,7 +49,7 @@ class CPU {
 		let LoadInst 	= {pred: pred, rd:  inst[1], ra:  inst[2], imm: inst[3]};
 		let MulInst 	= {pred: pred, rs1: inst[1], rs2: inst[2]};
 		let PredInst 	= {pred: pred, pd:  inst[1], ps1: inst[2], ps2: inst[3]};
-		//let StackInst 	= {};
+		let StackInst 	= {pred: pred, s1:  inst[1]};
 		let StoreInst 	= {pred: pred, ra:  inst[1], imm: inst[2], rs:  inst[3]};
 
 		// Pick and execute inst
@@ -254,6 +254,20 @@ class CPU {
 				break;
 			case "sws":
 				cInst = new Sws(StoreInst);
+				break;
+
+			// Stack Control
+			case "sens":
+				cInst = new Sens(StackInst);
+				break;
+			case "sfree":
+				cInst = new Sfree(StackInst);
+				break;
+			case "sres":
+				cInst = new Sres(StackInst);
+				break;
+			case "sspill":
+				cInst = new Sspill(StackInst);
 				break;
 
 			// Rest

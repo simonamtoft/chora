@@ -13,7 +13,7 @@ class Sens extends StackControl {
 	 * @param {number}			fields.s1	- Immediate value 
      */
     constructor({ pred, s1 }) {
-        super({name: "sres", pred, op: 0b01, s1});
+        super({name: "sens", pred, op: 0b01, s1});
     }
 
     /**

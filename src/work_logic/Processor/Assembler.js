@@ -7,7 +7,7 @@ const instTypes = [
 	"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
 	"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
 	"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
-	"bcopy", "mfs", "mts", // Missing control-flow and StackControl
+	"bcopy", "mfs", "mts", "sens", "sfree", "sres", "sspill" // Missing control-flow 
 ];
 const regStr = [
 	"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", 
@@ -51,8 +51,6 @@ class Assembler {
 		} else {
 			this.error = false;
 		}
-		console.log(this.error);
-		console.log(this.feedback);
 	}
 
 	/**
@@ -115,19 +113,23 @@ class Assembler {
 			}
 		}
 
-		// Check if field 2 is reg
-		if (!regStr.includes(inst[2])) {
-			parse = false;
-
-			if (inst[2] !== undefined) {
-				feedback += `Field 2: "${inst[2]}" is not a register.\n`;
-			} else {
-				feedback += "Field 2: Missing";
+		// Check if field 2 is reg (Not for StackControl)
+		let isStack = inst[0] === "sens" | inst[0] === "sfree" | inst[0] === "sres" | inst[0] === "sspill";
+		if (!isStack) {
+			if (!regStr.includes(inst[2])) {
+				parse = false;
+	
+				if (inst[2] !== undefined) {
+					feedback += `Field 2: "${inst[2]}" is not a register.\n`;
+				} else {
+					feedback += "Field 2: Missing";
+				}
 			}
 		}
-
+		
 		// Check if field 3 is reg/imm
-		if (!(inst[0] === "Mul" | inst[0] === "Mulu")) {
+		let isMul = inst[0] === "Mul" | inst[0] === "Mulu";
+		if (!isMul & !isStack) {
 			if (!regStr.includes(inst[3])) {
 				if (isNaN(inst[3])) {
 					parse = false;
