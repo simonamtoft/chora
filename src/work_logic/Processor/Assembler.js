@@ -96,13 +96,13 @@ class Assembler {
 		
 		// Check if field 1 is reg
 		if (!regStr.includes(inst[1])) {
-			console.log(`Field "${inst[1]}" is not a register`);
+			console.log(`Field 1: "${inst[1]}" is not a register`);
 			return false;
 		}
 
 		// Check if field 2 is reg
 		if (!regStr.includes(inst[2])) {
-			console.log(`Field "${inst[2]}" is not a register`);
+			console.log(`Field 2: "${inst[2]}" is not a register`);
 			return false;
 		}
 
@@ -114,7 +114,7 @@ class Assembler {
 			} else {
 				if (!regStr.includes(inst[3])) {
 					if (isNaN(inst[3])) {
-						console.log(`Field "${inst[3]}" is neither a register or immediate`);
+						console.log(`Field 3: "${inst[3]}" is neither a register or immediate`);
 						return false;
 					} 
 				}					
