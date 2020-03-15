@@ -18,7 +18,7 @@ class Assembler {
 			line = editor[i];
 			idx = i-commentCount
 
-			if (!isComment(line)) {
+			if (!isComment(line) & canParse(line)) {
 				this.parseLine(line, idx);
 			} else {
 				commentCount += 1;
@@ -94,5 +94,26 @@ const parseLineToInst = (line) => {
 	line = line.split(/[ 	,]+/);
 	return line;
 }
+
+const canParse = (line) => {
+	let inst = parseLineToInst(line);
+
+	if (inst[0] === undefined) {
+		return false;
+	} else {
+		if (inst[0] === "Mul" | inst[0] === "Mulu") {
+			if (inst[1] === undefined | inst[2] === undefined) {
+				return false;
+			}
+		} else {
+			if (inst[1] === undefined | inst[2] === undefined | inst[3] === undefined | inst[3] === "r") {
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+
 
 export default Assembler;

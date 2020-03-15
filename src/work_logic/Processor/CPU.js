@@ -43,22 +43,6 @@ class CPU {
 		let pred = 0; 	// untill we fix
 		let state = this.storage;
 
-		// Don't run inst if not an inst yet
-		if (inst[0] === undefined) {
-			return -1;
-		} else {
-			if (inst[0] === "Mul" | inst[0] === "Mulu") {
-				if (inst[1] === undefined | inst[2] === undefined) {
-					return -1;
-				}
-			} else {
-				if (inst[1] === undefined | inst[2] === undefined | inst[3] === undefined | inst[3] === "r") {
-					return -1;
-				}
-			}
-		}
-
-
 		// Convert inst into the needed types of instructions
 		let BinaryInst 	= {pred: pred, rd:  inst[1], rs1: inst[2], op2: inst[3]};
 		let CompInst 	= {pred: pred, pd:  inst[1], rs1: inst[2], op2: inst[3]};
