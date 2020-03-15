@@ -18,18 +18,18 @@ test("Por instructions", () => {
     a = new P.Por({
         pred: 1,
         pd: "p1",
-        ps1: "p2",
+        ps1: "!p2",
         ps2: "p3"
     });
     a.execute(state);
     expect(a.name).toBe("por");
-    expect(a.binary[0]).toBe(0x0A0221C6 | 0);
+    expect(a.binary[0]).toBe(0x0A02A1C6 | 0);
     expect(a.binary[1]).toBe(undefined);
-    expect(state.reg.p1).toBe(0 | 0);
+    expect(state.reg.p1).toBe(1 | 0);
 
     state.reg.p2 = 1;
     a.execute(state);
-    expect(state.reg.p1).toBe(1 | 0);
+    expect(state.reg.p1).toBe(0 | 0);
 
     state.reg.p3 = 1;
     a.execute(state);
