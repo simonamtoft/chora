@@ -11,7 +11,7 @@ const DisplayConsole = (props) => {
 				readOnly
 			/>	
 		</Fragment>
-	)
-}
+	);
+};
 
 export default DisplayConsole;

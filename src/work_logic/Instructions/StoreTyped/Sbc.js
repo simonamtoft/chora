@@ -1,4 +1,4 @@
-import StoreTyped from './StoreTyped'
+import StoreTyped from "./StoreTyped";
 
 /** 
  * Sbc instruction class. 
@@ -25,7 +25,7 @@ class Sbc extends StoreTyped {
      */
 	execute({ reg, dc }) {
 		let addr = reg[this.ra] + (this.imm);
-          dc[addr]   = (reg[this.rs]) & 0xFF;
+		dc[addr] = (reg[this.rs]) & 0xFF;
 	}
 }
 

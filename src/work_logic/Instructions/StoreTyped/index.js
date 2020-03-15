@@ -15,4 +15,4 @@ export {
 	Sbc, Sbl, Sbm, Sbs,
 	Shc, Shl, Shm, Shs,
 	Swc, Swl, Swm, Sws
-}
+};

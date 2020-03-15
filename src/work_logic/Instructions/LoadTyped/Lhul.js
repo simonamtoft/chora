@@ -6,7 +6,7 @@ import LoadTyped from "./LoadTyped";
  * @category LoadTyped
  */
 class Lhul extends LoadTyped {
-    /**
+	/**
    * Create Lhul instruction.
    * @param {Object}          fields      - Fields to set 
    * @param {string|number}   fields.pred - Instruction predicate
@@ -14,22 +14,22 @@ class Lhul extends LoadTyped {
    * @param {string}          fields.ra  	- First source register
    * @param {number}			fields.imm	- Immediate value 
    */
-    constructor({ pred, rd, ra, imm }) {
-        super({ name: "lhul", pred, rd, ra, type: 0b01101, imm });
-    }
+	constructor({ pred, rd, ra, imm }) {
+		super({ name: "lhul", pred, rd, ra, type: 0b01101, imm });
+	}
 
-    /**
+	/**
    * Executes the instruction
    * @param {Object}                  state        - Processor state
    * @param {Object.<string, number>} state.reg    - Registers
    */
-    execute({ reg, mem }) {
-        let address = reg[this.ra] + (this.imm << 1);
-        let hi = mem[address + 1];
-        let lo = mem[address];
+	execute({ reg, mem }) {
+		let address = reg[this.ra] + (this.imm << 1);
+		let hi = mem[address + 1];
+		let lo = mem[address];
 	
-        reg[this.rd] = (hi << 8) | lo;
-    }
+		reg[this.rd] = (hi << 8) | lo;
+	}
 }
 
 export default Lhul;

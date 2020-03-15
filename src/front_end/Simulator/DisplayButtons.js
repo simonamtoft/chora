@@ -17,7 +17,7 @@ const DisplayButtons = (props) => {
 				<button type="button" className={buttonBS[2]} disabled>Prev</button>
 				<button type="button" className={buttonBS[3]} disabled>Reset</button>
 			</div>  
-		)
+		);
 	} else {
 		return (
 			<div className="button-container">
@@ -26,8 +26,8 @@ const DisplayButtons = (props) => {
 				<button type="button" className={buttonBS[2]} onClick={props.prevClick} disabled >Prev</button>
 				<button type="button" className={buttonBS[3]} onClick={props.resetClick}>Reset</button>
 			</div>  
-		)
+		);
 	}
-}
+};
 
 export default DisplayButtons;

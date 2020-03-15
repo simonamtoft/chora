@@ -14,8 +14,8 @@ class Pand extends Predicate {
      * @param {string}          fields.ps1  - First predicate register
      * @param {string}          fields.ps2  - Second predicate register
      */
-    constructor({ pred, pd, ps1, ps2 }) {
-		super({name: "pand", pred, pd, ps1, ps2, func:0b0111})
+	constructor({ pred, pd, ps1, ps2 }) {
+		super({name: "pand", pred, pd, ps1, ps2, func:0b0111});
 	}
 	
 	/**
@@ -23,9 +23,9 @@ class Pand extends Predicate {
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-    execute( { reg } ) {
-        reg[this.pd] = ((this.neg1 ? ~reg[this.ps1] : reg[this.ps1]) & (this.neg2 ? ~reg[this.ps2] : reg[this.ps2])) & 0x1;
-    }
+	execute( { reg } ) {
+		reg[this.pd] = ((this.neg1 ? ~reg[this.ps1] : reg[this.ps1]) & (this.neg2 ? ~reg[this.ps2] : reg[this.ps2])) & 0x1;
+	}
 }
 
 export default Pand;

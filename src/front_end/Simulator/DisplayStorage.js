@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import { intToHex } from "../../helper";
-import "../../css/Simulator.css"
+import "../../css/Simulator.css";
 
 const tableBS = "table table-hover table-sm col-12";
 
@@ -43,8 +43,8 @@ const DisplayStorage = (props) => {
 				</div>
 			</div>
 		</Fragment>
-	)
-}
+	);
+};
 
 const RenderRegTable = (registers) => {
 	return (
@@ -60,8 +60,8 @@ const RenderRegTable = (registers) => {
 				{GenRegRows(registers)}
 			</tbody>
 		</table>
-	)
-}
+	);
+};
 
 const RenderCacheTable = (cache) => {
 	return (
@@ -79,8 +79,8 @@ const RenderCacheTable = (cache) => {
 				{GenCacheRows(cache)}
 			</tbody>
 		</table>
-	)
-}
+	);
+};
 
 const GenCacheRows = (cache) => {
 	let rows = [];
@@ -90,11 +90,11 @@ const GenCacheRows = (cache) => {
 	for (i = 0; i < size; i += 4) {
 		key = Number(Object.keys(cache)[i]);
 		key = key - (key%4);
-		rows.push(CacheRow(cache, key))
+		rows.push(CacheRow(cache, key));
 	}
 
 	return rows;
-} 
+} ;
 
 const CacheRow = (cache, key) => {
 	return(
@@ -105,23 +105,23 @@ const CacheRow = (cache, key) => {
 			<td>{cache[`${key+2}`]}</td>
 			<td>{cache[`${key+3}`]}</td>
 		</tr>
-	)
-}
+	);
+};
 
 const GenRegRows = (registers) => {
 	var rows = [];
 
 	for (let i = 0; i < 32; i++) {
-		rows.push(RegRow("r", i, registers))
+		rows.push(RegRow("r", i, registers));
 	}
 	for (let i = 1; i < 16; i++) {
-		rows.push(RegRow("s", i, registers))
+		rows.push(RegRow("s", i, registers));
 	}
 	for (let i = 0; i < 8; i++) {
-		rows.push(RegRow("p", i, registers))
+		rows.push(RegRow("p", i, registers));
 	}
 	return rows;
-}
+};
 
 const RegRow = (letter, idx, registers) => {
 	let val = registers[`${letter}${idx}`];
@@ -132,7 +132,7 @@ const RegRow = (letter, idx, registers) => {
 			<td>{val}</td>
 			<td>{intToHex(val)}</td>
 		</tr>
-	)
-}
+	);
+};
 
 export default DisplayStorage;

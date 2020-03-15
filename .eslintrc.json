@@ -26,10 +26,7 @@
     "rules": {
         "indent": [
             "error",
-            4,
-            {
-                "SwitchCase": 1
-            }
+            "tab"
         ],
         "linebreak-style": ["off"],
         "quotes": [

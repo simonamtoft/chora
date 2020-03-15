@@ -1,4 +1,4 @@
-import StoreTyped from './StoreTyped'
+import StoreTyped from "./StoreTyped";
 
 /** 
  * Shm instruction class. 
@@ -24,9 +24,9 @@ class Shm extends StoreTyped {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg, gm }) {
-          let addr = reg[this.ra] + (this.imm << 1);
-          gm[addr+1] = (reg[this.rs] >> 8) & 0xFF;
-          gm[addr]   = (reg[this.rs]) & 0xFF;
+		let addr = reg[this.ra] + (this.imm << 1);
+		gm[addr+1] = (reg[this.rs] >> 8) & 0xFF;
+		gm[addr]   = (reg[this.rs]) & 0xFF;
 	}
 }
 

@@ -25,7 +25,7 @@ const FrontEnd = (props) => {
 					</div>
 				</div>
 			</Fragment>
-		)
+		);
 	} else {
 		return (
 			<Fragment>
@@ -61,10 +61,8 @@ const FrontEnd = (props) => {
 					</div>
 				</div>
 			</Fragment>
-		)
+		);
 	}
-}
-
-
+};
 
 export default FrontEnd;

@@ -1,11 +1,11 @@
-import {compile_reg} from './compilers'
-import { toUint32 } from '../../../helper';
+import {compile_reg} from "./compilers";
+import { toUint32 } from "../../../helper";
 
 /** 
  * Represents a StoreTyped instruction. Sets common fields. 
  */
 class StoreTyped {
-    /**
+	/**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
      * @param {string}          fields.name - Name of instruction
@@ -25,7 +25,7 @@ class StoreTyped {
 	}
 
 	execute() {
-		console.error("Missing execute handler for", this)
+		console.error("Missing execute handler for", this);
 	}
 }
 

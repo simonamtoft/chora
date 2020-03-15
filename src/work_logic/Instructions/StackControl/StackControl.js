@@ -1,10 +1,10 @@
-import { compile_reg, compile_imm } from './compilers'
+import { compile_reg, compile_imm } from "./compilers";
 
 /** 
  * Represents a StackControl instruction. Sets common fields. 
  */
 class StackControl {
-    /**
+	/**
      * Create base instruction.
      * @param {Object}          fields      - Fields to set 
      * @param {string}          fields.name - Name of instruction

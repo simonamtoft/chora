@@ -1,5 +1,5 @@
 import React from "react";
-import "../../css/Simulator.css"
+import "../../css/Simulator.css";
 import { intToHex } from "../../helper";
 
 const DisplayCode = (props) => {
@@ -18,8 +18,8 @@ const DisplayCode = (props) => {
 				</tbody>
 			</table>
 		</div>
-	)
-}
+	);
+};
 
 const GenMachineRows = (instQue, instCount, binary) => {
 	let rows = [];
@@ -28,12 +28,12 @@ const GenMachineRows = (instQue, instCount, binary) => {
 		rows.push(MachineRow(instQue[i], binary[i], instCount, i));
 	}
 	return rows;
-}
+};
 
 const MachineRow = (inst, binary, instCount, i) => {
 	let color = "";
 	if (instCount === i) {
-		color = "current-inst"
+		color = "current-inst";
 	}
 
 	return(
@@ -42,7 +42,7 @@ const MachineRow = (inst, binary, instCount, i) => {
 			<td>b</td>
 			<td>{inst[0]} {inst[1]} {inst[2]} {inst[3]}</td>
 		</tr>
-	)
-}
+	);
+};
 
 export default DisplayCode;

@@ -3,7 +3,7 @@ import DisplayButtons from "./DisplayButtons";
 import DisplayConsole from "./DisplayConsole";
 import DisplayStorage from "./DisplayStorage";
 import DisplayCode from "./DisplayCode";
-import "../../css/Simulator.css"
+import "../../css/Simulator.css";
 
 const Simulator = (props) => {
 	return(
@@ -33,7 +33,7 @@ const Simulator = (props) => {
 				/>
 			</div>
 		</div>
-	)
-}
+	);
+};
 
 export default Simulator;

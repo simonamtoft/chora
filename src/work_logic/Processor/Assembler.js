@@ -36,7 +36,7 @@ class Assembler {
 
 		for (let i = 0; i < lineCount; i++) {
 			line = editor[i];
-			idx = i-commentCount
+			idx = i-commentCount;
 
 			if (!isComment(line) & this.canParse(line, i)) {
 				this.parseLine(line, idx);
@@ -60,11 +60,11 @@ class Assembler {
 	 */ 
 	checkQue(instCount) {
 		if (this.queLength === 0) {
-            console.log("Error: Instruction queue is empty.");
-            return false;
-        } else if (instCount === this.queLength) {
-            console.log("Error: All instructions executed.");
-            return false;
+			console.log("Error: Instruction queue is empty.");
+			return false;
+		} else if (instCount === this.queLength) {
+			console.log("Error: All instructions executed.");
+			return false;
 		} 
 		return true;
 	}
@@ -159,7 +159,7 @@ const isComment = (line) => {
 		return true;
 	}
 	return false;
-}
+};
 
 /**
  *  
@@ -167,9 +167,11 @@ const isComment = (line) => {
  * @returns {array}	
  */
 const parseLineToInst = (line) => {
+	// eslint-disable-next-line no-useless-escape
 	line = line.trim().replace(/[=+\[\]:]/g, "").replace("#", "# "); 
+	// eslint-disable-next-line no-control-regex
 	line = line.split(/[ 	,]+/);
 	return line;
-}
+};
 
 export default Assembler;
