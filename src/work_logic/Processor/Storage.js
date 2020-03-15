@@ -23,14 +23,8 @@ class Storage {
 			"BASE_ADDR": 0x0,
 			"MAX_SIZE": 0x00200000 // 2MiB
 		};
-        this.lm = {
-			"BASE_ADDR": 0xF0000000,
-			"MAX_SIZE": 0x0FFFFFFF
-		};
-        this.dc = {
-			"BASE_ADDR": 0x0,
-			"MAX_SIZE": 0x1000
-		};
+        this.lm = {};
+        this.dc = {};
 	}
 	
 	reset() {
@@ -42,14 +36,8 @@ class Storage {
 			"BASE_ADDR": 0x0,
 			"MAX_SIZE": 0x00200000 // 2MiB
 		};
-        this.lm = {
-			"BASE_ADDR": 0xF0000000,
-			"MAX_SIZE": 0x0FFFFFFF
-		};
-        this.dc = {
-			"BASE_ADDR": 0x0,
-			"MAX_SIZE": 0x1000
-		};
+        this.lm = {};
+        this.dc = {};
 		this.reg = {
 			"r0" : 0,
             "r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
