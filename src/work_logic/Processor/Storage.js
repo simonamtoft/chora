@@ -15,17 +15,41 @@ class Storage {
 			"p0": 1, "p1": 0, "p2" : 0, "p3" : 0, "p4" : 0, "p5" : 0,
 			"p6" : 0, "p7" : 0
 		};
-		this.sc = {};
-        this.gm = {};
-        this.lm = {};
-        this.dc = {};
+		this.sc = {
+			"BASE_ADDR": 0x0,
+			"MAX_SIZE": 0x800 //2KiB
+		};
+        this.gm = {
+			"BASE_ADDR": 0x0,
+			"MAX_SIZE": 0x00200000 // 2MiB
+		};
+        this.lm = {
+			"BASE_ADDR": 0xF0000000,
+			"MAX_SIZE": 0x0FFFFFFF
+		};
+        this.dc = {
+			"BASE_ADDR": 0x0,
+			"MAX_SIZE": 0x1000
+		};
 	}
 	
 	reset() {
-		this.sc = {};
-		this.gm = {};
-        this.lm = {};
-        this.dc = {};
+		this.sc = {
+			"BASE_ADDR": 0x0,
+			"MAX_SIZE": 0x800 //2KiB
+		};
+        this.gm = {
+			"BASE_ADDR": 0x0,
+			"MAX_SIZE": 0x00200000 // 2MiB
+		};
+        this.lm = {
+			"BASE_ADDR": 0xF0000000,
+			"MAX_SIZE": 0x0FFFFFFF
+		};
+        this.dc = {
+			"BASE_ADDR": 0x0,
+			"MAX_SIZE": 0x1000
+		};
 		this.reg = {
 			"r0" : 0,
             "r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
