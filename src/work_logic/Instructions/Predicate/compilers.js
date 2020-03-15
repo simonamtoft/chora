@@ -6,8 +6,8 @@ export const compile_reg = (pred, pd, ps1, ps2, func) => {
     pred = parseNum(pred);
     func = parseNum(func);
     pd = parseReg(pd);
-    ps1 = ps1[0] == "!" ? 0b1000 | parseReg(ps1) : parseReg(ps1);
-    ps2 = ps1[0] == "!" ? 0b1000 | parseReg(ps1) : parseReg(ps2);
+    ps1 = ps1[0] === "!" ? 0b1000 | parseReg(ps1) : parseReg(ps1);
+    ps2 = ps1[0] === "!" ? 0b1000 | parseReg(ps1) : parseReg(ps2);
 
     binary[0] |= pred << 27;
     binary[0] |= 0b01000 << 22;
