@@ -17,11 +17,12 @@ class StackControl {
 		this.name = name;
 		this.pred = pred;
 		this.op = op;
+		this.s1 = s1;
 
 		if (this.type == "r") {
 			this.binary = compile_reg(pred, op, s1);
 		} else {
-			this.binary = compile_imm(pred, op, imm);
+			this.binary = compile_imm(pred, op, s1);
 		}
 	}
 }
