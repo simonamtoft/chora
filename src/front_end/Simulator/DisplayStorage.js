@@ -33,7 +33,7 @@ const DisplayStorage = (props) => {
 					{RenderCacheTable(props.cache.sc)}
 				</div>
 				<div role="tabpanel" className="tab-pane" id="gm">
-					{RenderCacheTable(props.cache.gm)}
+					{RenderCacheTable(props.cache.mem)}
 				</div>
 				<div role="tabpanel" className="tab-pane" id="lm">
 					{RenderCacheTable(props.cache.lm)}
@@ -85,12 +85,17 @@ const RenderCacheTable = (cache) => {
 const GenCacheRows = (cache) => {
 	let rows = [];
 	let key, i;
-	let size = Object.keys(cache).length;
+	// We don't want to display these fields:
+	let ctemp = cache;
+	delete ctemp["BASE_ADDR"];
+	delete ctemp["MAX_SIZE"];
+	
+	let size = Object.keys(ctemp).length;
 	
 	for (i = 0; i < size; i += 4) {
-		key = Number(Object.keys(cache)[i]);
+		key = Number(Object.keys(ctemp)[i]);
 		key = key - (key%4);
-		rows.push(CacheRow(cache, key));
+		rows.push(CacheRow(ctemp, key));
 	}
 
 	return rows;

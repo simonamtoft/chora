@@ -9,6 +9,10 @@ const instTypes = [
 	"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
 	"bcopy", "mfs", "mts", "sens", "sfree", "sres", "sspill" // Missing control-flow 
 ];
+const binTypes = [
+	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
+	"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2"
+];
 const regStr = [
 	"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", 
 	"r11", "r12", "r13", "r14", "r15", "r16", "r17", "r18", "r19", "r20", 
@@ -163,8 +167,8 @@ const isComment = (line) => {
 
 /**
  *  
- * @param {string} 	line 					- One line from the user editor
- * @returns {array}	
+ * @param {string} 	line 		- One line from the user editor
+ * @returns {array}	fields 		- Returns all the fields.
  */
 const parseLineToInst = (line) => {
 	// eslint-disable-next-line no-useless-escape
