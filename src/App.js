@@ -41,12 +41,10 @@ addConsoleOutput = (line) => {
  * @field queLength: Amount of instructions
  */
 stepInst = () => {
-	if (this.assembler.checkQue(this.instCount)) {
-		let inst = this.assembler.instQue[this.instCount];
-		this.cpu.execute(inst);
-		this.instCount += 1;
-		this.forceUpdate(); // To re-render
-	} 
+	let inst = this.assembler.instQue[this.instCount];
+	this.cpu.execute(inst);
+	this.instCount += 1;
+	this.forceUpdate(); // To re-render
 }
 
 /**
@@ -55,10 +53,8 @@ stepInst = () => {
  * @field queLength: Amount of instructions
  */
 runInst = () => {
-	if (this.assembler.checkQue(this.instCount)) {
-		while (this.instCount < this.assembler.queLength) {
-			this.stepInst();
-		}
+	while (this.instCount < this.assembler.queLength) {
+		this.stepInst();
 	}
 }
 
