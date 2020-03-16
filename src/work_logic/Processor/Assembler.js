@@ -13,11 +13,13 @@ class Assembler {
 	}
 
 	reset() {
+		this.error = false;
 		this.feedback = [];
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
 		this.queLength = 0;
+		this.cpu.reset();
 	}
 
 	run(editor) {

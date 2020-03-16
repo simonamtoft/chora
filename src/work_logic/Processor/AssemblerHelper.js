@@ -266,7 +266,7 @@ export const parseLineToInst = (line) => {
 // Checks if there is a comma after the register field
 const hasComma = (rfield) => {
 	rfield = rfield.trim().replace(",", " ,");
-	if (rfield.slice(rfield.length-1) !== ",") {
+	if (rfield.slice(rfield.length - 1) !== ",") {
 		if (rfield === ",") {
 			return true;
 		}
