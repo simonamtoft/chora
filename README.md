@@ -11,6 +11,9 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 | Predicate          | pand p2 = p0, p1   |
 | Stack Control      | sres 4             | 
 | Store Typed        | swc [r1 + 1] = r2  |
+| Bcopy              | bcopy              |
+| Mfs                | mfs r8 = s6        |
+| Mts                | mts s6 = r1        |
 
 ## How they put into fields
 ### Binary Arithmetics & Compare
@@ -39,12 +42,27 @@ Compare stores in p-register only.
 
 Predicate only uses p-registers.
 
+### Bit copy
+| Instruction Type   | Type   | Rd   | Rs1   | Imm   | Ps    |
+| -------------------| -------|:----:|:-----:|:-----:|:-----:|
+| Bcopy              | bcopy  |    |     |     |       |
+
 ### Multiply
 | Instruction Type   | Type   | Rs1   | Rs2   |
 | -------------------| -------|:-----:|:-----:|
 | Multiply           | mul    | r1    | r2    |
 
 Multiply is stored in registers s2 and s3.  
+
+### Move from special
+| Instruction Type   | Type   | Rd    | Ss    |
+| -------------------| -------|:-----:|:-----:|
+| Mfs                | mfs    | r8    | s6    |
+
+### Move to special
+| Instruction Type   | Type   | Sd    | Rs    |
+| -------------------| -------|:-----:|:-----:|
+| Mts                | mts    | s6    | r1    |
 
 ### Stack Control
 | Instruction Type   | Type   | Imm   |
