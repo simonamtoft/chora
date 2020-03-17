@@ -1,0 +1,26 @@
+# One example of each insttype
+
+# syntax 1
+add r1 = r2, r3
+cmpneq p2 = r1, 10
+pand p2 = p0, p1
+
+# syntax 2
+lwc r10 = [r1 + 1]
+
+# Syntax 3
+swc [r1 + 1] = r2
+
+# Syntax 4
+mfs r8 = s6
+mts s6 = r1
+
+# Syntax 5
+mul r1, r2
+
+# Syntax 6
+sres 4
+
+
+
+# mising bcopy and control flow
