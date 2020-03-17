@@ -2,6 +2,16 @@
 A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), developed by Marc Sun Bøg & Simon Amtoft Pedersen as a part of their bachelor project at the Technical University of Denmark (DTU), advised by [Martin Schoeberl](https://www.imm.dtu.dk/~masca/) from DTU Compute. 
 
 
+# Instruction input format
+
+| Type   | Rd   | Rs1   | Rs2/Imm |
+| -------|:----:|:-----:| -------:|
+| add    | r1 = | r2,   | r3      |
+|        |      |       |         |
+|        |      |       |         |
+
+
+
 # To-Do
 1. Fix all load/store instructions.
     1. Implement StackControl with a proper StackCache.
