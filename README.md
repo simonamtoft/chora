@@ -1,7 +1,7 @@
 # Chora
 A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), developed by Marc Sun Bøg & Simon Amtoft Pedersen as a part of their bachelor project at the Technical University of Denmark (DTU), advised by [Martin Schoeberl](https://www.imm.dtu.dk/~masca/) from DTU Compute. 
 
-# Instruction Type List w. example
+# Instruction examples
 | Instruction Type   | Example            |
 | -------------------|:-------------------|
 | Binary Arithmetics | add r1 = r2, r3    |
@@ -46,11 +46,12 @@ Predicate only uses p-registers.
 
 Multiply is stored in registers s2 and s3.  
 
-### Store Control
-| Instruction Type   | Type   | Rs1   | Rs2   |
-| -------------------| -------|:-----:|:-----:|
-| Multiply           | mul    | r1    | r2    |
+### Stack Control
+| Instruction Type   | Type   | Imm   |
+| -------------------| -------|:-----:|
+| Stack Control      | sres   | 4     |
 
+Doesn't store in any register. 
 
 
 
