@@ -16,6 +16,8 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 | Mts                | mts s6 = r1        |
 
 ## How they put into fields
+Rs are meant to represent both r-, p- and s-types, unless otherwise stated.
+
 ### Binary Arithmetics & Compare
 | Instruction Type   | Type   | Rd   | Rs1   | Rs2/Imm |
 | -------------------| -------|:----:|:-----:| :------:|
