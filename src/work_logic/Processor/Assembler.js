@@ -1,5 +1,5 @@
 import CPU from "./CPU";
-import { parseLineToInst, checkFields, instTypes, checkSpecial} from "./AssemblerHelper";
+import { parseLineToInst, checkFields, instTypes, checkSyntax, checkType} from "./AssemblerHelper";
 
 class Assembler {
 	constructor() {
@@ -46,6 +46,7 @@ class Assembler {
 	checkErrors() {
 		if (this.feedback.length !== 0) {	
 			this.error = true;
+			console.log(this.feedback);
 		} else {
 			this.error = false;
 		}
@@ -73,11 +74,18 @@ class Assembler {
 			return false;
 		}
 		
+		// Check type
+		feedback += checkType(inst);
+		if (feedback === "newline") {
+			return false;
+		}
+
+		// Checks if all fields are correctly put in as registers and/or immediates
 		feedback += checkFields(inst);
 
 		// Check that special characters are used correctly if all fields are ok
 		if (feedback === "") {
-			feedback += checkSpecial(line, inst);
+			feedback += checkSyntax(line, inst);
 		}
 
 		// Return 
@@ -85,7 +93,6 @@ class Assembler {
 			return true;
 		}
 		this.feedback[idx] = feedback;
-		console.log(feedback);
 		return false;
 	}
 }

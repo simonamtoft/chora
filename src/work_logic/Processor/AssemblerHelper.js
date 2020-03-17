@@ -34,6 +34,14 @@ const mulTypes = [
 const stackTypes = [
 	"sens", "sfree", "sres", "sspill"
 ];
+// not implemented 
+const predTypes = [
+	"pand", "por", "pxor"
+];
+// not implemented
+const moveTypes = [
+	"mts", "mfs"
+];
 
 // Arrays of register strings
 const regStr = [
@@ -49,27 +57,70 @@ const sregStr = [
 	"s10", "s11", "s12", "s13", "s14", "s15"
 ];
 
-export const checkSpecial = (line, inst) => {
-	let hasLabel = instTypes.includes(inst[1]) ? 1 : 0;
+/**
+ * Checks if the inst type field is an implemented patmos instruction type. 
+ * @param 	{array} 	inst 		- A parsed instruction from the editor.
+ * @returns {string}	feedback 	- Error message.
+ */
+export const checkType = (inst) => {
 	let feedback = "";
-	let type = inst[0 + hasLabel];
-	let parse1 = binTypes.includes(type) | compTypes.includes(type);
-	let parse2 = loadTypes.includes(type);
-	let parse3 = storeTypes.includes(type);
+	let idx = checkLabel(inst); 
 
-	if (parse1) {
-		feedback += checkSpecial1(line, hasLabel);
-	} else if (parse2) {
-		feedback += checkSpecial2(line, hasLabel); 
-	} else if (parse3) {
-		feedback += checkSpecial3(line, hasLabel);
+	if (inst[idx] === "" | inst[idx] === undefined | inst[idx] === "\n") {
+		feedback = "newline";
+	} else if (!instTypes.includes(inst[idx])) {
+		feedback = `Type "${inst[idx]}" not recognized.\n`;
 	}
 	return feedback;
 };
 
-// Binary and Compare types
-// Syntax: type rd = s1, s2
-const checkSpecial1 = (line, hasLabel) => {
+/**
+ * Checks syntax of line. Only use if fields are already correct.
+ * @param {string} 	line 	- One line from editor.
+ * @param {array} 	inst 	- One correctly parsed instruction.
+ */
+export const checkSyntax = (line, inst) => {
+	let feedback = "", syntax;
+	let hasLabel = checkLabel(inst);
+	let type = inst[0 + hasLabel];
+
+	// Different syntaxes
+	syntax = [
+		false,
+		binTypes.includes(type) | compTypes.includes(type) | predTypes.includes(type),
+		loadTypes.includes(type), 
+		storeTypes.includes(type),
+		moveTypes.includes(type),
+		mulTypes.includes(type),
+		stackTypes.includes(type)
+	];
+
+	if (syntax[1]) {
+		feedback += checkSyntaxOne(line, hasLabel);
+	} else if (syntax[2]) {
+		feedback += checkSyntaxTwo(line, hasLabel); 
+	} else if (syntax[3]) {
+		feedback += checkSyntaxThree(line, hasLabel);
+	} else if (syntax[4]) {
+		feedback += checkSyntaxFour(line, hasLabel);
+	} else if (syntax[5]) {
+		feedback += checkSyntaxFive(line, hasLabel);
+	} else if (syntax[6]) {
+		feedback += checkSyntaxSix(line, hasLabel);
+	} else {
+		feedback += `Syntax for type ${type} not defined`;
+	}
+	return feedback;
+};
+
+/**
+ * Checks syntax for Binary Arithmetics and Compare instructions.
+ * Syntax: type rd = s1, s2
+ * @param 	{string} line 		- A line from the editor. 
+ * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @returns {string} feedback	- Error message.
+ */
+const checkSyntaxOne = (line, hasLabel) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").split(/[ 	]+/);
@@ -83,9 +134,14 @@ const checkSpecial1 = (line, hasLabel) => {
 	return feedback;
 };
 
-// Load types
-// Syntax: type rd = [s1 + s2]
-const checkSpecial2 = (line, hasLabel) => {
+/**
+ * Checks syntax for Loadtyped instructions
+ * Syntax: type rd = [rs1 + imm]
+ * @param 	{string} line 		- A line from the editor. 
+ * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @returns {string} feedback	- Error message.
+ */
+const checkSyntaxTwo = (line, hasLabel) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").replace("+", " + ").replace("[", " [ ").replace("]", " ] ").split(/[ 	]+/);
@@ -103,9 +159,14 @@ const checkSpecial2 = (line, hasLabel) => {
 	return feedback;
 };
 
-// StoreTypes
-// Syntax: type [rd + imm] = s1
-const checkSpecial3 = (line, hasLabel) => {
+/**
+ * Checks syntax for Storetyped instructions
+ * Syntax: type [rd + imm] = s1
+ * @param 	{string} line 		- A line from the editor. 
+ * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @returns {string} feedback	- Error message.
+ */
+const checkSyntaxThree = (line, hasLabel) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").replace("[", " [ ").replace("]", " ] ").split(/[ 	]+/);
@@ -117,60 +178,134 @@ const checkSpecial3 = (line, hasLabel) => {
 		feedback += "Missing '+' between rd and imm.\n";
 	} else if (line[5 + hasLabel] !== "]") {
 		feedback += "Missing ']' after imm.\n";
-	} else if (line[6 + hasLabel] !== "+") {
+	} else if (line[6 + hasLabel] !== "=") {
 		feedback += "Missing '=' before s1.\n";
 	}
 	
 	return feedback;
 };
 
+/**
+ * Checks syntax for Move Special instructions
+ * Syntax: type r1 = r2
+ * @param 	{string} line 		- A line from the editor. 
+ * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @returns {string} feedback	- Error message.
+ */
+const checkSyntaxFour = (line, hasLabel) => {
+	let feedback = "";
+	// eslint-disable-next-line no-control-regex
+	line = line.trim().replace("=", " = ").split(/[ 	]+/);
+
+	if (line[2 + hasLabel] !== "=") {
+		feedback += "Missing '=' between the two registers.\n";
+	}
+	return feedback;
+};
+
+/**
+ * Checks syntax for Multiply instructions
+ * Syntax: type r1, r2
+ * @param 	{string} line 		- A line from the editor. 
+ * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @returns {string} feedback	- Error message.
+ */
+const checkSyntaxFive = (line, hasLabel) => {
+	let feedback = "";
+	// eslint-disable-next-line no-control-regex
+	line = line.trim().split(/[ 	]+/);
+
+	if (!hasComma(line[1 + hasLabel])) {
+		feedback += "Missing comma afer rs1.\n";
+	}
+
+	return feedback;
+};
+
+const checkSyntaxSix = (line, hasLabel) => {
+	let feedback = "";
+	// eslint-disable-next-line no-control-regex
+	line = line.trim().split(/[ 	]+/);
+
+	// add check for any unwanted stuff?
+
+	return feedback;
+};
+
 export const checkFields = (inst) => {
 	let feedback = "";
-	let hasLabel = instTypes.includes(inst[1]) ? 1 : 0;
-	let type = inst[0 + hasLabel];
+	let type = inst[checkLabel(inst)];
 	let isStack = stackTypes.includes(type);
 	let isMul = mulTypes.includes(type);
+	let isMove = moveTypes.includes(type);
+	let isStore = storeTypes.includes(type);
+	let isPred = predTypes.includes(type);
+	let isLoad = loadTypes.includes(type);
+	let isCopy = type === "bcopy";
 
+	if (isStack) { 
+		feedback += checkImm(inst, 1); // Stack only has one field
+	} else if (isMul) {
+		feedback += checkReg(inst, type, 1);
+		feedback += checkReg(inst, type, 2);
+	} else {
+		// Destination
+		feedback += checkReg(inst, type, 1);
+		feedback += writeProtect(inst, 1);	
 
-	feedback += checkF0(inst, hasLabel);
-	feedback += checkF1(inst, hasLabel, type);
+		// Source 1
+		if (isStore) {
+			feedback += checkImm(inst, 2);
+		} else {
+			feedback += checkReg(inst, type, 2);
+		}
+	
 
-	if (!isStack) {
-		feedback += checkF2(inst, hasLabel);
+		// Source 2
+		// Doesn't exist for move
+		if (!isMove) {
+			if (isLoad | isCopy) {
+				feedback += checkImm(inst, 3);
+			} else if (isStore | isPred) {
+				feedback += checkReg(inst, type, 3);
+			} else {
+				feedback += checkRegImm(inst, 3);
+			}
+		}
+
+		// Source 3 - Bitcopy only
+		if (isCopy) {
+			feedback += checkReg(inst, type, 4);
+		}
 	}
-
-	if (!isMul & !isStack) {
-		feedback += checkF3(inst, hasLabel);
-	}
-
 	return feedback;
 };
 
-// Check field 0 (type)
-const checkF0 = (inst, hasLabel) => {
-	let feedback = "";
-
-	if (!instTypes.includes(inst[0 + hasLabel])) {
-		feedback += `Type "${inst[0 + hasLabel]}" not recognized.\n`;
-	}
-
-	return feedback;
-};
-
-// Checks field 1
-const checkF1 = (inst, hasLabel, type) => {
-	let wrongReg = false, isReg = false, regType;
-	let feedback = "";
-	let idx = 1 + hasLabel;
-	let field = inst[idx];
-
-	// Write protect r0
+// Write protect r0, p0
+const writeProtect = (inst, idx) => {
+	let field, feedback = "";
+	
+	idx += checkLabel(inst);
+	field = inst[idx];
+	
 	if (field === "r0") {
 		feedback += `Field ${idx}: Register r0 is write protected.\n`;
+	} else if (field === "p0") {
+		feedback += `Field ${idx}: Register p0 is write protected.\n`;
 	}
+	return feedback;
+};
 
-	// Check destination register type is correct
-	regType = getRdType(type);
+// Checks register & type
+const checkReg = (inst, type, idx) => {
+	let wrongReg = false, isReg = false, regType, field;
+	let feedback = "";
+	
+	regType = getRegType(type, idx);
+	idx += checkLabel(inst);
+	field = inst[idx];
+
+	// Check register type is correct
 	switch(regType) {
 		case "r":
 			wrongReg = sregStr.includes(field) | pregStr.includes(field);
@@ -183,6 +318,10 @@ const checkF1 = (inst, hasLabel, type) => {
 		case "p":
 			wrongReg = regStr.includes(field) | sregStr.includes(field);
 			isReg = pregStr.includes(field);
+			break;
+		case "all":
+			wrongReg = false;
+			isReg = regStr.includes(field) | pregStr.includes(field) | sregStr.includes(field);
 			break;
 	}
 
@@ -199,30 +338,15 @@ const checkF1 = (inst, hasLabel, type) => {
 };
 
 
-// Check field 2
-const checkF2 = (inst, hasLabel) => {
-	let feedback = "";
-	let idx = 2 + hasLabel;
-	let field = inst[idx];
-	let isReg = regStr.includes(field) | sregStr.includes(field) | pregStr.includes(field);
+// Checks source reg/imm
+const checkRegImm = (inst, idx) => {
+	let field, feedback = "";
 	
-	if (!isReg) {
-		if (field !== undefined) {
-			feedback += `Field ${idx}: "${field}" is not a register.\n`;
-		} else {
-			feedback += `Field ${idx}: Missing`;
-		}
-	}
-	return feedback;
-};
+	idx += checkLabel(inst);
+	field = inst[idx];
 
-// Check field 3
-const checkF3 = (inst, hasLabel) => {
-	let feedback = "";
-	let idx = 3 + hasLabel;
-	let field = inst[idx];
+	// Check if field is reg/imm
 	let isReg = regStr.includes(field) | sregStr.includes(field) | pregStr.includes(field);
-
 	if (!isReg) {
 		if (isNaN(field)) {
 			if (field !== undefined) {
@@ -235,18 +359,63 @@ const checkF3 = (inst, hasLabel) => {
 	return feedback;
 };
 
+// Checks source imm
+const checkImm = (inst, idx) => {
+	let field, feedback = "";
+	
+	idx += checkLabel(inst);
+	field = inst[idx];
+
+	if (isNaN(field)) {
+		if (field !== undefined) {
+			feedback += `Field ${idx}: "${field}" is not an immediate.\n`;
+		} else {
+			feedback += `Field ${idx}: Missing.\n`;
+		}
+	}
+	return feedback;
+};
 
 /**
  * @param {string} 		type		- Type of the instruction 
  * @returns {string}	regType 	- Destination register: r, s or p
  */
-const getRdType = (type) => {
-	let regType;
+const getRegType = (type, idx) => {
+	let regType, rs = false, ps = false, ss = false;
 
-	if (binTypes.includes(type) | loadTypes.includes(type) | storeTypes.includes(type)) {
+	switch(idx) {
+		// Destination
+		case 1:
+			rs = binTypes.includes(type) | loadTypes.includes(type) | storeTypes.includes(type) | type === "mfs";
+			ps = compTypes.includes(type) | predTypes.includes(type);
+			ss = type === "mts";
+			break;
+		
+		// Source 1
+		case 2: 
+			rs = type === "mts";
+			ps = predTypes.includes(type);
+			ss = type === "mfs";
+			break;
+
+		// Source 2
+		case 3: 
+			break;
+		
+		// Source 3
+		case 4:
+			ps = type === "bcopy";
+			break;
+	}
+
+	if (rs) {
 		regType = "r";
-	} else if (compTypes.includes(type)) {
+	} else if (ps) {
 		regType = "p";
+	} else if (ss) {
+		regType = "s";
+	} else {
+		regType = "all";
 	}
 	return regType;
 };
@@ -274,3 +443,5 @@ const hasComma = (rfield) => {
 	}
 	return true;
 };
+
+const checkLabel = (inst) => {return instTypes.includes(inst[1]) ? 1 : 0;};
