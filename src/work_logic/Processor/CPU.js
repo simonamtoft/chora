@@ -272,13 +272,13 @@ class CPU {
 
 			// Rest
 			case "bcopy":
-				cInst = new Bcopy({pred: inst.pred, rd: inst.des, rs1: inst.s1, imm: inst.s2}); //missing ps?
+				cInst = new Bcopy({pred: inst.pred, rd: inst[1], rs1: inst[2], imm: inst[3]}); //missing ps?
 				break;
 			case "mfs":
-				cInst = new Mfs({pred: inst.pred, rd: inst.des, ss: inst.s1});
+				cInst = new Mfs({pred: inst.pred, rd: inst[1], ss: inst[2]});
 				break;
 			case "mts":
-				cInst = new Mts({pred: inst.pred, rs1: inst.s1, sd: inst.des}); // not sure if SD is correct set
+				cInst = new Mts({pred: inst.pred, rs1: inst[1], sd: inst[2]}); // not sure if SD is correct set
 				break;
 			default:
 				console.log(`Instruction ${inst[0]} not implemented.`);
