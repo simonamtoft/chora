@@ -3,19 +3,55 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 
 # Instruction Type List w. example
 | Instruction Type   | Example            |
-| -------------------|:------------------:|
+| -------------------|:-------------------|
 | Binary Arithmetics | add r1 = r2, r3    |
-| Compare            | cmpneq p2 = r1, r3 |
-| Load               | lwc r10 = [r1 + 1] |
+| Compare            | cmpneq p2 = r1, 10 |
+| Load Typed         | lwc r10 = [r1 + 1] |
+| Multiply           | mul r1, r2         | 
+| Predicate          | pand p2 = p0, p1   |
+| Stack Control      | sres 4             | 
+| Store Typed        | swc [r1 + 1] = r2  |
+
+## How they put into fields
+### Binary Arithmetics & Compare
+| Instruction Type   | Type   | Rd   | Rs1   | Rs2/Imm |
+| -------------------| -------|:----:|:-----:| :------:|
+| Binary Arithmetics | add    | r1   | r2    | r3      |
+| Compare            | cmpneq | p2   | r1    | 10      |
+
+BinaryArithmetics stores in r-register only. 
+Compare stores in p-register only.
+
+### Load Typed
+| Instruction Type   | Type   | Rd   | Rs1   | Imm   |
+| -------------------| -------|:----:|:-----:|:-----:|
+| Load Typed         | lwc    | r10  | r1    | 1     |
+
+### Store Typed
+| Instruction Type   | Type   | Rd   | Imm   | Rs1   |
+| -------------------| -------|:----:|:-----:|:-----:|
+| Store Typed        | swc    | r1   | 1     | r2    |
+
+### Predicate
+| Instruction Type   | Type   | Pd   | Ps1   | Ps2   |
+| -------------------| -------|:----:|:-----:|:-----:|
+| Predicate          | pand   | p2   | p0    | p1    |
+
+Predicate only uses p-registers.
+
+### Multiply
+| Instruction Type   | Type   | Rs1   | Rs2   |
+| -------------------| -------|:-----:|:-----:|
+| Multiply           | mul    | r1    | r2    |
+
+Multiply is stored in registers s2 and s3.  
+
+### Store Control
+| Instruction Type   | Type   | Rs1   | Rs2   |
+| -------------------| -------|:-----:|:-----:|
+| Multiply           | mul    | r1    | r2    |
 
 
-# Instruction input format
-
-| Type   | Rd   | Rs1   | Rs2/Imm |
-| -------|:----:|:-----:| -------:|
-| add    | r1 = | r2,   | r3      |
-|        |      |       |         |
-|        |      |       |         |
 
 
 
