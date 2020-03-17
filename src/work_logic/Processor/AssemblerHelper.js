@@ -232,6 +232,12 @@ const checkSyntaxSix = (line, hasLabel) => {
 	return feedback;
 };
 
+
+/**
+ * Check all the fields of an instruction
+ * @param 	{string}	inst		- A parsed instruction.
+ * @returns {string}	feedback 	- Error message.
+ */
 export const checkFields = (inst) => {
 	let feedback = "";
 	let type = inst[checkLabel(inst)];
