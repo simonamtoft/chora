@@ -11,18 +11,17 @@ let initial_state = {
 		p6: 0,
 		p7: 0
 	},
-	sc: {},
-	lm: {},
-	dc: {},
-	gm: {}
+	mem: {}
 };
 for (let i = 0; i < 32; i++)
 	initial_state.reg["r" + i] = i;
 for (let i = 0; i < 16; i++)
 	initial_state.reg["s" + i] = i;
+initial_state.reg.s6 = 0x900;
+initial_state.reg.s5 = 0x900;
 
 test("Lws instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lws({
 		pred: 1,
 		rd: "r1",
@@ -30,10 +29,10 @@ test("Lws instruction", () => {
 		imm: 0x3F
 	});
 
-	state.sc[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
-	state.sc[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
-	state.sc[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
-	state.sc[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lws");
@@ -42,7 +41,7 @@ test("Lws instruction", () => {
 	expect(state.reg.r1).toBe(0x00FF00FF | 0);
 });
 test("Lwl instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lwl({
 		pred: 1,
 		rd: "r1",
@@ -50,10 +49,10 @@ test("Lwl instruction", () => {
 		imm: 0x3F
 	});
 
-	state.lm[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
-	state.lm[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
-	state.lm[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
-	state.lm[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lwl");
@@ -62,7 +61,7 @@ test("Lwl instruction", () => {
 	expect(state.reg.r1).toBe(0x00FF00FF | 0);
 });
 test("Lwc instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lwc({
 		pred: 1,
 		rd: "r1",
@@ -70,10 +69,10 @@ test("Lwc instruction", () => {
 		imm: 0x3F
 	});
 
-	state.dc[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
-	state.dc[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
-	state.dc[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
-	state.dc[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lwc");
@@ -82,7 +81,7 @@ test("Lwc instruction", () => {
 	expect(state.reg.r1).toBe(0x00FF00FF | 0);
 });
 test("Lwm instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lwm({
 		pred: 1,
 		rd: "r1",
@@ -90,10 +89,10 @@ test("Lwm instruction", () => {
 		imm: 0x3F
 	});
 
-	state.gm[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
-	state.gm[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
-	state.gm[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
-	state.gm[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<2)]   = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+1] = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+2] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<2)+3] = 0x00|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lwm");
@@ -102,7 +101,7 @@ test("Lwm instruction", () => {
 	expect(state.reg.r1).toBe(0x00FF00FF | 0);
 });
 test("Lhs instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhs({
 		pred: 1,
 		rd: "r1",
@@ -110,8 +109,8 @@ test("Lhs instruction", () => {
 		imm: 0x3F
 	});
 
-	state.sc[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
-	state.sc[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<1)]   = 0x00|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lhs");
@@ -120,7 +119,7 @@ test("Lhs instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF00 | 0);
 });
 test("Lhl instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhl({
 		pred: 1,
 		rd: "r1",
@@ -128,8 +127,8 @@ test("Lhl instruction", () => {
 		imm: 0x3F
 	});
 
-	state.lm[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
-	state.lm[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lhl");
@@ -138,7 +137,7 @@ test("Lhl instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF00 | 0);
 });
 test("Lhc instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhc({
 		pred: 1,
 		rd: "r1",
@@ -146,8 +145,8 @@ test("Lhc instruction", () => {
 		imm: 0x3F
 	});
 
-	state.dc[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
-	state.dc[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lhc");
@@ -156,15 +155,15 @@ test("Lhc instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF00 | 0);
 });
 test("Lhm instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhm({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.gm[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
-	state.gm[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<1)]   = 0x00|0;
+	state.mem[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lhm");
@@ -173,7 +172,7 @@ test("Lhm instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF00 | 0);
 });
 test("Lbs instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbs({
 		pred: 1,
 		rd: "r1",
@@ -181,7 +180,7 @@ test("Lbs instruction", () => {
 		imm: 0x3F
 	});
 
-	state.sc[state.reg.r2 + (0x3F)]   = 0x80|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F)]   = 0x80|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lbs");
@@ -190,14 +189,14 @@ test("Lbs instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF80 | 0);
 });
 test("Lbl instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbl({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.lm[state.reg.r2 + (0x3F)]   = 0x80|0;
+	state.mem[state.reg.r2 + (0x3F)]   = 0x80|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lbl");
@@ -206,14 +205,14 @@ test("Lbl instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF80 | 0);
 });
 test("Lbc instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbc({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.dc[state.reg.r2 + (0x3F)] = 0x80|0;
+	state.mem[state.reg.r2 + (0x3F)] = 0x80|0;
 	a.execute(state);
 	expect(a.name).toBe("lbc");
 	expect(a.binary[0]).toBe(0xA82253F | 0);
@@ -221,14 +220,14 @@ test("Lbc instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF80 | 0);
 });
 test("Lbm instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbm({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.gm[state.reg.r2 + (0x3F)] = 0x80|0;
+	state.mem[state.reg.r2 + (0x3F)] = 0x80|0;
 	a.execute(state);
 	expect(a.name).toBe("lbm");
 	expect(a.binary[0]).toBe(0xA8225BF | 0);
@@ -236,7 +235,7 @@ test("Lbm instruction", () => {
 	expect(state.reg.r1).toBe(0xFFFFFF80 | 0);
 });
 test("Lhus instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhus({
 		pred: 1,
 		rd: "r1",
@@ -244,8 +243,8 @@ test("Lhus instruction", () => {
 		imm: 0x3F
 	});
 
-	state.sc[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
-	state.sc[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<1)]   = 0x69|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 
 	a.execute(state);
 	expect(a.name).toBe("lhus");
@@ -254,7 +253,7 @@ test("Lhus instruction", () => {
 	expect(state.reg.r1).toBe(0xFF69 | 0);
 });
 test("Lhul instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhul({
 		pred: 1,
 		rd: "r1",
@@ -262,8 +261,8 @@ test("Lhul instruction", () => {
 		imm: 0x3F
 	});
 
-	state.lm[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
-	state.lm[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
+	state.mem[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lhul");
 	expect(a.binary[0]).toBe(0xA8226BF | 0);
@@ -271,15 +270,15 @@ test("Lhul instruction", () => {
 	expect(state.reg.r1).toBe(0xFF69 | 0);
 });
 test("Lhuc instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhuc({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.dc[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
-	state.dc[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
+	state.mem[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lhuc");
 	expect(a.binary[0]).toBe(0xA82273F | 0);
@@ -287,15 +286,15 @@ test("Lhuc instruction", () => {
 	expect(state.reg.r1).toBe(0xFF69 | 0);
 });
 test("Lhum instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lhum({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.gm[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
-	state.gm[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F<<1)]   = 0x69|0;
+	state.mem[state.reg.r2 + (0x3F<<1)+1] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lhum");
 	expect(a.binary[0]).toBe(0xA8227BF | 0);
@@ -303,14 +302,14 @@ test("Lhum instruction", () => {
 	expect(state.reg.r1).toBe(0xFF69 | 0);
 });
 test("Lbus instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbus({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.sc[state.reg.r2 + (0x3F)] = 0xFF|0;
+	state.mem[state.reg.s6 + state.reg.r2 + (0x3F)] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lbus");
 	expect(a.binary[0]).toBe(0xA82283F | 0);
@@ -318,14 +317,14 @@ test("Lbus instruction", () => {
 	expect(state.reg.r1).toBe(0x000000FF | 0);
 });
 test("Lbul instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbul({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.lm[state.reg.r2 + (0x3F)] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F)] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lbul");
 	expect(a.binary[0]).toBe(0xA8228BF | 0);
@@ -333,14 +332,14 @@ test("Lbul instruction", () => {
 	expect(state.reg.r1).toBe(0x000000FF | 0);
 });
 test("Lbuc instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbuc({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.dc[state.reg.r2 + (0x3F)] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F)] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lbuc");
 	expect(a.binary[0]).toBe(0xA82293F | 0);
@@ -348,14 +347,14 @@ test("Lbuc instruction", () => {
 	expect(state.reg.r1).toBe(0x000000FF | 0);
 });
 test("Lbum instruction", () => {
-	let a, e, state = JSON.parse(JSON.stringify(initial_state));
+	let a, state = JSON.parse(JSON.stringify(initial_state));
 	a = new LDT.Lbum({
 		pred: 1,
 		rd: "r1",
 		ra: "r2",
 		imm: 0x3F
 	});
-	state.gm[state.reg.r2 + (0x3F)] = 0xFF|0;
+	state.mem[state.reg.r2 + (0x3F)] = 0xFF|0;
 	a.execute(state);
 	expect(a.name).toBe("lbum");
 	expect(a.binary[0]).toBe(0xA8229BF | 0);
