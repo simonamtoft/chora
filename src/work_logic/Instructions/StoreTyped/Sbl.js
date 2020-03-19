@@ -23,9 +23,9 @@ class Sbl extends StoreTyped {
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-	execute({ reg, lm }) {
+	execute({ reg, mem }) {
 		let addr = reg[this.ra] + (this.imm);
-		lm[addr] = (reg[this.rs]) & 0xFF;
+		mem[addr] = (reg[this.rs]) & 0xFF;
 	}
 }
 

@@ -23,12 +23,12 @@ class Swm extends StoreTyped {
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-	execute({ reg, gm }) {
+	execute({ reg, mem }) {
 		let addr = reg[this.ra] + (this.imm << 2);
-		gm[addr+3] = (reg[this.rs] >> 24) & 0xFF;
-		gm[addr+2] = (reg[this.rs] >> 16) & 0xFF;
-		gm[addr+1] = (reg[this.rs] >> 8) & 0xFF;
-		gm[addr]   = (reg[this.rs]) & 0xFF;
+		mem[addr+3] = (reg[this.rs] >> 24) & 0xFF;
+		mem[addr+2] = (reg[this.rs] >> 16) & 0xFF;
+		mem[addr+1] = (reg[this.rs] >> 8) & 0xFF;
+		mem[addr]   = (reg[this.rs]) & 0xFF;
 	}
 }
 

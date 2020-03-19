@@ -23,10 +23,10 @@ class Shm extends StoreTyped {
      * @param {Object}                  state        - Processor state
      * @param {Object.<string, number>} state.reg    - Registers
      */
-	execute({ reg, gm }) {
+	execute({ reg, mem }) {
 		let addr = reg[this.ra] + (this.imm << 1);
-		gm[addr+1] = (reg[this.rs] >> 8) & 0xFF;
-		gm[addr]   = (reg[this.rs]) & 0xFF;
+		mem[addr+1] = (reg[this.rs] >> 8) & 0xFF;
+		mem[addr]   = (reg[this.rs]) & 0xFF;
 	}
 }
 
