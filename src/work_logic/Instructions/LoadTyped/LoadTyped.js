@@ -1,5 +1,5 @@
 import { compile_reg } from "./compilers";
-import { toUint32 } from "../../../helper";
+import { toUint32 } from "../../../helpers/misc";
 
 /** 
  * Represents a LoadTyped instruction. Sets common fields. 

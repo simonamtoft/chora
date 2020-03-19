@@ -1,4 +1,4 @@
-import { parseNum, parseReg } from "../../helper";
+import { parseNum, parseReg } from "../../helpers/misc";
 
 const compile_reg = (pred, rs1, sd) => {
 	let binary = [0];
