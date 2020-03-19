@@ -79,8 +79,8 @@ render() {
 	return (
 		<div>
 			<FrontEnd
-				registers = {this.cpu.storage.getReg()}
-				cache = {this.cpu.storage.getCache()}
+				registers = {this.cpu.getReg()}
+				cache = {this.cpu.getCache()}
 				parentCallback = {this.getUserInput}
 				stepClick = {this.stepInst}
 				runClick = {this.runInst}

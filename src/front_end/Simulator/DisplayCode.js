@@ -40,7 +40,7 @@ const MachineRow = (inst, binary, instCount, i) => {
 		<tr key={i} className={color} >
 			<td>{intToHex(binary)}</td>
 			<td>b</td>
-			<td>{inst[0]} {inst[1]} {inst[2]} {inst[3]}</td>
+			<td>{inst[1]} {inst[2]} {inst[3]} {inst[4]}</td>
 		</tr>
 	);
 };

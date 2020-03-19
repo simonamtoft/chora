@@ -1,111 +1,144 @@
 import CPU from "./CPU";
-import { parseLineToInst, checkFields, instTypes, checkSyntax} from "./AssemblerHelper";
+import { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes } from "../../helpers/typeStrings";
 
 class Assembler {
 	constructor() {
-		this.error = false;
-		this.feedback = [];
+		this.errorMessage = [];
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
 		this.queLength = 0;
 		this.cpu = new CPU();
+		this.error = false;
 	}
 
 	reset() {
-		this.error = false;
-		this.feedback = [];
+		this.errorMessage = [];
 		this.instQue = [];
 		this.binary = [];
 		this.labels = {};
 		this.queLength = 0;
 		this.cpu.reset();
+		this.error = false;
 	}
+
 
 	run(editor) {
-		let lineCount, line, parsedCount = 0;
+		let instCount = 0;
 		editor = trimEditor(editor);
-		lineCount = editor.length;
 
-		for (let i = 0; i < lineCount; i++) {
-			line = editor[i];
-
-			if (this.parse(line, i)) {
-				this.parseLine(line, parsedCount);
-				parsedCount += 1;
+		for (let i = 0; i < editor.length; i++) {
+			if(this.parse(editor[i].trim(), instCount)) {
+				instCount += 1;
 			}
 		}
-
-		this.queLength = this.instQue.length;
-
-		// Check if any errors
-		this.checkErrors();
-	}
-	
-	checkErrors() {
-		if (this.feedback.length !== 0) {	
+ 
+		// Error message handling
+		if (this.errorMessage.length !== 0) {
+			console.log(this.errorMessage);
 			this.error = true;
-			console.log(this.feedback);
 		} else {
 			this.error = false;
+			this.queLength = this.instQue.length;
 		}
 	}
 
 	parse(line, idx) {
-		let inst = parseLineToInst(line);
-		let feedback;
+		let type, regExMatch, regEx, inst = [];
+
+		// Get first regex match
+		regEx = /^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s+/i;
+		regExMatch = line.match(regEx);
+
+		if (regExMatch === null) {
+			this.errorMessage[idx] = "Needs to be on form: label: (px) type ...";
+			return false;
+		}
 		
+		// Extract Label
+		if (regExMatch[1] !== undefined) {
+			this.labels[regExMatch[1]] = idx;
+		}
+
+		// Set predicate
+		// add error checking etc. to predicate 
+		inst[0] = regExMatch[3] ? Number(regExMatch[3].replace("p", "")) : 0;
+		if (regExMatch[2] === "!") {
+			inst[0] |= 8;
+		}
+
 		// Check type
-		feedback = checkType(getType(line));
+		type = regExMatch[4];
+		inst[1] = type;
 
-		// Checks if all fields are correctly put in as registers and/or immediates
-		feedback += checkFields(inst);
-
-		// Check that special characters are used correctly if all fields are ok
-		if (feedback === "") {
-			feedback += checkSyntax(line, inst);
+		if (!instTypes.includes(type)) {
+			this.errorMessage[idx] = "Needs to be on form: label: (pred) type ...";
+			return false;
 		}
 
-		// Return 
-		if (feedback === "") {
-			return true;
+
+		// Append rest of line to inst
+		regEx = getRegEx(type);
+		line = line.split(type)[1].trim();
+		regExMatch = line.match(regEx);
+
+		if (regExMatch === null) {
+			this.errorMessage[idx] = "Missing operators.";
+			return false;
 		}
-		this.feedback[idx] = feedback;
-		return false;
+		inst = inst.concat(regExMatch.slice(1,regExMatch.length)); 
+		this.instQue[idx] = inst;
+		this.binary[idx] = this.cpu.getBinary(inst);
+		return true;
 	}
-
-	parseLine(line, idx) {
-		let inst = parseLineToInst(line);
-		let hasLabel = instTypes.includes(inst[1]); // Assumes label if field 1 is a type
-		
-		if (hasLabel) {
-			this.labels[`${inst[0]}`] = idx;
-			this.instQue[idx] = inst.slice(1, 5);
-		} else {
-			this.instQue[idx] = inst;
-		}
-		this.binary[idx] = this.cpu.getBinary(this.instQue[idx]);
-	}
-
 	
-}
-export default Assembler;
 
+}
+
+const getRegEx = (type) => {
+	let syntax = [
+		binTypes.includes(type) || compTypes.includes(type) || predTypes.includes(type),
+		loadTypes.includes(type), 
+		storeTypes.includes(type),
+		moveTypes.includes(type),
+		mulTypes.includes(type),
+		stackTypes.includes(type)
+	];
+	
+	switch(syntax.indexOf(true)) {
+		case 0:
+			return /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})\s*,\s*([rp]?\d+)/i;
+		case 1:
+			return /(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\d+)\]/i;
+		case 2: 
+			return /\[(r\d{1,2})\s*\+\s*(\d+)\]\s*=\s*(r\d{1,2})/i;
+		case 3:
+			return /([rs]\d{1,2})\s*=\s*([rs]\d{1,2})/i;
+		case 4:
+			return /(r\d{1,2})\s*,\s*(r\d{1,2})/i;
+		case 5:
+			return /(\d+)\s?/i;
+		default: 
+			return "none";
+	}
+};
 
 
 /**
  * Removes empty lines and comments
- * @param {array} editor - User input editor 
+ * @param 	{array} editor 			- User input editor 
+ * @returns {array}	editorLines 	- 
  */
 const trimEditor = (editor) => {
-	let line, idx, editorLines = [], emptyCount = 0;
-	let lineCount = editor.split(/\r\n|\r|\n/).length;
-	editor = editor.split("\n");
+	let line, lineCount, idx, editorLines = [], emptyCount = 0;
 
+	editor = editor.split(/\r\n|\r|\n/);
+	lineCount = editor.length;
+	
 	for (let i = 0; i < lineCount; i++) {
-		line = editor[i].trim().replace("#", "# ");		// Trim line
+		line = editor[i].trim();
 
-		// Remove comments
+		// Remove commentsp
 		idx = line.indexOf("#");
 		if (idx !== -1) {
 			line = line.substring(0, idx); 	
@@ -121,27 +154,5 @@ const trimEditor = (editor) => {
 	return editorLines;
 };
 
-/**
- * Checks if the inst type field is an implemented patmos instruction type. 
- * @param 	{array} 	inst 		- A parsed instruction from the editor.
- * @returns {string}	feedback 	- Error message.
- */
-const checkType = (type) => {
-	let feedback = "";
 
-	if (!instTypes.includes(type)) {
-		feedback = `Type "${type}" not recognized.\n`;
-	}
-	return feedback;
-};
-
-
-const getType = (line) => {
-	line = line.trim().match(
-		/^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s+/i
-	);
-	if (line === null) {
-		return "";
-	}
-	return line[4];
-};
+export default Assembler;

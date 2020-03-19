@@ -15,8 +15,17 @@ import Storage from "./Storage";
 class CPU {
 	constructor() {
 		this.storage = new Storage(); // Cache + registers
+		this.dummy = new Storage(); // Dummy storage to use for predicate
 	}
 	
+	getReg() {
+		return this.storage.getReg();
+	}
+
+	getCache() {
+		return this.storage.getCache();
+	}
+
 	reset() {
 		this.storage.reset(); 
 	}
@@ -34,26 +43,26 @@ class CPU {
 	}
 
 	/**
- 	* @param {array} 			inst 	- One instruction on form [type, des, s1, s2, pred]
+ 	* @param {array} 			inst 	- One instruction on form [pred, type, des, s1, s2]
 	* @returns {Instruction} 	cInst 	- An instruction with its appropriate fields.
 	*/
 	execute(inst) {
 		let cInst; 
-		let pred = 0; 	// untill we fix
 		let state = this.storage;
 
 		// Convert inst into the needed types of instructions
-		let BinaryInst 	= {pred: pred, rd:  inst[1], rs1: inst[2], op2: inst[3]};
-		let CompInst 	= {pred: pred, pd:  inst[1], rs1: inst[2], op2: inst[3]};
-		let LoadInst 	= {pred: pred, rd:  inst[1], ra:  inst[2], imm: inst[3]};
-		let MulInst 	= {pred: pred, rs1: inst[1], rs2: inst[2]};
-		let PredInst 	= {pred: pred, pd:  inst[1], ps1: inst[2], ps2: inst[3]};
-		let StackInst 	= {pred: pred, s1:  inst[1]};
-		let StoreInst 	= {pred: pred, ra:  inst[1], imm: inst[2], rs:  inst[3]};
+		let BinaryInst 	= {pred: inst[0], rd:  inst[2], rs1: inst[3], op2: inst[4]};
+		let CompInst 	= {pred: inst[0], pd:  inst[2], rs1: inst[3], op2: inst[4]};
+		let LoadInst 	= {pred: inst[0], rd:  inst[2], ra:  inst[3], imm: inst[4]};
+		let MulInst 	= {pred: inst[0], rs1: inst[2], rs2: inst[3]};
+		let PredInst 	= {pred: inst[0], pd:  inst[2], ps1: inst[3], ps2: inst[4]};
+		let StackInst 	= {pred: inst[0], s1:  inst[2]};
+		let StoreInst 	= {pred: inst[0], ra:  inst[2], imm: inst[3], rs:  inst[4]};
 
 		// Pick and execute inst
-		switch(inst[0]) {
-		// BinaryArithmetics
+		switch(inst[1]) {
+
+			// BinaryArithmetics
 			case "add": 
 			case "addi": 
 			case "addl": 
@@ -121,7 +130,6 @@ class CPU {
 			case "cmplt": 
 			case "cmplti": 
 				cInst = new Cmplt(CompInst);
-				cInst.execute(state);
 				break;
 			case "cmpneq":
 			case "cmpneqi": 
@@ -271,29 +279,24 @@ class CPU {
 
 			// Rest
 			case "bcopy":
-				cInst = new Bcopy({pred: inst.pred, rd: inst[1], rs1: inst[2], imm: inst[3]}); //missing ps?
+				cInst = new Bcopy({pred: inst[0], rd: inst[2], rs1: inst[3], imm: inst[4]}); //missing ps?
 				break;
 			case "mfs":
-				cInst = new Mfs({pred: inst.pred, rd: inst[1], ss: inst[2]});
+				cInst = new Mfs({pred: inst[0], rd: inst[2], ss: inst[3]});
 				break;
 			case "mts":
-				cInst = new Mts({pred: inst.pred, rs1: inst[1], sd: inst[2]}); // not sure if SD is correct set
+				cInst = new Mts({pred: inst[0], rs1: inst[2], sd: inst[3]}); // not sure if SD is correct set
 				break;
 			default:
-				console.log(`Instruction ${inst[0]} not implemented.`);
+				console.log(`Instruction ${inst[1]} not implemented.`);
 				return -1;
 		}
 		
-		// Handle predicate
-		// let negate = pred & 0b1000;
-		// let preg = pred & 0b0111;
-		// if ( negate ) {
-		// 	if (this.storage.reg[`p${preg}`] === 0) {return -1;}
-		// } else {
-		// 	if (this.storage.reg[`p${preg}`] === 1) {return -1;}
-		// }
+		// Use dummy storage if (pred) = 0
+		if ( ((inst[0] & 0b1000) >>> 3) === this.storage.reg[`p${inst[0] & 0b0111}`] ) {
+			state = this.dummy;
+		}
 		cInst.execute(state);
-		console.log(state);
 		return cInst;
 	}
 }
