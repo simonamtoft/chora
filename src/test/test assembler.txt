@@ -1,8 +1,8 @@
 # One example of each insttype
 
 # syntax 1
-add r1 = r2, r3
-cmpneq p2 = r1, 10
+add r1 = r0, 10
+cmpneq p2 = r1, 5
 pand p2 = p0, p1
 
 # syntax 2
@@ -21,6 +21,7 @@ mul r1, r2
 # Syntax 6
 sres 4
 
-
+# Label and pred
+label1: (!p1) add r1 = r2, 100
 
 # mising bcopy and control flow

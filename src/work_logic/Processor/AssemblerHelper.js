@@ -17,16 +17,13 @@ const compTypes = [
 	"btest", "btesti", "cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", 
 	"cmpneq", "cmpneqi", "cmpule", "cmpulei", "cmpult", "cmpulti"
 ];
-// not implemented/tested for fields 
 const loadTypes = [
 	"lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
 	"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws" 
 ];
-// not implemented for fields, need to set imm as second reg instead of third.
 const storeTypes = [
 	"sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws" 
 ];
-// not implemented
 const mulTypes = [
 	"mul", "mulu"	
 ];
@@ -34,11 +31,9 @@ const mulTypes = [
 const stackTypes = [
 	"sens", "sfree", "sres", "sspill"
 ];
-// not implemented 
 const predTypes = [
 	"pand", "por", "pxor"
 ];
-// not implemented
 const moveTypes = [
 	"mts", "mfs"
 ];
@@ -58,35 +53,17 @@ const sregStr = [
 ];
 
 /**
- * Checks if the inst type field is an implemented patmos instruction type. 
- * @param 	{array} 	inst 		- A parsed instruction from the editor.
- * @returns {string}	feedback 	- Error message.
- */
-export const checkType = (inst) => {
-	let feedback = "";
-	let idx = checkLabel(inst); 
-
-	if (inst[idx] === "" | inst[idx] === undefined | inst[idx] === "\n") {
-		feedback = "newline";
-	} else if (!instTypes.includes(inst[idx])) {
-		feedback = `Type "${inst[idx]}" not recognized.\n`;
-	}
-	return feedback;
-};
-
-/**
  * Checks syntax of line. Only use if fields are already correct.
  * @param {string} 	line 	- One line from editor.
  * @param {array} 	inst 	- One correctly parsed instruction.
  */
 export const checkSyntax = (line, inst) => {
 	let feedback = "", syntax;
-	let hasLabel = checkLabel(inst);
-	let type = inst[0 + hasLabel];
+	let preceeding = checkPreceeding(inst);
+	let type = inst[preceeding];
 
 	// Different syntaxes
 	syntax = [
-		false,
 		binTypes.includes(type) | compTypes.includes(type) | predTypes.includes(type),
 		loadTypes.includes(type), 
 		storeTypes.includes(type),
@@ -95,18 +72,18 @@ export const checkSyntax = (line, inst) => {
 		stackTypes.includes(type)
 	];
 
-	if (syntax[1]) {
-		feedback += checkSyntaxOne(line, hasLabel);
+	if (syntax[0]) {
+		feedback += checkSyntaxOne(line, preceeding);
+	} else if (syntax[1]) {
+		feedback += checkSyntaxTwo(line, preceeding); 
 	} else if (syntax[2]) {
-		feedback += checkSyntaxTwo(line, hasLabel); 
+		feedback += checkSyntaxThree(line, preceeding);
 	} else if (syntax[3]) {
-		feedback += checkSyntaxThree(line, hasLabel);
+		feedback += checkSyntaxFour(line, preceeding);
 	} else if (syntax[4]) {
-		feedback += checkSyntaxFour(line, hasLabel);
+		feedback += checkSyntaxFive(line, preceeding);
 	} else if (syntax[5]) {
-		feedback += checkSyntaxFive(line, hasLabel);
-	} else if (syntax[6]) {
-		feedback += checkSyntaxSix(line, hasLabel);
+		feedback += checkSyntaxSix(line, preceeding);
 	} else {
 		feedback += `Syntax for type ${type} not defined`;
 	}
@@ -117,18 +94,18 @@ export const checkSyntax = (line, inst) => {
  * Checks syntax for Binary Arithmetics and Compare instructions.
  * Syntax: type rd = s1, s2
  * @param 	{string} line 		- A line from the editor. 
- * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @param 	{number} preceeding - 0, 1 or 2 depending on leading label/predicate
  * @returns {string} feedback	- Error message.
  */
-const checkSyntaxOne = (line, hasLabel) => {
+const checkSyntaxOne = (line, preceeding) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").split(/[ 	]+/);
 
 	// Currently only displays first error...
-	if (line[2 + hasLabel] !== "=") {
+	if (line[2 + preceeding] !== "=") {
 		feedback += "Missing equalsign after rd.\n";
-	} else if (!hasComma(line[3 + hasLabel])) {
+	} else if (!hasComma(line[3 + preceeding])) {
 		feedback += "Missing comma afer rs1.\n";
 	}
 	return feedback;
@@ -138,22 +115,22 @@ const checkSyntaxOne = (line, hasLabel) => {
  * Checks syntax for Loadtyped instructions
  * Syntax: type rd = [rs1 + imm]
  * @param 	{string} line 		- A line from the editor. 
- * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @param 	{number} preceeding - 0, 1 or 2 depending on leading label/predicate
  * @returns {string} feedback	- Error message.
  */
-const checkSyntaxTwo = (line, hasLabel) => {
+const checkSyntaxTwo = (line, preceeding) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").replace("+", " + ").replace("[", " [ ").replace("]", " ] ").split(/[ 	]+/);
 
 	// Currently only displays first error...
-	if (line[2 + hasLabel] !== "=") {
+	if (line[2 + preceeding] !== "=") {
 		feedback += "Missing '=' after rd.\n";
-	} else if (line[3 + hasLabel] !== "[") {
+	} else if (line[3 + preceeding] !== "[") {
 		feedback += "Missing '[' before s1.\n";
-	} else if (line[5 + hasLabel] !== "+") {
+	} else if (line[5 + preceeding] !== "+") {
 		feedback += "Missing '+' between s1 and s2.\n";
-	} else if (line[7 + hasLabel] !== "]") {
+	} else if (line[7 + preceeding] !== "]") {
 		feedback += "Missing ']' after s2.\n";
 	}	
 	return feedback;
@@ -163,22 +140,22 @@ const checkSyntaxTwo = (line, hasLabel) => {
  * Checks syntax for Storetyped instructions
  * Syntax: type [rd + imm] = s1
  * @param 	{string} line 		- A line from the editor. 
- * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @param 	{number} preceeding - 0, 1 or 2 depending on leading label/predicate
  * @returns {string} feedback	- Error message.
  */
-const checkSyntaxThree = (line, hasLabel) => {
+const checkSyntaxThree = (line, preceeding) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").replace("[", " [ ").replace("]", " ] ").split(/[ 	]+/);
 
 	// Currently only displays first error...
-	if (line[1 + hasLabel] !== "[") {
+	if (line[1 + preceeding] !== "[") {
 		feedback += "Missing '[' before rd.\n";
-	} else if (line[3 + hasLabel] !== "+") {
+	} else if (line[3 + preceeding] !== "+") {
 		feedback += "Missing '+' between rd and imm.\n";
-	} else if (line[5 + hasLabel] !== "]") {
+	} else if (line[5 + preceeding] !== "]") {
 		feedback += "Missing ']' after imm.\n";
-	} else if (line[6 + hasLabel] !== "=") {
+	} else if (line[6 + preceeding] !== "=") {
 		feedback += "Missing '=' before s1.\n";
 	}
 	
@@ -189,15 +166,15 @@ const checkSyntaxThree = (line, hasLabel) => {
  * Checks syntax for Move Special instructions
  * Syntax: type r1 = r2
  * @param 	{string} line 		- A line from the editor. 
- * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @param 	{number} preceeding - 0, 1 or 2 depending on leading label/predicate
  * @returns {string} feedback	- Error message.
  */
-const checkSyntaxFour = (line, hasLabel) => {
+const checkSyntaxFour = (line, preceeding) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().replace("=", " = ").split(/[ 	]+/);
 
-	if (line[2 + hasLabel] !== "=") {
+	if (line[2 + preceeding] !== "=") {
 		feedback += "Missing '=' between the two registers.\n";
 	}
 	return feedback;
@@ -207,27 +184,31 @@ const checkSyntaxFour = (line, hasLabel) => {
  * Checks syntax for Multiply instructions
  * Syntax: type r1, r2
  * @param 	{string} line 		- A line from the editor. 
- * @param 	{number} hasLabel 	- 1 if line has a label, otherwise 0
+ * @param 	{number} preceeding - 0, 1 or 2 depending on leading label/predicate
  * @returns {string} feedback	- Error message.
  */
-const checkSyntaxFive = (line, hasLabel) => {
+const checkSyntaxFive = (line, preceeding) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().split(/[ 	]+/);
 
-	if (!hasComma(line[1 + hasLabel])) {
+	if (!hasComma(line[1 + preceeding])) {
 		feedback += "Missing comma afer rs1.\n";
 	}
 
 	return feedback;
 };
 
-const checkSyntaxSix = (line, hasLabel) => {
+const checkSyntaxSix = (line, preceeding) => {
 	let feedback = "";
 	// eslint-disable-next-line no-control-regex
 	line = line.trim().split(/[ 	]+/);
-
+	
 	// add check for any unwanted stuff?
+
+	if ((line[2 + preceeding] !== undefined) & (line[2 + preceeding] !== "#")) {
+		feedback += "Unwanted end of line chars";
+	}
 
 	return feedback;
 };
@@ -240,7 +221,7 @@ const checkSyntaxSix = (line, hasLabel) => {
  */
 export const checkFields = (inst) => {
 	let feedback = "";
-	let type = inst[checkLabel(inst)];
+	let type = inst[checkPreceeding(inst)];
 	let isStack = stackTypes.includes(type);
 	let isMul = mulTypes.includes(type);
 	let isMove = moveTypes.includes(type);
@@ -265,7 +246,6 @@ export const checkFields = (inst) => {
 		} else {
 			feedback += checkReg(inst, type, 2);
 		}
-	
 
 		// Source 2
 		// Doesn't exist for move
@@ -291,7 +271,7 @@ export const checkFields = (inst) => {
 const writeProtect = (inst, idx) => {
 	let field, feedback = "";
 	
-	idx += checkLabel(inst);
+	idx += checkPreceeding(inst);
 	field = inst[idx];
 	
 	if (field === "r0") {
@@ -308,29 +288,26 @@ const checkReg = (inst, type, idx) => {
 	let feedback = "";
 	
 	regType = getRegType(type, idx);
-	idx += checkLabel(inst);
+	idx += checkPreceeding(inst);
 	field = inst[idx];
 
 	// Check register type is correct
 	switch(regType) {
 		case "r":
 			wrongReg = sregStr.includes(field) | pregStr.includes(field);
-			isReg = regStr.includes(field);
 			break;
 		case "s":
 			wrongReg = regStr.includes(field) | pregStr.includes(field);
-			isReg = sregStr.includes(field);
 			break;
 		case "p":
 			wrongReg = regStr.includes(field) | sregStr.includes(field);
-			isReg = pregStr.includes(field);
 			break;
 		case "all":
 			wrongReg = false;
-			isReg = regStr.includes(field) | pregStr.includes(field) | sregStr.includes(field);
 			break;
 	}
 
+	isReg = regStr.includes(field) | pregStr.includes(field) | sregStr.includes(field);
 	if (wrongReg) {
 		feedback += `Field ${idx}: "${field}" should be a ${regType}-register.\n`;
 	} else if (!isReg) {
@@ -348,7 +325,7 @@ const checkReg = (inst, type, idx) => {
 const checkRegImm = (inst, idx) => {
 	let field, feedback = "";
 	
-	idx += checkLabel(inst);
+	idx += checkPreceeding(inst);
 	field = inst[idx];
 
 	// Check if field is reg/imm
@@ -369,7 +346,7 @@ const checkRegImm = (inst, idx) => {
 const checkImm = (inst, idx) => {
 	let field, feedback = "";
 	
-	idx += checkLabel(inst);
+	idx += checkPreceeding(inst);
 	field = inst[idx];
 
 	if (isNaN(field)) {
@@ -393,7 +370,7 @@ const getRegType = (type, idx) => {
 		// Destination
 		case 1:
 			rs = binTypes.includes(type) | loadTypes.includes(type) | storeTypes.includes(type) | type === "mfs";
-			ps = compTypes.includes(type) | predTypes.includes(type);
+			ps = compTypes.includes(type) | predTypes.includes(type); // control flow // bcopy
 			ss = type === "mts";
 			break;
 		
@@ -426,18 +403,6 @@ const getRegType = (type, idx) => {
 	return regType;
 };
 
-/**
- * @param {string} 	line 		- One line from the user editor
- * @returns {array}	fields 		- Returns all the fields.
- */
-export const parseLineToInst = (line) => {
-	// eslint-disable-next-line no-useless-escape
-	line = line.trim().replace(/[=+\[\]:]/g, "").replace("#", "# "); 
-	// eslint-disable-next-line no-control-regex
-	line = line.split(/[ 	,]+/);
-	return line;
-};
-
 // Checks if there is a comma after the register field
 const hasComma = (rfield) => {
 	rfield = rfield.trim().replace(",", " ,");
@@ -450,4 +415,25 @@ const hasComma = (rfield) => {
 	return true;
 };
 
-const checkLabel = (inst) => {return instTypes.includes(inst[1]) ? 1 : 0;};
+// Check for label and predicate
+const checkPreceeding = (inst) => {
+	if (instTypes.includes(inst[2])) {
+		return 2;
+	} else if (instTypes.includes(inst[1])) {
+		return 1;
+	} else {
+		return 0;
+	}
+};
+
+/**
+ * @param {string} 	line 		- One line from the user editor
+ * @returns {array}	fields 		- Returns all the fields.
+ */
+export const parseLineToInst = (line) => {
+	// eslint-disable-next-line no-useless-escape
+	line = line.trim().replace(/[=+\[\]:]/g, "").replace("#", "# "); 
+	// eslint-disable-next-line no-control-regex
+	line = line.split(/[ 	,]+/);
+	return line;
+};

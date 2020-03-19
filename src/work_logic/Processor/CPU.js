@@ -33,12 +33,11 @@ class CPU {
 		return cInst["binary"][0];
 	}
 
+	/**
+ 	* @param {array} 			inst 	- One instruction on form [type, des, s1, s2, pred]
+	* @returns {Instruction} 	cInst 	- An instruction with its appropriate fields.
+	*/
 	execute(inst) {
-		/**
-		 * @param {array} 			inst 	- One instruction on form [type, des, s1, s2]
-		 * @returns {Instruction} 	cInst 	- An instruction with its appropriate fields.
-		*/
-
 		let cInst; 
 		let pred = 0; 	// untill we fix
 		let state = this.storage;
@@ -284,7 +283,17 @@ class CPU {
 				console.log(`Instruction ${inst[0]} not implemented.`);
 				return -1;
 		}
+		
+		// Handle predicate
+		// let negate = pred & 0b1000;
+		// let preg = pred & 0b0111;
+		// if ( negate ) {
+		// 	if (this.storage.reg[`p${preg}`] === 0) {return -1;}
+		// } else {
+		// 	if (this.storage.reg[`p${preg}`] === 1) {return -1;}
+		// }
 		cInst.execute(state);
+		console.log(state);
 		return cInst;
 	}
 }

@@ -41,10 +41,15 @@ addConsoleOutput = (line) => {
  * @field queLength: Amount of instructions
  */
 stepInst = () => {
-	let inst = this.assembler.instQue[this.instCount];
-	this.cpu.execute(inst);
-	this.instCount += 1;
-	this.forceUpdate(); // To re-render
+	if (this.instCount < this.assembler.queLength) {
+		let inst = this.assembler.instQue[this.instCount];
+		this.cpu.execute(inst);
+		this.instCount += 1;
+		this.forceUpdate(); // To re-render
+	} else {
+		console.log("No more to step.");
+	}
+	
 }
 
 /**
