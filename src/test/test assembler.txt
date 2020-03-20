@@ -25,3 +25,15 @@ sres 4
 label1: (!p1) add r1 = r2, 100
 
 # mising bcopy and control flow
+
+
+
+
+# Check wrong des register
+add p1 = r0, 10
+cmpneq r2 = r1, 5
+pand s2 = p0, p1
+lwc p10 = [r1 + 1]
+swc [r50 + 1] = r2
+mfs s8 = s6
+mts r6 = r1
