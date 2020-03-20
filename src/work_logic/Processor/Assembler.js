@@ -1,5 +1,7 @@
 import CPU from "./CPU";
-import { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes } from "../../helpers/typeStrings";
+import { instTypes, binTypes, compTypes, loadTypes, storeTypes, 
+	mulTypes, stackTypes, predTypes, moveTypes } from "../../helpers/typeStrings";
+import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, pregStr, sregStr, allRegStr } from "../../helpers/regStrings";
 
 class Assembler {
@@ -7,6 +9,7 @@ class Assembler {
 		this.errorMessage = [];
 		this.instQue = [];
 		this.binary = [];
+		this.originalCode = [];
 		this.labels = {};
 		this.queLength = 0;
 		this.cpu = new CPU();
@@ -16,6 +19,7 @@ class Assembler {
 		this.errorMessage = [];
 		this.instQue = [];
 		this.binary = [];
+		this.pseudo = [];
 		this.labels = {};
 		this.queLength = 0;
 		this.cpu.reset();
@@ -40,8 +44,16 @@ class Assembler {
 	parse(line, idx) {
 		let type, regExMatch, regEx, inst = [];
 
+		if (line.split(" ")[0] === "nop") {
+			this.originalCode[idx] = ["nop"];
+			this.instQue[idx] = ["~", "sub", "r0", "r0", "0"];
+			this.binary[idx] = 0x00400000;
+			return true;
+		}
+		
+
 		// Get first regex match
-		regEx = /^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s+/i;
+		regEx = /^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s+/;
 		regExMatch = line.match(regEx);
 
 		if (regExMatch === null) {
@@ -55,76 +67,151 @@ class Assembler {
 		}
 
 		// Set predicate
-		// add error checking etc. to predicate 
+								// add error checking etc. to predicate 
 		inst[0] = regExMatch[3] ? Number(regExMatch[3].replace("p", "")) : 0;
 		if (regExMatch[2] === "!") {
 			inst[0] |= 8;
 		}
 
-		// Check type
+		// Handle inst as normal or pseudo inst 
 		type = regExMatch[4];
-		inst[1] = type;
-		if (!instTypes.includes(type)) {
-			this.errorMessage[idx] = `${type} is not a recognized instruction.`;
-			return false;
-		}
-
-		// Get & check operators 
-		regEx = getRegEx(type);
-		line = line.split(type)[1].trim();
-		regExMatch = line.match(regEx);
-		if (regExMatch === null) {
-			this.errorMessage[idx] = "Missing operators.";
-			return false;
-		}
-		let opError = checkOperators(type, regExMatch);
-		if (opError !== "") {
-			this.errorMessage[idx] = opError;
-			return false;
-		}
-		// Append operators to inst
-		inst = inst.concat(regExMatch.slice(1,regExMatch.length));
-
-		// Check end-of-line 
-		let remainder, lastOp;
-		lastOp = regExMatch[regExMatch["length"] - 1];
-
-		if (loadTypes.includes(type)) {
-			remainder = regExMatch["input"].split(`${lastOp}]`);
+		if (instTypes.includes(type)) {
+			inst = this.handleNormalInst(line, type, regExMatch, idx, inst);
+			this.originalCode[idx] = inst.slice(1, inst.length);
+		} else if (pseudoTypes.includes(type)) {
+			inst = this.handlePseudoInst(line, type, regExMatch, idx, inst);
 		} else {
-			remainder = regExMatch["input"].split(lastOp);
+			this.errorMessage[idx] = `${type} is not a recognized instruction.`;
+			inst = -1;
 		}
-		remainder = remainder[remainder.length-1].trim();
-
-		if (remainder) {
-			this.errorMessage[idx] = `Remove from end-of-line: ${remainder}.`;
+		
+		// Return stuff
+		if (inst === -1) {
 			return false;
 		}
-
-		// Return stuff
 		this.instQue[idx] = inst;
 		this.binary[idx] = this.cpu.getBinary(inst);
 		return true;
 	}
+
+	handleNormalInst = (line, type, regExMatch, idx, inst) => {
+		inst[1] = type; 
+	
+		// Get reg ex match
+		line = line.split(type)[1].trim();
+		regExMatch = line.match(getRegEx(type));
+
+		// Check if instruction is typed in correctly... Maybe change these 3 things into 1 function instead??
+		if (regExMatch === null) {
+			this.errorMessage[idx] = "Missing operators.";
+			return -1;
+		}
+		if (!this.checkOperators(type, regExMatch, idx)) {
+			return -1;
+		}
+		if (!this.checkEndOfLine(type, regExMatch, idx)) {
+			return -1;
+		}
+
+		// Append operators to inst
+		return inst.concat(regExMatch.slice(1, regExMatch.length));
+	};
+
+	handlePseudoInst = (line, type, regExMatch, idx, inst) => {
+		let match, ptype;
+
+		line = line.split(type)[1].trim();
+		regExMatch = line.match(getRegEx(type));
+
+		// Check if instruction is typed in correctly... Maybe change these 3 things into 1 function instead??
+		if (regExMatch === null) {
+			return -1;
+		}
+		if (!this.checkOperators(type, regExMatch, idx)) {
+			return -1;
+		}
+		if (!this.checkEndOfLine(type, regExMatch, idx)) {
+			return -1;
+		}
+
+		// Output pseudo
+		this.originalCode[idx] = [type, regExMatch[1], regExMatch[2]];
+		
+		// Change line to basic code
+		match = [regExMatch[1], regExMatch[2]];	// [rd, s1] 
+		ptype = type.toUpperCase(); // The mapping has the pseudo types as uppercase 
+		if (ptype === "LI") {
+			ptype = "LI_POS";
+			if (Number(match[1]) < 0) {
+				ptype = "LI_NEG";
+				match[1] = -match[1];
+			} 
+		} else if (ptype === "MOV") {
+			ptype += "_";
+
+			if (regStr.includes(match[0])) {
+				ptype += "R";
+			} else {
+				ptype += "P";
+			}
+
+			if (regStr.includes(match[1])) {
+				ptype += "R";
+			} else {
+				ptype += "P";
+			}
+		}
+		line = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n-1]); // insert des and op into inst string
+
+		// Get type
+		type = line.split(" ")[0].trim();
+
+		// Handle basic code as normal inst
+		return this.handleNormalInst(line, type, regExMatch, idx, inst);
+	};
+
+
+	/**
+	 * 
+	 * @param {string} 	type		- Instruction type 
+	 * @param {Array} 	regExMatch 	- Fields after inst type [rd, s1, s2]
+	 */
+	checkOperators = (type, regExMatch, idx) => {
+		let errorMessage = "";
+		
+		// Check destination register
+		errorMessage += checkDesReg(type, regExMatch[1]);
+		
+		// Check register "numbers".
+		errorMessage += checkOp(regExMatch[2], type);
+		errorMessage += checkOp(regExMatch[3], type);
+		
+		if (errorMessage === "") {
+			return true;
+		}
+		this.errorMessage[idx] = errorMessage;
+		return false;
+	};
+
+	checkEndOfLine = (type, regExMatch, idx) => {
+		let remainder, lastOp;
+		lastOp = regExMatch[regExMatch["length"] - 1];
+	
+		if (loadTypes.includes(type)) {
+			remainder = regExMatch["input"].split(`${lastOp}]`); // loadtype ends with 'op2]' not just op2.
+		} else {
+			remainder = regExMatch["input"].split(lastOp);
+		}
+		remainder = remainder[remainder.length-1].trim();
+	
+		if (remainder) {
+			this.errorMessage[idx] = `Remove from end-of-line: ${remainder}.`;
+			return false;
+		}
+		return true;
+	};
 }
 
-/**
- * 
- * @param {string} 	type		- Instruction type 
- * @param {Array} 	regExMatch 	- Fields after inst type [rd, s1, s2]
- */
-const checkOperators = (type, regExMatch) => {
-	let errorMessage = "";
-	
-	// Check destination register
-	errorMessage += checkDesReg(type, regExMatch[1]);
-	
-	// Check register "numbers".
-	errorMessage += checkOp(regExMatch[2], type);
-	errorMessage += checkOp(regExMatch[3], type);
-
-	return errorMessage;
-};
 
 // Outputs wrong des if not correct des.
 const checkDesReg = (type, des) => {
@@ -157,7 +244,6 @@ const checkOp = (op) => {
 	return "";
 };
 
-
 /**
  * Gets regular expression from type
  * @param {string} 	type  - Instruction type
@@ -170,22 +256,60 @@ const getRegEx = (type) => {
 		storeTypes.includes(type),
 		moveTypes.includes(type),
 		mulTypes.includes(type),
-		stackTypes.includes(type)
+		stackTypes.includes(type),
+		
+
+		// Pseudo instructions
+		type === "mov" || type === "isodd" || type === "pmov",
+		type === "clr",
+		type === "neg",
+		type === "not",
+		type === "li", 
+		type === "nop", 
+		type === "pset", 
+		type === "pnot",
+		type === "pclr",
+
+		// 
+		type === "bcopy"
 	];
 	
 	switch(syntax.indexOf(true)) {
 		case 0:
-			return /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})\s*,\s*([rp]?\d+)/i;
+			return /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})\s*,\s*([rp]?\d+)/;
 		case 1:
-			return /(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\d+)\]/i;
+			return /(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\d+)\]/;
 		case 2: 
-			return /\[(r\d{1,2})\s*\+\s*(\d+)\]\s*=\s*(r\d{1,2})/i;
+			return /\[(r\d{1,2})\s*\+\s*(\d+)\]\s*=\s*(r\d{1,2})/;
 		case 3:
-			return /([rs]\d{1,2})\s*=\s*([rs]\d{1,2})/i;
+			return /([rs]\d{1,2})\s*=\s*([rs]\d{1,2})/;
 		case 4:
-			return /(r\d{1,2})\s*,\s*(r\d{1,2})/i;
+			return /(r\d{1,2})\s*,\s*(r\d{1,2})/;
 		case 5:
-			return /(\d+)\s?/i;
+			return /(\d+)\s?/;
+		
+		// Pseudo instructions
+		case 6: 
+			return /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})/;
+		case 7: 
+			return /([rp]\d{1,2})/;
+		case 8: 
+			return /(r\d{1,2})\s*=\s*-\s*(r\d{1,2})/;
+		case 9: 
+			return /(r\d{1,2})\s*=\s*~\s*(r\d{1,2})/;
+		case 10: 
+			return /(r\d{1,2})\s*=\s*(-{0,1}\d+)/;
+		case 11: 
+			return /\s*/; // nop....
+		case 12: 
+			return /(p\d{1})\s*=\s*(\d{1})/;
+		case 13:
+			return /(p\d)\s*=\s*~\s*(p\d)/;
+		case 14:
+			return /(p\d)\s*=\s*(0)/;
+		
+		case 15:
+			return /(r\d{1,2})\s*=\s*(r\d{1,2}),\s*(\d+),\s*(p\d)/;
 		default: 
 			return "none";
 	}
