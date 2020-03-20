@@ -33,7 +33,7 @@ const forwardBtn = (queLength, instCount, runClick, stepClick) => {
 
 	if (queLength === 0 | queLength === instCount) {
 		tooltipRun = "No instructions to run";
-		tooltipStep = "No instructions to step"
+		tooltipStep = "No instructions to step";
 		return (
 			<Fragment>
 				<button title={tooltipRun} type="button" className={buttonBS[0]} disabled>Run</button>
@@ -68,7 +68,7 @@ const backwardsBtn = (instCount, prevClick, resetClick) => {
 			<button title={tooltipReset} type="button" className={buttonBS[3]} onClick={resetClick}>Reset</button>
 		</Fragment>
 	);
-}
+};
 
 
 export default DisplayButtons;
