@@ -34,11 +34,9 @@ class Assembler {
 		}
  
 		// Error handling
-		if (this.errorMessage.length !== 0) {
-			return false;
+		if (this.errorMessage.length === 0) {
+			this.queLength = this.instQue.length;
 		}
-		this.queLength = this.instQue.length;
-		return true;
 	}
 
 	parse(line, idx) {
@@ -57,7 +55,7 @@ class Assembler {
 		regExMatch = line.match(regEx);
 
 		if (regExMatch === null) {
-			this.errorMessage[idx] = "Needs to be on form: label: (px) type ...";
+			this.errorMessage[idx] = "Want form, label: (ps) type 'rest of inst' ";
 			return false;
 		}
 		
@@ -67,8 +65,13 @@ class Assembler {
 		}
 
 		// Set predicate
-								// add error checking etc. to predicate 
-		inst[0] = regExMatch[3] ? Number(regExMatch[3].replace("p", "")) : 0;
+		let pred = regExMatch[3];
+		// if (!pregStr.includes(pred) && pred !== undefined) {
+		// 	this.errorMessage[idx] = `${pred} is not a predicate`;
+		// 	return false;
+		// }
+			
+		inst[0] = pred ? Number(pred.replace("p", "")) : 0;
 		if (regExMatch[2] === "!") {
 			inst[0] |= 8;
 		}
@@ -77,7 +80,7 @@ class Assembler {
 		type = regExMatch[4];
 		if (instTypes.includes(type)) {
 			inst = this.handleNormalInst(line, type, regExMatch, idx, inst);
-			this.originalCode[idx] = inst.slice(1, inst.length);
+			if (inst!==-1) {this.originalCode[idx] = inst;}
 		} else if (pseudoTypes.includes(type)) {
 			inst = this.handlePseudoInst(line, type, regExMatch, idx, inst);
 		} else {

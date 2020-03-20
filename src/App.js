@@ -10,7 +10,6 @@ class App extends Component {
 		this.cpu = new CPU();
 		this.assembler = new Assembler();
 		this.instCount = 0;
-		this.canRun = false;
 		this.state = {
 			consoleOutput: "",
 		};
@@ -23,12 +22,8 @@ class App extends Component {
 getUserInput = (editor) => {
 	this.resetInst();
 	this.assembler.reset();
-	this.canRun = this.assembler.run(editor);
-
-	if (!this.canRun) {
-		console.log(this.assembler.errorMessage);
-	}	
-	console.log(this.assembler.pseudo);
+	this.assembler.run(editor);
+	console.log(this.assembler.errorMessage);
 }
 
 /**
