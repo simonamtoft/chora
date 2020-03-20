@@ -77,14 +77,10 @@ Doesn't store in any register.
 
 
 # To-Do
-1. Fix all load/store instructions.
-    1. Implement StackControl with a proper StackCache.
+1. Instructions 
+    1. Fix all load/store instructions.
+    2. Implement StackControl with a proper StackCache.
+    3. Implement ControlFlow 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
+    1. Pseudocode insturction missing
 3. Prettify GUI (CSS and CodeMirror)
-4. Disable run/step if no instructions left to execute.
-5. Disable reset when no instructions have run yet.
-    1. When prev works, also disable that when no instructions has run.
-
-# Notes to self
-1. When parsing and running ASM, make sure to check the predicate (E.g. (!p6) addi r1 = r0, 255 should only run if p6 is false and it should pass pred: 0b1110 for machine code representation)
-2. Implement pseudo instructions in parser
