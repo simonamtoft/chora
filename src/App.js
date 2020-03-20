@@ -23,7 +23,6 @@ getUserInput = (editor) => {
 	this.resetInst();
 	this.assembler.reset();
 	this.assembler.run(editor);
-	console.log(this.assembler.errorMessage);
 }
 
 /**

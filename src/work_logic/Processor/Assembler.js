@@ -25,7 +25,6 @@ class Assembler {
 		this.cpu.reset();
 	}
 
-
 	run(editor) {
 		editor = trimEditor(editor);
 
@@ -36,6 +35,9 @@ class Assembler {
 		// Error handling
 		if (this.errorMessage.length === 0) {
 			this.queLength = this.instQue.length;
+			console.log("No errors in editor.");
+		} else {
+			console.log(this.errorMessage);
 		}
 	}
 
@@ -49,7 +51,6 @@ class Assembler {
 			return true;
 		}
 		
-
 		// Get first regex match
 		regEx = /^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s+/;
 		regExMatch = line.match(regEx);
@@ -64,13 +65,13 @@ class Assembler {
 			this.labels[regExMatch[1]] = idx;
 		}
 
-		// Set predicate
+		// Check if predicate is correct
 		let pred = regExMatch[3];
 		// if (!pregStr.includes(pred) && pred !== undefined) {
 		// 	this.errorMessage[idx] = `${pred} is not a predicate`;
 		// 	return false;
 		// }
-			
+		// Set predicate
 		inst[0] = pred ? Number(pred.replace("p", "")) : 0;
 		if (regExMatch[2] === "!") {
 			inst[0] |= 8;
