@@ -15,6 +15,27 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 | Mfs                | mfs r8 = s6        |
 | Mts                | mts s6 = r1        |
 
+# Pseudo instructions
+| Pseudo code        | Basic code           |
+| -------------------|----------------------|
+| mov Rd = Rs        | add Rd = Rs, 0       |
+| clr Rd             | add Rd = R0, 0       |
+| neg Rd = -Rs       | sub Rd = r0, Rs      |
+| not Rd = ~Rs       | nor Rd = Rs, r0      |
+| li Rd = imm (pos)  | add Rd = r0, imm     |
+| li Rd = imm (neg)  | sub Rd = r0, imm     |
+| nop                | sub r0 = r0, 0       |
+| isodd Pd = Rs1     | btest Pd = Rs1, r0   |
+| mov Pd = Rs        | cmpneq Pd = Rs, r0   |
+| pmov Pd = Ps       | por Pd = Ps, Ps      | 
+| pnot Pd = ~Ps      | pxor Pd = Ps, p0     |
+| pset Pd = 1        | por Pd = p0, p0      | 
+| pclr Pd = 0        | pxor Pd = p0, p0     | 
+| mov Rd = Ps        | bcopy Rd = r0, 0, Ps |
+
+Beware: nop should give binary = 0x00400000 (to distinguish from compiler-generated nops). 
+
+
 ## How they put into fields
 Rs are meant to represent both r-, p- and s-types, unless otherwise stated.
 
@@ -81,6 +102,9 @@ Doesn't store in any register.
     1. Fix all load/store instructions.
     2. Implement StackControl with a proper StackCache.
     3. Implement ControlFlow 
+    4. Fix bcopy (Ps can be inverted like predicates). 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
     1. Pseudocode insturction missing
+    2. bcopy missing
+    3. ControlFlow missing
 3. Prettify GUI (CSS and CodeMirror)
