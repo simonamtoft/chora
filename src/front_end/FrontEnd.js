@@ -3,7 +3,7 @@ import DisplayEditor from "./DisplayEditor";
 import Simulator from "./Simulator/Simulator";
 
 const FrontEnd = (props) => {
-	if (props.error === true) {
+	if (false) { // props.canRun === 
 		return (
 			<Fragment>
 				<ul className ="nav nav-tabs justify-content-center">
