@@ -1,5 +1,6 @@
 import CPU from "./CPU";
 import { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes } from "../../helpers/typeStrings";
+import { regStr, pregStr, sregStr, allRegStr } from "../../helpers/regStrings";
 
 class Assembler {
 	constructor() {
@@ -9,7 +10,6 @@ class Assembler {
 		this.labels = {};
 		this.queLength = 0;
 		this.cpu = new CPU();
-		this.error = false;
 	}
 
 	reset() {
@@ -19,28 +19,22 @@ class Assembler {
 		this.labels = {};
 		this.queLength = 0;
 		this.cpu.reset();
-		this.error = false;
 	}
 
 
 	run(editor) {
-		let instCount = 0;
 		editor = trimEditor(editor);
 
 		for (let i = 0; i < editor.length; i++) {
-			if(this.parse(editor[i].trim(), instCount)) {
-				instCount += 1;
-			}
+			this.parse(editor[i].trim(), i);
 		}
  
-		// Error message handling
+		// Error handling
 		if (this.errorMessage.length !== 0) {
-			console.log(this.errorMessage);
-			this.error = true;
-		} else {
-			this.error = false;
-			this.queLength = this.instQue.length;
+			return false;
 		}
+		this.queLength = this.instQue.length;
+		return true;
 	}
 
 	parse(line, idx) {
@@ -70,31 +64,105 @@ class Assembler {
 		// Check type
 		type = regExMatch[4];
 		inst[1] = type;
-
 		if (!instTypes.includes(type)) {
-			this.errorMessage[idx] = "Needs to be on form: label: (pred) type ...";
+			this.errorMessage[idx] = `${type} is not a recognized instruction.`;
 			return false;
 		}
 
-
-		// Append rest of line to inst
+		// Get & check operators 
 		regEx = getRegEx(type);
 		line = line.split(type)[1].trim();
 		regExMatch = line.match(regEx);
-
 		if (regExMatch === null) {
 			this.errorMessage[idx] = "Missing operators.";
 			return false;
 		}
-		inst = inst.concat(regExMatch.slice(1,regExMatch.length)); 
+		let opError = checkOperators(type, regExMatch);
+		if (opError !== "") {
+			this.errorMessage[idx] = opError;
+			return false;
+		}
+		// Append operators to inst
+		inst = inst.concat(regExMatch.slice(1,regExMatch.length));
+
+		// Check end-of-line 
+		let remainder, lastOp;
+		lastOp = regExMatch[regExMatch["length"] - 1];
+
+		if (loadTypes.includes(type)) {
+			remainder = regExMatch["input"].split(`${lastOp}]`);
+		} else {
+			remainder = regExMatch["input"].split(lastOp);
+		}
+		remainder = remainder[remainder.length-1].trim();
+
+		if (remainder) {
+			this.errorMessage[idx] = `Remove from end-of-line: ${remainder}.`;
+			return false;
+		}
+
+		// Return stuff
 		this.instQue[idx] = inst;
 		this.binary[idx] = this.cpu.getBinary(inst);
 		return true;
 	}
-	
-
 }
 
+/**
+ * 
+ * @param {string} 	type		- Instruction type 
+ * @param {Array} 	regExMatch 	- Fields after inst type [rd, s1, s2]
+ */
+const checkOperators = (type, regExMatch) => {
+	let errorMessage = "";
+	
+	// Check destination register
+	errorMessage += checkDesReg(type, regExMatch[1]);
+	
+	// Check register "numbers".
+	errorMessage += checkOp(regExMatch[2], type);
+	errorMessage += checkOp(regExMatch[3], type);
+
+	return errorMessage;
+};
+
+// Outputs wrong des if not correct des.
+const checkDesReg = (type, des) => {
+	let desType, idx, mapReg;
+	mapReg = ["r", "p", "s"];
+	desType = [
+		(binTypes.includes(type) || loadTypes.includes(type) || storeTypes.includes(type) || type === "mfs") && !regStr.includes(des),
+		(compTypes.includes(type) || predTypes.includes(type)) && !pregStr.includes(des),
+		type === "mts" && !sregStr.includes(des),
+		// Mul & Stack doesn't have a des reg, thus handled by RegEx only.
+	];
+	idx = desType.indexOf(true);
+
+	if (des === "r0" | des === "p0") {
+		return `Register ${des} is write protected.`;
+	} 
+
+	if (idx === -1) {
+		return "";
+	}
+	return `Type ${type} should write to ${mapReg[idx]}-reg not ${des[0]}-reg.`;
+};
+
+const checkOp = (op) => {
+	if (op !== undefined & isNaN(op)) {
+		if (!allRegStr.includes(op)) {
+			return `${op} is not a register/immediate.`;
+		}
+	}
+	return "";
+};
+
+
+/**
+ * Gets regular expression from type
+ * @param {string} 	type  - Instruction type
+ * @returns a regular expression
+ */
 const getRegEx = (type) => {
 	let syntax = [
 		binTypes.includes(type) || compTypes.includes(type) || predTypes.includes(type),
@@ -126,8 +194,8 @@ const getRegEx = (type) => {
 
 /**
  * Removes empty lines and comments
- * @param 	{array} editor 			- User input editor 
- * @returns {array}	editorLines 	- 
+ * @param 	{string} 	editor 		- User input editor 
+ * @returns {array}		editorLines - Array of lines that are not empty or comments
  */
 const trimEditor = (editor) => {
 	let line, lineCount, idx, editorLines = [], emptyCount = 0;
@@ -153,6 +221,5 @@ const trimEditor = (editor) => {
 	}
 	return editorLines;
 };
-
 
 export default Assembler;
