@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { intToHex } from "../../helper";
+import { intToHex } from "../../helpers/misc";
 import "../../css/Simulator.css";
 
 const tableBS = "table table-hover table-sm col-12";

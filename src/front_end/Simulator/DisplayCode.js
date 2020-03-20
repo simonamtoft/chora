@@ -1,6 +1,6 @@
 import React from "react";
 import "../../css/Simulator.css";
-import { intToHex } from "../../helper";
+import { intToHex } from "../../helpers/misc";
 
 const DisplayCode = (props) => {
 	return (
