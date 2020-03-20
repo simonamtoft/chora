@@ -1,6 +1,26 @@
 # Chora
 A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), developed by Marc Sun Bøg & Simon Amtoft Pedersen as a part of their bachelor project at the Technical University of Denmark (DTU), advised by [Martin Schoeberl](https://www.imm.dtu.dk/~masca/) from DTU Compute. 
 
+# Pseudo instructions
+| Pseudo code        | Basic code           |
+| -------------------|----------------------|
+| mov Rd = Rs        | add Rd = Rs, 0       |
+| clr Rd             | add Rd = R0, 0       |
+| neg Rd = -Rs       | sub Rd = r0, Rs      |
+| not Rd = ~Rs       | nor Rd = Rs, r0      |
+| li Rd = imm (pos)  | add Rd = r0, imm     |
+| li Rd = imm (neg)  | sub Rd = r0, imm     |
+| nop                | sub r0 = r0, 0       |
+| isodd Pd = Rs1     | btest Pd = Rs1, r0   |
+| mov Pd = Rs        | cmpneq Pd = Rs, r0   |
+| pmov Pd = Ps       | por Pd = Ps, Ps      | 
+| pnot Pd = ~Ps      | pxor Pd = Ps, p0     |
+| pset Pd = 1        | por Pd = p0, p0      | 
+| pclr Pd = 0        | pxor Pd = p0, p0     | 
+| mov Rd = Ps        | bcopy Rd = r0, 0, Ps |
+
+Beware: nop should give binary = 0x00400000 (to distinguish from compiler-generated nops). 
+
 # Instruction examples
 | Instruction Type   | Example            |
 | -------------------|:-------------------|
@@ -73,18 +93,15 @@ Multiply is stored in registers s2 and s3.
 
 Doesn't store in any register. 
 
-
-
-
 # To-Do
-1. Fix all load/store instructions.
-    1. Implement StackControl with a proper StackCache.
+1. Instructions 
+    1. Fix all load/store instructions.
+    2. Implement StackControl with a proper StackCache.
+    3. Implement ControlFlow 
+    4. Fix bcopy (Ps can be inverted like predicates). 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
-3. Prettify GUI (CSS and CodeMirror)
-4. Disable run/step if no instructions left to execute.
-5. Disable reset when no instructions have run yet.
-    1. When prev works, also disable that when no instructions has run.
-
-# Notes to self
-1. When parsing and running ASM, make sure to check the predicate (E.g. (!p6) addi r1 = r0, 255 should only run if p6 is false and it should pass pred: 0b1110 for machine code representation)
-2. Implement pseudo instructions in parser
+    1. Pseudocode insturction missing
+    2. bcopy missing
+    3. ControlFlow missing
+3. Display pseudo codes in original code.
+4. Prettify GUI (CSS and CodeMirror)
