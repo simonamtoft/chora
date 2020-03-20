@@ -279,7 +279,7 @@ class CPU {
 
 			// Rest
 			case "bcopy":
-				cInst = new Bcopy({pred: inst[0], rd: inst[2], rs1: inst[3], imm: inst[4]}); //missing ps?
+				cInst = new Bcopy({pred: inst[0], rd: inst[2], rs1: inst[3], imm: inst[4], ps: inst[5]}); //missing ps?
 				break;
 			case "mfs":
 				cInst = new Mfs({pred: inst[0], rd: inst[2], ss: inst[3]});

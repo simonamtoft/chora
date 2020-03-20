@@ -57,6 +57,7 @@ const FrontEnd = (props) => {
 						instQue = {props.instQue}
 						instCount = {props.instCount}
 						binary = {props.binary}
+						pseudo = {props.pseudo}
 					/>
 				</div>
 			</div>

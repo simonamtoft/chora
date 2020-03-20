@@ -21,6 +21,7 @@ const Simulator = (props) => {
 					instQue = {props.instQue}
 					instCount = {props.instCount}
 					binary = {props.binary}
+					pseudo = {props.pseudo}
 				/>
 				<DisplayConsole
 					consoleOutput = {props.consoleOutput}

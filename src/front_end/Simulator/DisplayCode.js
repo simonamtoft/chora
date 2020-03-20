@@ -14,33 +14,40 @@ const DisplayCode = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{GenMachineRows(props.instQue, props.instCount, props.binary)}
+					{GenMachineRows(props.instQue, props.pseudo, props.instCount, props.binary)}
 				</tbody>
 			</table>
 		</div>
 	);
 };
 
-const GenMachineRows = (instQue, instCount, binary) => {
+const GenMachineRows = (instQue, originalInst, instCount, binary) => {
 	let rows = [];
 
 	for (let i = 0; i < instQue.length; i++) {
-		rows.push(MachineRow(instQue[i], binary[i], instCount, i));
+		rows.push(MachineRow(instQue[i], originalInst[i], binary[i], instCount, i));
 	}
 	return rows;
 };
 
-const MachineRow = (inst, binary, instCount, i) => {
+const MachineRow = (inst, originalInst, binary, instCount, i) => {
 	let color = "";
 	if (instCount === i) {
 		color = "current-inst";
 	}
 
+	if (inst === undefined) {
+		inst = [" ", "inst", "is", "undefined", "!"];
+	}
+	if (originalInst === undefined)  {
+		originalInst = [" ", "inst", "is", "undefined", "!"];
+	}
+
 	return(
 		<tr key={i} className={color} >
 			<td>{intToHex(binary)}</td>
-			<td>b</td>
 			<td>{inst[1]} {inst[2]} {inst[3]} {inst[4]}</td>
+			<td>{originalInst[0]} {originalInst[1]} {originalInst[2]} {originalInst[3]}</td>
 		</tr>
 	);
 };

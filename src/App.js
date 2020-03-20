@@ -28,6 +28,7 @@ getUserInput = (editor) => {
 	if (!this.canRun) {
 		console.log(this.assembler.errorMessage);
 	}	
+	console.log(this.assembler.pseudo);
 }
 
 /**
@@ -96,6 +97,7 @@ render() {
 				instCount = {this.instCount}
 				binary = {this.assembler.binary}
 				canRun = {this.canRun}
+				pseudo = {this.assembler.originalCode}
 			/>	
 		</div>
 	);
