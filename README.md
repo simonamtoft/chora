@@ -103,4 +103,5 @@ Doesn't store in any register.
     1. Pseudocode insturction missing
     2. bcopy missing
     3. ControlFlow missing
-3. Prettify GUI (CSS and CodeMirror)
+3. Display pseudo codes in original code.
+4. Prettify GUI (CSS and CodeMirror)
