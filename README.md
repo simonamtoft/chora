@@ -101,7 +101,6 @@ Doesn't store in any register.
     4. Fix bcopy (Ps can be inverted like predicates). 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
     1. ControlFlow missing
-3. Display pseudo codes in original code.
 4. Prettify GUI (CSS and CodeMirror)
 
 # Note to self
