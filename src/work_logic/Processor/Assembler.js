@@ -1,8 +1,8 @@
 import CPU from "./CPU";
-import { instTypes, binTypes, compTypes, loadTypes, storeTypes, 
-	mulTypes, stackTypes, predTypes, moveTypes } from "../../helpers/typeStrings";
+import { instTypes, binTypes, compTypes, loadTypes, storeTypes, predTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, pregStr, sregStr, allRegStr } from "../../helpers/regStrings";
+import { getRegEx } from "../../helpers/regEx";
 
 class Assembler {
 	constructor() {
@@ -42,7 +42,7 @@ class Assembler {
 	}
 
 	parse(line, idx) {
-		let type, regExMatch, regEx, inst = [];
+		let type, regExMatch, inst = [];
 
 		if (line.split(" ")[0] === "nop") {
 			this.originalCode[idx] = ["nop"];
@@ -52,9 +52,7 @@ class Assembler {
 		}
 		
 		// Get first regex match
-		regEx = /^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s+/;
-		regExMatch = line.match(regEx);
-
+		regExMatch = line.match(getRegEx("first"));
 		if (regExMatch === null) {
 			this.errorMessage[idx] = "Want form, label: (ps) type 'rest of inst' ";
 			return false;
@@ -165,9 +163,7 @@ class Assembler {
 				ptype += "P";
 			}
 		}
-		line = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n-1]); // insert des and op into inst string
-
-		// Get type
+		line = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n-1]);
 		type = line.split(" ")[0].trim();
 
 		// Handle basic code as normal inst
@@ -216,8 +212,7 @@ class Assembler {
 	};
 }
 
-
-// Outputs wrong des if not correct des.
+// Returns string to append to errorMesage if any errors.
 const checkDesReg = (type, des) => {
 	let desType, idx, mapReg;
 	mapReg = ["r", "p", "s"];
@@ -247,78 +242,6 @@ const checkOp = (op) => {
 	}
 	return "";
 };
-
-/**
- * Gets regular expression from type
- * @param {string} 	type  - Instruction type
- * @returns a regular expression
- */
-const getRegEx = (type) => {
-	let syntax = [
-		binTypes.includes(type) || compTypes.includes(type) || predTypes.includes(type),
-		loadTypes.includes(type), 
-		storeTypes.includes(type),
-		moveTypes.includes(type),
-		mulTypes.includes(type),
-		stackTypes.includes(type),
-		
-
-		// Pseudo instructions
-		type === "mov" || type === "isodd" || type === "pmov",
-		type === "clr",
-		type === "neg",
-		type === "not",
-		type === "li", 
-		type === "nop", 
-		type === "pset", 
-		type === "pnot",
-		type === "pclr",
-
-		// 
-		type === "bcopy"
-	];
-	
-	switch(syntax.indexOf(true)) {
-		case 0:
-			return /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})\s*,\s*([rp]?\d+)/;
-		case 1:
-			return /(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\d+)\]/;
-		case 2: 
-			return /\[(r\d{1,2})\s*\+\s*(\d+)\]\s*=\s*(r\d{1,2})/;
-		case 3:
-			return /([rs]\d{1,2})\s*=\s*([rs]\d{1,2})/;
-		case 4:
-			return /(r\d{1,2})\s*,\s*(r\d{1,2})/;
-		case 5:
-			return /(\d+)\s?/;
-		
-		// Pseudo instructions
-		case 6: 
-			return /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})/;
-		case 7: 
-			return /([rp]\d{1,2})/;
-		case 8: 
-			return /(r\d{1,2})\s*=\s*-\s*(r\d{1,2})/;
-		case 9: 
-			return /(r\d{1,2})\s*=\s*~\s*(r\d{1,2})/;
-		case 10: 
-			return /(r\d{1,2})\s*=\s*(-{0,1}\d+)/;
-		case 11: 
-			return /\s*/; // nop....
-		case 12: 
-			return /(p\d{1})\s*=\s*(\d{1})/;
-		case 13:
-			return /(p\d)\s*=\s*~\s*(p\d)/;
-		case 14:
-			return /(p\d)\s*=\s*(0)/;
-		
-		case 15:
-			return /(r\d{1,2})\s*=\s*(r\d{1,2}),\s*(\d+),\s*(p\d)/;
-		default: 
-			return "none";
-	}
-};
-
 
 /**
  * Removes empty lines and comments
