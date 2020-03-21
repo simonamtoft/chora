@@ -95,13 +95,14 @@ Doesn't store in any register.
 
 # To-Do
 1. Instructions 
-    1. Fix all load/store instructions.
-    2. Implement StackControl with a proper StackCache.
-    3. Implement ControlFlow 
-    4. Fix bcopy (Ps can be inverted like predicates). 
+    1. Implement StackControl ~~with a proper StackCache~~.
+    2. Implement ControlFlow
+        1. Figure out how to make the delay slots work...
+    3. Fix bcopy (Ps can be inverted like predicates). 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
     1. ControlFlow missing
 4. Prettify GUI (CSS and CodeMirror)
+5. Fix all the copy pasta JSDoc
 
 # Note to self
 - Do we want error check of predicate in assembler.parse()? (Look whats there)

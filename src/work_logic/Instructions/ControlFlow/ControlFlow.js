@@ -1,4 +1,4 @@
-import { compile_reg, compile_imm } from "./compilers";
+import { compile_reg, compile_reg2, compile_ireg, compile_imm } from "./compilers";
 
 /** 
  * Represents a ControlFlow instruction. Sets common fields. 
@@ -14,7 +14,7 @@ class ControlFLow {
 	 * @param {string}          fields.s2   - Source register 2.
      */
 	constructor({ name, pred, d, op, s1, s2 }) {
-		this.type = isNaN(s1) ? "r" : "i";
+		this.type = (s1 === undefined && s2 === undefined) ? "implicit" : isNaN(s1) ? (s2 ? "single_reg" : "two_reg") : "immediate";
 		this.name = name;
 		this.pred = pred;
 		this.d = d;
@@ -22,6 +22,22 @@ class ControlFLow {
 		this.s1 = s1;
 		this.s2 = s2;
 
+		switch(this.type){
+			case "implicit":
+				this.binary = compile_ireg(this.pred, this.d, this.op);
+				break;
+			case "single_reg":
+				this.binary = compile_reg(this.pred, this.d, this.op, this.s1);
+				break;
+			case "two_reg":
+				this.binary = compile_reg2(this.pred, this.d, this.op, this.s1, this.s2);
+				break;
+			case "immediate":
+				this.binary = compile_imm(this.pred, this.op, this.d, this.s1);
+		}
+	}
+	execute(){
+		console.error("Missing execute handler for", this);
 	}
 }
 
