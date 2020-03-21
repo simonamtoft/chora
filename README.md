@@ -100,8 +100,11 @@ Doesn't store in any register.
     3. Implement ControlFlow 
     4. Fix bcopy (Ps can be inverted like predicates). 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
-    1. Pseudocode insturction missing
-    2. bcopy missing
-    3. ControlFlow missing
+    1. ControlFlow missing
 3. Display pseudo codes in original code.
 4. Prettify GUI (CSS and CodeMirror)
+
+# Note to self
+- Do we want error check of predicate in assembler.parse()? (Look whats there)
+- Fix bcopy negate on predicate (not implemented)
+- Don't think mov should be able to move a register value bigger than 1 into p-reg.
