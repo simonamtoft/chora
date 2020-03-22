@@ -31,23 +31,18 @@ const GenMachineRows = (instQue, originalInst, instCount, binary) => {
 };
 
 const MachineRow = (inst, originalInst, binary, instCount, i) => {
-	let color = "";
+	let idx = 0, color = "";
 	if (instCount === i) {
 		color = "current-inst";
 	}
 
-	if (inst === undefined) {
-		inst = [" ", "inst", "is", "undefined", "!"];
-	}
-	if (originalInst === undefined)  {
-		originalInst = [" ", "inst", "is", "undefined", "!"];
-	}
+	if (inst !== originalInst) { idx = 1; }
 
 	return(
 		<tr key={i} className={color} >
 			<td>{intToHex(binary)}</td>
 			<td>{inst[1]} {inst[2]} {inst[3]} {inst[4]}</td>
-			<td>{originalInst[0]} {originalInst[1]} {originalInst[2]} {originalInst[3]}</td>
+			<td>{originalInst[1-idx]} {originalInst[2-idx]} {originalInst[3-idx]} {originalInst[4-idx]}</td>
 		</tr>
 	);
 };
