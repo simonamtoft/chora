@@ -58,6 +58,7 @@ class CPU {
 		let PredInst 	= {pred: inst[0], pd:  inst[2], ps1: inst[3], ps2: inst[4]};
 		let StackInst 	= {pred: inst[0], s1:  inst[2]};
 		let StoreInst 	= {pred: inst[0], ra:  inst[2], imm: inst[3], rs:  inst[4]};
+		let BcopyInst 	= {pred: inst[0], rd: inst[2], rs1: inst[3], imm: inst[4], ps: inst[5]};
 
 		// Pick and execute inst
 		switch(inst[1]) {
@@ -279,13 +280,13 @@ class CPU {
 
 			// Rest
 			case "bcopy":
-				cInst = new Bcopy({pred: inst[0], rd: inst[2], rs1: inst[3], imm: inst[4], ps: inst[5]}); //missing ps?
+				cInst = new Bcopy(BcopyInst);
 				break;
 			case "mfs":
 				cInst = new Mfs({pred: inst[0], rd: inst[2], ss: inst[3]});
 				break;
 			case "mts":
-				cInst = new Mts({pred: inst[0], rs1: inst[2], sd: inst[3]}); // not sure if SD is correct set
+				cInst = new Mts({pred: inst[0], rs1: inst[2], sd: inst[3]});
 				break;
 			default:
 				console.log(`Instruction ${inst[1]} not implemented.`);

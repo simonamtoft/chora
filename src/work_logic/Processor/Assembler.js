@@ -42,8 +42,10 @@ class Assembler {
 	}
 
 	parse(line, idx) {
+		let label, neg, pred;
 		let type, regExMatch, inst = [];
 
+		// Need to handle nop first. (nops is only type.)
 		if (line.split(" ")[0] === "nop") {
 			this.originalCode[idx] = ["nop"];
 			this.instQue[idx] = ["~", "sub", "r0", "r0", "0"];
@@ -57,29 +59,24 @@ class Assembler {
 			this.errorMessage[idx] = "Want form, label: (ps) type 'rest of inst' ";
 			return false;
 		}
-		
-		// Extract Label
-		if (regExMatch[1] !== undefined) {
-			this.labels[regExMatch[1]] = idx;
-		}
 
-		// Check if predicate is correct
-		let pred = regExMatch[3];
-		// if (!pregStr.includes(pred) && pred !== undefined) {
-		// 	this.errorMessage[idx] = `${pred} is not a predicate`;
-		// 	return false;
-		// }
+		// Set fields
+		label = regExMatch[1];
+		neg   = regExMatch[2] === "!";
+		pred  = regExMatch[3];
+		type  = regExMatch[4];
+
+		// Extract Label
+		if (label) { this.labels[label] = idx; }
+
 		// Set predicate
 		inst[0] = pred ? Number(pred.replace("p", "")) : 0;
-		if (regExMatch[2] === "!") {
-			inst[0] |= 8;
-		}
+		if (neg) { inst[0] |= 8; }
 
-		// Handle inst as normal or pseudo inst 
-		type = regExMatch[4];
+		// Check type of inst and handle appropriately
 		if (instTypes.includes(type)) {
 			inst = this.handleNormalInst(line, type, regExMatch, idx, inst);
-			if (inst!==-1) {this.originalCode[idx] = inst;}
+			if (inst !== -1) { this.originalCode[idx] = inst; }
 		} else if (pseudoTypes.includes(type)) {
 			inst = this.handlePseudoInst(line, type, regExMatch, idx, inst);
 		} else {
@@ -87,35 +84,27 @@ class Assembler {
 			inst = -1;
 		}
 		
-		// Return stuff
-		if (inst === -1) {
-			return false;
-		}
+		// Output parsed instruction line from editor
+		if (inst === -1) { return false; }
 		this.instQue[idx] = inst;
 		this.binary[idx] = this.cpu.getBinary(inst);
 		return true;
 	}
 
 	handleNormalInst = (line, type, regExMatch, idx, inst) => {
-		inst[1] = type; 
-	
 		// Get reg ex match
 		line = line.split(type)[1].trim();
 		regExMatch = line.match(getRegEx(type));
 
-		// Check if instruction is typed in correctly... Maybe change these 3 things into 1 function instead??
 		if (regExMatch === null) {
 			this.errorMessage[idx] = "Missing operators.";
 			return -1;
 		}
-		if (!this.checkOperators(type, regExMatch, idx)) {
-			return -1;
-		}
-		if (!this.checkEndOfLine(type, regExMatch, idx)) {
-			return -1;
-		}
+		if (!this.checkOperators(type, regExMatch, idx)) { return -1; }
+		if (!this.checkEndOfLine(type, regExMatch, idx)) { return -1; }
 
-		// Append operators to inst
+		// Return inst
+		inst[1] = type; 
 		return inst.concat(regExMatch.slice(1, regExMatch.length));
 	};
 
@@ -127,6 +116,7 @@ class Assembler {
 
 		// Check if instruction is typed in correctly... Maybe change these 3 things into 1 function instead??
 		if (regExMatch === null) {
+			this.errorMessage[idx] = "Missing operators on pseudo inst.";
 			return -1;
 		}
 		if (!this.checkOperators(type, regExMatch, idx)) {
@@ -141,13 +131,14 @@ class Assembler {
 		
 		// Change line to basic code
 		match = [regExMatch[1], regExMatch[2]];	// [rd, s1] 
-		ptype = type.toUpperCase(); // The mapping has the pseudo types as uppercase 
+		ptype = type.toUpperCase(); 			// The mapping has the pseudo types as uppercase 
+
 		if (ptype === "LI") {
 			ptype = "LI_POS";
 			if (Number(match[1]) < 0) {
 				ptype = "LI_NEG";
 				match[1] = -match[1];
-			} 
+			}
 		} else if (ptype === "MOV") {
 			ptype += "_";
 
@@ -249,15 +240,13 @@ const checkOp = (op) => {
  * @returns {array}		editorLines - Array of lines that are not empty or comments
  */
 const trimEditor = (editor) => {
-	let line, lineCount, idx, editorLines = [], emptyCount = 0;
-
+	let line, idx, editorLines = [], emptyCount = 0;
 	editor = editor.split(/\r\n|\r|\n/);
-	lineCount = editor.length;
 	
-	for (let i = 0; i < lineCount; i++) {
+	for (let i = 0; i < editor.length; i++) {
 		line = editor[i].trim();
 
-		// Remove commentsp
+		// Remove comments
 		idx = line.indexOf("#");
 		if (idx !== -1) {
 			line = line.substring(0, idx); 	
