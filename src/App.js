@@ -20,7 +20,7 @@ class App extends Component {
  * @param {string} 	editor 	- User input instructions
  */
 getUserInput = (editor) => {
-	this.resetInst();
+	this.reset();
 	this.assembler.run(editor);
 }
 
@@ -40,14 +40,10 @@ addConsoleOutput = (line) => {
  * @field queLength: Amount of instructions
  */
 stepInst = () => {
-	if (this.instCount < this.assembler.queLength) {
-		let inst = this.assembler.instQue[this.instCount];
-		this.cpu.execute(inst);
-		this.instCount += 1;
-		this.forceUpdate(); // To re-render
-	} else {
-		console.log("No more to step.");
-	}
+	let inst = this.assembler.instQue[this.instCount];
+	this.cpu.execute(inst);
+	this.instCount += 1;
+	this.forceUpdate(); // To re-render
 }
 
 /**
