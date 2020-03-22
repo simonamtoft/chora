@@ -22,18 +22,18 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 Beware: nop should give binary = 0x00400000 (to distinguish from compiler-generated nops). 
 
 # Instruction examples
-| Instruction Type   | Example              |
-| -------------------|:---------------------|
-| Binary Arithmetics | add r1 = r2, r3      |
-| Compare            | cmpneq p2 = r1, 10   |
-| Load Typed         | lwc r10 = [r1 + 1]   |
-| Multiply           | mul r1, r2           | 
-| Predicate          | pand p2 = p0, p1     |
-| Stack Control      | sres 4               | 
-| Store Typed        | swc [r1 + 1] = r2    |
-| Bcopy              | bcopy r1 = r2, 10, 1 |
-| Mfs                | mfs r8 = s6          |
-| Mts                | mts s6 = r1          |
+| Instruction Type   | Example               |
+| -------------------|:----------------------|
+| Binary Arithmetics | add r1 = r2, r3       |
+| Compare            | cmpneq p2 = r1, 10    |
+| Load Typed         | lwc r10 = [r1 + 1]    |
+| Multiply           | mul r1, r2            | 
+| Predicate          | pand p2 = p0, p1      |
+| Stack Control      | sres 4                | 
+| Store Typed        | swc [r1 + 1] = r2     |
+| Bcopy              | bcopy r1 = r2, 10, p1 |
+| Mfs                | mfs r8 = s6           |
+| Mts                | mts s6 = r1           |
 
 ## How they put into fields
 Rs are meant to represent both r-, p- and s-types, unless otherwise stated.
@@ -95,15 +95,17 @@ Doesn't store in any register.
 
 # To-Do
 1. Instructions 
-    1. Fix all load/store instructions.
-    2. Implement StackControl with a proper StackCache.
-    3. Implement ControlFlow 
-    4. Fix bcopy (Ps can be inverted like predicates). 
+    1. Implement StackControl ~~with a proper StackCache~~.
+    2. Implement ControlFlow
+        1. Figure out how to make the delay slots work...
+    3. Fix bcopy (Ps can be inverted like predicates). 
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
     1. ControlFlow missing
 4. Prettify GUI (CSS and CodeMirror)
+5. Fix all the copy pasta JSDoc
 
 # Note to self
 - Do we want error check of predicate in assembler.parse()? (Look whats there)
 - Fix bcopy negate on predicate (not implemented)
 - Don't think mov should be able to move a register value bigger than 1 into p-reg.
+- Should nop be handled in beginning of parse()?
