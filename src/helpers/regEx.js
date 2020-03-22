@@ -13,7 +13,7 @@ const regEx = {
 	3 		: /([rs]\d{1,2})\s*=\s*([rs]\d{1,2})/,					// rd/sd = rs/ss
 	4		: /(r\d{1,2})\s*,\s*(r\d{1,2})/, 						// rs1, rs2
 	5 		: /(\d+)\s?/, 											// imm
-	"bcopy"	: /(r\d{1,2})\s*=\s*(r\d{1,2}),\s*(\d+),\s*(p\d)/, 		// rd = rs, imm, ps
+	"bcopy"	: /(r\d{1,2})\s*=\s*(r\d{1,2}),\s*(\d+),\s*(~{0,1})(p\d)/, 		// rd = rs, imm, ps
 
 	// Pseudo instructions
 	6 		: /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})/, // mov, isodd, pmov

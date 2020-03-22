@@ -24,7 +24,10 @@ sres 4
 # Label and pred
 label1: (!p1) add r1 = r2, 100
 
-# mising bcopy and control flow
+# 
+bcopy r1 = r0, 5, ~p1
+
+# mising control flow
 
 
 

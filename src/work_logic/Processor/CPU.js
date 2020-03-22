@@ -58,7 +58,7 @@ class CPU {
 		let PredInst 	= {pred: inst[0], pd:  inst[2], ps1: inst[3], ps2: inst[4]};
 		let StackInst 	= {pred: inst[0], s1:  inst[2]};
 		let StoreInst 	= {pred: inst[0], ra:  inst[2], imm: inst[3], rs:  inst[4]};
-		let BcopyInst 	= {pred: inst[0], rd: inst[2], rs1: inst[3], imm: inst[4], ps: inst[5]};
+		let BcopyInst 	= {pred: inst[0], rd:  inst[2], rs1: inst[3], imm: inst[4], neg: inst[5], ps: inst[6]};
 
 		// Pick and execute inst
 		switch(inst[1]) {

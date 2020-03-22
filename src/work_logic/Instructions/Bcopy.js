@@ -32,13 +32,14 @@ class Bcopy {
      * @param {string}          fields.rd   - Destination register
      * @param {string}          fields.rs1  - First source register
      * @param {number}          fields.imm  - Second operand, immediate value.
-     * @param {string}          fields.ps   - Predicate register
+     * @param {string}          fields.ps   - Predicate register. (can be negated)
      */
-	constructor({pred, rd, rs1, imm, ps}) {
+	constructor({pred, rd, rs1, imm, neg, ps}) {
 		this.name = "bcopy";
 		this.rd = rd;
 		this.rs1 = rs1;
 		this.imm = imm;
+		this.neg = neg;
 		this.ps = ps; 
 		this.binary = compile_reg(pred, rd, rs1, imm, ps); 
 	}
@@ -49,7 +50,8 @@ class Bcopy {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg }) {
-		reg[this.rd] = (reg[this.rs1] & ~(1 << this.imm)) | (reg[this.ps] << this.imm);
+		let shift = (this.neg === "~") === (reg[this.ps] === 1) ? 0 : 1; // Handle negation of p-register
+		reg[this.rd] = (reg[this.rs1] & ~(1 << this.imm)) | (shift << this.imm);
 	}
 
 }
