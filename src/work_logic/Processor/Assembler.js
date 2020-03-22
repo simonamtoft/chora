@@ -22,10 +22,11 @@ class Assembler {
 		this.pseudo = [];
 		this.labels = {};
 		this.queLength = 0;
-		this.cpu.reset();
+		//this.cpu.reset();
 	}
 
 	run(editor) {
+		this.reset();
 		editor = trimEditor(editor);
 
 		for (let i = 0; i < editor.length; i++) {

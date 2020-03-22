@@ -21,7 +21,6 @@ class App extends Component {
  */
 getUserInput = (editor) => {
 	this.resetInst();
-	this.assembler.reset();
 	this.assembler.run(editor);
 }
 
@@ -62,7 +61,7 @@ runInst = () => {
 	}
 }
 
-resetInst = () => {
+reset = () => {
 	this.instCount = 0;
 	this.cpu.reset();
 	this.forceUpdate(); // To re-render
@@ -84,7 +83,7 @@ render() {
 				stepClick = {this.stepInst}
 				runClick = {this.runInst}
 				prevClick = {this.prevInst}
-				resetClick = {this.resetInst}
+				resetClick = {this.reset}
 				consoleOutput = {this.state.consoleOutput}
 				queLength = {this.assembler.queLength}
 				instQue = {this.assembler.instQue}
