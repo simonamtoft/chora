@@ -22,18 +22,18 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 Beware: nop should give binary = 0x00400000 (to distinguish from compiler-generated nops). 
 
 # Instruction examples
-| Instruction Type   | Example              |
-| -------------------|:---------------------|
-| Binary Arithmetics | add r1 = r2, r3      |
-| Compare            | cmpneq p2 = r1, 10   |
-| Load Typed         | lwc r10 = [r1 + 1]   |
-| Multiply           | mul r1, r2           | 
-| Predicate          | pand p2 = p0, p1     |
-| Stack Control      | sres 4               | 
-| Store Typed        | swc [r1 + 1] = r2    |
-| Bcopy              | bcopy r1 = r2, 10, 1 |
-| Mfs                | mfs r8 = s6          |
-| Mts                | mts s6 = r1          |
+| Instruction Type   | Example               |
+| -------------------|:----------------------|
+| Binary Arithmetics | add r1 = r2, r3       |
+| Compare            | cmpneq p2 = r1, 10    |
+| Load Typed         | lwc r10 = [r1 + 1]    |
+| Multiply           | mul r1, r2            | 
+| Predicate          | pand p2 = p0, p1      |
+| Stack Control      | sres 4                | 
+| Store Typed        | swc [r1 + 1] = r2     |
+| Bcopy              | bcopy r1 = r2, 10, p1 |
+| Mfs                | mfs r8 = s6           |
+| Mts                | mts s6 = r1           |
 
 ## How they put into fields
 Rs are meant to represent both r-, p- and s-types, unless otherwise stated.
