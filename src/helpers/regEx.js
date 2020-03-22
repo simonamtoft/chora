@@ -33,6 +33,7 @@ const regEx = {
  * @returns a regular expression
  */
 const getRegEx = (type) => {
+	let idx;
 	let syntax = [
 		binTypes.includes(type) || compTypes.includes(type) || predTypes.includes(type),
 		loadTypes.includes(type), 
@@ -44,10 +45,10 @@ const getRegEx = (type) => {
 		// Pseudo instructions
 		type === "mov" || type === "isodd" || type === "pmov",
 	];
-	if (syntax === -1) {
-		return regEx[type];
-	}
-	return regEx[syntax.indexOf(true)];
+	idx = syntax.indexOf(true);
+	
+	if (idx === -1) { return regEx[type]; }
+	return regEx[idx];
 };
 
 
