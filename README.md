@@ -108,3 +108,4 @@ Doesn't store in any register.
 - Do we want error check of predicate in assembler.parse()? (Look whats there)
 - Fix bcopy negate on predicate (not implemented)
 - Don't think mov should be able to move a register value bigger than 1 into p-reg.
+- Should nop be handled in beginning of parse()?
