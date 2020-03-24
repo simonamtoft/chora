@@ -22,7 +22,6 @@ class Assembler {
 		this.pseudo = [];
 		this.labels = {};
 		this.queLength = 0;
-		//this.cpu.reset();
 	}
 
 	run(editor) {

@@ -9,19 +9,20 @@ class App extends Component {
 		super(props);
 		this.cpu = new CPU();
 		this.assembler = new Assembler();
-		this.instCount = 0;
 		this.state = {
 			consoleOutput: "",
 		};
 	}
 
 /***
- * Generate instruction que from editor
+ * Handles code editor updates.
+ * Resets CPU and runs assembler to generate instruction que and labels.
  * @param {string} 	editor 	- User input instructions
  */
-getUserInput = (editor) => {
-	this.reset();
+editorUpdate = (editor) => {
+	this.cpu.reset();
 	this.assembler.run(editor);
+	this.forceUpdate();
 }
 
 /**
@@ -39,34 +40,35 @@ addConsoleOutput = (line) => {
  * @field que : All instructions
  * @field queLength: Amount of instructions
  */
-stepInst = () => {
-	let inst = this.assembler.instQue[this.instCount];
-	this.cpu.execute(inst);
-	this.instCount += 1;
+stepBtn = () => {
+	this.cpu.step(this.assembler.instQue);
 	this.forceUpdate(); // To re-render
+
+	console.log("Step button pressed");
 }
 
 /**
- * Run remaining instruction
- * @field que : All instructions
- * @field queLength: Amount of instructions
+ * Run button pressed. Runs remaining instructions.
  */
-runInst = () => {
-	while (this.instCount < this.assembler.queLength) {
-		this.stepInst();
-	}
+runBtn = () => {
+	this.cpu.run(this.assembler.queLength, this.assembler.instQue);
+	this.forceUpdate(); // To re-render
+
+	console.log("Run button pressed");
 }
 
-reset = () => {
-	this.instCount = 0;
+resetBtn = () => {
 	this.cpu.reset();
 	this.forceUpdate(); // To re-render
+
+	console.log("Reset button pressed");
 }
 
-prevInst = () => {
-	this.instCount -= 1;
-	console.log("Prev");
+prevBtn = () => {
+	this.cpu.pc -= 1;
 	this.forceUpdate(); // To re-render
+
+	console.log("Prev button pressed");
 }
 
 render() {
@@ -75,18 +77,17 @@ render() {
 			<FrontEnd
 				registers = {this.cpu.getReg()}
 				cache = {this.cpu.getCache()}
-				parentCallback = {this.getUserInput}
-				stepClick = {this.stepInst}
-				runClick = {this.runInst}
-				prevClick = {this.prevInst}
-				resetClick = {this.reset}
+				editorUpdate = {this.editorUpdate}
+				stepClick = {this.stepBtn}
+				runClick = {this.runBtn}
+				prevClick = {this.prevBtn}
+				resetClick = {this.resetBtn}
 				consoleOutput = {this.state.consoleOutput}
 				queLength = {this.assembler.queLength}
 				instQue = {this.assembler.instQue}
-				instCount = {this.instCount}
+				pc = {this.cpu.pc}
 				binary = {this.assembler.binary}
-				canRun = {this.canRun}
-				pseudo = {this.assembler.originalCode}
+				originalCode = {this.assembler.originalCode}
 			/>	
 		</div>
 	);

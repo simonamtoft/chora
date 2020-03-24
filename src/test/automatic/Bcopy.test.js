@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import Bcopy from "../work_logic/Instructions/Bcopy";
+import Bcopy from "../../work_logic/Instructions/Bcopy";
 let initial_state = {
 	reg: {
 		p0: 1,

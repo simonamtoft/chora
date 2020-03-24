@@ -14,22 +14,19 @@ import Storage from "./Storage";
 
 class CPU {
 	constructor() {
-		this.storage = new Storage(); // Cache + registers
-		this.dummy = new Storage(); // Dummy storage to use for predicate
-	}
-	
-	getReg() {
-		return this.storage.getReg();
-	}
-
-	getCache() {
-		return this.storage.getCache();
+		this.storage = new Storage(); 	// Cache + registers
+		this.dummy = new Storage(); 	// Dummy storage to use for predicate
+		this.pc = 0;					// Program counter
+		this.base = 0;					// Base address, used for branching. 
 	}
 
 	reset() {
 		this.storage.reset(); 
+		this.pc = 0;
+		this.base = 0;
 	}
 
+	// Used in assembler. Thus doesn't change storage of real program.
 	getBinary(inst) {
 		let cInst = this.execute(inst);
 
@@ -40,6 +37,19 @@ class CPU {
 		}
 		
 		return cInst["binary"][0];
+	}
+
+	// Execute current instruction and increment program counter
+	step(instQue) {
+		this.execute(instQue[this.pc]);
+		this.pc += 1;
+	}
+
+	// Run all remaining instructions
+	run(queLength, instQue) {
+		while (this.pc < queLength) {
+			this.step(instQue);
+		}
 	}
 
 	/**
@@ -299,6 +309,14 @@ class CPU {
 		}
 		cInst.execute(state);
 		return cInst;
+	}
+
+	getReg() {
+		return this.storage.getReg();
+	}
+
+	getCache() {
+		return this.storage.getCache();
 	}
 }
 

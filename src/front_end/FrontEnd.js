@@ -1,32 +1,12 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import DisplayEditor from "./DisplayEditor";
 import Simulator from "./Simulator/Simulator";
 
+/**
+ * FrontEnd: Handles the entire front end of Chora. Splits into two tabs: Editor and Simulator.
+ */
 const FrontEnd = (props) => {
-	// if (false) { // props.canRun === 
-	// 	return (
-	// 		<Fragment>
-	// 			<ul className ="nav nav-tabs justify-content-center">
-	// 				<li className="nav-item">
-	// 					<a href="#editor" className="nav-link active" data-toggle="tab" role="tab">Editor</a>
-	// 				</li>
-	// 				<li className="nav-item">
-	// 					<a href="#simulator" className="nav-link disabled" data-toggle="tab" role="tab">Simulator</a>
-	// 				</li>
-	// 			</ul>
-
-	// 			<div className="tab-content">
-	// 				<div role="tabpanel" className="tab-pane active" id="editor">
-	// 					<DisplayEditor
-	// 						parentCallback = {props.parentCallback}
-	// 					/>
-	// 				</div>
-	// 				<div role="tabpanel" className="tab-pane" id="simulator">
-	// 				</div>
-	// 			</div>
-	// 		</Fragment>
-	// 	);
-	//} else {
 	return (
 		<Fragment>
 			<ul className ="nav nav-tabs justify-content-center">
@@ -41,7 +21,7 @@ const FrontEnd = (props) => {
 			<div className="tab-content">
 				<div role="tabpanel" className="tab-pane active" id="editor">
 					<DisplayEditor
-						parentCallback = {props.parentCallback}
+						editorUpdate = {props.editorUpdate}
 					/>
 				</div>
 				<div role="tabpanel" className="tab-pane" id="simulator">
@@ -55,15 +35,30 @@ const FrontEnd = (props) => {
 						registers = {props.registers}
 						queLength = {props.queLength}
 						instQue = {props.instQue}
-						instCount = {props.instCount}
+						pc = {props.pc}
 						binary = {props.binary}
-						pseudo = {props.pseudo}
+						originalCode = {props.originalCode}
 					/>
 				</div>
 			</div>
 		</Fragment>
 	);
-	//}
+};
+
+FrontEnd.propTypes = {
+	editorUpdate 	: PropTypes.func,
+	queLength 		: PropTypes.number,
+	pc 				: PropTypes.number,
+	runClick 		: PropTypes.func,
+	stepClick		: PropTypes.func,
+	prevClick 		: PropTypes.func,
+	resetClick 		: PropTypes.func,
+	instQue 		: PropTypes.number,
+	originalCode	: PropTypes.array,
+	binary 			: PropTypes.array,
+	consoleOutput 	: PropTypes.string,
+	registers 		: PropTypes.object,
+	cache 			: PropTypes.object,
 };
 
 export default FrontEnd;
