@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import Mfs from "../work_logic/Instructions/Mfs";
+import Mfs from "../../work_logic/Instructions/Mfs";
 let initial_state = {
 	reg: {
 		p0: 1,

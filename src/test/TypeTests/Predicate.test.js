@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as P from "../work_logic/Instructions/Predicate/index";
+import * as P from "../../work_logic/Instructions/Predicate/index";
 let initial_state = {
 	reg: {
 		p0: 1,

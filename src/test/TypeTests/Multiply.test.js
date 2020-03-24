@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as M from "../work_logic/Instructions/Multiply/index";
+import * as M from "../../work_logic/Instructions/Multiply/index";
 let initial_state = {
 	reg: {
 		s2: 0,

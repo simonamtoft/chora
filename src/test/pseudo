@@ -1,0 +1,25 @@
+# setup
+add r1 = r0, 10
+add r2 = r0, 30
+add r3 = r0, 1
+
+# run stuff
+mov r4 = r2
+mov p2 = r3
+mov r5 = p2
+pmov p2 = p1
+
+clr r2
+neg r2 = -r1
+not r10 = ~r1
+li r20 = 100
+li r21 = -100
+
+nop
+nop
+nop
+
+isodd p4 = r3
+pnot p5 = ~p4
+pset p3 = 1
+pclr p3 = 0

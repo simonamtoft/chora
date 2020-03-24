@@ -1,0 +1,38 @@
+# RegEx 1
+add r1 = r0, 10		# r1 = 10
+cmpneq p2 = r1, 10	# p2 = 1
+pand p2 = p0, p1	# p2 = 0
+
+# RegEx 2
+lwc r10 = [r1 + 1]
+
+# RegEx 3
+swc [r1 + 1] = r2
+
+# RegEx 4
+mfs r8 = s6
+mts s6 = r1
+
+# RegEx 5
+mul r1, r2
+
+# RegEx 6
+sres 4
+
+# RegEx bcopy
+bcopy r1 = r0, 5, ~p1
+
+# Label and pred
+label1: (!p1) add r1 = r2, 100
+
+
+
+
+# Check wrong des register
+add p1 = r0, 10
+cmpneq r2 = r1, 5
+pand s2 = p0, p1
+lwc p10 = [r1 + 1]
+swc [r50 + 1] = r2
+mfs s8 = s6
+mts r6 = r1
