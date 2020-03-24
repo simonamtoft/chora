@@ -107,3 +107,4 @@ Doesn't store in any register.
 - Do we want error check of predicate in assembler.parse()?
 - Don't think mov should be able to move a register value bigger than 1 into p-reg.
 - Store instruction queue in instruction cache instead? 
+- When writing to predicate register file AND with 0b0111. (page 16 Handbook)
