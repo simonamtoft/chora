@@ -102,6 +102,8 @@ Doesn't store in any register.
     1. ControlFlow missing
 4. Prettify GUI (CSS and CodeMirror)
 5. Fix all the copy pasta JSDoc
+6. Fix Special-purpose registers
+    1. store p7...p0 in s0
 
 # Note to self
 - Do we want error check of predicate in assembler.parse()?
