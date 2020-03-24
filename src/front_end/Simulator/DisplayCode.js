@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import "../../css/Simulator.css";
 import { intToHex } from "../../helpers/misc";
 
@@ -46,5 +47,13 @@ const MachineRow = (inst, originalInst, binary, pc, i) => {
 		</tr>
 	);
 };
+
+DisplayCode.propTypes = {
+	instQue : PropTypes.number,
+	pseudo 	: PropTypes.array,
+	pc 		: PropTypes.number,
+	binary 	: PropTypes.array,
+};
+
 
 export default DisplayCode;

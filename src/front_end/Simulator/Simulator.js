@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import DisplayButtons from "./DisplayButtons";
 import DisplayConsole from "./DisplayConsole";
 import DisplayStorage from "./DisplayStorage";
@@ -36,6 +37,21 @@ const Simulator = (props) => {
 			</div>
 		</div>
 	);
+};
+
+Simulator.propTypes = {
+	queLength 		: PropTypes.number,
+	pc 				: PropTypes.number,
+	runClick 		: PropTypes.func,
+	stepClick		: PropTypes.func,
+	prevClick 		: PropTypes.func,
+	resetClick 		: PropTypes.func,
+	instQue 		: PropTypes.number,
+	pseudo 			: PropTypes.array,
+	binary 			: PropTypes.array,
+	consoleOutput 	: PropTypes.string,
+	registers 		: PropTypes.object,
+	cache 			: PropTypes.object,
 };
 
 export default Simulator;

@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import { intToHex } from "../../helpers/misc";
 import "../../css/Simulator.css";
 
@@ -139,5 +140,11 @@ const RegRow = (letter, idx, registers) => {
 		</tr>
 	);
 };
+
+DisplayStorage.propTypes = {
+	registers 	: PropTypes.object,
+	cache 		: PropTypes.object,
+};
+
 
 export default DisplayStorage;

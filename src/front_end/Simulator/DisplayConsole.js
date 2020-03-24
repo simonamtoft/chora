@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 
 const DisplayConsole = (props) => {
 	return (
@@ -13,5 +14,10 @@ const DisplayConsole = (props) => {
 		</Fragment>
 	);
 };
+
+DisplayConsole.propTypes = {
+	consoleOutput : PropTypes.string
+};
+
 
 export default DisplayConsole;

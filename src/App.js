@@ -15,10 +15,11 @@ class App extends Component {
 	}
 
 /***
- * Generate instruction que from editor
+ * Handles code editor updates.
+ * Resets CPU and runs assembler to generate instruction que and labels.
  * @param {string} 	editor 	- User input instructions
  */
-getUserInput = (editor) => {
+editorUpdate = (editor) => {
 	this.cpu.reset();
 	this.assembler.run(editor);
 	this.forceUpdate();
@@ -52,7 +53,7 @@ stepBtn = () => {
 runBtn = () => {
 	this.cpu.run(this.assembler.queLength, this.assembler.instQue);
 	this.forceUpdate(); // To re-render
-	
+
 	console.log("Run button pressed");
 }
 
@@ -76,7 +77,7 @@ render() {
 			<FrontEnd
 				registers = {this.cpu.getReg()}
 				cache = {this.cpu.getCache()}
-				parentCallback = {this.getUserInput}
+				editorUpdate = {this.editorUpdate}
 				stepClick = {this.stepBtn}
 				runClick = {this.runBtn}
 				prevClick = {this.prevBtn}

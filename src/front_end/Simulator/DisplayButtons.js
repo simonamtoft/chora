@@ -1,4 +1,5 @@
 import React, { Fragment } from "react";
+import PropTypes from "prop-types";
 import "../../css/Buttons.css";
 
 const buttonBS = [
@@ -68,6 +69,15 @@ const backwardsBtn = (pc, prevClick, resetClick) => {
 			<button title={tooltipReset} type="button" className={buttonBS[3]} onClick={resetClick}>Reset</button>
 		</Fragment>
 	);
+};
+
+DisplayButtons.propTypes = {
+	queLength 	: PropTypes.number,
+	pc 			: PropTypes.number,
+	runClick 	: PropTypes.func,
+	stepClick	: PropTypes.func,
+	prevClick 	: PropTypes.func,
+	resetClick 	: PropTypes.func,
 };
 
 
