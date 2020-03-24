@@ -16,6 +16,8 @@ class CPU {
 	constructor() {
 		this.storage = new Storage(); // Cache + registers
 		this.dummy = new Storage(); // Dummy storage to use for predicate
+		this.pc = 0;
+		this.base = 0;
 	}
 	
 	getReg() {
@@ -28,6 +30,8 @@ class CPU {
 
 	reset() {
 		this.storage.reset(); 
+		this.pc = 0 ;
+		this.base = 0;
 	}
 
 	getBinary(inst) {
@@ -297,7 +301,11 @@ class CPU {
 		if ( ((inst[0] & 0b1000) >>> 3) === this.storage.reg[`p${inst[0] & 0b0111}`] ) {
 			state = this.dummy;
 		}
+
+		// Execute and increase program counter
 		cInst.execute(state);
+		this.pc += 1;
+		
 		return cInst;
 	}
 }

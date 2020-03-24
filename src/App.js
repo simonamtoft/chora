@@ -40,9 +40,9 @@ addConsoleOutput = (line) => {
  * @field queLength: Amount of instructions
  */
 stepInst = () => {
-	let inst = this.assembler.instQue[this.instCount];
+	let inst = this.assembler.instQue[this.cpu.pc];
 	this.cpu.execute(inst);
-	this.instCount += 1;
+	
 	this.forceUpdate(); // To re-render
 }
 
@@ -52,19 +52,19 @@ stepInst = () => {
  * @field queLength: Amount of instructions
  */
 runInst = () => {
-	while (this.instCount < this.assembler.queLength) {
+	while (this.cpu.pc < this.assembler.queLength) {
 		this.stepInst();
 	}
 }
 
 reset = () => {
-	this.instCount = 0;
 	this.cpu.reset();
+	console.log("Reset");
 	this.forceUpdate(); // To re-render
 }
 
 prevInst = () => {
-	this.instCount -= 1;
+	this.cpu.pc -= 1;
 	console.log("Prev");
 	this.forceUpdate(); // To re-render
 }
@@ -83,7 +83,7 @@ render() {
 				consoleOutput = {this.state.consoleOutput}
 				queLength = {this.assembler.queLength}
 				instQue = {this.assembler.instQue}
-				instCount = {this.instCount}
+				instCount = {this.cpu.pc}
 				binary = {this.assembler.binary}
 				canRun = {this.canRun}
 				pseudo = {this.assembler.originalCode}
