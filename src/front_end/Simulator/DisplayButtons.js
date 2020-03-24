@@ -12,26 +12,25 @@ const DisplayButtons = (props) => {
 	if (props.queLength === 0) {
 		return (
 			<div className="button-container">
-				{forwardBtn(props.queLength, props.instCount)}
-				{backwardsBtn(props.instCount)}
-			</div>  
-		);
-	} else {
-		return (
-			<div className="button-container">
-				{forwardBtn(props.queLength, props.instCount, props.runClick, props.stepClick)}
-				{backwardsBtn(props.instCount, props.prevClick, props.resetClick)}
+				{forwardBtn(props.queLength, props.pc, props.runClick, props.stepClick)}
+				{backwardsBtn(props.pc, props.prevClick, props.resetClick)}
 			</div>  
 		);
 	}
+	return (
+		<div className="button-container">
+			{forwardBtn(props.queLength, props.pc, props.runClick, props.stepClick)}
+			{backwardsBtn(props.pc, props.prevClick, props.resetClick)}
+		</div>  
+	);
 };
 
 // Handle step and run buttons
-const forwardBtn = (queLength, instCount, runClick, stepClick) => {
+const forwardBtn = (queLength, pc, runClick, stepClick) => {
 	let tooltipRun = "Run all remaining instructions in queue";
 	let tooltipStep = "Step next instruction in queue";
 
-	if (queLength === 0 | queLength === instCount) {
+	if (queLength === 0 | queLength === pc) {
 		tooltipRun = "No instructions to run";
 		tooltipStep = "No instructions to step";
 		return (
@@ -50,10 +49,11 @@ const forwardBtn = (queLength, instCount, runClick, stepClick) => {
 };
 
 // Handle reset and prev buttons
-const backwardsBtn = (instCount, prevClick, resetClick) => {
+const backwardsBtn = (pc, prevClick, resetClick) => {
 	let tooltipPrev = "Not implemented yet";
 	let tooltipReset = "Reset registers & memory and jump to first instruction";
-	if (instCount === 0) {
+
+	if (pc === 0) {
 		tooltipReset = "No instructions run yet";
 		return (
 			<Fragment>

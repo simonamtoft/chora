@@ -9,7 +9,6 @@ class App extends Component {
 		super(props);
 		this.cpu = new CPU();
 		this.assembler = new Assembler();
-		this.instCount = 0;
 		this.state = {
 			consoleOutput: "",
 		};
@@ -20,8 +19,9 @@ class App extends Component {
  * @param {string} 	editor 	- User input instructions
  */
 getUserInput = (editor) => {
-	this.reset();
+	this.cpu.reset();
 	this.assembler.run(editor);
+	this.forceUpdate();
 }
 
 /**
@@ -39,34 +39,35 @@ addConsoleOutput = (line) => {
  * @field que : All instructions
  * @field queLength: Amount of instructions
  */
-stepInst = () => {
-	let inst = this.assembler.instQue[this.cpu.pc];
-	this.cpu.execute(inst);
-	
+stepBtn = () => {
+	this.cpu.step(this.assembler.instQue);
 	this.forceUpdate(); // To re-render
+
+	console.log("Step button pressed");
 }
 
 /**
- * Run remaining instruction
- * @field que : All instructions
- * @field queLength: Amount of instructions
+ * Run button pressed. Runs remaining instructions.
  */
-runInst = () => {
-	while (this.cpu.pc < this.assembler.queLength) {
-		this.stepInst();
-	}
+runBtn = () => {
+	this.cpu.run(this.assembler.queLength, this.assembler.instQue);
+	this.forceUpdate(); // To re-render
+	
+	console.log("Run button pressed");
 }
 
-reset = () => {
+resetBtn = () => {
 	this.cpu.reset();
-	console.log("Reset");
 	this.forceUpdate(); // To re-render
+
+	console.log("Reset button pressed");
 }
 
-prevInst = () => {
+prevBtn = () => {
 	this.cpu.pc -= 1;
-	console.log("Prev");
 	this.forceUpdate(); // To re-render
+
+	console.log("Prev button pressed");
 }
 
 render() {
@@ -76,16 +77,15 @@ render() {
 				registers = {this.cpu.getReg()}
 				cache = {this.cpu.getCache()}
 				parentCallback = {this.getUserInput}
-				stepClick = {this.stepInst}
-				runClick = {this.runInst}
-				prevClick = {this.prevInst}
-				resetClick = {this.reset}
+				stepClick = {this.stepBtn}
+				runClick = {this.runBtn}
+				prevClick = {this.prevBtn}
+				resetClick = {this.resetBtn}
 				consoleOutput = {this.state.consoleOutput}
 				queLength = {this.assembler.queLength}
 				instQue = {this.assembler.instQue}
-				instCount = {this.cpu.pc}
+				pc = {this.cpu.pc}
 				binary = {this.assembler.binary}
-				canRun = {this.canRun}
 				pseudo = {this.assembler.originalCode}
 			/>	
 		</div>

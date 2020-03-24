@@ -55,7 +55,7 @@ const FrontEnd = (props) => {
 						registers = {props.registers}
 						queLength = {props.queLength}
 						instQue = {props.instQue}
-						instCount = {props.instCount}
+						pc = {props.pc}
 						binary = {props.binary}
 						pseudo = {props.pseudo}
 					/>

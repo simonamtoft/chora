@@ -14,25 +14,25 @@ const DisplayCode = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{GenMachineRows(props.instQue, props.pseudo, props.instCount, props.binary)}
+					{GenMachineRows(props.instQue, props.pseudo, props.pc, props.binary)}
 				</tbody>
 			</table>
 		</div>
 	);
 };
 
-const GenMachineRows = (instQue, originalInst, instCount, binary) => {
+const GenMachineRows = (instQue, originalInst, pc, binary) => {
 	let rows = [];
 
 	for (let i = 0; i < instQue.length; i++) {
-		rows.push(MachineRow(instQue[i], originalInst[i], binary[i], instCount, i));
+		rows.push(MachineRow(instQue[i], originalInst[i], binary[i], pc, i));
 	}
 	return rows;
 };
 
-const MachineRow = (inst, originalInst, binary, instCount, i) => {
+const MachineRow = (inst, originalInst, binary, pc, i) => {
 	let idx = 0, color = "";
-	if (instCount === i) {
+	if (pc === i) {
 		color = "current-inst";
 	}
 

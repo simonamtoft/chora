@@ -15,11 +15,11 @@ const Simulator = (props) => {
 					prevClick = {props.prevClick}
 					resetClick = {props.resetClick}
 					queLength = {props.queLength}
-					instCount = {props.instCount}
+					pc = {props.pc}
 				/>
 				<DisplayCode
 					instQue = {props.instQue}
-					instCount = {props.instCount}
+					pc = {props.pc}
 					binary = {props.binary}
 					pseudo = {props.pseudo}
 				/>
