@@ -3,8 +3,13 @@ import PropTypes from "prop-types";
 import { intToHex } from "../../helpers/misc";
 import "../../css/Simulator.css";
 
-const tableBS = "table table-hover table-sm col-12";
+const tableCSS = "table table-hover table-sm col-12";
 
+/**
+ * DisplayStorage: Displays two tabs that shows all values in registers and memory with corresponding addresses. 
+ * @param {Object} props.registers 	- Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
+ * @param {Object} props.cache		- Object containing all the caches of the program. 
+ */
 const DisplayStorage = (props) => {
 	return (
 		<Fragment>
@@ -47,9 +52,27 @@ const DisplayStorage = (props) => {
 	);
 };
 
+/**
+ * RenderRegTable: Returns the register table with columns Register, Decimal, Hexadecimal
+ * @param {Object} registers - Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
+ */
 const RenderRegTable = (registers) => {
+	var rows = [];
+
+	// Generate rows: 32 r-, 16 s-, and 8 p-rows.
+	for (let i = 0; i < 32; i++) {
+		rows.push(RegRow("r", i, registers));
+	}
+	for (let i = 1; i < 16; i++) {
+		rows.push(RegRow("s", i, registers));
+	}
+	for (let i = 0; i < 8; i++) {
+		rows.push(RegRow("p", i, registers));
+	}
+
+	// Return table
 	return (
-		<table className={tableBS}>
+		<table className={tableCSS}>
 			<thead>
 				<tr>
 					<th scope="col">Register</th>
@@ -58,15 +81,36 @@ const RenderRegTable = (registers) => {
 				</tr>
 			</thead>
 			<tbody>
-				{GenRegRows(registers)}
+				{rows}
 			</tbody>
 		</table>
 	);
 };
 
+/**
+ * RenderCacheTable: Returns the cache table with columns Address, +0, +1, +2, +3
+ * @param {Object} cache - Object containing all the caches of the program. 
+ */
 const RenderCacheTable = (cache) => {
+	let rows = [];
+	let key, i, ctemp, size;
+	
+	// We don't want to display these fields:
+	ctemp = cache;
+	delete ctemp["BASE_ADDR"];
+	delete ctemp["MAX_SIZE"];
+	
+	// Generate rows
+	size = Object.keys(ctemp).length;
+	for (i = 0; i < size; i += 4) {
+		key = Number(Object.keys(ctemp)[i]);
+		key = key - (key%4);
+		rows.push(CacheRow(ctemp, key));
+	}
+
+	// Return table
 	return (
-		<table className={tableBS}>
+		<table className={tableCSS}>
 			<thead>
 				<tr>
 					<th scope="col">Address</th>
@@ -77,31 +121,16 @@ const RenderCacheTable = (cache) => {
 				</tr>
 			</thead>
 			<tbody>
-				{GenCacheRows(cache)}
+				{rows}
 			</tbody>
 		</table>
 	);
 };
 
-const GenCacheRows = (cache) => {
-	let rows = [];
-	let key, i;
-	// We don't want to display these fields:
-	let ctemp = cache;
-	delete ctemp["BASE_ADDR"];
-	delete ctemp["MAX_SIZE"];
-	
-	let size = Object.keys(ctemp).length;
-	
-	for (i = 0; i < size; i += 4) {
-		key = Number(Object.keys(ctemp)[i]);
-		key = key - (key%4);
-		rows.push(CacheRow(ctemp, key));
-	}
-
-	return rows;
-} ;
-
+/**
+ * CacheRow: Returns one row of the cache table.
+ * @param {Object} cache - Object containing all the caches of the program. 
+ */
 const CacheRow = (cache, key) => {
 	return(
 		<tr key={key}>
@@ -114,21 +143,12 @@ const CacheRow = (cache, key) => {
 	);
 };
 
-const GenRegRows = (registers) => {
-	var rows = [];
-
-	for (let i = 0; i < 32; i++) {
-		rows.push(RegRow("r", i, registers));
-	}
-	for (let i = 1; i < 16; i++) {
-		rows.push(RegRow("s", i, registers));
-	}
-	for (let i = 0; i < 8; i++) {
-		rows.push(RegRow("p", i, registers));
-	}
-	return rows;
-};
-
+/**
+ * RegRow: Returns one row of the register table.
+ * @param {string} letter 		- Either r, p or s
+ * @param {number} idx 			- Current idx of the register
+ * @param {Object} registers 	- Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
+ */
 const RegRow = (letter, idx, registers) => {
 	let val = registers[`${letter}${idx}`];
 

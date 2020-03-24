@@ -3,6 +3,13 @@ import PropTypes from "prop-types";
 import "../../css/Simulator.css";
 import { intToHex } from "../../helpers/misc";
 
+/**
+ * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
+ * @param {array}	props.instQue 		- Array of all instructions in queue
+ * @param {array}	props.originalCode	- Array of all the instructions input into the code editor
+ * @param {number}	props.pc			- Current CPU program counter
+ * @param {array}	props.binary		- Array of all instructions in queue converted to binaries
+ */
 const DisplayCode = (props) => {
 	return (
 		<div className="machine-container">
@@ -15,23 +22,40 @@ const DisplayCode = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{GenMachineRows(props.instQue, props.pseudo, props.pc, props.binary)}
+					{GenMachineRows(props.instQue, props.originalCode, props.pc, props.binary)}
 				</tbody>
 			</table>
 		</div>
 	);
 };
 
-const GenMachineRows = (instQue, originalInst, pc, binary) => {
+/**
+ * GenMachineRows: Generates all code table rows. 
+ * Done by calling MachineRow on each index of instQue and orginalCode.
+ * @param {array}	instQue 		- Array of all instructions in queue
+ * @param {array}	originalCode	- Array of all the instructions input into the code editor
+ * @param {number}	pc				- Current CPU program counter
+ * @param {array}	binary			- Array of all instructions in queue converted to binaries
+ */
+const GenMachineRows = (instQue, originalCode, pc, binary) => {
 	let rows = [];
 
 	for (let i = 0; i < instQue.length; i++) {
-		rows.push(MachineRow(instQue[i], originalInst[i], binary[i], pc, i));
+		rows.push(MachineRow(instQue[i], originalCode[i], pc, binary[i], i));
 	}
 	return rows;
 };
 
-const MachineRow = (inst, originalInst, binary, pc, i) => {
+/**
+ * MachineRow: Generates one row of the table: Binary | Basic Code | Original code
+ * Highlights row if current row is the same as program counter (i = pc).
+ * @param {array}	instQue 		- Array of all instructions in queue
+ * @param {array}	originalCode	- Array of all the instructions input into the code editor
+ * @param {number}	pc				- Current CPU program counter
+ * @param {array}	binary			- Array of all instructions in queue converted to binaries
+ * @param {number} 	i				- Current row 
+ */
+const MachineRow = (inst, originalInst, pc, binary, i) => {
 	let idx = 0, color = "";
 	if (pc === i) {
 		color = "current-inst";
@@ -49,10 +73,10 @@ const MachineRow = (inst, originalInst, binary, pc, i) => {
 };
 
 DisplayCode.propTypes = {
-	instQue : PropTypes.number,
-	pseudo 	: PropTypes.array,
-	pc 		: PropTypes.number,
-	binary 	: PropTypes.array,
+	instQue 		: PropTypes.number,
+	originalCode 	: PropTypes.array,
+	pc 				: PropTypes.number,
+	binary 			: PropTypes.array,
 };
 
 

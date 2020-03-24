@@ -6,6 +6,21 @@ import DisplayStorage from "./DisplayStorage";
 import DisplayCode from "./DisplayCode";
 import "../../css/Simulator.css";
 
+/**
+ * Simulator: Handles all the displaying under the "Simulator" tab.
+ * @param {number}	props.queLength		- Length of instruction que
+ * @param {number}	props.pc			- Current CPU program counter
+ * @param {func}	props.runClick		- Button run clicked handler
+ * @param {func}	props.stepClick		- Button step clicked handler
+ * @param {func}	props.prevClick		- Button prev clicked handler
+ * @param {func}	props.resetClick	- Button reset clicked handler
+ * @param {array}	props.instQue 		- Array of all instructions in queue
+ * @param {array}	props.originalCode	- Array of all the instructions input into the code editor
+ * @param {array}	props.binary		- Array of all instructions in queue converted to binaries
+ * @param {Object} 	props.registers 	- Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
+ * @param {Object} 	props.cache			- Object containing all the caches of the program. 
+ * @param {string} 	props.consoleOutput - The output string to console.
+ */
 const Simulator = (props) => {
 	return(
 		<div className="sim">
@@ -22,7 +37,7 @@ const Simulator = (props) => {
 					instQue = {props.instQue}
 					pc = {props.pc}
 					binary = {props.binary}
-					pseudo = {props.pseudo}
+					originalCode = {props.originalCode}
 				/>
 				<DisplayConsole
 					consoleOutput = {props.consoleOutput}
@@ -47,7 +62,7 @@ Simulator.propTypes = {
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
 	instQue 		: PropTypes.number,
-	pseudo 			: PropTypes.array,
+	originalCode 	: PropTypes.array,
 	binary 			: PropTypes.array,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,

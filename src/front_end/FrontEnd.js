@@ -3,6 +3,9 @@ import PropTypes from "prop-types";
 import DisplayEditor from "./DisplayEditor";
 import Simulator from "./Simulator/Simulator";
 
+/**
+ * FrontEnd: Handles the entire front end of Chora. Splits into two tabs: Editor and Simulator.
+ */
 const FrontEnd = (props) => {
 	return (
 		<Fragment>
@@ -34,7 +37,7 @@ const FrontEnd = (props) => {
 						instQue = {props.instQue}
 						pc = {props.pc}
 						binary = {props.binary}
-						pseudo = {props.pseudo}
+						originalCode = {props.originalCode}
 					/>
 				</div>
 			</div>
@@ -51,7 +54,7 @@ FrontEnd.propTypes = {
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
 	instQue 		: PropTypes.number,
-	pseudo 			: PropTypes.array,
+	originalCode	: PropTypes.array,
 	binary 			: PropTypes.array,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,

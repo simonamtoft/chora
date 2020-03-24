@@ -87,7 +87,7 @@ render() {
 				instQue = {this.assembler.instQue}
 				pc = {this.cpu.pc}
 				binary = {this.assembler.binary}
-				pseudo = {this.assembler.originalCode}
+				originalCode = {this.assembler.originalCode}
 			/>	
 		</div>
 	);
