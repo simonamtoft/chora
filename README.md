@@ -104,9 +104,12 @@ Doesn't store in any register.
 5. Fix all the copy pasta JSDoc
 6. Fix Special-purpose registers
     1. store p7...p0 in s0
+    2. Fix access through names e.g. "sl" for s2. etc.
 
 # Note to self
 - Do we want error check of predicate in assembler.parse()?
 - Don't think mov should be able to move a register value bigger than 1 into p-reg.
 - Store instruction queue in instruction cache instead? 
 - When writing to predicate register file AND with 0b0111. (page 16 Handbook)
+- AND immediates with the appropriate length.
+- Should there be a difference whether e.g. add, addi or addl is written?
