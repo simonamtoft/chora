@@ -47,7 +47,7 @@ const Simulator = (props) => {
 			<div className="col-4 col-xl-3 reg-container">
 				<DisplayStorage
 					registers = {props.registers}
-					cache = {props.cache}
+					memory = {props.memory}
 				/>
 			</div>
 		</div>
@@ -66,7 +66,7 @@ Simulator.propTypes = {
 	binary 			: PropTypes.array,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
-	cache 			: PropTypes.object,
+	memory 			: PropTypes.object,
 };
 
 export default Simulator;

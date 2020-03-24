@@ -10,20 +10,15 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws} from "../In
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import Storage from "./Storage";
+import ProcessorState from "./ProcessorState";
 
 class CPU {
 	constructor() {
-		this.storage = new Storage(); 	// Cache + registers
-		this.dummy = new Storage(); 	// Dummy storage to use for predicate
-		this.pc = 0;					// Program counter
-		this.base = 0;					// Base address, used for branching. 
+		this.state = new ProcessorState();
 	}
 
 	reset() {
-		this.storage.reset(); 
-		this.pc = 0;
-		this.base = 0;
+		this.state.reset();
 	}
 
 	// Used in assembler. Thus doesn't change storage of real program.
@@ -41,13 +36,13 @@ class CPU {
 
 	// Execute current instruction and increment program counter
 	step(instQue) {
-		this.execute(instQue[this.pc]);
-		this.pc += 1;
+		this.execute(instQue[this.state.cpu.pc]);
+		this.state.cpu.pc += 1; // This should be fixed as PC != index.
 	}
 
 	// Run all remaining instructions
 	run(queLength, instQue) {
-		while (this.pc < queLength) {
+		while (this.state.cpu.pc < queLength) {
 			this.step(instQue);
 		}
 	}
@@ -58,7 +53,7 @@ class CPU {
 	*/
 	execute(inst) {
 		let cInst; 
-		let state = this.storage;
+		let state = this.state;
 
 		// Convert inst into the needed types of instructions
 		let BinaryInst 	= {pred: inst[0], rd:  inst[2], rs1: inst[3], op2: inst[4]};
@@ -304,19 +299,18 @@ class CPU {
 		}
 		
 		// Use dummy storage if (pred) = 0
-		if ( ((inst[0] & 0b1000) >>> 3) === this.storage.reg[`p${inst[0] & 0b0111}`] ) {
-			state = this.dummy;
+		if ( ((inst[0] & 0b1000) >>> 3) !== this.state.reg[`p${inst[0] & 0b0111}`] ) {
+			cInst.execute(state);
 		}
-		cInst.execute(state);
 		return cInst;
 	}
 
 	getReg() {
-		return this.storage.getReg();
+		return this.state.getReg();
 	}
 
-	getCache() {
-		return this.storage.getCache();
+	getMem() {
+		return this.state.getMem();
 	}
 }
 

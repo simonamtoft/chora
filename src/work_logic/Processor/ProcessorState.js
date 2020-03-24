@@ -1,4 +1,4 @@
-class Storage {
+class ProcessorState {
 	constructor() {
 		this.reg = {
 			"r0" : 0,
@@ -15,29 +15,21 @@ class Storage {
 			"p0": 1, "p1": 0, "p2" : 0, "p3" : 0, "p4" : 0, "p5" : 0,
 			"p6" : 0, "p7" : 0
 		};
-		this.sc = {
-			"BASE_ADDR": 0x0,
-			"MAX_SIZE": 0x800 //2KiB
-		};
 		this.mem = {
 			"BASE_ADDR": 0x0,
 			"MAX_SIZE": 0x00200000 // 2MiB
 		};
-		this.lm = {};
-		this.dc = {};
+		this.cpu = {
+			"base": 0,
+			"pc": 0
+		};
 	}
 	
 	reset() {
-		this.sc = {
-			"BASE_ADDR": 0x0,
-			"MAX_SIZE": 0x800 //2KiB
-		};
 		this.mem = {
 			"BASE_ADDR": 0x0,
 			"MAX_SIZE": 0x00200000 // 2MiB
 		};
-		this.lm = {};
-		this.dc = {};
 		this.reg = {
 			"r0" : 0,
 			"r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
@@ -53,10 +45,14 @@ class Storage {
 			"p0": 1, "p1": 0, "p2" : 0, "p3" : 0, "p4" : 0, "p5" : 0,
 			"p6" : 0, "p7" : 0
 		};
+		this.cpu = {
+			"base": 0,
+			"pc": 0
+		};
 	}
 	
-	getCache() {
-		return {sc: this.sc, mem: this.mem, lm: this.lm, dc: this.dc};
+	getMem() {
+		return this.mem;
 	}
 
 	getReg() {
@@ -64,4 +60,4 @@ class Storage {
 	}
 }
 
-export default Storage;
+export default ProcessorState;
