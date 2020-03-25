@@ -25,11 +25,29 @@ class Assembler {
 	}
 
 	run(editor) {
+		let queLength, nopCount;
 		this.reset();
-		editor = trimEditor(editor);
 
-		for (let i = 0; i < editor.length; i++) {
-			this.parse(editor[i].trim(), i);
+		editor = trimEditor(editor);
+		queLength = editor.length;
+		nopCount = 0;
+
+		this.parse(editor[0].trim(), 0);
+
+		for (let i = 1; i < (queLength + nopCount); i++) {
+			this.parse(editor[i-nopCount].trim(), i);
+
+			// Overwrite already set inst with a nop if inst  
+			// would use the destination reg of previous load 
+			if (loadTypes.includes(this.instQue[i-1][1])) {
+				if (this.instQue[i].includes(this.instQue[i-1][2])) {
+					// Insert compiler generated nop
+					this.originalCode[i] = [""];
+					this.instQue[i] = [0, "nop"];
+					this.binary[i] = 0; // compiler generated nop...
+					nopCount += 1;
+				}
+			}
 		}
  
 		// Error handling
