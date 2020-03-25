@@ -26,7 +26,7 @@ const FrontEnd = (props) => {
 				</div>
 				<div role="tabpanel" className="tab-pane" id="simulator">
 					<Simulator
-						cache = {props.cache}
+						memory = {props.memory}
 						stepClick = {props.stepClick}
 						runClick = {props.runClick}
 						prevClick = {props.prevClick}
@@ -58,7 +58,7 @@ FrontEnd.propTypes = {
 	binary 			: PropTypes.array,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
-	cache 			: PropTypes.object,
+	memory 			: PropTypes.object,
 };
 
 export default FrontEnd;

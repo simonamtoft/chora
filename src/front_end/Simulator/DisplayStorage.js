@@ -18,16 +18,7 @@ const DisplayStorage = (props) => {
 					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Reg</a>
 				</li>
 				<li className="nav-item">
-					<a href="#sc" className="nav-link" data-toggle="tab" role="tab">sc</a>
-				</li>
-				<li className="nav-item">
 					<a href="#gm" className="nav-link" data-toggle="tab" role="tab">gm</a>
-				</li>
-				<li className="nav-item">
-					<a href="#lm" className="nav-link" data-toggle="tab" role="tab">lm</a>
-				</li>
-				<li className="nav-item">
-					<a href="#dc" className="nav-link" data-toggle="tab" role="tab">dc</a>
 				</li>
 			</ul>
 
@@ -35,17 +26,8 @@ const DisplayStorage = (props) => {
 				<div role="tabpanel" className="tab-pane active" id="registers">
 					{RenderRegTable(props.registers)}
 				</div>
-				<div role="tabpanel" className="tab-pane" id="sc">
-					{RenderCacheTable(props.cache.sc)}
-				</div>
 				<div role="tabpanel" className="tab-pane" id="gm">
-					{RenderCacheTable(props.cache.mem)}
-				</div>
-				<div role="tabpanel" className="tab-pane" id="lm">
-					{RenderCacheTable(props.cache.lm)}
-				</div>
-				<div role="tabpanel" className="tab-pane" id="dc">
-					{RenderCacheTable(props.cache.dc)}
+					{RenderCacheTable(props.memory)}
 				</div>
 			</div>
 		</Fragment>
@@ -163,7 +145,7 @@ const RegRow = (letter, idx, registers) => {
 
 DisplayStorage.propTypes = {
 	registers 	: PropTypes.object,
-	cache 		: PropTypes.object,
+	memory 		: PropTypes.object,
 };
 
 

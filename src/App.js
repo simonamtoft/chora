@@ -76,7 +76,7 @@ render() {
 		<div>
 			<FrontEnd
 				registers = {this.cpu.getReg()}
-				cache = {this.cpu.getCache()}
+				memory = {this.cpu.getMem()}
 				editorUpdate = {this.editorUpdate}
 				stepClick = {this.stepBtn}
 				runClick = {this.runBtn}
