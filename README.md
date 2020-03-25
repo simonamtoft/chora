@@ -97,7 +97,9 @@ Doesn't store in any register.
     2. Implement ControlFlow
         1. Figure out how to make the delay slots work...
 2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
-    1. ControlFlow missing
+    1. ControlFlow missing (stack?)
+    2. Change basic code when using registers and i/l type.
+    3. Check length of immediate and throw error if too long... 
 4. Prettify GUI (CSS and CodeMirror)
 5. Fix all the copy pasta JSDoc
 6. Fix Special-purpose registers
@@ -109,7 +111,5 @@ Doesn't store in any register.
 - Don't think mov should be able to move a register value bigger than 1 into p-reg.
 - Store instruction queue in instruction cache instead? 
 - When writing to predicate register file AND with 0b0111. (page 16 Handbook)
-- AND immediates with the appropriate length.
-- Should there be a difference whether e.g. add, addi or addl is written?
 - Implemented compiler generated nops. Is this a good idea?
 - Should there also be nops after a store in some cases?
