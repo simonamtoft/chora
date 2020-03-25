@@ -37,7 +37,7 @@ test("Cmpeq instructions", () => {
 	});
 	e = 1 | 0;
 	a.execute(state);
-	expect(a.name).toBe("cmpeqi");
+	expect(a.name).toBe("cmpeq");
 	expect(a.binary[0]).toBe(0x0A043FE0 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);
@@ -66,7 +66,7 @@ test("Cmpneq instructions", () => {
 	});
 	e = 0 | 0;
 	a.execute(state);
-	expect(a.name).toBe("cmpneqi");
+	expect(a.name).toBe("cmpneq");
 	expect(a.binary[0]).toBe(0x0A043FE1 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);
@@ -95,7 +95,7 @@ test("Cmplt instructions", () => {
 	});
 	e = 0 | 0;
 	a.execute(state);
-	expect(a.name).toBe("cmplti");
+	expect(a.name).toBe("cmplt");
 	expect(a.binary[0]).toBe(0x0A043FE2 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);
@@ -124,7 +124,7 @@ test("Cmple instructions", () => {
 	});
 	e = 1 | 0;
 	a.execute(state);
-	expect(a.name).toBe("cmplei");
+	expect(a.name).toBe("cmple");
 	expect(a.binary[0]).toBe(0x0A043FE3 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);
@@ -153,7 +153,7 @@ test("Cmpult instructions", () => {
 	});
 	e = 1 | 0;
 	a.execute(state);
-	expect(a.name).toBe("cmpulti");
+	expect(a.name).toBe("cmpult");
 	expect(a.binary[0]).toBe(0x0A043FE4 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);
@@ -182,7 +182,7 @@ test("Cmpule instructions", () => {
 	});
 	e = 1 | 0;
 	a.execute(state);
-	expect(a.name).toBe("cmpulei");
+	expect(a.name).toBe("cmpule");
 	expect(a.binary[0]).toBe(0x0A043FE5 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);
@@ -211,7 +211,7 @@ test("Btest instructions", () => {
 	});
 	e = 0 | 0;
 	a.execute(state);
-	expect(a.name).toBe("btesti");
+	expect(a.name).toBe("btest");
 	expect(a.binary[0]).toBe(0x0A043FE6 | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.p2).toBe(e);

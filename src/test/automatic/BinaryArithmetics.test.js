@@ -50,7 +50,7 @@ test("Add instructions", () => {
 	e = state.reg.r2 + 0x0FFF;
 
 	a.execute(state);
-	expect(a.name).toBe("addi");
+	expect(a.name).toBe("add");
 	expect(a.binary[0]).toBe(0x08022FFF | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.r1).toBe(e);
@@ -76,7 +76,7 @@ test("Add instructions", () => {
 	});
 	e = state.reg.r2 + 0xFFFF;
 	a.execute(state);
-	expect(a.name).toBe("addl");
+	expect(a.name).toBe("add");
 	expect(a.binary[0]).toBe(0x8FC22000 | 0);
 	expect(a.binary[1]).toBe(0xFFFF | 0);
 	expect(state.reg.r1).toBe(e);
@@ -104,7 +104,7 @@ test("Sub instructions", () => {
 	});
 	e = 0xFFFFF004 | 0;
 	a.execute(state);
-	expect(a.name).toBe("subi");
+	expect(a.name).toBe("sub");
 	expect(a.binary[0]).toBe(0x08443FFF | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.r2).toBe(e);
@@ -117,7 +117,7 @@ test("Sub instructions", () => {
 	});
 	e = 0x21524115 | 0;
 	a.execute(state);
-	expect(a.name).toBe("subl");
+	expect(a.name).toBe("sub");
 	expect(a.binary[0]).toBe(0x8FC64001 | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -145,7 +145,7 @@ test("Nor instructions", () => {
 	});
 	e = 0xFFFFF000 | 0;
 	a.execute(state);
-	expect(a.name).toBe("norl");
+	expect(a.name).toBe("nor");
 	expect(a.binary[0]).toBe(0x8FC4300B | 0);
 	expect(a.binary[1]).toBe(0x0FFF);
 	expect(state.reg.r2).toBe(e);
@@ -158,7 +158,7 @@ test("Nor instructions", () => {
 	});
 	e = 0x21524110 | 0;
 	a.execute(state);
-	expect(a.name).toBe("norl");
+	expect(a.name).toBe("nor");
 	expect(a.binary[0]).toBe(0x8FC6400B | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -186,7 +186,7 @@ test("Xor instructions", () => {
 	});
 	e = 0x00000FFC | 0;
 	a.execute(state);
-	expect(a.name).toBe("xori");
+	expect(a.name).toBe("xor");
 	expect(a.binary[0]).toBe(0x08843FFF | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.r2).toBe(e);
@@ -199,7 +199,7 @@ test("Xor instructions", () => {
 	});
 	e = 0xDEADBEEB | 0;
 	a.execute(state);
-	expect(a.name).toBe("xorl");
+	expect(a.name).toBe("xor");
 	expect(a.binary[0]).toBe(0x8FC64002 | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -227,7 +227,7 @@ test("ShiftAdd instructions", () => {
 	});
 	e = 0x00001005 | 0;
 	a.execute(state);
-	expect(a.name).toBe("shaddl");
+	expect(a.name).toBe("shadd");
 	expect(a.binary[0]).toBe(0x8FC4300C | 0);
 	expect(a.binary[1]).toBe(0x0FFF);
 	expect(state.reg.r2).toBe(e);
@@ -240,7 +240,7 @@ test("ShiftAdd instructions", () => {
 	});
 	e = 0xDEADBEF7 | 0;
 	a.execute(state);
-	expect(a.name).toBe("shaddl");
+	expect(a.name).toBe("shadd");
 	expect(a.binary[0]).toBe(0x8FC6400C | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -268,7 +268,7 @@ test("ShiftAdd2 instructions", () => {
 	});
 	e = 0x0000100B | 0;
 	a.execute(state);
-	expect(a.name).toBe("shadd2l");
+	expect(a.name).toBe("shadd2");
 	expect(a.binary[0]).toBe(0x8FC4300D | 0);
 	expect(a.binary[1]).toBe(0x0FFF);
 	expect(state.reg.r2).toBe(e);
@@ -281,7 +281,7 @@ test("ShiftAdd2 instructions", () => {
 	});
 	e = 0xDEADBEFF | 0;
 	a.execute(state);
-	expect(a.name).toBe("shadd2l");
+	expect(a.name).toBe("shadd2");
 	expect(a.binary[0]).toBe(0x8FC6400D | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -309,7 +309,7 @@ test("ShiftLeft instructions", () => {
 	});
 	e = 0x80000000 | 0;
 	a.execute(state);
-	expect(a.name).toBe("sli");
+	expect(a.name).toBe("sl");
 	expect(a.binary[0]).toBe(0x08C43FFF | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.r2).toBe(e);
@@ -322,7 +322,7 @@ test("ShiftLeft instructions", () => {
 	});
 	e = 0x00020000 | 0;
 	a.execute(state);
-	expect(a.name).toBe("sll");
+	expect(a.name).toBe("sl");
 	expect(a.binary[0]).toBe(0x8FC64003 | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -352,7 +352,7 @@ test("ShiftRight instructions", () => {
 	});
 	e = 1 | 0;
 	a.execute(state);
-	expect(a.name).toBe("sri");
+	expect(a.name).toBe("sr");
 	expect(a.binary[0]).toBe(0x09043FFF | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.r2).toBe(e);
@@ -366,7 +366,7 @@ test("ShiftRight instructions", () => {
 	});
 	e = 0x0001BD5B | 0;
 	a.execute(state);
-	expect(a.name).toBe("srl");
+	expect(a.name).toBe("sr");
 	expect(a.binary[0]).toBe(0x8FC64004 | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
@@ -396,7 +396,7 @@ test("ShiftRightArithmetic instructions", () => {
 	state.reg.r3 = 0xDEADBEEF;
 	e = 0xFFFFFFFF | 0;
 	a.execute(state);
-	expect(a.name).toBe("srai");
+	expect(a.name).toBe("sra");
 	expect(a.binary[0]).toBe(0x09443FFF | 0);
 	expect(a.binary[1]).toBe(undefined);
 	expect(state.reg.r2).toBe(e);
@@ -410,7 +410,7 @@ test("ShiftRightArithmetic instructions", () => {
 	state.reg.r4 = 0xDEADBEEF;
 	e = 0xFFFFBD5B | 0;
 	a.execute(state);
-	expect(a.name).toBe("sral");
+	expect(a.name).toBe("sra");
 	expect(a.binary[0]).toBe(0x8FC64005 | 0);
 	expect(a.binary[1]).toBe(0xDEADBEEF | 0);
 	expect(state.reg.r3).toBe(e);
