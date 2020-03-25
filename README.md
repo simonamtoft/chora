@@ -19,8 +19,6 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 | pclr Pd = 0        | pxor Pd = p0, p0     | 
 | mov Rd = Ps        | bcopy Rd = r0, 0, Ps |
 
-Beware: nop should give binary = 0x00400000 (to distinguish from compiler-generated nops). 
-
 # Instruction examples
 | Instruction Type   | Example               |
 | -------------------|:----------------------|
