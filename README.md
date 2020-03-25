@@ -113,3 +113,4 @@ Doesn't store in any register.
 - When writing to predicate register file AND with 0b0111. (page 16 Handbook)
 - AND immediates with the appropriate length.
 - Should there be a difference whether e.g. add, addi or addl is written?
+- Implemented compiler generated nops. Is this a good idea?
