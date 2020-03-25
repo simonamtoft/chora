@@ -53,7 +53,7 @@ FrontEnd.propTypes = {
 	stepClick		: PropTypes.func,
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
-	instQue 		: PropTypes.number,
+	instQue 		: PropTypes.array,
 	originalCode	: PropTypes.array,
 	binary 			: PropTypes.array,
 	consoleOutput 	: PropTypes.string,

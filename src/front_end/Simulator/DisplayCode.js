@@ -73,7 +73,7 @@ const MachineRow = (inst, originalInst, pc, binary, i) => {
 };
 
 DisplayCode.propTypes = {
-	instQue 		: PropTypes.number,
+	instQue 		: PropTypes.array,
 	originalCode 	: PropTypes.array,
 	pc 				: PropTypes.number,
 	binary 			: PropTypes.array,
