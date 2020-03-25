@@ -32,11 +32,9 @@ class BinaryArithmetics {
 				this.binary = compile_reg(pred, rd, rs1, op2, func);
 				break;
 			case "i":
-				this.name += "i";
 				this.binary = compile_imm(pred, func, rd, rs1, op2);
 				break;
 			case "l":
-				this.name += "l";
 				this.binary = compile_long(pred, rd, rs1, func, op2);
 				break;
 			default:

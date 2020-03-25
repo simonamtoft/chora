@@ -27,7 +27,6 @@ class Compare {
 				this.binary = compile_reg(pred, pd, rs1, op2, func);
 				break;
 			case "i":
-				this.name += "i";
 				this.binary = compile_imm(pred, pd, rs1, op2, func);
 				break;
 			default:
