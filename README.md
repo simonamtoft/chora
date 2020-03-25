@@ -112,3 +112,4 @@ Doesn't store in any register.
 - AND immediates with the appropriate length.
 - Should there be a difference whether e.g. add, addi or addl is written?
 - Implemented compiler generated nops. Is this a good idea?
+- Should there also be nops after a store in some cases?
