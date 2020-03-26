@@ -85,7 +85,7 @@ render() {
 				consoleOutput = {this.state.consoleOutput}
 				queLength = {this.assembler.queLength}
 				instQue = {this.assembler.instQue}
-				pc = {this.cpu.pc}
+				pc = {this.cpu.getPC()}
 				binary = {this.assembler.binary}
 				originalCode = {this.assembler.originalCode}
 			/>	

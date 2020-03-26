@@ -21,6 +21,10 @@ class CPU {
 		this.state.reset();
 	}
 
+	getPC() {
+		return this.state.cpu["pc"];
+	}
+
 	// Used in assembler. Thus doesn't change storage of real program.
 	getBinary(inst) {
 		let cInst = this.execute(inst);
