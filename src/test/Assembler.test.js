@@ -14,7 +14,7 @@ test("Test labels", () => {
     nop: nop
     mov: 
     mov r1 = r2   
-    li r69 = 255
+    li r3 = 255
     li r1 = -255
     add r1 = r0, label3
     label3: nop
@@ -22,9 +22,5 @@ test("Test labels", () => {
     add r1 = r0, 255 || add r2 = r0, 123
     add r1 = r0, 255 || add r2 = r0, 123
     `;
-	a.run(assembly);
-	console.log(a.bundles);    
-	for(let bundle of a.bundles){
-		console.log(JSON.stringify(bundle, null, 2));
-	}
+	expect(a.run(assembly)).toBe(true);
 });

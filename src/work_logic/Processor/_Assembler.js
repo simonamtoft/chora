@@ -1,5 +1,15 @@
-import CPU from "./CPU";
-import { getInstType, instTypes, binTypes, compTypes, loadTypes, storeTypes, predTypes } from "../../helpers/typeStrings";
+import CPU from "./_CPU";
+import { Add, Sub, Xor, Nor, ShiftLeft, ShiftRight, Or, And, ShiftRightArithmetic, ShiftAdd, ShiftAdd2 } from "../Instructions/BinaryArithmetics/index";
+import { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult } from "../Instructions/Compare/index";
+import { Lws, Lwl, Lwc, Lwm, Lhs, Lhl, Lhc, Lhm, Lbs, Lbl, Lbc, Lbm, Lhus, Lhul, Lhuc, Lhum, Lbus, Lbul, Lbuc, Lbum} from "../Instructions/LoadTyped/index";
+import { Mul, Mulu } from "../Instructions/Multiply/index";
+import { Pand, Pxor, Por } from "../Instructions/Predicate/index";
+import { Sens, Sfree, Sres, Sspill } from "../Instructions/StackControl/index";
+import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws} from "../Instructions/StoreTyped/index";
+import Bcopy from "../Instructions/Bcopy";
+import Mfs from "../Instructions/Mfs";
+import Mts from "../Instructions/Mts";
+import { instTypes, binTypes, compTypes, loadTypes, storeTypes, predTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, pregStr, sregStr, allRegStr } from "../../helpers/regStrings";
 import { getRegEx } from "../../helpers/regEx";
@@ -44,15 +54,19 @@ class Assembler {
 		this.cpu = new CPU();
 	}
 
+	// should add debouncing :)
 	run(editor) {
 		this.reset();
 		let input = cleanInput(editor);
 		for (let line of input)
 			if(!this.parse(line))
 				return false;
-		for (let bundle of this.bundles)
+		for (let bundle of this.bundles){
 			if(!this.resolveLabels(bundle))
 				return false;
+			this.compileBundle(bundle);
+		}
+
 		return true;
 	}
 		
@@ -98,7 +112,7 @@ class Assembler {
 				return false;
 			}
 			if(label) this.labels[label] = idx;
-			// Re-add the operand checks at this point.
+			// Re-add the operand checks at this point. Also add register aliases.
 			let i = {pred: {p: pred, n: neg}, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ")};
 			bundle.instructions.push(i);
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
@@ -112,12 +126,271 @@ class Assembler {
 		for(let instruction of bundle.instructions){
 			for(let i in instruction.ops){
 				if(Object.keys(this.labels).includes(instruction.ops[i]))
-					instruction.ops[i] = this.bundles[this.labels[instruction.ops[i]]].offset;
-				if(!allRegStr.includes(instruction.ops[i]) || isNaN(instruction.ops[i]))
+					instruction.ops[i] = String(this.bundles[this.labels[instruction.ops[i]]].offset);
+				if(!allRegStr.includes(instruction.ops[i].toLowerCase()) && isNaN(instruction.ops[i]))
 					return false;
 			}
 		}
 		return true;
+	}
+
+	compileBundle(bundle){
+		for(let i in bundle.instructions){
+			let {pred, type, ops} = bundle.instructions[i];
+			let cInst; 
+
+			let BinaryInst = {pred: pred.p | (pred.n << 3), rd: ops[0], rs1: ops[1], op2: ops[2]};
+			let CompareInst = {pred: pred.p | (pred.n << 3), pd: ops[0], rs1: ops[1], op2: ops[2]};
+			let LoadInst = {pred: pred.p | (pred.n << 3), rd: ops[0], ra: ops[1], imm: ops[2]};
+			let MulInst = {pred: pred.p | (pred.n << 3), rs1: ops[0], rs2: ops[1]};
+			let PredInst = {pred: pred.p | (pred.n << 3), pd: ops[0], ps1: ops[1], ps2: ops[2]};
+			let StackInst 	= {pred: pred.p | (pred.n << 3), s1:  ops[0]};
+			let StoreInst 	= {pred: pred.p | (pred.n << 3), ra:  ops[0], imm: ops[1], rs: ops[2]};
+			let BcopyInst 	= {pred: pred.p | (pred.n << 3), rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4]};
+
+			// Pick and execute inst
+			switch(type) {
+
+				// BinaryArithmetics
+				case "add": 
+				case "addi": 
+				case "addl": 
+					cInst = new Add(BinaryInst);
+					break;
+				case "sub":
+				case "subi":
+				case "subl":
+					cInst = new Sub(BinaryInst);
+					break;
+				case "or":
+				case "ori":
+				case "orl":
+					cInst = new Or(BinaryInst);
+					break;
+				case "and":
+				case "andi":
+				case "andl":
+					cInst = new And(BinaryInst);
+					break;
+				case "xor":
+				case "xori":
+				case "xorl":
+					cInst = new Xor(BinaryInst);
+					break;
+				case "nor": 
+				case "norl": 
+					cInst = new Nor(BinaryInst);
+					break;
+				case "sl":
+				case "sli":
+				case "sll":
+					cInst = new ShiftLeft(BinaryInst);
+					break;
+				case "sr": 
+				case "sri":
+				case "srl":
+					cInst = new ShiftRight(BinaryInst);
+					break;
+				case "sra": 
+				case "srai": 
+				case "sral": 
+					cInst = new ShiftRightArithmetic(BinaryInst);
+					break;
+				case "shadd": 
+					cInst = new ShiftAdd(BinaryInst);
+					break;
+				case "shadd2": 
+					cInst = new ShiftAdd2(BinaryInst);
+					break;
+			
+					// Compare
+				case "btest": 
+				case "btesti":
+					cInst = new Btest(CompareInst);
+					break;
+				case "cmpeq": 
+				case "cmpeqi": 
+					cInst = new Cmpeq(CompareInst);
+					break;
+				case "cmple":
+				case "cmplei": 
+					cInst = new Cmple(CompareInst);
+					break;
+				case "cmplt": 
+				case "cmplti": 
+					cInst = new Cmplt(CompareInst);
+					break;
+				case "cmpneq":
+				case "cmpneqi": 
+					cInst = new Cmpneq(CompareInst);
+					break;
+				case "cmpule": 
+				case "cmpulei": 
+					cInst = new Cmpule(CompareInst);
+					break;
+				case "cmpult": 
+				case "cmpulti": 
+					cInst = new Cmpult(CompareInst);
+					break;
+			
+					// LoadType 
+				case "lbc": 
+					cInst = new Lbc(LoadInst);
+					break;
+				case "lbl": 
+					cInst = new Lbl(LoadInst);
+					break;
+				case "lbm": 
+					cInst = new Lbm(LoadInst);
+					break;
+				case "lbs": 
+					cInst = new Lbs(LoadInst);
+					break;
+				case "lbuc": 
+					cInst = new Lbuc(LoadInst);
+					break;
+				case "lbul": 
+					cInst = new Lbul(LoadInst);
+					break;
+				case "lbum": 
+					cInst = new Lbum(LoadInst);
+					break;
+				case "lbus": 
+					cInst = new Lbus(LoadInst);
+					break;
+				case "lhc": 
+					cInst = new Lhc(LoadInst);
+					break;
+				case "lhl": 
+					cInst = new Lhl(LoadInst);
+					break;
+				case "lhm": 
+					cInst = new Lhm(LoadInst);
+					break;
+				case "lhs": 
+					cInst = new Lhs(LoadInst);
+					break;
+				case "lhuc": 
+					cInst = new Lhuc(LoadInst);
+					break;
+				case "lhul": 
+					cInst = new Lhul(LoadInst);
+					break;
+				case "lhum": 
+					cInst = new Lhum(LoadInst);
+					break;
+				case "lhus": 
+					cInst = new Lhus(LoadInst);
+					break;
+				case "lwc": 
+					cInst = new Lwc(LoadInst);
+					break;
+				case "lwl": 
+					cInst = new Lwl(LoadInst);
+					break;
+				case "lwm": 
+					cInst = new Lwm(LoadInst);
+					break;
+				case "lws": 
+					cInst = new Lws(LoadInst);
+					break;
+			
+					// Multiply 
+				case "mul":
+					cInst = new Mul(MulInst);
+					break;
+				case "mulu":
+					cInst = new Mulu(MulInst);
+					break;
+
+					// Predicate
+				case "pand":
+					cInst = new Pand(PredInst);
+					break;
+				case "por":
+					cInst = new Por(PredInst);
+					break;
+				case "pxor":
+					cInst = new Pxor(PredInst);
+					break;
+
+					// StoreTyped
+				case "sbc":
+					cInst = new Sbc(StoreInst);
+					break;
+				case "sbl":
+					cInst = new Sbl(StoreInst);
+					break;
+				case "sbm":
+					cInst = new Sbm(StoreInst);
+					break;
+				case "sbs":
+					cInst = new Sbs(StoreInst);
+					break;
+				case "shc":
+					cInst = new Shc(StoreInst);
+					break;
+				case "shl":
+					cInst = new Shl(StoreInst);
+					break;
+				case "shm":
+					cInst = new Shm(StoreInst);
+					break;
+				case "shs":
+					cInst = new Shs(StoreInst);
+					break;
+				case "swc":
+					cInst = new Swc(StoreInst);
+					break;
+				case "swl":
+					cInst = new Swl(StoreInst);
+					break;
+				case "swm":
+					cInst = new Swm(StoreInst);
+					break;
+				case "sws":
+					cInst = new Sws(StoreInst);
+					break;
+
+					// Stack Control
+				case "sens":
+					cInst = new Sens(StackInst);
+					break;
+				case "sfree":
+					cInst = new Sfree(StackInst);
+					break;
+				case "sres":
+					cInst = new Sres(StackInst);
+					break;
+				case "sspill":
+					cInst = new Sspill(StackInst);
+					break;
+
+					// Rest
+				case "bcopy":
+					cInst = new Bcopy(BcopyInst);
+					break;
+				case "mfs":
+					cInst = new Mfs({pred: pred.p | (pred.n << 3), rd: ops[0], ss: ops[1]});
+					break;
+				case "mts":
+					cInst = new Mts({pred: pred.p | (pred.n << 3), rs1: ops[0], sd: ops[1]});
+					break;
+			
+					// nop when generated by compiler
+				case "nop":
+					return;
+
+					// Not implemented
+				default:
+					console.log(`Instruction ${type} not implemented.`);
+					return -1;
+			}
+			if(i === 0 && bundle.instructions.length === 2){
+				cInst.binary[0] |= 1 << 31;
+			}
+			bundle.instructions[i].instruction = cInst;
+		}
 	}
 }
 export default Assembler;
