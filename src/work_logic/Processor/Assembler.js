@@ -43,7 +43,6 @@ class Assembler {
 			// would use the destination reg of previous load 
 			if (loadTypes.includes(this.instQue[i-1][1])) {
 				if (this.instQue[i].includes(this.instQue[i-1][2])) {
-					// Insert compiler generated nop
 					this.insertnop(i);
 					nopCount += 1;
 				}
