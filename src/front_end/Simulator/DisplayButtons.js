@@ -73,11 +73,12 @@ const forwardBtn = (queLength, pc, runClick, stepClick) => {
  * @param {func} 	resetClick 	- Button reset clicked handler
  */
 const backwardsBtn = (pc, prevClick, resetClick) => {
-	let tooltipPrev = "Not implemented yet";
+	let tooltipPrev = "Steps one instruction back (decrement program count)";
 	let tooltipReset = "Reset registers & memory and jump to first instruction";
 
 	if (pc === 0) {
 		tooltipReset = "No instructions run yet";
+		tooltipPrev = "No instructions run yet";
 		return (
 			<Fragment>
 				<button title={tooltipPrev} type="button" className={buttonCSS[2]} disabled>Prev</button>
@@ -87,7 +88,7 @@ const backwardsBtn = (pc, prevClick, resetClick) => {
 	}
 	return (
 		<Fragment>
-			<button title={tooltipPrev} type="button" className={buttonCSS[2]} onClick={prevClick} disabled >Prev</button>
+			<button title={tooltipPrev} type="button" className={buttonCSS[2]} onClick={prevClick}  >Prev</button>
 			<button title={tooltipReset} type="button" className={buttonCSS[3]} onClick={resetClick}>Reset</button>
 		</Fragment>
 	);

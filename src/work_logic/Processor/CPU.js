@@ -44,9 +44,21 @@ class CPU {
 		this.state.cpu.pc += 1; // This should be fixed as PC != index.
 	}
 
-	// Run all remaining instructions
-	run(queLength, instQue) {
-		while (this.state.cpu.pc < queLength) {
+	// Step one instruction backwards in queue
+	prev(instQue) {
+		let endIdx = this.state.cpu.pc - 1;
+		this.state.cpu.pc = 0;
+
+		if (endIdx === 0) {
+			this.reset();
+		} else {
+			this.run(endIdx, instQue);
+		}
+	}
+
+	// Run all instructions from pc to endIdx
+	run(endIdx, instQue) {
+		while (this.state.cpu.pc < endIdx) {
 			this.step(instQue);
 		}
 	}

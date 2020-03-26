@@ -32,8 +32,10 @@ class Assembler {
 		queLength = editor.length;
 		nopCount = 0;
 
-		this.parse(editor[0].trim(), 0);
-
+		// Parse first line
+		if (editor[0] !== undefined) {this.parse(editor[0].trim(), 0); }
+		
+		// Parse remaining lines
 		for (let i = 1; i < (queLength + nopCount); i++) {
 			this.parse(editor[i-nopCount].trim(), i);
 

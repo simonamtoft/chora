@@ -65,7 +65,7 @@ resetBtn = () => {
 }
 
 prevBtn = () => {
-	this.cpu.pc -= 1;
+	this.cpu.prev(this.assembler.instQue);
 	this.forceUpdate(); // To re-render
 
 	console.log("Prev button pressed");
