@@ -38,23 +38,32 @@ const moveTypes = [
 
 const getInstType = (type) => {
 	let idx, key, keys;
+	let message; 
+
+
+	// Just an idea here... Would be smart to keep the error message with the regEx
+	// Such that it returns together with regex and if it doesn't match, it throws 
+	// how it should look like. 
+
 	let instTypeStr = {
-		bin 	: binTypes.includes(type),
-		comp 	: compTypes.includes(type),
-		pred 	: predTypes.includes(type),
-		load	: loadTypes.includes(type), 
-		store 	: storeTypes.includes(type),
-		move	: moveTypes.includes(type),
-		mul		: mulTypes.includes(type),
-		stack	: stackTypes.includes(type),
-		pseudo1	: type === "mov" || type === "isodd" || type === "pmov"
+		bin 	: [binTypes.includes(type), 	"rd = rs1, op2"],
+		comp 	: [compTypes.includes(type), 	"pd = rs1, op2"],
+		load	: [loadTypes.includes(type), 	"rd = [rs + imm]"],
+		store 	: [storeTypes.includes(type),	"[rd + imm] = rs"],
+		mul		: [mulTypes.includes(type),		"rs1, rs2"],
+		stack	: [stackTypes.includes(type),	"imm"],
+		pred 	: [predTypes.includes(type),	"pd = ps1, ps2"],
+		pseudo1	: [type === "mov" || type === "isodd" 
+					|| type === "pmov",			""]
 	};
 	
 	keys = Object.keys(instTypeStr);
 	
 	for (idx in keys) {
 		key = keys[idx];
-		if (instTypeStr[key]) {
+		if (instTypeStr[key][0]) {
+			message = instTypeStr[key][1];
+			console.log(message);
 			return key;
 		}
 	}
