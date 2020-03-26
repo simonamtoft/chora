@@ -36,4 +36,30 @@ const moveTypes = [
 	"mts", "mfs"
 ];
 
-export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes };
+const getInstType = (type) => {
+	let idx, key, keys;
+	let instTypeStr = {
+		bin 	: binTypes.includes(type),
+		comp 	: compTypes.includes(type),
+		pred 	: predTypes.includes(type),
+		load	: loadTypes.includes(type), 
+		store 	: storeTypes.includes(type),
+		move	: moveTypes.includes(type),
+		mul		: mulTypes.includes(type),
+		stack	: stackTypes.includes(type),
+		pseudo1	: type === "mov" || type === "isodd" || type === "pmov"
+	};
+	
+	keys = Object.keys(instTypeStr);
+	
+	for (idx in keys) {
+		key = keys[idx];
+		if (instTypeStr[key]) {
+			return key;
+		}
+	}
+	return type;
+};
+
+
+export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, getInstType };

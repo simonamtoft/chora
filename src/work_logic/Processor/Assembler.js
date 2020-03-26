@@ -1,7 +1,7 @@
 import CPU from "./CPU";
-import { instTypes, binTypes, compTypes, loadTypes, storeTypes, predTypes } from "../../helpers/typeStrings";
+import { instTypes, loadTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
-import { regStr, pregStr, sregStr, allRegStr } from "../../helpers/regStrings";
+import { regStr } from "../../helpers/regStrings";
 import { getRegEx } from "../../helpers/regEx";
 
 class Assembler {
@@ -120,7 +120,6 @@ class Assembler {
 			this.errorMessage[idx] = "Missing operators.";
 			return -1;
 		}
-		if (!this.checkOperators(type, regExMatch, idx)) { return -1; }
 		if (!this.checkEndOfLine(type, regExMatch, idx)) { return -1; }
 
 		// Return inst
@@ -139,12 +138,7 @@ class Assembler {
 			this.errorMessage[idx] = "Missing operators on pseudo inst.";
 			return -1;
 		}
-		if (!this.checkOperators(type, regExMatch, idx)) {
-			return -1;
-		}
-		if (!this.checkEndOfLine(type, regExMatch, idx)) {
-			return -1;
-		}
+		if (!this.checkEndOfLine(type, regExMatch, idx)) { return -1; }
 
 		// Output pseudo
 		this.originalCode[idx] = [type, regExMatch[1], regExMatch[2]];
@@ -181,29 +175,6 @@ class Assembler {
 		return this.handleNormalInst(line, type, regExMatch, idx, inst);
 	};
 
-
-	/**
-	 * 
-	 * @param {string} 	type		- Instruction type 
-	 * @param {Array} 	regExMatch 	- Fields after inst type [rd, s1, s2]
-	 */
-	checkOperators = (type, regExMatch, idx) => {
-		let errorMessage = "";
-		
-		// Check destination register
-		errorMessage += checkDesReg(type, regExMatch[1]);
-		
-		// Check register "numbers".
-		errorMessage += checkOp(regExMatch[2], type);
-		errorMessage += checkOp(regExMatch[3], type);
-		
-		if (errorMessage === "") {
-			return true;
-		}
-		this.errorMessage[idx] = errorMessage;
-		return false;
-	};
-
 	checkEndOfLine = (type, regExMatch, idx) => {
 		let remainder, lastOp;
 		lastOp = regExMatch[regExMatch["length"] - 1];
@@ -222,37 +193,6 @@ class Assembler {
 		return true;
 	};
 }
-
-// Returns string to append to errorMesage if any errors.
-const checkDesReg = (type, des) => {
-	let desType, idx, mapReg;
-	mapReg = ["r", "p", "s"];
-	desType = [
-		(binTypes.includes(type) || loadTypes.includes(type) || storeTypes.includes(type) || type === "mfs") && !regStr.includes(des),
-		(compTypes.includes(type) || predTypes.includes(type)) && !pregStr.includes(des),
-		type === "mts" && !sregStr.includes(des),
-		// Mul & Stack doesn't have a des reg, thus handled by RegEx only.
-	];
-	idx = desType.indexOf(true);
-
-	if (des === "r0" | des === "p0") {
-		return `Register ${des} is write protected.`;
-	} 
-
-	if (idx === -1) {
-		return "";
-	}
-	return `Type ${type} should write to ${mapReg[idx]}-reg not ${des[0]}-reg.`;
-};
-
-const checkOp = (op) => {
-	if (op !== undefined & isNaN(op)) {
-		if (!allRegStr.includes(op)) {
-			return `${op} is not a register/immediate.`;
-		}
-	}
-	return "";
-};
 
 /**
  * Removes empty lines and comments
