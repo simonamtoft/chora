@@ -44,9 +44,7 @@ class Assembler {
 			if (loadTypes.includes(this.instQue[i-1][1])) {
 				if (this.instQue[i].includes(this.instQue[i-1][2])) {
 					// Insert compiler generated nop
-					this.originalCode[i] = [""];
-					this.instQue[i] = [0, "nop"];
-					this.binary[i] = 0; // compiler generated nop...
+					this.insertnop(i);
 					nopCount += 1;
 				}
 			}
@@ -59,6 +57,12 @@ class Assembler {
 		} else {
 			console.log(this.errorMessage);
 		}
+	}
+
+	insertnop(idx) {
+		this.originalCode[idx] = [""];
+		this.instQue[idx] = [0, "nop"];
+		this.binary[idx] = 0;
 	}
 
 	parse(line, idx) {

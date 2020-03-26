@@ -16,27 +16,27 @@ const regEx = {
 
 
 	// Normal instructions (new)
-	"bin" 	: /(r\d{1,2})\s*=\s*(r\d{1,2})\s*,\s*(r?\d+)/, 			// rd = rs1, op2
-	"comp"	: /(p\d)\s*=\s*(r\d{1,2})\s*,\s*(r?\d+)/,				// pd = rs1, op2
-	"load"	: /(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\d+)\]/,		// rd = [rs + imm]
-	"store"	: /\[(r\d{1,2})\s*\+\s*(\d+)\]\s*=\s*(r\d{1,2})/, 		// [rd + imm] = rs
-	"mul"	: /(r\d{1,2})\s*,\s*(r\d{1,2})/,						// rs1, rs2
-	"stack"	: /(\d+)\s?/,											// imm
-	"pred"	: /(p\d)\s*=\s*(p\d)\s*,\s*(p\d)/,						// pd = ps1, ps2
-	"mts"	: /(s\d{1,2})\s*=\s*(r\d{1,2})/,						// sd = rs
-	"mfs"	: /(r\d{1,2})\s*=\s*(s\d{1,2})/,						// rd = ss			
-	"bcopy"	: /(r\d{1,2})\s*=\s*(r\d{1,2}),\s*(\d+),\s*(~{0,1})(p\d)/, 		// rd = rs, imm, ps
+	"bin" 	: /(r\d{1,2})\s*=\s*(r\d{1,2})\s*,\s*(r?\d+)/, 				// rd = rs1, op2
+	"comp"	: /(p\d)\s*=\s*(r\d{1,2})\s*,\s*(r?\d+)/,					// pd = rs1, op2
+	"load"	: /(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\d+)\]/,			// rd = [rs + imm]
+	"store"	: /\[(r\d{1,2})\s*\+\s*(\d+)\]\s*=\s*(r\d{1,2})/, 			// [rd + imm] = rs
+	"mul"	: /(r\d{1,2})\s*,\s*(r\d{1,2})/,							// rs1, rs2
+	"stack"	: /(\d+)\s?/,												// imm
+	"pred"	: /(p\d)\s*=\s*(p\d)\s*,\s*(p\d)/,							// pd = ps1, ps2
+	"mts"	: /(s\d{1,2})\s*=\s*(r\d{1,2})/,							// sd = rs
+	"mfs"	: /(r\d{1,2})\s*=\s*(s\d{1,2})/,							// rd = ss			
+	"bcopy"	: /(r\d{1,2})\s*=\s*(r\d{1,2}),\s*(\d+),\s*(~{0,1})(p\d)/, 	// rd = rs, imm, ps
 
 	// Pseudo instructions
-	"pseu1"	: /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})/, 					// mov, isodd, pmov
-	"clr"	: /([rp]\d{1,2})/, 										// rd/pd
-	"neg"	: /(r\d{1,2})\s*=\s*-\s*(r\d{1,2})/,					// rd = -rs
-	"not"	: /(r\d{1,2})\s*=\s*~\s*(r\d{1,2})/,					// rd = ~rs
-	"li"	: /(r\d{1,2})\s*=\s*(-{0,1}\d+)/,						// rd = imm
-	"nop" 	: /\s*/,												// 
-	"pset"	: /(p\d)\s*=\s*(\d)/,									// pd = binary
-	"pnot"	: /(p\d)\s*=\s*~\s*(p\d)/,								// pd = ~ps
-	"pclr"	: /(p\d)\s*=\s*(0)/,									// pd = 0
+	"pseu1"	: /([rp]\d{1,2})\s*=\s*([rp]\d{1,2})/, 						// mov, isodd, pmov
+	"clr"	: /([rp]\d{1,2})/, 											// rd/pd
+	"neg"	: /(r\d{1,2})\s*=\s*-\s*(r\d{1,2})/,						// rd = -rs
+	"not"	: /(r\d{1,2})\s*=\s*~\s*(r\d{1,2})/,						// rd = ~rs
+	"li"	: /(r\d{1,2})\s*=\s*(-{0,1}\d+)/,							// rd = imm
+	"nop" 	: /\s*/,													// 
+	"pset"	: /(p\d)\s*=\s*(\d)/,										// pd = binary
+	"pnot"	: /(p\d)\s*=\s*~\s*(p\d)/,									// pd = ~ps
+	"pclr"	: /(p\d)\s*=\s*(0)/,										// pd = 0
 };
 
 /**
@@ -47,6 +47,5 @@ const regEx = {
 const getRegEx = (type) => {
 	return regEx[getInstType(type)];
 };
-
 
 export { getRegEx };
