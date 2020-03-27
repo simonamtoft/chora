@@ -108,7 +108,6 @@ class Assembler {
 				return false;
 			}
 			if(label) this.labels[label] = idx;
-			// Re-add the operand checks at this point. Also add register aliases.
 			let i = {pred: {p: pred, n: neg}, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ")};
 			bundle.instructions.push(i);
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
@@ -118,6 +117,7 @@ class Assembler {
 		return true;
 	}
 
+	// Add register aliases too.
 	resolveOperands(bundle){
 		for(let instruction of bundle.instructions){
 			for(let i in instruction.ops){
