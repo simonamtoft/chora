@@ -23,7 +23,7 @@ const regEx = {
 	"neg"	: /(r\d{1,2})\s*=\s*-\s*(r\d{1,2})$/i,										// rd = -rs
 	"not"	: /(r\d{1,2})\s*=\s*~\s*(r\d{1,2})$/i,										// rd = ~rs
 	"li"	: /(r\d{1,2})\s*=\s*(-{0,1}(?:0x)?(?:0b)?\d+)$/i,							// rd = imm
-	"nop" 	: /nop/i,																	// 
+	"nop" 	: /nop$/i,																	// 
 	"pset"	: /(p\d)\s*=\s*(\d)$/i,														// pd = binary
 	"pnot"	: /(p\d)\s*=\s*~\s*(p\d)$/i,												// pd = ~ps
 	"pclr"	: /(p\d)\s*=\s*(0)$/i,														// pd = 0

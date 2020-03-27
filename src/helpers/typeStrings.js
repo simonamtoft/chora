@@ -40,7 +40,6 @@ const getInstType = (type) => {
 	let idx, key, keys;
 	let message; 
 
-
 	// Just an idea here... Would be smart to keep the error message with the regEx
 	// Such that it returns together with regex and if it doesn't match, it throws 
 	// how it should look like. 
@@ -69,6 +68,5 @@ const getInstType = (type) => {
 	}
 	return type;
 };
-
 
 export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, getInstType };
