@@ -36,6 +36,9 @@ const moveTypes = [
 	"mts", "mfs"
 ];
 
+//TBD
+const controlFlowTypes = [];
+
 const getInstType = (type) => {
 	let idx, key, keys;
 	let message; 
@@ -62,11 +65,12 @@ const getInstType = (type) => {
 		key = keys[idx];
 		if (instTypeStr[key][0]) {
 			message = instTypeStr[key][1];
-			console.log(message);
+			//console.log(message);
 			return key;
 		}
 	}
 	return type;
 };
 
-export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, getInstType };
+
+export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, controlFlowTypes, getInstType };

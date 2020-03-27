@@ -1,5 +1,6 @@
 class ProcessorState {
 	constructor() {
+		this.history = [];
 		this.reg = {
 			"r0" : 0,
 			"r1" : 0, "r2" : 0, "r3" : 0, "r4" : 0, "r5" : 0,
@@ -26,6 +27,7 @@ class ProcessorState {
 	}
 	
 	reset() {
+		this.history = [];
 		this.mem = {
 			"BASE_ADDR": 0x0,
 			"MAX_SIZE": 0x00200000 // 2MiB
@@ -57,6 +59,24 @@ class ProcessorState {
 
 	getReg() {
 		return this.reg; 
+	}
+
+	updateHistory(){
+		let r, m, c;
+		r = Object.assign({}, this.reg);
+		m = Object.assign({}, this.mem);
+		c = Object.assign({}, this.cpu);
+		this.history.push({reg: r, mem: m, cpu: c});
+	}
+	
+	rewindOnce(){
+		let prev = this.history.pop();
+		if(!prev)
+			return false;
+		this.reg = prev.reg;
+		this.mem = prev.mem;
+		this.cpu = prev.cpu;
+		return true;
 	}
 }
 
