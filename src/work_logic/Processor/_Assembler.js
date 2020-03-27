@@ -74,7 +74,7 @@ class Assembler {
 		let bundle = {offset: this.offset, instructions: []};
 		let idx = this.bundles.push(bundle) - 1;
 		if(insts.length > 2)
-			return false;
+			return false; // error return?
 		for(let inst of insts){
 			inst = inst.trim();
 			let match = inst.match(getRegEx("first"));
@@ -138,14 +138,16 @@ class Assembler {
 			let {pred, type, ops} = bundle.instructions[i];
 			let cInst; 
 
-			let BinaryInst = {pred: pred.p | (pred.n << 3), rd: ops[0], rs1: ops[1], op2: ops[2]};
-			let CompareInst = {pred: pred.p | (pred.n << 3), pd: ops[0], rs1: ops[1], op2: ops[2]};
-			let LoadInst = {pred: pred.p | (pred.n << 3), rd: ops[0], ra: ops[1], imm: ops[2]};
-			let MulInst = {pred: pred.p | (pred.n << 3), rs1: ops[0], rs2: ops[1]};
-			let PredInst = {pred: pred.p | (pred.n << 3), pd: ops[0], ps1: ops[1], ps2: ops[2]};
-			let StackInst 	= {pred: pred.p | (pred.n << 3), s1:  ops[0]};
-			let StoreInst 	= {pred: pred.p | (pred.n << 3), ra:  ops[0], imm: ops[1], rs: ops[2]};
-			let BcopyInst 	= {pred: pred.p | (pred.n << 3), rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4]};
+			let predicate = pred.p | (pred.n << 3);
+
+			let BinaryInst 	= {pred: predicate, rd:  ops[0], rs1: ops[1], op2: ops[2]};
+			let CompareInst = {pred: predicate, pd:  ops[0], rs1: ops[1], op2: ops[2]};
+			let LoadInst 	= {pred: predicate, rd:  ops[0], ra:  ops[1], imm: ops[2]};
+			let MulInst 	= {pred: predicate, rs1: ops[0], rs2: ops[1]};
+			let PredInst 	= {pred: predicate, pd:  ops[0], ps1: ops[1], ps2: ops[2]};
+			let StackInst 	= {pred: predicate, s1:  ops[0]};
+			let StoreInst 	= {pred: predicate, ra:  ops[0], imm: ops[1], rs:  ops[2]};
+			let BcopyInst 	= {pred: predicate, rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4]};
 
 			// Pick and execute inst
 			switch(type) {
