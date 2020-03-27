@@ -1,4 +1,3 @@
-import CPU from "./_CPU";
 import { Add, Sub, Xor, Nor, ShiftLeft, ShiftRight, Or, And, ShiftRightArithmetic, ShiftAdd, ShiftAdd2 } from "../Instructions/BinaryArithmetics/index";
 import { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult } from "../Instructions/Compare/index";
 import { Lws, Lwl, Lwc, Lwm, Lhs, Lhl, Lhc, Lhm, Lbs, Lbl, Lbc, Lbm, Lhus, Lhul, Lhuc, Lhum, Lbus, Lbul, Lbuc, Lbum} from "../Instructions/LoadTyped/index";
@@ -43,7 +42,6 @@ class Assembler {
 		this.labels = {};
 		this.binary = [];
 		this.offset = 0;
-		this.cpu = new CPU();
 	}
 
 	reset() {
@@ -51,7 +49,6 @@ class Assembler {
 		this.binary = [];
 		this.labels = {};
 		this.offset = 0;
-		this.cpu = new CPU();
 	}
 
 	// should add debouncing :)
@@ -62,7 +59,7 @@ class Assembler {
 			if(!this.parse(line))
 				return false;
 		for (let bundle of this.bundles){
-			if(!this.resolveLabels(bundle))
+			if(!this.resolveOperands(bundle))
 				return false;
 			this.compileBundle(bundle);
 		}
@@ -121,12 +118,15 @@ class Assembler {
 		return true;
 	}
 
-	resolveLabels(bundle){
+	resolveOperands(bundle){
 		for(let instruction of bundle.instructions){
 			for(let i in instruction.ops){
-				if(Object.keys(this.labels).includes(instruction.ops[i]))
+				let op_lc = instruction.ops[i].toLowerCase();
+				if(allRegStr.includes(instruction.ops[i].toLowerCase())){
+					instruction.ops[i] = op_lc;
+				} else if(Object.keys(this.labels).includes(instruction.ops[i]))
 					instruction.ops[i] = String(this.bundles[this.labels[instruction.ops[i]]].offset);
-				if(!allRegStr.includes(instruction.ops[i].toLowerCase()) && isNaN(instruction.ops[i]))
+				else if(isNaN(instruction.ops[i]))
 					return false;
 			}
 		}
