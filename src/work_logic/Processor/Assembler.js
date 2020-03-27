@@ -157,19 +157,8 @@ class Assembler {
 				match[1] = -match[1];
 			}
 		} else if (ptype === "MOV") {
-			ptype += "_";
-
-			if (regStr.includes(match[0])) {
-				ptype += "R";
-			} else {
-				ptype += "P";
-			}
-
-			if (regStr.includes(match[1])) {
-				ptype += "R";
-			} else {
-				ptype += "P";
-			}
+			ptype += (regStr.includes(match[1])) ? "_R" : "_P";
+			ptype += (regStr.includes(match[2])) ? "R" 	: "P";
 		}
 		line = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n-1]);
 		type = line.split(" ")[0].trim();

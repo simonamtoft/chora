@@ -9,9 +9,9 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws} from "../In
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes, compTypes, loadTypes, storeTypes, predTypes } from "../../helpers/typeStrings";
+import { instTypes, binTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
-import { regStr, pregStr, sregStr, allRegStr } from "../../helpers/regStrings";
+import { regStr, allRegStr } from "../../helpers/regStrings";
 import { getRegEx } from "../../helpers/regEx";
 
 /**
@@ -66,7 +66,6 @@ class Assembler {
 				return false;
 			this.compileBundle(bundle);
 		}
-
 		return true;
 	}
 		
