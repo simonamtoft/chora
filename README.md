@@ -23,3 +23,6 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 - When writing to predicate register file AND with 0b0111. (page 16 Handbook)
 - Implemented compiler generated nops. Is this a good idea?
 - Should there also be nops after a store in some cases?
+- Check up on $ before registers in editor... Ask Martin.
+- Check register usage. Should some registers not be write-able?
+- Remember to keep writing r0 = 0, p0 = 1 after each instruction execute.
