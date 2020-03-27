@@ -23,7 +23,7 @@ const cleanInput = (editor) => {
 	let input = editor.split(/(?:\r?\n)|;/);
 	let output = [];
 	for (let i = 0; i < input.length; ++i){
-		let line = input[i].split("#", 1)[0].trim();
+		let line = input[i].split("#", 1)[0].trim(); // Remove comments
 		let only_label = line.match(/^\w+:$/);
 		if(line){
 			if(only_label && i + 1 < input.length){

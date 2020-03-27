@@ -53,7 +53,7 @@ const getInstType = (type) => {
 		mul		: [mulTypes.includes(type),		"rs1, rs2"],
 		stack	: [stackTypes.includes(type),	"imm"],
 		pred 	: [predTypes.includes(type),	"pd = ps1, ps2"],
-		pseudo1	: [type === "mov" || type === "isodd" 
+		p1		: [type === "mov" || type === "isodd" 
 					|| type === "pmov",			""]
 	};
 	
