@@ -324,6 +324,11 @@ class CPU {
 		if ( ((inst[0] & 0b1000) >>> 3) !== this.state.reg[`p${inst[0] & 0b0111}`] ) {
 			cInst.execute(state);
 		}
+
+		// Write protect r0 and p0
+		this.cpu.state.reg["r0"] = 0;
+		this.cpu.state.reg["p0"] = 1;
+
 		return cInst;
 	}
 

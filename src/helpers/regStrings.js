@@ -20,5 +20,15 @@ const allRegStr = [
 	"s10", "s11", "s12", "s13", "s14", "s15"
 ];
 
+const sregMap = {
+	sl : "s2",
+	sh : "s3",
+	ss : "s5",
+	st : "s6",
+	srb : "s7",
+	sro : "s8",
+	sxb : "s9",
+	sxo : "s10",
+};
 
-export { regStr, pregStr, sregStr, allRegStr };
+export { regStr, pregStr, sregStr, allRegStr, sregMap };
