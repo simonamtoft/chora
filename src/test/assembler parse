@@ -1,3 +1,13 @@
+# Populate some registers 
+add r1 = r0, 1
+add r2 = r0, 2
+add r3 = r0, 3
+add r4 = r0, 4
+add r5 = r0, 5
+add r6 = r0, 6
+add r7 = r0, 7
+add r8 = r0, 8
+
 # RegEx 1
 add r1 = r0, 10		# r1 = 10
 cmpneq p2 = r1, 10	# p2 = 1
@@ -25,6 +35,16 @@ bcopy r1 = r0, 5, ~p1
 # Label and pred
 label1: (!p1) add r1 = r2, 100
 
+
+# Check special reg mapping
+mts sl = r1
+mts sh = r2
+mts ss = r3
+mts st = r4
+mts srb = r5
+mts sro = r6
+mts sxb = r7
+mts sxo = r8
 
 
 
