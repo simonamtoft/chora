@@ -1,14 +1,12 @@
-.App {
-  text-align: center;
+.nav-tabs .nav-link.active {
+	color: #008CBA;
+	background-color: white;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+a.nav-link {
+	color: black;
+}
+
+a.nav-link:hover {
+	background-color: rgba(0, 140, 186, 0.2);
 }
