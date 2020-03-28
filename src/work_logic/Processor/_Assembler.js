@@ -53,6 +53,7 @@ class Assembler {
 	run(editor) {
 		this.reset();
 		let input = cleanInput(editor);
+		console.clear();
 		console.log("Start Assembler");
 		for (let line of input)
 			if (!this.parse(line)) {
