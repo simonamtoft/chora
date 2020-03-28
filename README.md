@@ -14,8 +14,7 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 5. Fix all the copy pasta JSDoc
 6. Fix Special-purpose registers
     1. store p7...p0 in s0
-    2. Fix access through names e.g. "sl" for s2. etc.
-
+    
 # Note to self
 - Do we want error check of predicate in assembler.parse()?
 - Don't think mov should be able to move a register value bigger than 1 into p-reg.
