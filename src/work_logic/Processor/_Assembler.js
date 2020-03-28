@@ -79,7 +79,7 @@ class Assembler {
 			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
 			let type = match[4].toLowerCase();
 			match = inst.match(getRegEx(type));
-			if (!match) { console.log(getRegExError(type)); return false; }
+			if (!match) { console.log(getRegExError(type)); return false; } // do this better
 			if (pseudoTypes.includes(type)) {
 				let ptype = type.toUpperCase();
 				switch (ptype) {
@@ -101,7 +101,7 @@ class Assembler {
 				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
 				type = pinst.match(getRegEx("first"))[4].toLowerCase();
 				match = pinst.match(getRegEx(type));
-				if (!match) { console.log(getRegExError(type)); return false; }
+				if (!match) { console.log(getRegExError(type)); return false; } // do this better
 			} else if (!instTypes.includes(type)) {
 				return false;
 			}
