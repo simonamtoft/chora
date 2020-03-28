@@ -1,3 +1,30 @@
-add r1 = r0, 10		# r1 = 10
-add r2 = r0, 15		# r2 = 15
-swc [r1 + 1] = r2	# C[+2] = 15
+# Fill each spot of 0x8 with 15s
+add r1 = r0, 8
+add r2 = r0, 15
+sbm [r1 + 0] = r2
+sbm [r1 + 1] = r2
+sbm [r1 + 2] = r2
+sbm [r1 + 3] = r2
+
+# Store word
+add r3 = r0, 0		
+add r4 = r0, 16777216
+swm [r3 + 0] = r4 		# 0[+3] = 1
+
+# Change 0x8[+2] value
+sub r2 = r2, 5
+sbm [r1 + 2] = r2
+
+# Store word on top of populated address (8[+2] to C[+1])
+add r1 = r1, 2
+swm [r1 + 0] = r4 		# C[+1] = 1
+
+# Store half on 0x0
+add r26 = r0, 32768
+shm [r0 + 0] = r26		# 0[+1] = 128
+
+
+# Something wrong here... Doesn't store the value when running after the others...
+add r30 = r0, 10
+add r25 = r0, 134
+swm [r25 + 1] = r30
