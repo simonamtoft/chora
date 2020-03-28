@@ -12,7 +12,7 @@ const tableCSS = "table table-hover table-sm col-12";
  */
 const DisplayStorage = (props) => {
 	return (
-		<Fragment>
+		<div>
 			<ul className ="nav nav-tabs justify-content-center">
 				<li className="nav-item">
 					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Registers</a>
@@ -30,7 +30,7 @@ const DisplayStorage = (props) => {
 					{RenderMemoryTable(props.memory)}
 				</div>
 			</div>
-		</Fragment>
+		</div>
 	);
 };
 
@@ -82,15 +82,10 @@ const RenderMemoryTable = (memory) => {
 	delete gm_temp["MAX_SIZE"];
 
 	// Generate rows
-	for (let i = 0; i < Object.keys(gm_temp).length; i += 4) {
-		key = Number(Object.keys(gm_temp)[i]);
-		key -= (key%4);
+	let keys = Object.keys(gm_temp);
+	for (let i = 0; i < keys.length; i += 4) {
+		key = Number(keys[i]);
 		rows.push(MemoryRow(gm_temp, key));
-
-		// Push next row aswell if it wont be pushed, and the store has overflown into it.
-		if (!Object.keys(gm_temp).includes(`${key+4}`) && (
-			gm_temp[`${key+4}`] || gm_temp[`${key+5}`] || gm_temp[`${key+6}`]
-		)) { rows.push(MemoryRow(gm_temp, key+4)); }
 	}
 
 	// Return table
