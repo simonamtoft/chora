@@ -1,2 +1,7 @@
-add r1 = r0, 10		# r1 = 10
-cmpneq p2 = r1, 10	# p2 = 1
+add r1 = r0, 10
+cmpneq p2 = r1, 5	# p2 = 1
+
+# set all p-reg to 1
+pset p1 = 1 || pset p3 = 1
+pset p4 = 1 || pset p5 = 1
+pset p6 = 1 || pset p7 = 1
