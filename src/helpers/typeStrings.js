@@ -40,33 +40,28 @@ const moveTypes = [
 const controlFlowTypes = [];
 
 const getInstType = (type) => {
-	let idx, key, keys, message;
+	let idx, key, keys;
 
 	// Just an idea here... Would be smart to keep the error message with the regEx
 	// Such that it returns together with regex and if it doesn't match, it throws 
 	// how it should look like. 
 
 	let instTypeStr = {
-		bin 	: [binTypes.includes(type), 	"rd = rs1, op2"],
-		comp 	: [compTypes.includes(type), 	"pd = rs1, op2"],
-		load	: [loadTypes.includes(type), 	"rd = [rs + imm]"],
-		store 	: [storeTypes.includes(type),	"[rd + imm] = rs"],
-		mul		: [mulTypes.includes(type),		"rs1, rs2"],
-		stack	: [stackTypes.includes(type),	"imm"],
-		pred 	: [predTypes.includes(type),	"pd = ps1, ps2"],
-		p1		: [type === "mov" || type === "isodd" 
-					|| type === "pmov",			""]
+		bin 	: binTypes.includes(type),
+		comp 	: compTypes.includes(type),
+		load	: loadTypes.includes(type),
+		store 	: storeTypes.includes(type),
+		mul		: mulTypes.includes(type),
+		stack	: stackTypes.includes(type),
+		pred 	: predTypes.includes(type),
+		p1		: type === "mov" || type === "isodd" || type === "pmov",
 	};
 	
 	keys = Object.keys(instTypeStr);
 	
 	for (idx in keys) {
 		key = keys[idx];
-		if (instTypeStr[key][0]) {
-			message = instTypeStr[key][1];
-			//console.log(message);
-			return key;
-		}
+		if (instTypeStr[key]) { return key; }
 	}
 	return type;
 };

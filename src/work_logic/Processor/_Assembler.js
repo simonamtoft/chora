@@ -11,7 +11,7 @@ import Mts from "../Instructions/Mts";
 import { instTypes, binTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, allRegStr, sregMap } from "../../helpers/regStrings";
-import { getRegEx } from "../../helpers/regEx";
+import { getRegEx, getRegExError } from "../../helpers/regEx";
 
 /**
  * Removes empty lines and comments
@@ -73,13 +73,13 @@ class Assembler {
 		for (let inst of insts) {
 			inst = inst.trim();
 			let match = inst.match(getRegEx("first"));
-			if (!match) return false;
+			if (!match) { console.log(getRegExError("first")); return false; }
 			let label = match[1];
 			let neg = match[2] === "!";
 			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
 			let type = match[4].toLowerCase();
 			match = inst.match(getRegEx(type));
-			if (!match) return false;
+			if (!match) { console.log(getRegExError(type)); return false; }
 			if (pseudoTypes.includes(type)) {
 				let ptype = type.toUpperCase();
 				switch (ptype) {
@@ -101,7 +101,7 @@ class Assembler {
 				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
 				type = pinst.match(getRegEx("first"))[4].toLowerCase();
 				match = pinst.match(getRegEx(type));
-				if (!match) return false;
+				if (!match) { console.log(getRegExError(type)); return false; }
 			} else if (!instTypes.includes(type)) {
 				return false;
 			}
