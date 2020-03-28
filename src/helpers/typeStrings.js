@@ -40,8 +40,7 @@ const moveTypes = [
 const controlFlowTypes = [];
 
 const getInstType = (type) => {
-	let idx, key, keys;
-	let message; 
+	let idx, key, keys, message;
 
 	// Just an idea here... Would be smart to keep the error message with the regEx
 	// Such that it returns together with regex and if it doesn't match, it throws 
