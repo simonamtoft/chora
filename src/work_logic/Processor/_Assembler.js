@@ -53,14 +53,20 @@ class Assembler {
 	run(editor) {
 		this.reset();
 		let input = cleanInput(editor);
+		console.log("Start Assembler");
 		for (let line of input)
-			if (!this.parse(line))
+			if (!this.parse(line)) {
+				console.log("Assembler failed on line parsing");
 				return false;
+			}
 		for (let bundle of this.bundles) {
-			if (!this.resolveOperands(bundle))
+			if (!this.resolveOperands(bundle)) {
+				console.log("Assembler failed on operands");
 				return false;
+			}
 			this.compileBundle(bundle);
 		}
+		console.log("Assembler finished successfully");
 		return true;
 	}
 
@@ -73,7 +79,7 @@ class Assembler {
 		for (let inst of insts) {
 			inst = inst.trim();
 			let match = inst.match(getRegEx("first"));
-			if (!match) { console.log(getRegExError("first")); return false; }
+			if (!match) { console.log(getRegExError("first")); return false; } // do this better
 			let label = match[1];
 			let neg = match[2] === "!";
 			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
@@ -140,14 +146,14 @@ class Assembler {
 			let { pred, type, ops } = bundle.instructions[i];
 			let predicate = pred.p | (pred.n << 3);
 
-			let BinaryInst = { pred: predicate, rd: ops[0], rs1: ops[1], op2: ops[2] };
-			let CompareInst = { pred: predicate, pd: ops[0], rs1: ops[1], op2: ops[2] };
-			let LoadInst = { pred: predicate, rd: ops[0], ra: ops[1], imm: ops[2] };
-			let MulInst = { pred: predicate, rs1: ops[0], rs2: ops[1] };
-			let PredInst = { pred: predicate, pd: ops[0], ps1: ops[1], ps2: ops[2] };
-			let StackInst = { pred: predicate, s1: ops[0] };
-			let StoreInst = { pred: predicate, ra: ops[0], imm: ops[1], rs: ops[2] };
-			let BcopyInst = { pred: predicate, rd: ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4] };
+			let BinaryInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], op2: ops[2] };
+			let CompareInst = { pred: predicate, pd:  ops[0], rs1: ops[1], op2: ops[2] };
+			let LoadInst 	= { pred: predicate, rd:  ops[0], ra:  ops[1], imm: ops[2] };
+			let MulInst 	= { pred: predicate, rs1: ops[0], rs2: ops[1] };
+			let PredInst 	= { pred: predicate, pd:  ops[0], ps1: ops[1], ps2: ops[2] };
+			let StackInst 	= { pred: predicate, s1:  ops[0] };
+			let StoreInst 	= { pred: predicate, ra:  ops[0], imm: ops[1], rs:  ops[2] };
+			let BcopyInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4] };
 
 			// Pick inst
 			switch (type) {
