@@ -24,3 +24,4 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 - Should there also be nops after a store in some cases?
 - Check up on $ before registers in editor... Ask Martin.
 - Check register usage. Should some registers not be write-able?
+- Not all instructions can be run on second path. (after ||)
