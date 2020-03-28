@@ -16,12 +16,9 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
     1. store p7...p0 in s0
     
 # Note to self
-- Do we want error check of predicate in assembler.parse()?
-- Don't think mov should be able to move a register value bigger than 1 into p-reg.
-- Store instruction queue in instruction cache instead? 
+- Should/can mov move a value > 1 into p-reg?
+- Should we store instructions in memory?
 - When writing to predicate register file AND with 0b0111. (page 16 Handbook)
-- Implemented compiler generated nops. Is this a good idea?
-- Should there also be nops after a store in some cases?
-- Check up on $ before registers in editor... Ask Martin.
-- Check register usage. Should some registers not be write-able?
-- Not all instructions can be run on second path. (after ||)
+- Compiler generated nops. Load worked in old files.
+- Check register usage in Handbook. Should some registers not be write-able?
+- Make some instructions unable to be run on second path.
