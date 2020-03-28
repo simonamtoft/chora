@@ -1,50 +1,58 @@
-import React from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../helpers/misc";
 import "../../css/Simulator.css";
+import "../../css/App.css";
 
 const tableCSS = "table table-hover table-sm col-12";
 
-/**
- * DisplayStorage: Displays two tabs that shows all values in registers and memory with corresponding addresses. 
- * @param {Object} props.registers 	- Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
- * @param {Object} props.memory		- Object containing the global memory of the program. 
- */
-const DisplayStorage = (props) => {
-	let pagenumber = 1;
+class DisplayStorage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			pagenumber: 1,
+		};
+		this.incPage = this.incPage.bind(this);
+		this.decPage = this.decPage.bind(this);
+	}
 
-	const incPage = () => {
-		pagenumber += 1;
-		console.log(pagenumber);
-	};
+	incPage() {
+		console.log( (this.state.pagenumber+1)*21*4);
+		if ((this.state.pagenumber+1)*21*4 < 0x00200000)
+			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
+	}
 
-	const decPage = () => {
-		pagenumber -= pagenumber > 1 ? 1 : 0;
-	};
+	decPage() {
+		if (this.state.pagenumber > 1)
+			this.setState((prevState) => ({ pagenumber: prevState.pagenumber - 1 }));
+	}
 
-	return (
-		<div>
-			<ul className ="nav nav-tabs justify-content-center">
-				<li className="nav-item">
-					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Registers</a>
-				</li>
-				<li className="nav-item">
-					<a href="#gm" className="nav-link" data-toggle="tab" role="tab">Memory</a>
-				</li>
-			</ul>
+	render() {
+		return(
+			<div>
+				<ul className ="nav nav-tabs justify-content-center">
+					<li className="nav-item">
+						<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Registers</a>
+					</li>
+					<li className="nav-item">
+						<a href="#gm" className="nav-link" data-toggle="tab" role="tab">Memory</a>
+					</li>
+				</ul>
 
-			<div className="tab-content table-scrolling">
-				<div role="tabpanel" className="tab-pane active" id="registers">
-					{RenderRegTable(props.registers)}
+				<div className="tab-content table-scrolling">
+					<div role="tabpanel" className="tab-pane active" id="registers">
+						{RenderRegTable(this.props.registers)}
+					</div>
+					<div role="tabpanel" className="tab-pane" id="gm">
+						{RenderMemoryTable(this.props.memory, this.state.pagenumber)}
+						<button type="button" className="btn button step col-6" onClick={this.decPage}>Prev Page</button>
+						<button type="button" className="btn button step col-6" onClick={this.incPage}>Next Page</button>
+					</div>
 				</div>
-				<div role="tabpanel" className="tab-pane" id="gm">
-					{RenderMemoryTable(props.memory, pagenumber)}
-					<button onClick={incPage}>inc</button><button onClick={decPage}>dec</button>
-				</div>
-			</div>
-		</div>
-	);
-};
+			</div>	
+		);
+	}
+}
 
 /**
  * RenderRegTable: Returns the register table with columns Register, Decimal, Hexadecimal
@@ -88,12 +96,15 @@ const RenderRegTable = (registers) => {
 const RenderMemoryTable = (memory, pagenumber) => {
 	let gm_temp, rows = [];
 
+	let startAddr = (pagenumber-1)*21*4;
+	let endAddr = pagenumber*21*4;
+
 	// We don't want to display these fields:
 	gm_temp = memory;
 	delete gm_temp["BASE_ADDR"];
 	delete gm_temp["MAX_SIZE"];
 
-	for (let i = 0; i < pagenumber*22*4; i+= 4) {
+	for (let i = startAddr; i < endAddr; i+= 4) {
 		rows.push(MemoryRow(gm_temp, i));
 	}
 
@@ -142,7 +153,7 @@ const RegRow = (letter, idx, registers) => {
 	let val = registers[`${letter}${idx}`];
 
 	return(
-		<tr key={`${letter}${idx}`} className="tr-hover">
+		<tr key={`${letter}${idx}`}>
 			<th scope="row">{letter}{idx}</th>
 			<td>{val}</td>
 			<td>{intToHex(val)}</td>
@@ -154,6 +165,5 @@ DisplayStorage.propTypes = {
 	registers 	: PropTypes.object,
 	memory 		: PropTypes.object,
 };
-
 
 export default DisplayStorage;
