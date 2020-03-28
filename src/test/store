@@ -1,10 +1,12 @@
 # Fill each spot of 0x8 with 15s
-add r1 = r0, 8
-add r2 = r0, 15
-sbm [r1 + 0] = r2
-sbm [r1 + 1] = r2
-sbm [r1 + 2] = r2
-sbm [r1 + 3] = r2
+add r1 = r0, 8 		|| add r2 = r0, 15
+sbm [r1 + 0] = r2 	|| sbm [r1 + 1] = r2
+sbm [r1 + 2] = r2 	|| sbm [r1 + 3] = r2
+
+# Something wrong here... Doesn't store the value when running after the others...
+add r30 = r0, 10 || add r25 = r0, 134
+swm [r25 + 1] = r30
+
 
 # Store word
 add r3 = r0, 0		
@@ -24,7 +26,3 @@ add r26 = r0, 32768
 shm [r0 + 0] = r26		# 0[+1] = 128
 
 
-# Something wrong here... Doesn't store the value when running after the others...
-add r30 = r0, 10
-add r25 = r0, 134
-swm [r25 + 1] = r30
