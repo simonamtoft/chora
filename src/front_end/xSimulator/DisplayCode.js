@@ -35,7 +35,6 @@ const DisplayCode = (props) => {
  */
 const GenMachineRows = (pc, bundles) => {
 	let rows = [];
-
 	for (let o in bundles){
 		rows.push(MachineRow(bundles[o], pc, o));
 	}
@@ -50,18 +49,21 @@ const GenMachineRows = (pc, bundles) => {
  * @param {number} 	addr	- Current bundle address 
  */
 const MachineRow = (bundle, pc, addr) => {
+	let idx = 0;
 	let color = pc === Number(addr) ? "current-inst" : "";
-	let whatever = [];
+	let rows = [];
+	
 	for(let i of bundle){
-		whatever.push(
-			<tr key={i} className={color} >
+		rows.push(
+			<tr key={idx} className={color} >
 				<td>{intToHex(i.instruction.binary[0])}</td>
 				<td>{i.type} {i.ops.join(" ")}</td>
 				<td>{i.original}</td>
 			</tr>
 		);
+		idx++;
 	}
-	return whatever;
+	return rows;
 };
 
 DisplayCode.propTypes = {
