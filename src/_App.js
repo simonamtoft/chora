@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import "./css/App.css";
 import FrontEnd from "./front_end/_FrontEnd";
 import CPU from "./work_logic/Processor/_CPU";
 import Assembler from "./work_logic/Processor/_Assembler";
+import "./css/App.css";
 
 class App extends Component {
 	constructor(props) {
@@ -14,7 +14,7 @@ class App extends Component {
 		};
 	}
 
-	/***
+	/**
 	 * Handles code editor updates.
 	 * Resets CPU and runs assembler to generate instruction que and labels.
 	 * @param {string} 	editor 	- User input instructions
@@ -45,8 +45,6 @@ class App extends Component {
 	stepBtn = () => {
 		this.cpu.step();
 		this.forceUpdate(); // To re-render
-
-		console.log("Step button pressed");
 	}
 
 	/**
@@ -55,25 +53,19 @@ class App extends Component {
 	runBtn = () => {
 		this.cpu.run();
 		this.forceUpdate(); // To re-render
-
-		console.log("Run button pressed");
 	}
 
 	resetBtn = () => {
 		this.cpu.reset();
 		this.cpu.populate(this.assembler.bundles);
 		this.forceUpdate(); // To re-render
-
-		console.log("Reset button pressed");
 	}
 
 	prevBtn = () => {
 		this.cpu.prev();
 		this.forceUpdate(); // To re-render
-
-		console.log("Prev button pressed");
 	}
-
+	
 	render() {
 		return (
 			<div>

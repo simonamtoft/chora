@@ -13,29 +13,29 @@ class DisplayEditor extends Component {
 		this.textEditor = React.createRef();
 	}
 
-handleEditorChange = (event) => {
-	this.setState({editor: event.target.value});
-	this.props.editorUpdate(event.target.value);
-}
+	handleEditorChange = (event) => {
+		this.setState({editor: event.target.value});
+		this.props.editorUpdate(event.target.value);
+	}
 
-componentDidMount() {
-	this.textEditor.current.focus();
-}
+	componentDidMount() {
+		this.textEditor.current.focus();
+	}
 
-render() {
-	const {editor} = this.state;
+	render() {
+		const {editor} = this.state;
 
-	return(
-		<Fragment>
-			<textarea 
-				className = "col-12 editor"
-				ref={this.textEditor}
-				value={editor}
-				onChange={this.handleEditorChange}>
-			</textarea>  
-		</Fragment>
-	);
-}
+		return(
+			<Fragment>
+				<textarea 
+					className = "col-12 editor"
+					ref={this.textEditor}
+					value={editor}
+					onChange={this.handleEditorChange}>
+				</textarea>  
+			</Fragment>
+		);
+	}
 }
 
 DisplayEditor.propTypes = {
