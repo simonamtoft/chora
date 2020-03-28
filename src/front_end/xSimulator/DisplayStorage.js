@@ -84,14 +84,13 @@ const RenderMemoryTable = (memory) => {
 	// Generate rows
 	for (let i = 0; i < Object.keys(gm_temp).length; i += 4) {
 		key = Number(Object.keys(gm_temp)[i]);
-		
-		if (key%4) {
-			key -= (key%4);
-			rows.push(MemoryRow(gm_temp, key));
-			rows.push(MemoryRow(gm_temp, key+4));
-		} else {
-			rows.push(MemoryRow(gm_temp, key));
-		}
+		key -= (key%4);
+		rows.push(MemoryRow(gm_temp, key));
+
+		// Push next row aswell if it wont be pushed, and the store has overflown into it.
+		if (!Object.keys(gm_temp).includes(`${key+4}`) && (
+			gm_temp[`${key+4}`] || gm_temp[`${key+5}`] || gm_temp[`${key+6}`]
+		)) { rows.push(MemoryRow(gm_temp, key+4)); }
 	}
 
 	// Return table
