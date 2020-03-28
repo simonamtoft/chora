@@ -53,7 +53,7 @@ class ProcessorState {
 		};
 	}
 	
-	getMem() {
+	getMemory() {
 		return this.mem;
 	}
 

@@ -59,7 +59,7 @@ class CPU {
 		if ( ((inst.pred & 0b1000)) ^ this.state.reg[`p${inst.pred & 0b0111}`] ) {
 			inst.execute(this.state);
 		}
-		if(binTypes.includes(inst.name) && inst.type == "l"){
+		if(binTypes.includes(inst.name) && inst.type === "l"){
 			this.state.cpu.pc += 8;
 		} else if (!controlFlowTypes.includes(inst.name)){
 			this.state.cpu.pc += 4;
@@ -74,7 +74,7 @@ class CPU {
 	}
 
 	getMem() {
-		return this.state.getMem();
+		return this.state.getMemory();
 	}
 }
 
