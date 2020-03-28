@@ -84,10 +84,14 @@ const RenderMemoryTable = (memory) => {
 	// Generate rows
 	for (let i = 0; i < Object.keys(gm_temp).length; i += 4) {
 		key = Number(Object.keys(gm_temp)[i]);
-		key = key - (key%4);
-		rows.push(MemoryRow(gm_temp, key));
-		// Some saves doesn't just fit on one row. 
-		if (gm_temp[`${key+4}`] || gm_temp[`${key+5}`] || gm_temp[`${key+6}`]) { rows.push(MemoryRow(gm_temp, key+4)); } 
+		
+		if (key%4) {
+			key -= (key%4);
+			rows.push(MemoryRow(gm_temp, key));
+			rows.push(MemoryRow(gm_temp, key+4));
+		} else {
+			rows.push(MemoryRow(gm_temp, key));
+		}
 	}
 
 	// Return table
