@@ -81,15 +81,13 @@ const RenderMemoryTable = (memory) => {
 	delete gm_temp["BASE_ADDR"];
 	delete gm_temp["MAX_SIZE"];
 
-	console.log(gm_temp);
-
 	// Generate rows
 	for (let i = 0; i < Object.keys(gm_temp).length; i += 4) {
 		key = Number(Object.keys(gm_temp)[i]);
 		key = key - (key%4);
 		rows.push(MemoryRow(gm_temp, key));
 		// Some saves doesn't just fit on one row. 
-		if (gm_temp[`${key+4}`] || gm_temp[`${key+5}`] || gm_temp[`${key+6}`]) {rows.push(MemoryRow(gm_temp, key+4)); } 
+		if (gm_temp[`${key+4}`] || gm_temp[`${key+5}`] || gm_temp[`${key+6}`]) { rows.push(MemoryRow(gm_temp, key+4)); } 
 	}
 
 	// Return table
