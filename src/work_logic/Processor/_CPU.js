@@ -65,8 +65,17 @@ class CPU {
 			this.state.cpu.pc += 4;
 		}
 
+
+		// Set values of read-only registers
 		this.state.reg.r0 = 0;
 		this.state.reg.p0 = 1;
+
+		// Set value of s0
+		this.state.reg.s0 = 0;
+		for (let i = 0; i < 8; i++) {
+			this.state.reg.s0 |= this.state.reg[`p${i}`] << i;
+		}
+		//console.log(this.state.reg.s0);
 	}
 
 	getReg() {

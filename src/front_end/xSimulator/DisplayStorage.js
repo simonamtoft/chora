@@ -45,7 +45,7 @@ const RenderRegTable = (registers) => {
 	for (let i = 0; i < 32; i++) {
 		rows.push(RegRow("r", i, registers));
 	}
-	for (let i = 1; i < 16; i++) {
+	for (let i = 0; i < 16; i++) {
 		rows.push(RegRow("s", i, registers));
 	}
 	for (let i = 0; i < 8; i++) {
