@@ -49,7 +49,7 @@ FrontEnd.propTypes = {
 	stepClick		: PropTypes.func,
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
-	bundles			: PropTypes.array,
+	bundles			: PropTypes.object,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
 	memory 			: PropTypes.object,

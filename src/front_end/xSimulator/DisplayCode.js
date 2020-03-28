@@ -6,7 +6,7 @@ import { intToHex } from "../../helpers/misc";
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
  * @param {number}	props.pc			- Current CPU program counter
- * @param {array}	props.bundles		- Array of all instructions in queue converted to binaries
+ * @param {Object}	props.bundles		- Object consisting of all instruction bundles from editor.
  */
 const DisplayCode = (props) => {
 	return (
@@ -29,11 +29,9 @@ const DisplayCode = (props) => {
 
 /**
  * GenMachineRows: Generates all code table rows. 
- * Done by calling MachineRow on each index of instQue and orginalCode.
- * @param {array}	instQue 		- Array of all instructions in queue
- * @param {array}	originalCode	- Array of all the instructions input into the code editor
+ * Done by calling MachineRow on each bundle in bundles. 
+ * @param {Object}	props.bundles	- Object consisting of all instruction bundles from editor.
  * @param {number}	pc				- Current CPU program counter
- * @param {array}	binary			- Array of all instructions in queue converted to binaries
  */
 const GenMachineRows = (pc, bundles) => {
 	let rows = [];
@@ -47,16 +45,13 @@ const GenMachineRows = (pc, bundles) => {
 /**
  * MachineRow: Generates one row of the table: Binary | Basic Code | Original code
  * Highlights row if current row is the same as program counter (i = pc).
- * @param {array}	instQue 		- Array of all instructions in queue
- * @param {array}	originalCode	- Array of all the instructions input into the code editor
- * @param {number}	pc				- Current CPU program counter
- * @param {array}	binary			- Array of all instructions in queue converted to binaries
- * @param {number} 	i				- Current row 
+ * @param {Object}	bundles	- Object consisting of all instruction bundles from editor.
+ * @param {number}	pc		- Current CPU program counter
+ * @param {number} 	addr	- Current bundle address 
  */
-const MachineRow = (bundle, pc, i) => {
-	let color = pc == i ? "current-inst" : "";
+const MachineRow = (bundle, pc, addr) => {
+	let color = pc === Number(addr) ? "current-inst" : "";
 	let whatever = [];
-	console.log(pc, i);
 	for(let i of bundle){
 		whatever.push(
 			<tr key={i} className={color} >
@@ -71,7 +66,7 @@ const MachineRow = (bundle, pc, i) => {
 
 DisplayCode.propTypes = {
 	pc 				: PropTypes.number,
-	bundles			: PropTypes.array,
+	bundles			: PropTypes.object,
 };
 
 

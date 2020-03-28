@@ -8,17 +8,17 @@ const tableCSS = "table table-hover table-sm col-12";
 /**
  * DisplayStorage: Displays two tabs that shows all values in registers and memory with corresponding addresses. 
  * @param {Object} props.registers 	- Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
- * @param {Object} props.cache		- Object containing all the caches of the program. 
+ * @param {Object} props.memory		- Object containing the global memory of the program. 
  */
 const DisplayStorage = (props) => {
 	return (
 		<Fragment>
 			<ul className ="nav nav-tabs justify-content-center">
 				<li className="nav-item">
-					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Reg</a>
+					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Registers</a>
 				</li>
 				<li className="nav-item">
-					<a href="#gm" className="nav-link" data-toggle="tab" role="tab">gm</a>
+					<a href="#gm" className="nav-link" data-toggle="tab" role="tab">Global Memory (gm)</a>
 				</li>
 			</ul>
 
@@ -27,7 +27,7 @@ const DisplayStorage = (props) => {
 					{RenderRegTable(props.registers)}
 				</div>
 				<div role="tabpanel" className="tab-pane" id="gm">
-					{RenderCacheTable(props.memory)}
+					{RenderMemoryTable(props.memory)}
 				</div>
 			</div>
 		</Fragment>
@@ -70,24 +70,26 @@ const RenderRegTable = (registers) => {
 };
 
 /**
- * RenderCacheTable: Returns the cache table with columns Address, +0, +1, +2, +3
- * @param {Object} cache - Object containing all the caches of the program. 
+ * RenderMemoryTable: Returns the memory table with columns Address, +0, +1, +2, +3
+ * @param {Object} props.memory		- Object containing the memory of the program. 
  */
-const RenderCacheTable = (cache) => {
-	let rows = [];
-	let key, i, ctemp, size;
-	
+const RenderMemoryTable = (memory) => {
+	let key, gm_temp, rows = [];
+
 	// We don't want to display these fields:
-	ctemp = cache;
-	delete ctemp["BASE_ADDR"];
-	delete ctemp["MAX_SIZE"];
-	
+	gm_temp = memory;
+	delete gm_temp["BASE_ADDR"];
+	delete gm_temp["MAX_SIZE"];
+
+	console.log(gm_temp);
+
 	// Generate rows
-	size = Object.keys(ctemp).length;
-	for (i = 0; i < size; i += 4) {
-		key = Number(Object.keys(ctemp)[i]);
+	for (let i = 0; i < Object.keys(gm_temp).length; i += 4) {
+		key = Number(Object.keys(gm_temp)[i]);
 		key = key - (key%4);
-		rows.push(CacheRow(ctemp, key));
+		rows.push(MemoryRow(gm_temp, key));
+		// Some saves doesn't just fit on one row. 
+		if (gm_temp[`${key+4}`] || gm_temp[`${key+5}`] || gm_temp[`${key+6}`]) {rows.push(MemoryRow(gm_temp, key+4)); } 
 	}
 
 	// Return table
@@ -110,17 +112,17 @@ const RenderCacheTable = (cache) => {
 };
 
 /**
- * CacheRow: Returns one row of the cache table.
- * @param {Object} cache - Object containing all the caches of the program. 
+ * MemoryRow: Returns one row of the memory table.
+ * @param {Object} memory - Object containing the global memory of the program. 
  */
-const CacheRow = (cache, key) => {
+const MemoryRow = (memory, key) => {
 	return(
 		<tr key={key}>
 			<th scope="row">{intToHex(key)}</th>
-			<td>{cache[`${key}`]}</td>
-			<td>{cache[`${key+1}`]}</td>
-			<td>{cache[`${key+2}`]}</td>
-			<td>{cache[`${key+3}`]}</td>
+			<td>{memory[`${key}`]}</td>
+			<td>{memory[`${key+1}`]}</td>
+			<td>{memory[`${key+2}`]}</td>
+			<td>{memory[`${key+3}`]}</td>
 		</tr>
 	);
 };
