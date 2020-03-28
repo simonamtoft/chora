@@ -5,13 +5,13 @@ import { intToHex } from "../../helpers/misc";
 
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
- * @param {number}	props.pc			- Current CPU program counter
- * @param {Object}	props.bundles		- Object consisting of all instruction bundles from editor.
+ * @param {number}	props.pc		- Current CPU program counter
+ * @param {Object}	props.bundles	- Object consisting of all instruction bundles from editor
  */
 const DisplayCode = (props) => {
 	return (
 		<div className="machine-container">
-			<table className="table table-hover table-sm">
+			<table className="table table-hover table-sm" id="displaycode">
 				<thead>
 					<tr>
 						<th scope="col">Machine Code</th>
@@ -30,7 +30,7 @@ const DisplayCode = (props) => {
 /**
  * GenMachineRows: Generates all code table rows. 
  * Done by calling MachineRow on each bundle in bundles. 
- * @param {Object}	props.bundles	- Object consisting of all instruction bundles from editor.
+ * @param {Object}	props.bundles	- Object consisting of all instruction bundles from editor
  * @param {number}	pc				- Current CPU program counter
  */
 const GenMachineRows = (pc, bundles) => {
@@ -44,7 +44,7 @@ const GenMachineRows = (pc, bundles) => {
 /**
  * MachineRow: Generates one row of the table: Binary | Basic Code | Original code
  * Highlights row if current row is the same as program counter (i = pc).
- * @param {Object}	bundles	- Object consisting of all instruction bundles from editor.
+ * @param {Object}	bundles	- Object consisting of all instruction bundles from editor
  * @param {number}	pc		- Current CPU program counter
  * @param {number} 	addr	- Current bundle address 
  */

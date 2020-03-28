@@ -11,7 +11,7 @@ const buttonCSS = [
 
 /**
  * DisplayButtons: Handles display of buttons and returns clicks of buttons.
- * @param {object} 	bundles 			- Object consisting of all instruction bundles
+ * @param {object} 	props.bundles		- Object consisting of all instruction bundles from editor
  * @param {number}	props.pc			- Current CPU program counter
  * @param {func}	props.runClick		- Button run clicked handler
  * @param {func}	props.stepClick		- Button step clicked handler
@@ -30,7 +30,7 @@ const DisplayButtons = (props) => {
 /**
  * fowardBtn: Handles the two buttons "Run" and "Step".
  * Disables the buttons if no instructions left in queue.
- * @param {object} 	bundles 	- Object consisting of all instruction bundles
+ * @param {Object} 	bundles 	- Object consisting of all instruction bundles from editor
  * @param {number} 	pc 			- Current CPU program counter
  * @param {func} 	runClick 	- Button run clicked handler
  * @param {func} 	stepClick 	- Button step clicked handler
