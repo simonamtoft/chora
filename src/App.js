@@ -22,9 +22,7 @@ class App extends Component {
 	editorUpdate = (editor) => {
 		console.clear();
 		console.log("Run Assembler");
-		this.assembler.run(editor);
-		
-		if (this.assembler.error.length) {
+		if (!this.assembler.run(editor)) {
 			console.log(this.assembler.error);
 			return;
 		}

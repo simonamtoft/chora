@@ -56,11 +56,14 @@ class Assembler {
 		this.reset();
 		let input = cleanInput(editor);
 		for (let line of input)
-			this.parse(line);
+			if(!this.parse(line))
+				return false;
 		for (let bundle of this.bundles) {
-			if(this.resolveOperands(bundle))
-				this.compileBundle(bundle);
+			if(!this.resolveOperands(bundle))
+				return false;
+			this.compileBundle(bundle);
 		}
+		return true;
 	}
 
 	parse(line) {
@@ -119,6 +122,9 @@ class Assembler {
 					this.error[idx] = getRegExError(type); 
 					return false; 
 				}
+			} else if (!instTypes.includes(type)) {
+				this.error[idx] = "Type is not found"; 
+				return false;
 			}
 			if (label) this.labels[label] = idx;
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
@@ -130,7 +136,6 @@ class Assembler {
 		return true;
 	}
 
-	// Add register aliases too.
 	resolveOperands(bundle) {
 		for (let instruction of bundle.instructions) {
 			for (let i in instruction.ops) {
