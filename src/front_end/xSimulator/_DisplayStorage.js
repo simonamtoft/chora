@@ -19,8 +19,8 @@ class DisplayStorage extends Component {
 	}
 
 	incPage() {
-		console.log( (this.state.pagenumber+1)*21*4);
-		if ((this.state.pagenumber+1)*pageRows*4 < 0x00200000)
+		let maxPage = 22795; // MAX_SIZE / 4 / pageRows
+		if ((this.state.pagenumber+1) < maxPage)
 			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
 	}
 
@@ -41,8 +41,8 @@ class DisplayStorage extends Component {
 					</li>
 				</ul>
 
-				<div className="tab-content table-scrolling">
-					<div role="tabpanel" className="tab-pane active" id="registers">
+				<div className="tab-content">
+					<div role="tabpanel" className="tab-pane active table-scrolling" id="registers">
 						{RenderRegTable(this.props.registers)}
 					</div>
 					<div role="tabpanel" className="tab-pane" id="gm">
@@ -76,6 +76,7 @@ const RenderRegTable = (registers) => {
 		rows.push(RegRow("p", i, registers));
 	}
 
+	// This row overflows when scrolled all the way down. 
 	rows.push(
 		<tr key={"bottom"}>
 			<th>---</th>
@@ -87,16 +88,15 @@ const RenderRegTable = (registers) => {
 	// Return table
 	return (
 		<table className={tableCSS}>
-			<thead>
-				<tr>
-					<th scope="col">Register</th>
-					<th scope="col">Decimal</th>
-					<th scope="col">Hexadecimal</th>
+			<thead className="header-stick">
+				<tr className="header-stick">
+					<th className="header-stick" scope="col">Register</th>
+					<th className="header-stick" scope="col">Decimal</th>
+					<th className="header-stick" scope="col">Hexadecimal</th>
 				</tr>
 			</thead>
 			<tbody>
-				{rows}
-				
+				{rows}	
 			</tbody>
 		</table>
 	);
@@ -147,7 +147,7 @@ const RenderMemoryTable = (memory, pagenumber) => {
 const MemoryRow = (memory, key) => {
 	return(
 		<tr key={key}>
-			<td>{intToHex(key)}</td>
+			<td className="address-color">{intToHex(key)}</td>
 			<td>{memory[`${key}`]}</td>
 			<td>{memory[`${key+1}`]}</td>
 			<td>{memory[`${key+2}`]}</td>
@@ -167,7 +167,7 @@ const RegRow = (letter, idx, registers) => {
 
 	return(
 		<tr key={`${letter}${idx}`}>
-			<th scope="row">{letter}{idx}</th>
+			<td>{letter}{idx}</td>
 			<td>{val}</td>
 			<td>{intToHex(val)}</td>
 		</tr>
