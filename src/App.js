@@ -20,11 +20,19 @@ class App extends Component {
 	 * @param {string} 	editor 	- User input instructions
 	 */
 	editorUpdate = (editor) => {
-		if (!this.assembler.run(editor))
+		console.clear();
+		console.log("Run Assembler");
+		this.assembler.run(editor);
+		
+		if (this.assembler.error.length) {
+			console.log(this.assembler.error);
 			return;
+		}
+		console.log("Assembler ran successfully");
 		this.cpu.reset();
 		this.cpu.populate(this.assembler.bundles);
 		this.forceUpdate();
+		
 	}
 
 	/**

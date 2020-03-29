@@ -41,52 +41,59 @@ class Assembler {
 		this.bundles = [];
 		this.labels = {};
 		this.offset = 0;
+		this.error = [];
 	}
 
 	reset() {
 		this.bundles = [];
 		this.labels = {};
 		this.offset = 0;
+		this.error = [];
 	}
 
 	// should add debouncing :)
 	run(editor) {
 		this.reset();
 		let input = cleanInput(editor);
-		console.clear();
-		console.log("Start Assembler");
 		for (let line of input)
-			if (!this.parse(line)) {
-				console.log("Assembler failed on line parsing");
-				return false;
-			}
+			this.parse(line);
 		for (let bundle of this.bundles) {
-			if (!this.resolveOperands(bundle)) {
-				console.log("Assembler failed on operands");
-				return false;
-			}
-			this.compileBundle(bundle);
+			if(this.resolveOperands(bundle))
+				this.compileBundle(bundle);
 		}
-		console.log("Assembler finished successfully");
-		return true;
 	}
 
 	parse(line) {
 		let insts = line.split("||");
 		let bundle = { offset: this.offset, instructions: [] };
 		let idx = this.bundles.push(bundle) - 1;
-		if (insts.length > 2)
-			return false; // error return?
+
+		if (insts.length > 2) {
+			this.error[idx] = "Only two instructions per bundle allowed!";
+			return false;
+		}
+			
 		for (let inst of insts) {
 			inst = inst.trim();
 			let match = inst.match(getRegEx("first"));
-			if (!match) { console.log(getRegExError("first")); return false; } // do this better
+			if (!match) { 
+				this.error[idx] = getRegExError("first"); 
+				return false; 
+			}
 			let label = match[1];
-			let neg = match[2] === "!";
-			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
-			let type = match[4].toLowerCase();
+			let neg   = match[2] === "!";
+			let pred  = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
+			let type  = match[4].toLowerCase();
 			match = inst.match(getRegEx(type));
-			if (!match) { console.log(getRegExError(type)); return false; } // do this better
+
+			if (!pseudoTypes.includes(type) && !instTypes.includes(type)) {
+				this.error[idx] = `${type} is not an instruction`;
+				return false; 
+			} else if (!match){
+				this.error[idx] = getRegExError(type); 
+				return false; 
+			}
+
 			if (pseudoTypes.includes(type)) {
 				let ptype = type.toUpperCase();
 				switch (ptype) {
@@ -108,9 +115,10 @@ class Assembler {
 				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
 				type = pinst.match(getRegEx("first"))[4].toLowerCase();
 				match = pinst.match(getRegEx(type));
-				if (!match) { console.log(getRegExError(type)); return false; } // do this better
-			} else if (!instTypes.includes(type)) {
-				return false;
+				if (!match) { 
+					this.error[idx] = getRegExError(type); 
+					return false; 
+				}
 			}
 			if (label) this.labels[label] = idx;
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
