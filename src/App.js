@@ -24,13 +24,13 @@ class App extends Component {
 		console.log("Run Assembler");
 		if (!this.assembler.run(editor)) {
 			console.log(this.assembler.error);
+			this.forceUpdate(); // need this here to make sure simulator tab is disabled.
 			return;
 		}
 		console.log("Assembler ran successfully");
 		this.cpu.reset();
 		this.cpu.populate(this.assembler.bundles);
 		this.forceUpdate();
-		
 	}
 
 	/**
@@ -87,6 +87,7 @@ class App extends Component {
 					consoleOutput={this.state.consoleOutput}
 					pc={this.cpu.getPC()}
 					bundles={this.cpu.bundles}
+					error={this.assembler.error}
 				/>
 			</div>
 		);

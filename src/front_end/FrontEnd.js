@@ -7,14 +7,18 @@ import Simulator from "./simulator/Simulator";
  * FrontEnd: Handles the entire front end of Chora. Splits into two tabs: Editor and Simulator.
  */
 const FrontEnd = (props) => {
+	let simcs = "nav-link";
+	if (props.error.length) 
+		simcs += " disabled";
+
 	return (
 		<Fragment>
 			<ul className ="nav nav-tabs justify-content-center">
 				<li className="nav-item">
 					<a href="#editor" className="nav-link active" data-toggle="tab" role="tab">Editor</a>
 				</li>
-				<li className="nav-item">
-					<a href="#simulator" className="nav-link" data-toggle="tab" role="tab">Simulator</a>
+				<li className="nav-item ">
+					<a href="#simulator" className={simcs} data-toggle="tab" role="tab">Simulator</a>
 				</li>
 			</ul>
 
@@ -53,6 +57,7 @@ FrontEnd.propTypes = {
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
 	memory 			: PropTypes.object,
+	error			: PropTypes.arrayOf(String)
 };
 
 export default FrontEnd;
