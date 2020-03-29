@@ -140,6 +140,7 @@ class Assembler {
 	}
 
 	resolveOperands(bundle) {
+		let idx = bundle.offset/4;
 		for (let instruction of bundle.instructions) {
 			for (let i in instruction.ops) {
 				let op = instruction.ops[i];
@@ -150,8 +151,10 @@ class Assembler {
 					instruction.ops[i] = op_lc;
 				} else if (Object.keys(this.labels).includes(op))
 					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
-				else if (isNaN(op))
+				else if (isNaN(op)) {
+					this.error[idx] = "Can't resolve operands";
 					return false;
+				}		
 			}
 		}
 		return true;
