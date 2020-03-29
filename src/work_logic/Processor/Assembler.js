@@ -129,7 +129,10 @@ class Assembler {
 			if (label) this.labels[label] = idx;
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
-			if (is_long_imm && insts.length === 2) return false;
+			if (is_long_imm && insts.length === 2) {
+				this.error[idx] = "Can't bundle a 64-bit instruction with anything else";
+				return false;
+			}
 			bundle.instructions.push(i);
 			this.offset += is_long_imm ? 8 : 4;
 		}
