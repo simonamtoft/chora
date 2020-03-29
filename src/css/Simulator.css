@@ -12,21 +12,23 @@
 .sim-child {
 	display: flex;
 	flex-direction: column;
+	height: 95vh;
 }
 
-.machine-container {
+.code-container {
+	flex: 0.85;
 	overflow-y: scroll;
-	flex: 1.5;
 }
 
 .reg-container {
-	height: 85vh;
+	flex: 1;
+	height: 95vh;
 }
 
 .console-container {
 	resize: none;
 	overflow-y: scroll;
-	flex: 0.5;
+	flex: 0.15;
 }
 
 .current-inst {

@@ -18,7 +18,7 @@ const FrontEnd = (props) => {
 				</li>
 			</ul>
 
-			<div className="tab-content">
+			<div className="tab-content no-scroll">
 				<div role="tabpanel" className="tab-pane active" id="editor">
 					<DisplayEditor
 						editorUpdate = {props.editorUpdate}

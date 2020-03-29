@@ -40,6 +40,11 @@
 .reset {
 	border: 2px solid var(--reset-color);
 }
+.page-btn {
+	border: 2px solid var(--step-color);
+	margin: 4px 2px;
+	display: inline-block;
+}
 
 
 /* Hovering CSS */
@@ -57,6 +62,9 @@
 }
 .reset:hover {
 	background-color: var(--reset-color);
+}
+.page-btn:hover {
+	background-color: var(--step-color);
 }
 
 /* Disabled CSS */

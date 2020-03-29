@@ -65,10 +65,11 @@ class App extends Component {
 		this.cpu.prev();
 		this.forceUpdate(); // To re-render
 	}
-	
+
 	render() {
+		document.body.style.overflowY = "hidden";
 		return (
-			<div>
+			<div className="no-scroll">
 				<FrontEnd
 					registers={this.cpu.getReg()}
 					memory={this.cpu.getMem()}

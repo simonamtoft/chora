@@ -2,9 +2,11 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../helpers/misc";
 import "../../css/Simulator.css";
+import "../../css/Buttons.css";
 import "../../css/App.css";
 
 const tableCSS = "table table-hover table-sm col-12";
+const pageRows = 23;
 
 class DisplayStorage extends Component {
 	constructor(props) {
@@ -18,7 +20,7 @@ class DisplayStorage extends Component {
 
 	incPage() {
 		console.log( (this.state.pagenumber+1)*21*4);
-		if ((this.state.pagenumber+1)*21*4 < 0x00200000)
+		if ((this.state.pagenumber+1)*pageRows*4 < 0x00200000)
 			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
 	}
 
@@ -45,8 +47,10 @@ class DisplayStorage extends Component {
 					</div>
 					<div role="tabpanel" className="tab-pane" id="gm">
 						{RenderMemoryTable(this.props.memory, this.state.pagenumber)}
-						<button type="button" className="btn button step col-6" onClick={this.decPage}>Prev Page</button>
-						<button type="button" className="btn button step col-6" onClick={this.incPage}>Next Page</button>
+						<div>
+							<button type="button" className="btn button page-btn" onClick={this.decPage}>Prev Page</button>
+							<button type="button" className="btn button page-btn" onClick={this.incPage}>Next Page</button>
+						</div>
 					</div>
 				</div>
 			</div>	
@@ -72,6 +76,14 @@ const RenderRegTable = (registers) => {
 		rows.push(RegRow("p", i, registers));
 	}
 
+	rows.push(
+		<tr key={"bottom"}>
+			<th>---</th>
+			<td>---</td>
+			<td>---</td>
+		</tr>
+	);
+
 	// Return table
 	return (
 		<table className={tableCSS}>
@@ -84,6 +96,7 @@ const RenderRegTable = (registers) => {
 			</thead>
 			<tbody>
 				{rows}
+				
 			</tbody>
 		</table>
 	);
@@ -96,8 +109,8 @@ const RenderRegTable = (registers) => {
 const RenderMemoryTable = (memory, pagenumber) => {
 	let gm_temp, rows = [];
 
-	let startAddr = (pagenumber-1)*21*4;
-	let endAddr = pagenumber*21*4;
+	let startAddr = (pagenumber-1)*pageRows*4;
+	let endAddr = pagenumber*pageRows*4;
 
 	// We don't want to display these fields:
 	gm_temp = memory;
@@ -134,7 +147,7 @@ const RenderMemoryTable = (memory, pagenumber) => {
 const MemoryRow = (memory, key) => {
 	return(
 		<tr key={key}>
-			<td scope="row">{intToHex(key)}</td>
+			<td>{intToHex(key)}</td>
 			<td>{memory[`${key}`]}</td>
 			<td>{memory[`${key+1}`]}</td>
 			<td>{memory[`${key+2}`]}</td>

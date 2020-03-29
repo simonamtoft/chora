@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "../../css/Simulator.css";
 import { intToHex } from "../../helpers/misc";
+import "../../css/Simulator.css";
 
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
@@ -10,7 +10,7 @@ import { intToHex } from "../../helpers/misc";
  */
 const DisplayCode = (props) => {
 	return (
-		<div className="machine-container">
+		<div className="code-container">
 			<table className="table table-hover table-sm" id="displaycode">
 				<thead>
 					<tr>
