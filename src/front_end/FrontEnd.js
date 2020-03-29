@@ -1,7 +1,7 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import DisplayEditor from "./DisplayEditor";
-import Simulator from "./Simulator/Simulator";
+import Editor from "./Editor";
+import Simulator from "./simulator/Simulator";
 
 /**
  * FrontEnd: Handles the entire front end of Chora. Splits into two tabs: Editor and Simulator.
@@ -18,9 +18,9 @@ const FrontEnd = (props) => {
 				</li>
 			</ul>
 
-			<div className="tab-content">
+			<div className="tab-content no-scroll">
 				<div role="tabpanel" className="tab-pane active" id="editor">
-					<DisplayEditor
+					<Editor
 						editorUpdate = {props.editorUpdate}
 					/>
 				</div>
@@ -33,11 +33,8 @@ const FrontEnd = (props) => {
 						resetClick = {props.resetClick}
 						consoleOutput = {props.consoleOutput}
 						registers = {props.registers}
-						queLength = {props.queLength}
-						instQue = {props.instQue}
 						pc = {props.pc}
-						binary = {props.binary}
-						originalCode = {props.originalCode}
+						bundles = {props.bundles}
 					/>
 				</div>
 			</div>
@@ -47,15 +44,12 @@ const FrontEnd = (props) => {
 
 FrontEnd.propTypes = {
 	editorUpdate 	: PropTypes.func,
-	queLength 		: PropTypes.number,
 	pc 				: PropTypes.number,
 	runClick 		: PropTypes.func,
 	stepClick		: PropTypes.func,
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
-	instQue 		: PropTypes.array,
-	originalCode	: PropTypes.array,
-	binary 			: PropTypes.array,
+	bundles			: PropTypes.object,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
 	memory 			: PropTypes.object,

@@ -1,19 +1,17 @@
 import React from "react";
 import PropTypes from "prop-types";
-import "../../css/Simulator.css";
 import { intToHex } from "../../helpers/misc";
+import "../../css/Simulator.css";
 
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
- * @param {array}	props.instQue 		- Array of all instructions in queue
- * @param {array}	props.originalCode	- Array of all the instructions input into the code editor
- * @param {number}	props.pc			- Current CPU program counter
- * @param {array}	props.binary		- Array of all instructions in queue converted to binaries
+ * @param {number}	props.pc		- Current CPU program counter
+ * @param {Object}	props.bundles	- Object consisting of all instruction bundles from editor
  */
 const DisplayCode = (props) => {
 	return (
-		<div className="machine-container">
-			<table className="table table-hover table-sm">
+		<div className="code-container">
+			<table className="table table-hover table-sm" id="displaycode">
 				<thead>
 					<tr>
 						<th scope="col">Machine Code</th>
@@ -22,7 +20,7 @@ const DisplayCode = (props) => {
 					</tr>
 				</thead>
 				<tbody>
-					{GenMachineRows(props.instQue, props.originalCode, props.pc, props.binary)}
+					{GenMachineRows(props.pc, props.bundles)}
 				</tbody>
 			</table>
 		</div>
@@ -31,17 +29,14 @@ const DisplayCode = (props) => {
 
 /**
  * GenMachineRows: Generates all code table rows. 
- * Done by calling MachineRow on each index of instQue and orginalCode.
- * @param {array}	instQue 		- Array of all instructions in queue
- * @param {array}	originalCode	- Array of all the instructions input into the code editor
+ * Done by calling MachineRow on each bundle in bundles. 
+ * @param {Object}	props.bundles	- Object consisting of all instruction bundles from editor
  * @param {number}	pc				- Current CPU program counter
- * @param {array}	binary			- Array of all instructions in queue converted to binaries
  */
-const GenMachineRows = (instQue, originalCode, pc, binary) => {
+const GenMachineRows = (pc, bundles) => {
 	let rows = [];
-
-	for (let i = 0; i < instQue.length; i++) {
-		rows.push(MachineRow(instQue[i], originalCode[i], pc, binary[i], i));
+	for (let o in bundles){
+		rows.push(MachineRow(bundles[o], pc, o));
 	}
 	return rows;
 };
@@ -49,34 +44,31 @@ const GenMachineRows = (instQue, originalCode, pc, binary) => {
 /**
  * MachineRow: Generates one row of the table: Binary | Basic Code | Original code
  * Highlights row if current row is the same as program counter (i = pc).
- * @param {array}	instQue 		- Array of all instructions in queue
- * @param {array}	originalCode	- Array of all the instructions input into the code editor
- * @param {number}	pc				- Current CPU program counter
- * @param {array}	binary			- Array of all instructions in queue converted to binaries
- * @param {number} 	i				- Current row 
+ * @param {Object}	bundles	- Object consisting of all instruction bundles from editor
+ * @param {number}	pc		- Current CPU program counter
+ * @param {number} 	addr	- Current bundle address 
  */
-const MachineRow = (inst, originalInst, pc, binary, i) => {
-	let idx = 0, color = "";
-	if (pc === i) {
-		color = "current-inst";
+const MachineRow = (bundle, pc, addr) => {
+	let idx = 0;
+	let color = pc === Number(addr) ? "current-inst" : "";
+	let rows = [];
+	
+	for(let i of bundle){
+		rows.push(
+			<tr key={idx} className={color} >
+				<td>{intToHex(i.instruction.binary[0])}</td>
+				<td>{i.type} {i.ops.join(" ")}</td>
+				<td>{i.original}</td>
+			</tr>
+		);
+		idx++;
 	}
-
-	if (inst !== originalInst) { idx = 1; }
-
-	return(
-		<tr key={i} className={color} >
-			<td>{intToHex(binary)}</td>
-			<td>{inst[1]} {inst[2]} {inst[3]} {inst[4]}</td>
-			<td>{originalInst[1-idx]} {originalInst[2-idx]} {originalInst[3-idx]} {originalInst[4-idx]}</td>
-		</tr>
-	);
+	return rows;
 };
 
 DisplayCode.propTypes = {
-	instQue 		: PropTypes.array,
-	originalCode 	: PropTypes.array,
 	pc 				: PropTypes.number,
-	binary 			: PropTypes.array,
+	bundles			: PropTypes.object,
 };
 
 

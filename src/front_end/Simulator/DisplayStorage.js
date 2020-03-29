@@ -1,38 +1,62 @@
-import React, { Fragment } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../helpers/misc";
 import "../../css/Simulator.css";
+import "../../css/Buttons.css";
+import "../../css/App.css";
 
 const tableCSS = "table table-hover table-sm col-12";
+const pageRows = 23;
 
-/**
- * DisplayStorage: Displays two tabs that shows all values in registers and memory with corresponding addresses. 
- * @param {Object} props.registers 	- Object containing all register values with the reg as key. r0-r31, p0-p7, s0-s15
- * @param {Object} props.cache		- Object containing all the caches of the program. 
- */
-const DisplayStorage = (props) => {
-	return (
-		<Fragment>
-			<ul className ="nav nav-tabs justify-content-center">
-				<li className="nav-item">
-					<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Reg</a>
-				</li>
-				<li className="nav-item">
-					<a href="#gm" className="nav-link" data-toggle="tab" role="tab">gm</a>
-				</li>
-			</ul>
+class DisplayStorage extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			pagenumber: 1,
+		};
+		this.incPage = this.incPage.bind(this);
+		this.decPage = this.decPage.bind(this);
+	}
 
-			<div className="tab-content table-scrolling">
-				<div role="tabpanel" className="tab-pane active" id="registers">
-					{RenderRegTable(props.registers)}
+	incPage() {
+		let maxPage = 22795; // MAX_SIZE / 4 / pageRows
+		if ((this.state.pagenumber+1) < maxPage)
+			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
+	}
+
+	decPage() {
+		if (this.state.pagenumber > 1)
+			this.setState((prevState) => ({ pagenumber: prevState.pagenumber - 1 }));
+	}
+
+	render() {
+		return(
+			<div>
+				<ul className ="nav nav-tabs justify-content-center">
+					<li className="nav-item">
+						<a href="#registers" className="nav-link active" data-toggle="tab" role="tab">Registers</a>
+					</li>
+					<li className="nav-item">
+						<a href="#gm" className="nav-link" data-toggle="tab" role="tab">Memory</a>
+					</li>
+				</ul>
+
+				<div className="tab-content">
+					<div role="tabpanel" className="tab-pane active table-scrolling" id="registers">
+						{RenderRegTable(this.props.registers)}
+					</div>
+					<div role="tabpanel" className="tab-pane" id="gm">
+						{RenderMemoryTable(this.props.memory, this.state.pagenumber)}
+						<div>
+							<button type="button" className="btn button page-btn" onClick={this.decPage}>Prev Page</button>
+							<button type="button" className="btn button page-btn" onClick={this.incPage}>Next Page</button>
+						</div>
+					</div>
 				</div>
-				<div role="tabpanel" className="tab-pane" id="gm">
-					{RenderCacheTable(props.memory)}
-				</div>
-			</div>
-		</Fragment>
-	);
-};
+			</div>	
+		);
+	}
+}
 
 /**
  * RenderRegTable: Returns the register table with columns Register, Decimal, Hexadecimal
@@ -45,49 +69,56 @@ const RenderRegTable = (registers) => {
 	for (let i = 0; i < 32; i++) {
 		rows.push(RegRow("r", i, registers));
 	}
-	for (let i = 1; i < 16; i++) {
+	for (let i = 0; i < 16; i++) {
 		rows.push(RegRow("s", i, registers));
 	}
 	for (let i = 0; i < 8; i++) {
 		rows.push(RegRow("p", i, registers));
 	}
 
+	// This row overflows when scrolled all the way down. 
+	rows.push(
+		<tr key={"bottom"}>
+			<th>---</th>
+			<td>---</td>
+			<td>---</td>
+		</tr>
+	);
+
 	// Return table
 	return (
 		<table className={tableCSS}>
-			<thead>
-				<tr>
-					<th scope="col">Register</th>
-					<th scope="col">Decimal</th>
-					<th scope="col">Hexadecimal</th>
+			<thead className="header-stick">
+				<tr className="header-stick">
+					<th className="header-stick" scope="col">Register</th>
+					<th className="header-stick" scope="col">Decimal</th>
+					<th className="header-stick" scope="col">Hexadecimal</th>
 				</tr>
 			</thead>
 			<tbody>
-				{rows}
+				{rows}	
 			</tbody>
 		</table>
 	);
 };
 
 /**
- * RenderCacheTable: Returns the cache table with columns Address, +0, +1, +2, +3
- * @param {Object} cache - Object containing all the caches of the program. 
+ * RenderMemoryTable: Returns the memory table with columns Address, +0, +1, +2, +3
+ * @param {Object} props.memory		- Object containing the memory of the program. 
  */
-const RenderCacheTable = (cache) => {
-	let rows = [];
-	let key, i, ctemp, size;
-	
+const RenderMemoryTable = (memory, pagenumber) => {
+	let gm_temp, rows = [];
+
+	let startAddr = (pagenumber-1)*pageRows*4;
+	let endAddr = pagenumber*pageRows*4;
+
 	// We don't want to display these fields:
-	ctemp = cache;
-	delete ctemp["BASE_ADDR"];
-	delete ctemp["MAX_SIZE"];
-	
-	// Generate rows
-	size = Object.keys(ctemp).length;
-	for (i = 0; i < size; i += 4) {
-		key = Number(Object.keys(ctemp)[i]);
-		key = key - (key%4);
-		rows.push(CacheRow(ctemp, key));
+	gm_temp = memory;
+	delete gm_temp["BASE_ADDR"];
+	delete gm_temp["MAX_SIZE"];
+
+	for (let i = startAddr; i < endAddr; i+= 4) {
+		rows.push(MemoryRow(gm_temp, i));
 	}
 
 	// Return table
@@ -110,17 +141,17 @@ const RenderCacheTable = (cache) => {
 };
 
 /**
- * CacheRow: Returns one row of the cache table.
- * @param {Object} cache - Object containing all the caches of the program. 
+ * MemoryRow: Returns one row of the memory table.
+ * @param {Object} memory - Object containing the global memory of the program. 
  */
-const CacheRow = (cache, key) => {
+const MemoryRow = (memory, key) => {
 	return(
 		<tr key={key}>
-			<th scope="row">{intToHex(key)}</th>
-			<td>{cache[`${key}`]}</td>
-			<td>{cache[`${key+1}`]}</td>
-			<td>{cache[`${key+2}`]}</td>
-			<td>{cache[`${key+3}`]}</td>
+			<td className="address-color">{intToHex(key)}</td>
+			<td>{memory[`${key}`]}</td>
+			<td>{memory[`${key+1}`]}</td>
+			<td>{memory[`${key+2}`]}</td>
+			<td>{memory[`${key+3}`]}</td>
 		</tr>
 	);
 };
@@ -136,7 +167,7 @@ const RegRow = (letter, idx, registers) => {
 
 	return(
 		<tr key={`${letter}${idx}`}>
-			<th scope="row">{letter}{idx}</th>
+			<td>{letter}{idx}</td>
 			<td>{val}</td>
 			<td>{intToHex(val)}</td>
 		</tr>
@@ -147,6 +178,5 @@ DisplayStorage.propTypes = {
 	registers 	: PropTypes.object,
 	memory 		: PropTypes.object,
 };
-
 
 export default DisplayStorage;

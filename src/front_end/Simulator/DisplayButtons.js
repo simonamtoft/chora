@@ -11,7 +11,7 @@ const buttonCSS = [
 
 /**
  * DisplayButtons: Handles display of buttons and returns clicks of buttons.
- * @param {number}	props.queLength		- Length of instruction que
+ * @param {object} 	props.bundles		- Object consisting of all instruction bundles from editor
  * @param {number}	props.pc			- Current CPU program counter
  * @param {func}	props.runClick		- Button run clicked handler
  * @param {func}	props.stepClick		- Button step clicked handler
@@ -19,17 +19,9 @@ const buttonCSS = [
  * @param {func}	props.resetClick	- Button reset clicked handler
  */
 const DisplayButtons = (props) => {
-	if (props.queLength === 0) {
-		return (
-			<div className="button-container">
-				{forwardBtn(props.queLength, props.pc, props.runClick, props.stepClick)}
-				{backwardsBtn(props.pc, props.prevClick, props.resetClick)}
-			</div>  
-		);
-	}
 	return (
 		<div className="button-container">
-			{forwardBtn(props.queLength, props.pc, props.runClick, props.stepClick)}
+			{forwardBtn(props.bundles, props.pc, props.runClick, props.stepClick)}
 			{backwardsBtn(props.pc, props.prevClick, props.resetClick)}
 		</div>  
 	);
@@ -38,16 +30,16 @@ const DisplayButtons = (props) => {
 /**
  * fowardBtn: Handles the two buttons "Run" and "Step".
  * Disables the buttons if no instructions left in queue.
- * @param {number} 	queLength 	- Length of instruction queue
+ * @param {Object} 	bundles 	- Object consisting of all instruction bundles from editor
  * @param {number} 	pc 			- Current CPU program counter
  * @param {func} 	runClick 	- Button run clicked handler
  * @param {func} 	stepClick 	- Button step clicked handler
  */
-const forwardBtn = (queLength, pc, runClick, stepClick) => {
+const forwardBtn = (bundles, pc, runClick, stepClick) => {
 	let tooltipRun = "Run all remaining instructions in queue";
 	let tooltipStep = "Step next instruction in queue";
 
-	if (queLength === 0 | queLength === pc) {
+	if (!bundles[pc]) {
 		tooltipRun = "No instructions to run";
 		tooltipStep = "No instructions to step";
 		return (
@@ -95,7 +87,7 @@ const backwardsBtn = (pc, prevClick, resetClick) => {
 };
 
 DisplayButtons.propTypes = {
-	queLength 	: PropTypes.number,
+	bundles 	: PropTypes.object,
 	pc 			: PropTypes.number,
 	runClick 	: PropTypes.func,
 	stepClick	: PropTypes.func,
