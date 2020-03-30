@@ -8,7 +8,7 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws } from "../I
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes } from "../../helpers/typeStrings";
+import { instTypes, binTypes, compTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, allRegStr, sregMap } from "../../helpers/regStrings";
 import { getRegEx, getRegExError } from "../../helpers/regEx";
@@ -129,13 +129,24 @@ class Assembler {
 			if (label) this.labels[label] = idx;
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
-			if (is_long_imm && insts.length === 2) {
-				this.error[idx] = "Can't bundle a 64-bit instruction with anything else";
-				return false;
+
+			if (insts.length === 2) {
+				let type2 = insts[1].trim().split(" ")[0];
+
+				if (is_long_imm) {
+					this.error[idx] = "Can't bundle a 64-bit instruction with anything else";
+					return false;
+				} else if (!(binTypes.includes(type2) || compTypes.includes(type2))) {
+					this.error[idx] = `${type2} can't run in pipeline two.`;
+					return false;
+				}
 			}
 			bundle.instructions.push(i);
 			this.offset += is_long_imm ? 8 : 4;
 		}
+		
+
+
 		return true;
 	}
 
