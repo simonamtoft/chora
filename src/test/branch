@@ -6,6 +6,11 @@ foo: 	addi	r2 = r2, 1
 		cmplt 	p2 = r1, r2
 
 (!p2) 	br foo
+
+		addi 	r4 = r2, 1
+		addi 	r4 = r4, 1
+		br end
+		addi 	r4 = r4, 1
 	
 end: 	
 		nop

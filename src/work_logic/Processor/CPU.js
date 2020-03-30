@@ -54,20 +54,20 @@ class CPU {
  	* @param {Object} inst - Instruction object
 	*/
 	execute(inst) {
-		let pcInc = 4; 
 		this.state.updateHistory();
 
 		if ( ((inst.pred & 0b1000) >>> 3) !== this.state.reg[`p${inst.pred & 0b0111}`] ) {
 			inst.execute(this.state);
-
+		} else {
 			if (cfTypes.includes(inst.name))
-				pcInc -= 4;			// Subtract pc increment if branch is taken
+				this.state.cpu.pc += 4;
 		}
 
-		if(binTypes.includes(inst.name) && inst.type === "l")
-			pcInc += 4;
-		
-		this.state.cpu.pc = pcInc;
+		if(binTypes.includes(inst.name) && inst.type === "l") {
+			this.state.cpu.pc += 8;
+		} else if (!cfTypes.includes(inst.name)) {
+			this.state.cpu.pc += 4;
+		}
 		this.setReadReg();
 	}
 
