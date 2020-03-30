@@ -1,5 +1,6 @@
 import { Add, Sub, Xor, Nor, ShiftLeft, ShiftRight, Or, And, ShiftRightArithmetic, ShiftAdd, ShiftAdd2 } from "../Instructions/BinaryArithmetics/index";
 import { Btest, Cmpeq, Cmple, Cmplt, Cmpneq, Cmpule, Cmpult } from "../Instructions/Compare/index";
+import { Br, Brcf, Brcfnd, Brnd, Call, Callnd, Ret, Retnd, Trap, Xret, Xretnd } from "../Instructions/ControlFlow/index";
 import { Lws, Lwl, Lwc, Lwm, Lhs, Lhl, Lhc, Lhm, Lbs, Lbl, Lbc, Lbm, Lhus, Lhul, Lhuc, Lhum, Lbus, Lbul, Lbuc, Lbum } from "../Instructions/LoadTyped/index";
 import { Mul, Mulu } from "../Instructions/Multiply/index";
 import { Pand, Pxor, Por } from "../Instructions/Predicate/index";
@@ -8,7 +9,7 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws } from "../I
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes, compTypes } from "../../helpers/typeStrings";
+import { instTypes, binTypes, compTypes, cfTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, allRegStr, sregMap } from "../../helpers/regStrings";
 import { getRegEx, getRegExError } from "../../helpers/regEx";
@@ -144,9 +145,6 @@ class Assembler {
 			bundle.instructions.push(i);
 			this.offset += is_long_imm ? 8 : 4;
 		}
-		
-
-
 		return true;
 	}
 
@@ -160,14 +158,17 @@ class Assembler {
 					instruction.ops[i] = sregMap[op_lc];
 				} else if (allRegStr.includes(op_lc)) {
 					instruction.ops[i] = op_lc;
-				} else if (Object.keys(this.labels).includes(op))
+				} else if (Object.keys(this.labels).includes(op)) {
 					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
-				else if (isNaN(op)) {
+				} else if (instruction.type === "bcopy" && op === "~") {
+					return true;
+				} else if (isNaN(op)) {
 					this.error[idx] = "Can't resolve operands";
 					return false;
 				}		
 			}
 		}
+		
 		return true;
 	}
 
@@ -179,6 +180,7 @@ class Assembler {
 
 			let BinaryInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], op2: ops[2] };
 			let CompareInst = { pred: predicate, pd:  ops[0], rs1: ops[1], op2: ops[2] };
+			let ControlInst = { pred: predicate, s1:  ops[0], s2 : ops[1] };
 			let LoadInst 	= { pred: predicate, rd:  ops[0], ra:  ops[1], imm: ops[2] };
 			let MulInst 	= { pred: predicate, rs1: ops[0], rs2: ops[1] };
 			let PredInst 	= { pred: predicate, pd:  ops[0], ps1: ops[1], ps2: ops[2] };
@@ -402,6 +404,41 @@ class Assembler {
 				case "sspill":
 					cInst = new Sspill(StackInst);
 					break;
+
+				// Control Flow 
+				case "br":
+					cInst = new Br(ControlInst);
+					break;
+				case "brcf":
+					cInst = new Brcf(ControlInst);
+					break;
+				case "brcfnd":
+					cInst = new Brcfnd(ControlInst);
+					break;
+				case "brnd":
+					cInst = new Brnd(ControlInst);
+					break;
+				case "call":
+					cInst = new Call(ControlInst);
+					break;
+				case "callnd":
+					cInst = new Callnd(ControlInst);
+					break;
+				case "ret":
+					cInst = new Ret(ControlInst);
+					break;
+				case "retnd":
+					cInst = new Retnd(ControlInst);
+					break;
+				case "trap":
+					cInst = new Trap(ControlInst);
+					break;
+				case "xret":
+					cInst = new Xret(ControlInst);
+					break;
+				case "xretnd":
+					cInst = new Xretnd(ControlInst);
+					break; 
 
 				// Rest
 				case "bcopy":

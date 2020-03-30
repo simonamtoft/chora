@@ -5,7 +5,8 @@ const instTypes = [
 	"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
 	"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
 	"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
-	"bcopy", "mfs", "mts", "sens", "sfree", "sres", "sspill" // Missing control-flow 
+	"bcopy", "mfs", "mts", "sens", "sfree", "sres", "sspill",
+	"callnd", "call", "brnd", "br", "brcfnd", "brcf", "trap", "retnd", "ret", "xretnd", "xret",
 ];
 const binTypes = [
 	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
@@ -35,9 +36,10 @@ const predTypes = [
 const moveTypes = [
 	"mts", "mfs"
 ];
-
-//TBD
-const controlFlowTypes = [];
+const cfTypes = [
+	"callnd", "call", "brnd", "br", "brcfnd", "brcf", "trap",
+	"retnd", "ret", "xretnd", "xret",
+];
 
 const getInstType = (type) => {
 	let idx, key, keys;
@@ -54,6 +56,7 @@ const getInstType = (type) => {
 		mul		: mulTypes.includes(type),
 		stack	: stackTypes.includes(type),
 		pred 	: predTypes.includes(type),
+		cf 		: cfTypes.includes(type),
 		p1		: type === "mov" || type === "isodd" || type === "pmov",
 	};
 	
@@ -67,4 +70,4 @@ const getInstType = (type) => {
 };
 
 
-export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, controlFlowTypes, getInstType };
+export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, cfTypes, getInstType };
