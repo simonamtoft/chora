@@ -34,6 +34,9 @@ class ControlFLow {
 				break;
 			case "immediate":
 				this.binary = compile_imm(this.pred, this.op, this.d, this.s1);
+				break;
+			default:
+				console.log(`Something done goofed in Control Flow for ${this.name}`);
 		}
 	}
 	execute(){
