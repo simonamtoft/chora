@@ -9,7 +9,7 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws } from "../I
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes, compTypes, cfTypes } from "../../helpers/typeStrings";
+import { instTypes, binTypes, compTypes } from "../../helpers/typeStrings";
 import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
 import { regStr, allRegStr, sregMap } from "../../helpers/regStrings";
 import { getRegEx, getRegExError } from "../../helpers/regEx";
@@ -28,8 +28,7 @@ const cleanInput = (editor) => {
 		if (line) {
 			if (only_label && i + 1 < input.length) {
 				input[i + 1] = only_label[0] + input[i + 1];
-			}
-			else if (!only_label && line) {
+			} else if (!only_label && line) {
 				output.push(line);
 			}
 		}
