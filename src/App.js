@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import FrontEnd from "./Front End/FrontEnd";
 import CPU from "./Work Logic/Processor/CPU";
 import Assembler from "./Work Logic/Processor/Assembler";
-import "./css/App.css";
+import "./CSS/App.css";
 
 class App extends Component {
 	constructor(props) {

@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import PropTypes from "prop-types";
-import "../../css/Buttons.css";
+import "../../CSS/Buttons.css";
 
 const buttonCSS = [
 	"btn button run col-3", 

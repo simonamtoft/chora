@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../Helpers/misc";
-import "../../css/Simulator.css";
-import "../../css/Buttons.css";
-import "../../css/App.css";
+import "../../CSS/Simulator.css";
+import "../../CSS/Buttons.css";
+import "../../CSS/App.css";
 
 const tableCSS = "table table-hover table-sm col-12";
 const maxSize = 0x00200000;

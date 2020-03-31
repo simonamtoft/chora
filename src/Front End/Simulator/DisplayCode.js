@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../Helpers/misc";
-import "../../css/Simulator.css";
+import "../../CSS/Simulator.css";
 
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.

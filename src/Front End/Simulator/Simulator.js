@@ -4,7 +4,7 @@ import DisplayButtons from "./DisplayButtons";
 import DisplayConsole from "./DisplayConsole";
 import DisplayStorage from "./DisplayStorage";
 import DisplayCode from "./DisplayCode";
-import "../../css/Simulator.css";
+import "../../CSS/Simulator.css";
 
 /**
  * Simulator: Handles all the displaying under the "Simulator" tab.

@@ -1,6 +1,6 @@
 import React, {Component, Fragment } from "react";
 import PropTypes from "prop-types";
-import "../css/Editor.css";
+import "../CSS/Editor.css";
 
 /**
  * Editor: Handles the "Editor" tab. Displays a textinput where the code input is returned.
