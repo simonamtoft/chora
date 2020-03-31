@@ -1,12 +1,5 @@
-const instTypes = [
-	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
-	"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "btest", "btesti",
-	"cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", "cmpneq", "cmpneqi", "cmpule", "cmpulei",
-	"cmpult", "cmpulti", "lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
-	"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws", "mul", "mulu", "pand",
-	"por", "pxor", "sbc", "sbl", "sbm", "sbs", "shc", "shl", "shm", "shs", "swc", "swl", "swm", "sws",
-	"bcopy", "mfs", "mts", "sens", "sfree", "sres", "sspill",
-	"callnd", "call", "brnd", "br", "brcfnd", "brcf", "trap", "retnd", "ret", "xretnd", "xret",
+const pseudoTypes = [
+	"mov", "clr", "neg", "not", "li", "nop", "isodd", "pmov", "pnot", "pset", "pclr"
 ];
 const binTypes = [
 	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
@@ -26,7 +19,7 @@ const storeTypes = [
 const mulTypes = [
 	"mul", "mulu"	
 ];
-// not implemented 
+// not implemented ?
 const stackTypes = [
 	"sens", "sfree", "sres", "sspill"
 ];
@@ -38,15 +31,41 @@ const moveTypes = [
 ];
 const cfTypes = [
 	"callnd", "call", "brnd", "br", "brcfnd", "brcf", "trap",
-	"retnd", "ret", "xretnd", "xret",
+	"retnd", "ret", "xretnd", "xret"
 ];
+const bitCopyTypes = [
+	"bcopy"
+];
+
+const instTypes = [].concat(
+	pseudoTypes, binTypes, compTypes, loadTypes, storeTypes, 
+	mulTypes, stackTypes, predTypes, moveTypes, cfTypes, bitCopyTypes
+);
+
+const pseudoMapping = {
+	"MOV_RR" 	: "add {1} = {2}, 0",  		// add 
+	"CLR" 		: "add {1} = r0, 0", 		// add
+	"NEG" 		: "sub {1} = r0, {2}",		// sub
+	"NOT" 		: "nor {1} = {2}, r0",		// nor
+	"LI_POS" 	: "add {1} = r0, {2}",		// add
+	"LI_NEG" 	: "sub {1} = r0, {2}",		// sub
+	"NOP"		: "sub r0 = r0, 0", 		// sub
+	"ISODD" 	: "btest {1} = {2}, r0",	// btest
+	"MOV_PR" 	: "cmpneq {1} = {2}, r0",	// cmpneq
+	"PMOV" 		: "por {1} = {2}, {2}",		// por
+	"PNOT" 		: "pxor {1} = {2}, p0",		// pxor
+	"PSET" 		: "por {1} = p0, p0",		// por
+	"PCLR"		: "pxor {1} = p0, p0",		// pxor
+	"MOV_RP" 	: "bcopy {1} = r0, 0, {2}" 	// bcopy
+};
+
+// Checks if type is allowed in pipeline two. 
+const allowedPipelineTwo = (type) => {
+	return binTypes.includes(type) || compTypes.includes(type);
+};
 
 const getInstType = (type) => {
 	let idx, key, keys;
-
-	// Just an idea here... Would be smart to keep the error message with the regEx
-	// Such that it returns together with regex and if it doesn't match, it throws 
-	// how it should look like. 
 
 	let instTypeStr = {
 		bin 	: binTypes.includes(type),
@@ -64,10 +83,12 @@ const getInstType = (type) => {
 	
 	for (idx in keys) {
 		key = keys[idx];
-		if (instTypeStr[key]) { return key; }
+		if (instTypeStr[key]) return key;
 	}
 	return type;
 };
 
 
-export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, stackTypes, predTypes, moveTypes, cfTypes, getInstType };
+export { instTypes, binTypes, compTypes, loadTypes, storeTypes, mulTypes, 
+	stackTypes, predTypes, moveTypes, cfTypes, getInstType, allowedPipelineTwo,
+	pseudoTypes, pseudoMapping };
