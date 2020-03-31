@@ -85,11 +85,11 @@ class Assembler {
 				return false; 
 			}
 			let label = match[1];
-			let neg   = match[2] === "!";
-			let pred  = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
-			let type  = match[4].toLowerCase();
+			let neg = match[2] === "!";
+			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
+			let type = match[4].toLowerCase();
 			match = inst.match(getRegEx(type));
-
+			
 			// Check if inst is a proper instruction
 			if (!instTypes.includes(type)) {
 				this.error[idx] = `${type} is not an instruction`;
@@ -98,7 +98,8 @@ class Assembler {
 				this.error[idx] = getRegExError(type); 
 				return false; 
 			}
-			
+			let original = type + " " + match[0].replace(/\s+/gi, " ");
+
 			// Re-write pseudo instruction into its corresponding instruction
 			if (pseudoTypes.includes(type)) {
 				let ptype = type.toUpperCase();
@@ -122,16 +123,10 @@ class Assembler {
 				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
 				type = pinst.match(getRegEx("first"))[4].toLowerCase();
 				match = pinst.match(getRegEx(type));
-				
-				// Don't think we need this, since we already checked if the pseudo instruction exists etc. 
-				// if (!match) { 
-				// 	this.error[idx] = getRegExError(type); 
-				// 	return false; 
-				// }
 			}
 			
 			// Define the instruction
-			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
+			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: original };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
 			
 			// Check if pipelined/bundled correctly
@@ -147,7 +142,6 @@ class Assembler {
 				}
 			}
 
-			// Finally push the instruction and set label
 			if (label) this.labels[label] = idx;
 			bundle.instructions.push(i);
 			this.offset += is_long_imm ? 8 : 4;
@@ -167,7 +161,7 @@ class Assembler {
 					instruction.ops[i] = op_lc;
 				} else if (Object.keys(this.labels).includes(op)) {
 					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
-				} else if (instruction.type === "bcopy" && op === "~") {
+				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {
 					return true;
 				} else if (isNaN(op)) {
 					this.error[idx] = "Can't resolve operands";
@@ -175,7 +169,6 @@ class Assembler {
 				}		
 			}
 		}
-		
 		return true;
 	}
 
@@ -195,7 +188,7 @@ class Assembler {
 			let StoreInst 	= { pred: predicate, ra:  ops[0], imm: ops[1], rs:  ops[2] };
 			let BcopyInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4] };
 
-			// Pick inst
+			// Pick inst from its name/type
 			switch (type) {
 				// BinaryArithmetics
 				case "add":
