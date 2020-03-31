@@ -22,6 +22,7 @@ class StackControl {
 		if (this.type === "r") {
 			this.binary = compile_reg(pred, op, s1);
 		} else {
+			this.s1 &= 0x3FFFF;
 			this.binary = compile_imm(pred, op, s1);
 		}
 	}

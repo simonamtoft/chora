@@ -27,10 +27,11 @@ class Compare {
 				this.binary = compile_reg(pred, pd, rs1, op2, func);
 				break;
 			case "i":
+				this.op2 &= 0x1F;
 				this.binary = compile_imm(pred, pd, rs1, op2, func);
 				break;
 			default:
-				console.log("not implemented");
+				console.log(`Unexpected type in ${this.name}`);
 				break;
 		}
 	}

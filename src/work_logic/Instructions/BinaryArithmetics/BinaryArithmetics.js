@@ -32,13 +32,14 @@ class BinaryArithmetics {
 				this.binary = compile_reg(pred, rd, rs1, op2, func);
 				break;
 			case "i":
+				this.op2 &= 0xFFF;
 				this.binary = compile_imm(pred, func, rd, rs1, op2);
 				break;
 			case "l":
 				this.binary = compile_long(pred, rd, rs1, func, op2);
 				break;
 			default:
-				console.log("not implemented");
+				console.log(`Unexpected type in ${this.name}`);
 				break;
 		}
 	}

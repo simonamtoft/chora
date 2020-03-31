@@ -33,10 +33,11 @@ class ControlFLow {
 				this.binary = compile_reg2(this.pred, this.d, this.op, this.s1, this.s2);
 				break;
 			case "immediate":
+				this.s1 &= 0x3FFFFF;
 				this.binary = compile_imm(this.pred, this.op, this.d, this.s1);
 				break;
 			default:
-				console.log(`Something done goofed in Control Flow for ${this.name}`);
+				console.log(`Unexpected type in ${this.name}`);
 		}
 	}
 	execute(){

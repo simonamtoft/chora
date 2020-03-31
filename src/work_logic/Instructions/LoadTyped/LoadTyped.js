@@ -21,7 +21,7 @@ class LoadTyped {
 		this.rd = rd;
 		this.ra = ra;
 		this.type = type;
-		this.imm = toUint32(imm);	// Imm is interpreted unsigned
+		this.imm = toUint32(imm) & 0x7F;	// Imm is interpreted unsigned
 		this.binary = compile_reg(pred, rd, ra, type, imm);
 	}
 

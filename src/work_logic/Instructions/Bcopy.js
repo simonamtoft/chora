@@ -38,7 +38,7 @@ class Bcopy {
 		this.name = "bcopy";
 		this.rd = rd;
 		this.rs1 = rs1;
-		this.imm = imm;
+		this.imm = imm & 0x1F;
 		this.neg = neg;
 		this.ps = ps; 
 		this.binary = compile_reg(pred, rd, rs1, imm, ps); 
