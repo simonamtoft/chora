@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../Helpers/misc";
 import "../../CSS/Simulator.css";
+import { cfTypes } from "../../Helpers/typeStrings";
 
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
@@ -54,7 +55,14 @@ const MachineRow = (bundle, pc, addr) => {
 	let rows = [];
 	
 	for(let i of bundle){
-		let name = i.instruction.name + (i.instruction.type === "r" ? "" : i.instruction.type);
+		// Append i/l to name if that type of inst
+		let type = i.instruction.type;
+		let name = i.instruction.name;
+		if (type !== undefined && !cfTypes.includes(name) && type !== "r") {
+			name += type;
+		}
+
+		// Push row: Binary | Basic Code | Original Code
 		rows.push(
 			<tr key={idx} className={color} >
 				<td>{intToHex(i.instruction.binary[0])}</td>

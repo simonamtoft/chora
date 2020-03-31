@@ -122,11 +122,12 @@ class Assembler {
 				}
 
 				// Get the original instruction and get its match
-				basic = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
-				type = basic.match(getRegEx("first"))[4].toLowerCase();
-				match = basic.match(getRegEx(type));
+				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
+				type = pinst.match(getRegEx("first"))[4].toLowerCase();
+				match = pinst.match(getRegEx(type));
+				basic = match[0].replace(/\s+/gi, " ");
 			}
-			
+
 			// Define the instruction
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: original, basic: basic };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
