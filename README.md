@@ -10,3 +10,4 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
     1. ControlFlow missing (stack?)
 4. CodeMirror
 5. Fix all the copy pasta JSDoc
+6. Find an icon and replace the existing one (browser tab)
