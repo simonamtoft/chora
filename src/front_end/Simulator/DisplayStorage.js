@@ -6,7 +6,10 @@ import "../../css/Buttons.css";
 import "../../css/App.css";
 
 const tableCSS = "table table-hover table-sm col-12";
-const pageRows = 23;
+const maxSize = 0x00200000;
+const pageRows = 22;
+const pageSize = pageRows*4;
+const maxPage = Math.ceil(maxSize / pageSize);
 
 class DisplayStorage extends Component {
 	constructor(props) {
@@ -16,17 +19,23 @@ class DisplayStorage extends Component {
 		};
 		this.incPage = this.incPage.bind(this);
 		this.decPage = this.decPage.bind(this);
+		this.jumpPage = this.jumpPage.bind(this);
 	}
 
 	incPage() {
-		let maxPage = 22795; // MAX_SIZE / 4 / pageRows
-		if ((this.state.pagenumber+1) < maxPage)
+		if ((this.state.pagenumber+1) <= maxPage)
 			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
 	}
 
 	decPage() {
 		if (this.state.pagenumber > 1)
 			this.setState((prevState) => ({ pagenumber: prevState.pagenumber - 1 }));
+	}
+
+	jumpPage() {
+		let des = parseInt(Number(prompt("What address do you want to jump to? Both hexadecimal and decimal numbers accepted.")), 10) / pageSize;
+		if (des <= maxPage) 
+			this.setState(() => ({ pagenumber: Math.floor(des)+1 }));
 	}
 
 	render() {
@@ -48,8 +57,9 @@ class DisplayStorage extends Component {
 					<div role="tabpanel" className="tab-pane" id="gm">
 						{RenderMemoryTable(this.props.memory, this.state.pagenumber)}
 						<div>
-							<button type="button" className="btn button page-btn" onClick={this.decPage}>Prev Page</button>
-							<button type="button" className="btn button page-btn" onClick={this.incPage}>Next Page</button>
+							<button type="button" className="btn button page-btn col-4" onClick={this.decPage}>Prev Page</button>
+							<button type="button" className="btn button page-btn col-4" onClick={this.incPage}>Next Page</button>
+							<button type="button" className="btn button page-btn col-4" onClick={this.jumpPage}>Jump</button>
 						</div>
 					</div>
 				</div>
@@ -118,7 +128,7 @@ const RenderMemoryTable = (memory, pagenumber) => {
 	delete gm_temp["MAX_SIZE"];
 
 	for (let i = startAddr; i < endAddr; i+= 4) {
-		rows.push(MemoryRow(gm_temp, i));
+		i <= maxSize ? rows.push(MemoryRow(gm_temp, i)) : rows.push(emptyRow(i));
 	}
 
 	// Return table
@@ -140,6 +150,18 @@ const RenderMemoryTable = (memory, pagenumber) => {
 	);
 };
 
+const emptyRow = (key) => {
+	return(
+		<tr key={key}>
+			<td>----------</td>
+			<td>---</td>
+			<td>---</td>
+			<td>---</td>
+			<td>---</td>
+		</tr>
+	);
+};
+
 /**
  * MemoryRow: Returns one row of the memory table.
  * @param {Object} memory - Object containing the global memory of the program. 
@@ -147,7 +169,7 @@ const RenderMemoryTable = (memory, pagenumber) => {
 const MemoryRow = (memory, key) => {
 	return(
 		<tr key={key}>
-			<td className="address-color">{intToHex(key)}</td>
+			<td>{intToHex(key)}</td>
 			<td>{memory[`${key}`]}</td>
 			<td>{memory[`${key+1}`]}</td>
 			<td>{memory[`${key+2}`]}</td>

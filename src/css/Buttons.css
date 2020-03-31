@@ -42,8 +42,8 @@
 }
 .page-btn {
 	border: 2px solid var(--step-color);
-	margin: 4px 2px;
-	display: inline-block;
+	/*margin: 4px 2px;
+	display: inline-block;*/
 }
 
 
