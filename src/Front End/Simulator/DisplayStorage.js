@@ -43,7 +43,6 @@ class DisplayStorage extends Component {
 	}
 
 	incPage() {
-		console.log(window.height());
 		if ((this.state.pagenumber+1) <= this.state.maxPage)
 			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
 	}
@@ -54,7 +53,7 @@ class DisplayStorage extends Component {
 	}
 
 	jumpPage() {
-		let des = parseInt(Number(prompt("What address do you want to jump to? Both hexadecimal and decimal numbers accepted.")), 10) / (this.pageRows*4);
+		let des = parseInt(Number(prompt("What address do you want to jump to? Both hexadecimal and decimal numbers accepted.")), 10) / (this.state.pageRows*4);
 		if (des <= this.state.maxPage) 
 			this.setState(() => ({ pagenumber: Math.floor(des)+1 }));
 	}
