@@ -36,6 +36,7 @@ class Bcopy {
      */
 	constructor({pred, rd, rs1, imm, neg, ps}) {
 		this.name = "bcopy";
+		this.pred = pred;
 		this.rd = rd;
 		this.rs1 = rs1;
 		this.imm = imm & 0x1F;
@@ -52,6 +53,10 @@ class Bcopy {
 	execute({ reg }) {
 		let shift = (this.neg === "~") === (reg[this.ps] === 1) ? 0 : 1; // Handle negation of p-register
 		reg[this.rd] = (reg[this.rs1] & ~(1 << this.imm)) | (shift << this.imm);
+	}
+
+	toString(){
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.rd} = ${this.rs1}, ${this.imm}, ${this.neg ? "~" : ""}${this.ps}`;
 	}
 
 }

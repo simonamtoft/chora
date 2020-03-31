@@ -26,7 +26,7 @@ const cleanInput = (editor) => {
 		let only_label = line.match(/^\w+:$/);
 		if (line) {
 			if (only_label && i + 1 < input.length) {
-				input[i + 1] = only_label[0] + input[i + 1];
+				input[i + 1] = only_label[0] + " " + input[i + 1];
 			} else if (!only_label && line) {
 				output.push(line);
 			}
@@ -75,7 +75,8 @@ class Assembler {
 			return false;
 		}
 			
-		for (let inst of insts) {
+		for (let j in insts) {
+			let inst = insts[j];
 			inst = inst.trim();
 			
 			// Get instruction match
@@ -125,18 +126,16 @@ class Assembler {
 			}
 			
 			// Define the instruction
-			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.match(/(?:\w+:s+)?(.*$)/i)[1] };
+			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
 			
 			// Check if pipelined/bundled correctly
 			if (insts.length === 2) {
-				let typeTwo = insts[1].trim().split(" ")[0];
-
 				if (is_long_imm) {
 					this.error[idx] = "Can't bundle a 64-bit instruction with anything else";
 					return false;
-				} else if (!allowedPipelineTwo(typeTwo)) {
-					this.error[idx] = `${typeTwo} can't run in pipeline two.`;
+				} else if (j === 1 && !allowedPipelineTwo(type)) {
+					this.error[idx] = `${type} can't run in pipeline two.`;
 					return false;
 				}
 			}

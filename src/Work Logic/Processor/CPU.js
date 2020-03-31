@@ -22,6 +22,7 @@ class CPU {
 		let bundle = this.bundles[this.state.cpu.pc];
 		if(!bundle)
 			return false;
+		this.state.updateHistory();
 		for(let i of bundle){
 			this.execute(i.instruction);
 		}
@@ -54,8 +55,6 @@ class CPU {
  	* @param {Object} inst - Instruction object
 	*/
 	execute(inst) {
-		this.state.updateHistory();
-
 		if ( ((inst.pred & 0b1000) >>> 3) !== this.state.reg[`p${inst.pred & 0b0111}`] ) {
 			inst.execute(this.state);
 		} else if (cfTypes.includes(inst.name)) {
