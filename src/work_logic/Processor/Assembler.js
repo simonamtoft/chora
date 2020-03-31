@@ -98,8 +98,9 @@ class Assembler {
 				this.error[idx] = getRegExError(type); 
 				return false; 
 			}
-			let original = type + " " + match[0].replace(/\s+/gi, " ");
-			let basic = original;
+			//let original = type + " " + match[0].replace(/\s+/gi, " ");
+			let basic = match[0].replace(/\s+/gi, " ");
+			let original = type + " " + basic;
 
 			// Re-write pseudo instruction into its corresponding instruction
 			if (pseudoTypes.includes(type)) {
@@ -163,7 +164,7 @@ class Assembler {
 				} else if (Object.keys(this.labels).includes(op)) {
 					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
 				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {
-					return true;
+					// do nothing
 				} else if (isNaN(op)) {
 					this.error[idx] = "Can't resolve operands";
 					return false;
