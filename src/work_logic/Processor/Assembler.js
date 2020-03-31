@@ -9,8 +9,7 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws } from "../I
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes, compTypes } from "../../helpers/typeStrings";
-import { pseudoTypes, pseudoMapping } from "../../helpers/pseudo";
+import { instTypes, binTypes, allowedPipelineTwo, pseudoTypes, pseudoMapping } from "../../helpers/typeStrings";
 import { regStr, allRegStr, sregMap } from "../../helpers/regStrings";
 import { getRegEx, getRegExError } from "../../helpers/regEx";
 
@@ -78,6 +77,8 @@ class Assembler {
 			
 		for (let inst of insts) {
 			inst = inst.trim();
+			
+			// Get instruction match
 			let match = inst.match(getRegEx("first"));
 			if (!match) { 
 				this.error[idx] = getRegExError("first"); 
@@ -89,14 +90,16 @@ class Assembler {
 			let type  = match[4].toLowerCase();
 			match = inst.match(getRegEx(type));
 
-			if (!pseudoTypes.includes(type) && !instTypes.includes(type)) {
+			// Check if inst is a proper instruction
+			if (!instTypes.includes(type)) {
 				this.error[idx] = `${type} is not an instruction`;
 				return false; 
 			} else if (!match){
 				this.error[idx] = getRegExError(type); 
 				return false; 
 			}
-
+			
+			// Re-write pseudo instruction into its corresponding instruction
 			if (pseudoTypes.includes(type)) {
 				let ptype = type.toUpperCase();
 				switch (ptype) {
@@ -112,35 +115,40 @@ class Assembler {
 						ptype += (regStr.includes(match[1])) ? "_R" : "_P";
 						ptype += (regStr.includes(match[2])) ? "R" : "P";
 						break;
-					default:
-						break;
+					default: break;
 				}
+
+				// Get the original instruction and get its match
 				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
 				type = pinst.match(getRegEx("first"))[4].toLowerCase();
 				match = pinst.match(getRegEx(type));
-				if (!match) { 
-					this.error[idx] = getRegExError(type); 
-					return false; 
-				}
-			} else if (!instTypes.includes(type)) {
-				this.error[idx] = "Type is not found"; 
-				return false;
+				
+				// Don't think we need this, since we already checked if the pseudo instruction exists etc. 
+				// if (!match) { 
+				// 	this.error[idx] = getRegExError(type); 
+				// 	return false; 
+				// }
 			}
-			if (label) this.labels[label] = idx;
+			
+			// Define the instruction
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
-
+			
+			// Check if pipelined/bundled correctly
 			if (insts.length === 2) {
-				let type2 = insts[1].trim().split(" ")[0];
+				let typeTwo = insts[1].trim().split(" ")[0];
 
 				if (is_long_imm) {
 					this.error[idx] = "Can't bundle a 64-bit instruction with anything else";
 					return false;
-				} else if (!(binTypes.includes(type2) || compTypes.includes(type2))) {
-					this.error[idx] = `${type2} can't run in pipeline two.`;
+				} else if (!allowedPipelineTwo(typeTwo)) {
+					this.error[idx] = `${typeTwo} can't run in pipeline two.`;
 					return false;
 				}
 			}
+
+			// Finally push the instruction and set label
+			if (label) this.labels[label] = idx;
 			bundle.instructions.push(i);
 			this.offset += is_long_imm ? 8 : 4;
 		}
