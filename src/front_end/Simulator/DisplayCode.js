@@ -57,7 +57,7 @@ const MachineRow = (bundle, pc, addr) => {
 		rows.push(
 			<tr key={idx} className={color} >
 				<td>{intToHex(i.instruction.binary[0])}</td>
-				<td>{i.type} {i.ops.join(" ")}</td>
+				<td>{i.basic}</td>
 				<td>{i.original}</td>
 			</tr>
 		);
