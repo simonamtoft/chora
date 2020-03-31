@@ -26,6 +26,14 @@ class StackControl {
 			this.binary = compile_imm(pred, op, s1);
 		}
 	}
+	
+	execute(){
+		throw new Error("No execute handler");
+	}
+	
+	toString(){
+		return `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ${this.name} ${this.s1}`;
+	}
 }
 
 export default StackControl;

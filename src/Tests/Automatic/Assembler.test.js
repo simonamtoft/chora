@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 
-import Assembler from "../../work_logic/Processor/_Assembler";
-import CPU from "../../work_logic/Processor/_CPU";
+import Assembler from "../../Work Logic/Processor/Assembler";
+import CPU from "../../Work Logic/Processor/CPU";
 
 test("Test assembly", () => {
 	let a = new Assembler();

@@ -29,6 +29,10 @@ class Predicate {
 	execute(){
 		console.error("Missing execute handler for", this);
 	}
+
+	toString(){
+		return `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ${this.name} ${this.pd} = ${this.neg1 ? "!" : ""}${this.ps1}, ${this.neg2 ? "!" : ""}${this.ps2}`;
+	}
 }
 
 export default Predicate;

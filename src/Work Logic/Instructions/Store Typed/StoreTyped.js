@@ -25,7 +25,11 @@ class StoreTyped {
 	}
 
 	execute() {
-		console.error("Missing execute handler for", this);
+		throw new Error("Missing execute handler for", this);
+	}
+
+	toString(){
+		return `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ${this.name} [${this.ra} + ${this.imm}] = ${this.rs}`;
 	}
 }
 

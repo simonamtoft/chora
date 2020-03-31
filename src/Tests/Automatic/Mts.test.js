@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import Mts from "../../work_logic/Instructions/Mts";
+import Mts from "../../Work Logic/Instructions/Mts";
 let initial_state = {
 	reg: {
 		p0: 1,

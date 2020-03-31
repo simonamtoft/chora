@@ -16,6 +16,7 @@ class Compare {
      */
 	constructor({ name, pred, pd, rs1, op2, func }) {
 		this.type = isNaN(op2) ? "r" : "i";
+		this.pred = pred;
 		this.pd = pd;
 		this.rs1 = rs1;
 		this.op2 = op2;
@@ -31,13 +32,15 @@ class Compare {
 				this.binary = compile_imm(pred, pd, rs1, op2, func);
 				break;
 			default:
-				console.log(`Unexpected type in ${this.name}`);
-				break;
+				throw new Error(`Unexpected type in ${this.name}`);
 		}
 	}
     
 	execute(){
-		console.error("Missing execute handler for", this);
+		throw new Error("Missing execute handler for", this);
+	}
+	toString(){
+		return `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ${this.name} ${this.pd} = ${this.rs1}, ${this.op2}`;
 	}
 }
 

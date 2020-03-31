@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as BA from "../../work_logic/Instructions/BinaryArithmetics/index";
+import * as BA from "../../Work Logic/Instructions/Binary Arithmetics/index";
 let initial_state = {
 	reg: {
 		r0: 0,
@@ -36,7 +36,15 @@ let initial_state = {
 		r31: 31
 	}
 };
-
+test("toString", () => {
+	let a = new BA.Add({
+		pred: 0,
+		rd: "r1",
+		rs1: "r2",
+		op2: 0x0FFF
+	});
+	expect(""+a).toBe("(p0) add r1 = r2, 4095");
+});
 test("Add instructions", () => {
 	// lazy deep-copy
 	let a, e, state = JSON.parse(JSON.stringify(initial_state));

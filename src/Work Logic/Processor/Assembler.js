@@ -98,9 +98,6 @@ class Assembler {
 				this.error[idx] = getRegExError(type); 
 				return false; 
 			}
-			//let original = type + " " + match[0].replace(/\s+/gi, " ");
-			let basic = match[0].replace(/\s+/gi, " ");
-			let original = type + " " + basic;
 
 			// Re-write pseudo instruction into its corresponding instruction
 			if (pseudoTypes.includes(type)) {
@@ -122,13 +119,13 @@ class Assembler {
 				}
 
 				// Get the original instruction and get its match
-				basic = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
+				let basic = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
 				type = basic.match(getRegEx("first"))[4].toLowerCase();
 				match = basic.match(getRegEx(type));
 			}
 			
 			// Define the instruction
-			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: original, basic: basic };
+			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.match(/(?:\w+:s+)?(.*$)/i)[1] };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
 			
 			// Check if pipelined/bundled correctly
@@ -164,7 +161,7 @@ class Assembler {
 				} else if (Object.keys(this.labels).includes(op)) {
 					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
 				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {
-					// do nothing
+					continue;
 				} else if (isNaN(op)) {
 					this.error[idx] = "Can't resolve operands";
 					return false;

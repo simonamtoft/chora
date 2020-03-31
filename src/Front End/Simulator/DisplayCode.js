@@ -54,11 +54,10 @@ const MachineRow = (bundle, pc, addr) => {
 	let rows = [];
 	
 	for(let i of bundle){
-		let name = i.instruction.name + (i.instruction.type === "r" ? "" : i.instruction.type);
 		rows.push(
 			<tr key={idx} className={color} >
 				<td>{intToHex(i.instruction.binary[0])}</td>
-				<td>{name + " " + i.basic}</td>
+				<td>{i.instruction.toString()}</td>
 				<td>{i.original}</td>
 			</tr>
 		);

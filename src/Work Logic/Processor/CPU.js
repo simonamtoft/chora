@@ -58,9 +58,8 @@ class CPU {
 
 		if ( ((inst.pred & 0b1000) >>> 3) !== this.state.reg[`p${inst.pred & 0b0111}`] ) {
 			inst.execute(this.state);
-		} else {
-			if (cfTypes.includes(inst.name))
-				this.state.cpu.pc += 4;
+		} else if (cfTypes.includes(inst.name)) {
+			this.state.cpu.pc += 4;
 		}
 
 		if(binTypes.includes(inst.name) && inst.type === "l") {
