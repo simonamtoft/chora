@@ -7,23 +7,44 @@ import "../../CSS/App.css";
 
 const tableCSS = "table table-hover table-sm col-12";
 const maxSize = 0x00200000;
-const pageRows = 22;
-const pageSize = pageRows*4;
-const maxPage = Math.ceil(maxSize / pageSize);
 
 class DisplayStorage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			pagenumber: 1,
+			pageRows : 0,
+			maxPage : 0,
 		};
+
 		this.incPage = this.incPage.bind(this);
 		this.decPage = this.decPage.bind(this);
 		this.jumpPage = this.jumpPage.bind(this);
+		this.updateDimensions = this.updateDimensions.bind(this);
+	}
+
+	updateDimensions() {
+		let pageRows = Math.floor((window.innerHeight - 185) / 35);
+		this.setState({ 
+			pageRows: pageRows,
+			maxPage: Math.ceil(maxSize / (pageRows*4))
+		});
+	}
+
+	UNSAFE_componentWillMount() {
+		this.updateDimensions();
+	}
+
+	componentDidMount() {
+		window.addEventListener("resize", this.updateDimensions);
+	}
+	componentWillUnmount() {
+		window.removeEventListener("resize", this.updateDimensions);
 	}
 
 	incPage() {
-		if ((this.state.pagenumber+1) <= maxPage)
+		console.log(window.height());
+		if ((this.state.pagenumber+1) <= this.state.maxPage)
 			this.setState((prevState) => ({ pagenumber: prevState.pagenumber + 1 }));
 	}
 
@@ -33,8 +54,8 @@ class DisplayStorage extends Component {
 	}
 
 	jumpPage() {
-		let des = parseInt(Number(prompt("What address do you want to jump to? Both hexadecimal and decimal numbers accepted.")), 10) / pageSize;
-		if (des <= maxPage) 
+		let des = parseInt(Number(prompt("What address do you want to jump to? Both hexadecimal and decimal numbers accepted.")), 10) / (this.pageRows*4);
+		if (des <= this.state.maxPage) 
 			this.setState(() => ({ pagenumber: Math.floor(des)+1 }));
 	}
 
@@ -55,7 +76,7 @@ class DisplayStorage extends Component {
 						{RenderRegTable(this.props.registers)}
 					</div>
 					<div role="tabpanel" className="tab-pane" id="gm">
-						{RenderMemoryTable(this.props.memory, this.state.pagenumber)}
+						{RenderMemoryTable(this.props.memory, this.state.pagenumber, this.state.pageRows)}
 						<div>
 							<button type="button" className="btn button page-btn col-4" onClick={this.decPage}>Prev Page</button>
 							<button type="button" className="btn button page-btn col-4" onClick={this.incPage}>Next Page</button>
@@ -116,7 +137,7 @@ const RenderRegTable = (registers) => {
  * RenderMemoryTable: Returns the memory table with columns Address, +0, +1, +2, +3
  * @param {Object} props.memory		- Object containing the memory of the program. 
  */
-const RenderMemoryTable = (memory, pagenumber) => {
+const RenderMemoryTable = (memory, pagenumber, pageRows) => {
 	let gm_temp, rows = [];
 
 	let startAddr = (pagenumber-1)*pageRows*4;
