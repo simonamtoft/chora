@@ -1,8 +1,18 @@
+# If this runs without errors, everything works...
+
 # Populate some registers 
 add r1 = r0, 1 || add r2 = r0, 2
 add r3 = r0, 3 || add r4 = r0, 4
 add r5 = r0, 5 || add r6 = r0, 6
 add r7 = r0, 7 || add r8 = r0, 8
+
+# Jump over some instructions
+br hej
+add r1 = r1, 1
+add r1 = r1, 1
+add r1 = r1, 1
+hej: 
+nop
 
 # RegEx 1
 add r1 = r0, 10		# r1 = 10
@@ -43,12 +53,27 @@ mts sxb = r7
 mts sxo = r8
 
 
+# Pseudo instructions
+mov r4 = r2
+mov p2 = r3
+mov r5 = p2
+pmov p2 = p1
+clr r2
+neg r2 = -r1
+not r10 = ~r1
+li r20 = 100
+li r21 = -100
+isodd p4 = r3
+pnot p5 = ~p4
+pset p3 = 1
+pclr p3 = 0
 
-# Check wrong des register
-add p1 = r0, 10
-cmpneq r2 = r1, 5
-pand s2 = p0, p1
-lwc p10 = [r1 + 1]
-swc [r50 + 1] = r2
-mfs s8 = s6
-mts r6 = r1
+
+# Check nop insert
+add r1 = r0, 10	
+lwc r10 = [r1 + 1]
+add r1 = r0, 10		# nop shouldn't be inserted before this
+add r1 = r0, 10	
+lwc r10 = [r1 + 1]
+add r1 = r10, 10	# nop should be inserted before this
+add r1 = r0, 10	
