@@ -10,3 +10,4 @@ export const intToHex = (integer) => {
 	}
 	return `0x${integer.toString(16).toUpperCase().padStart(8, "0")}`;
 };
+
