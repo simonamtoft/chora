@@ -69,6 +69,17 @@ class Assembler {
 		let insts = line.split("||");
 		let bundle = { offset: this.offset, instructions: [] };
 		let idx = this.bundles.push(bundle) - 1;
+		
+		/* Perhaps change to is_data and and different regex for .word, .string etc. */
+		/* Figure out how to handle base and pc when a .word n+4 is injected into the asm as that indicates a code block that is n bytes...
+		let is_word = line.match(/\.word\s+((?:0[bx])?\d+)$/i);
+		if(is_word) {
+			bundle.is_data = true;
+			bundle.data = {type: "word", value: Number(is_word[1])};
+			this.offset += 4;
+			return true;
+		}
+		*/
 
 		if (insts.length > 2) {
 			this.error[idx] = "Only two instructions per bundle allowed!";
