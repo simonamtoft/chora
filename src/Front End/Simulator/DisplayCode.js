@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 import { intToHex } from "../../Helpers/misc";
 import "../../CSS/Simulator.css";
-import { cfTypes } from "../../Helpers/typeStrings";
 
 /**
  * DisplayCode: Displays all the instructions in the instruction queue as machine, basic and original code.
@@ -71,6 +70,5 @@ DisplayCode.propTypes = {
 	pc 				: PropTypes.number,
 	bundles			: PropTypes.object,
 };
-
 
 export default DisplayCode;
