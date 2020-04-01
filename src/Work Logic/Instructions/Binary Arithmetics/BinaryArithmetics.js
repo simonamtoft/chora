@@ -16,6 +16,7 @@ class BinaryArithmetics {
      */
 	constructor({ name, func, pred, rd, rs1, op2 }) {
 		this.type = isNaN(op2) ? "r" : (Number(op2) > 0x0FFF ? "l" : "i");
+		this.pred = pred;
 		this.rd = rd;
 		this.rs1 = rs1;
 		this.op2 = op2;
@@ -39,13 +40,16 @@ class BinaryArithmetics {
 				this.binary = compile_long(pred, rd, rs1, func, op2);
 				break;
 			default:
-				console.log(`Unexpected type in ${this.name}`);
-				break;
+				throw new Error(`Unexpected type in ${this.name}`);
 		}
 	}
     
 	execute(){
-		console.error("Missing execute handler for", this);
+		throw new Error("Missing execute handler for", this);
+	}
+
+	toString(){
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.rd} = ${this.rs1}, ${this.op2}`;
 	}
 }
 

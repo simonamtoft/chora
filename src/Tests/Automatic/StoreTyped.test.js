@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as ST from "../../work_logic/Instructions/StoreTyped";
+import * as ST from "../../Work Logic/Instructions/Store Typed";
 let initial_state = {
 	reg: {
 		p0: 1,

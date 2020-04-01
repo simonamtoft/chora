@@ -37,11 +37,14 @@ class ControlFLow {
 				this.binary = compile_imm(this.pred, this.op, this.d, this.s1);
 				break;
 			default:
-				console.log(`Unexpected type in ${this.name}`);
+				throw new Error(`Unexpected type in ${this.name}`);
 		}
 	}
 	execute(){
-		console.error("Missing execute handler for", this);
+		throw new Error("Missing execute handler for", this);
+	}
+	toString(){
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.s1} ${this.s2 ? this.s2 : ""}`;
 	}
 }
 

@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as LDT from "../../work_logic/Instructions/LoadTyped";
+import * as LDT from "../../Work Logic/Instructions/Load Typed";
 let initial_state = {
 	reg: {
 		p0: 1,

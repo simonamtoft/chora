@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-import * as C from "../../work_logic/Instructions/Compare/index";
+import * as C from "../../Work Logic/Instructions/Compare/index";
 let initial_state = {reg:{
 	p0: 1,
 	p1: 0,

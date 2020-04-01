@@ -44,6 +44,9 @@ class Mfs {
 	execute({ reg }) {
 		reg[this.rd] = reg[this.ss];
 	}
+	toString(){
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.rd} = ${this.ss}`;
+	}
 }
 
 export default Mfs;

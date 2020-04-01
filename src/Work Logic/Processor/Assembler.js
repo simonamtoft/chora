@@ -26,7 +26,7 @@ const cleanInput = (editor) => {
 		let only_label = line.match(/^\w+:$/);
 		if (line) {
 			if (only_label && i + 1 < input.length) {
-				input[i + 1] = only_label[0] + input[i + 1];
+				input[i + 1] = only_label[0] + " " + input[i + 1];
 			} else if (!only_label && line) {
 				output.push(line);
 			}
@@ -75,7 +75,8 @@ class Assembler {
 			return false;
 		}
 			
-		for (let inst of insts) {
+		for (let j in insts) {
+			let inst = insts[j];
 			inst = inst.trim();
 			
 			// Get instruction match
@@ -98,9 +99,6 @@ class Assembler {
 				this.error[idx] = getRegExError(type); 
 				return false; 
 			}
-			//let original = type + " " + match[0].replace(/\s+/gi, " ");
-			let basic = match[0].replace(/\s+/gi, " ");
-			let original = type + " " + basic;
 
 			// Re-write pseudo instruction into its corresponding instruction
 			if (pseudoTypes.includes(type)) {
@@ -122,25 +120,22 @@ class Assembler {
 				}
 
 				// Get the original instruction and get its match
-				let pinst = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
-				type = pinst.match(getRegEx("first"))[4].toLowerCase();
-				match = pinst.match(getRegEx(type));
-				basic = match[0].replace(/\s+/gi, " ");
+				let basic = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
+				type = basic.match(getRegEx("first"))[4].toLowerCase();
+				match = basic.match(getRegEx(type));
 			}
 
 			// Define the instruction
-			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: original, basic: basic };
+			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
 			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
 			
 			// Check if pipelined/bundled correctly
 			if (insts.length === 2) {
-				let typeTwo = insts[1].trim().split(" ")[0];
-
 				if (is_long_imm) {
 					this.error[idx] = "Can't bundle a 64-bit instruction with anything else";
 					return false;
-				} else if (!allowedPipelineTwo(typeTwo)) {
-					this.error[idx] = `${typeTwo} can't run in pipeline two.`;
+				} else if (j === 1 && !allowedPipelineTwo(type)) {
+					this.error[idx] = `${type} can't run in pipeline two.`;
 					return false;
 				}
 			}
@@ -165,7 +160,7 @@ class Assembler {
 				} else if (Object.keys(this.labels).includes(op)) {
 					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
 				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {
-					// do nothing
+					continue;
 				} else if (isNaN(op)) {
 					this.error[idx] = "Can't resolve operands";
 					return false;
