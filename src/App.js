@@ -28,7 +28,6 @@ class App extends Component {
 			return;
 		}
 		console.log("Assembler ran successfully");
-		this.cpu.reset();
 		this.cpu.populate(this.assembler.bundles);
 		this.forceUpdate();
 	}
@@ -62,7 +61,6 @@ class App extends Component {
 	}
 
 	resetBtn = () => {
-		this.cpu.reset();
 		this.cpu.populate(this.assembler.bundles);
 		this.forceUpdate(); // To re-render
 	}

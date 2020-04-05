@@ -46,18 +46,24 @@ class CPU {
 	 * @param {Object[]} bundles - An array of bundle objects.
 	 */
 	populate(bundles){
+		this.reset();
+
 		for(let bundle of bundles){
 			let addr = bundle.offset;
-			let o = 0;
 			this.bundles[addr] = bundle.instructions;
-			for(let inst of bundle.instructions){
-				for(let int of inst.instruction.binary){
-					this.state.mem[addr + o + 0] = int & 0xFF;
-					this.state.mem[addr + o + 1] = (int >> 8) & 0xFF;
-					this.state.mem[addr + o + 2] = (int >> 16) & 0xFF;
-					this.state.mem[addr + o + 3] = (int >> 24) & 0xFF;
-					o += 4;
-				}
+			this.setMem(addr, bundle);
+		}
+	}
+
+	setMem(addr, bundle) {
+		let o = 0;
+		for(let inst of bundle.instructions){
+			for(let int of inst.instruction.binary){
+				this.state.mem[addr + o + 0] = int & 0xFF;
+				this.state.mem[addr + o + 1] = (int >> 8) & 0xFF;
+				this.state.mem[addr + o + 2] = (int >> 16) & 0xFF;
+				this.state.mem[addr + o + 3] = (int >> 24) & 0xFF;
+				o += 4;
 			}
 		}
 	}
