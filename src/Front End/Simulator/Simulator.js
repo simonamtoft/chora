@@ -23,6 +23,7 @@ const Simulator = (props) => {
 		<div className="sim">
 			<div className="col-8 col-xl-9 sim-child">
 				<DisplayButtons 
+					history = {props.history}
 					stepClick = {props.stepClick} 
 					runClick = {props.runClick}
 					prevClick = {props.prevClick}
@@ -50,6 +51,7 @@ const Simulator = (props) => {
 };
 
 Simulator.propTypes = {
+	history         : PropTypes.array,
 	pc 				: PropTypes.number,
 	runClick 		: PropTypes.func,
 	stepClick		: PropTypes.func,

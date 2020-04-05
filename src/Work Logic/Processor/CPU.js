@@ -46,20 +46,40 @@ class CPU {
 	 * @param {Object[]} bundles - An array of bundle objects.
 	 */
 	populate(bundles){
+		let base_set = false;
 		for(let bundle of bundles){
 			let addr = bundle.offset;
-			let o = 0;
-			this.bundles[addr] = bundle.instructions;
-			for(let inst of bundle.instructions){
-				for(let int of inst.instruction.binary){
-					this.state.mem[addr + o + 0] = int & 0xFF;
-					this.state.mem[addr + o + 1] = (int >> 8) & 0xFF;
-					this.state.mem[addr + o + 2] = (int >> 16) & 0xFF;
-					this.state.mem[addr + o + 3] = (int >> 24) & 0xFF;
-					o += 4;
+			if(bundle.is_data){
+				switch(bundle.data.type){
+					case "word":
+						this.state.mem[addr + 0] = bundle.data.value & 0xFF;
+						this.state.mem[addr + 1] = (bundle.data.value >> 8) & 0xFF;
+						this.state.mem[addr + 2] = (bundle.data.value >> 16) & 0xFF;
+						this.state.mem[addr + 3] = (bundle.data.value >> 24) & 0xFF;
+						break;
+					default:
+						return false;
+				}
+			} else {
+				if(!base_set){
+					this.state.cpu.base = addr;
+					this.state.cpu.pc = addr;
+					base_set = true;
+				}
+				let o = 0;
+				this.bundles[addr] = bundle.instructions;
+				for(let inst of bundle.instructions){
+					for(let int of inst.instruction.binary){
+						this.state.mem[addr + o + 0] = int & 0xFF;
+						this.state.mem[addr + o + 1] = (int >> 8) & 0xFF;
+						this.state.mem[addr + o + 2] = (int >> 16) & 0xFF;
+						this.state.mem[addr + o + 3] = (int >> 24) & 0xFF;
+						o += 4;
+					}
 				}
 			}
 		}
+		return true;
 	}
 
 	/**

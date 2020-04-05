@@ -22,7 +22,7 @@ const DisplayButtons = (props) => {
 	return (
 		<div className="button-container">
 			{forwardBtn(props.bundles, props.pc, props.runClick, props.stepClick)}
-			{backwardsBtn(props.pc, props.prevClick, props.resetClick)}
+			{backwardsBtn(props.history, props.prevClick, props.resetClick)}
 		</div>  
 	);
 };
@@ -64,11 +64,11 @@ const forwardBtn = (bundles, pc, runClick, stepClick) => {
  * @param {func} 	prevClick 	- Button prev clicked handler
  * @param {func} 	resetClick 	- Button reset clicked handler
  */
-const backwardsBtn = (pc, prevClick, resetClick) => {
+const backwardsBtn = (history, prevClick, resetClick) => {
 	let tooltipPrev = "Steps one instruction back (decrement program count)";
 	let tooltipReset = "Reset registers & memory and jump to first instruction";
 
-	if (pc === 0) {
+	if (history.length === 0) {
 		tooltipReset = "No instructions run yet";
 		tooltipPrev = "No instructions run yet";
 		return (
@@ -87,6 +87,7 @@ const backwardsBtn = (pc, prevClick, resetClick) => {
 };
 
 DisplayButtons.propTypes = {
+	history     : PropTypes.array,
 	bundles 	: PropTypes.object,
 	pc 			: PropTypes.number,
 	runClick 	: PropTypes.func,

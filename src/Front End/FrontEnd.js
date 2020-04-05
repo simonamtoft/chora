@@ -30,6 +30,7 @@ const FrontEnd = (props) => {
 				</div>
 				<div role="tabpanel" className="tab-pane" id="simulator">
 					<Simulator
+						history = {props.history}
 						memory = {props.memory}
 						stepClick = {props.stepClick}
 						runClick = {props.runClick}
@@ -47,6 +48,7 @@ const FrontEnd = (props) => {
 };
 
 FrontEnd.propTypes = {
+	history         : PropTypes.array,
 	editorUpdate 	: PropTypes.func,
 	pc 				: PropTypes.number,
 	runClick 		: PropTypes.func,

@@ -79,6 +79,7 @@ class App extends Component {
 				<FrontEnd
 					registers={this.cpu.getReg()}
 					memory={this.cpu.getMem()}
+					history={this.cpu.state.history}
 					editorUpdate={this.editorUpdate}
 					stepClick={this.stepBtn}
 					runClick={this.runBtn}
