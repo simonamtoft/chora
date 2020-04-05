@@ -31,7 +31,6 @@ class Br extends ControlFlow {
 		let offset = this.type === "immediate" ? Number(this.s1) : reg[this.s1];
 		cpu.base = cpu.pc;
 		cpu.pc = offset;
-		console.log(offset);
 	}
 }
 
