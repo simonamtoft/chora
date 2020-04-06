@@ -33,7 +33,7 @@ class CPU {
 			if(this.pending_branch.delay !== 0){
 				this.pending_branch.delay--;
 			} else {
-				if(this.pending_branch.inst.name == "br"){
+				if(this.pending_branch.inst.name === "br"){
 					this.state.cpu.pc = this.pending_branch.pc;
 				} else {
 					this.state.cpu.pc -= 4;
@@ -116,10 +116,7 @@ class CPU {
 					case "br":
 						delay = 2;
 						break;
-					case "call":
-					case "brcf":
-					case "ret":
-					case "xret":
+					default:
 						delay = 3;
 						break;
 				}
