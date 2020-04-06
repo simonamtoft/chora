@@ -12,7 +12,7 @@ class ProcessorState {
 			"r26" : 0, "r27" : 0, "r28" : 0, "r29" : 0, "r30" : 0, 
 			"r31" : 0,
 			// Special-purpose registers
-			"s0" : 0, "s1" : 0, "s2" : 0, "s3" : 0, "s4" : 0, "s5" : 0,
+			"s0" : 1, "s1" : 0, "s2" : 0, "s3" : 0, "s4" : 0, "s5" : 0,
 			"s6" : 0, "s7" : 0, "s8" : 0, "s9" : 0, "s10" : 0,
 			"s11" : 0, "s12" : 0, "s13" : 0, "s14" : 0, "s15" : 0,
 			// Predicate registers
@@ -46,7 +46,7 @@ class ProcessorState {
 			"r26" : 0, "r27" : 0, "r28" : 0, "r29" : 0, "r30" : 0, 
 			"r31" : 0,
 			// Special-purpose registers
-			"s0" : 0, "s1" : 0, "s2" : 0, "s3" : 0, "s4" : 0, "s5" : 0,
+			"s0" : 1, "s1" : 0, "s2" : 0, "s3" : 0, "s4" : 0, "s5" : 0,
 			"s6" : 0, "s7" : 0, "s8" : 0, "s9" : 0, "s10" : 0,
 			"s11" : 0, "s12" : 0, "s13" : 0, "s14" : 0, "s15" : 0,
 			// Predicate registers
