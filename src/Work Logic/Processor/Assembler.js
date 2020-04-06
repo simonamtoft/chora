@@ -9,7 +9,7 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws } from "../I
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes, allowedPipelineTwo, pseudoTypes, pseudoMapping } from "../../Helpers/typeStrings";
+import { instTypes, binTypes, allowedPipelineTwo, pseudoTypes, pseudoMapping, cfTypes } from "../../Helpers/typeStrings";
 import { regStr, allRegStr, sregMap } from "../../Helpers/regStrings";
 import { getRegEx, getRegExError } from "../../Helpers/regEx";
 
@@ -170,7 +170,16 @@ class Assembler {
 				} else if (allRegStr.includes(op_lc)) {
 					instruction.ops[i] = op_lc;
 				} else if (Object.keys(this.labels).includes(op)) {
-					instruction.ops[i] = String(this.bundles[this.labels[op]].offset);
+					let target = this.bundles[this.labels[op]].offset;
+					if(cfTypes.includes(instruction.type)){
+						if(instruction.type.includes("br")){
+							instruction.ops[i] = String((target-bundle.offset) >> 2);
+						} else {
+							instruction.ops[i] = String(target >> 2);
+						}
+					} else {
+						instruction.ops[i] = String(target);
+					}
 				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {
 					continue;
 				} else if (isNaN(op)) {

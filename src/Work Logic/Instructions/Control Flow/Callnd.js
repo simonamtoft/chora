@@ -27,7 +27,7 @@ class Callnd extends ControlFlow {
      * @param {number}                  state.cpu.pc    - Program counter
      */
 	execute({ reg, cpu }) {
-		let addr = this.type === "immediate" ? (Number(this.s1) >>> 0) << 0 : reg[this.s1];
+		let addr = this.type === "immediate" ? (Number(this.s1) << 23) >>> 21 : reg[this.s1];
 		//srb s7, sro s8
 		reg.s7 = cpu.base;
 		reg.s8 = cpu.pc;

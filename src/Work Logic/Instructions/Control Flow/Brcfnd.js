@@ -27,7 +27,7 @@ class Brcfnd extends ControlFlow {
      * @param {number}                  state.cpu.pc    - Program counter
      */
 	execute({ reg, cpu }) {
-		let addr = this.type === "immediate" ? (Number(this.s1) >> 0) << 0 : reg[this.s1]; // 21,23 shifts if words as input
+		let addr = this.type === "immediate" ? (Number(this.s1) << 23) >> 21 : reg[this.s1];
 		let offset = this.type === "two_reg" ? reg[this.s2] : 0;
 		cpu.base = addr;
 		cpu.pc = addr + offset;

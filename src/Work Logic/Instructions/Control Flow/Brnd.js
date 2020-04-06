@@ -27,7 +27,7 @@ class Brnd extends ControlFlow {
      * @param {number}                  state.cpu.pc    - Program counter
      */
 	execute({ reg, cpu }) {
-		let addr = this.type === "immediate" ? Number(this.s1) : reg[this.s1];
+		let addr = this.type === "immediate" ? (Number(this.s1) << 23) >> 21 : reg[this.s1];
 		cpu.base = addr;
 		cpu.pc = addr;
 	}

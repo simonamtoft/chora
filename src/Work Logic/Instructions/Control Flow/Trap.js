@@ -27,7 +27,7 @@ class Trap extends ControlFlow {
      * @param {number}                  state.cpu.pc    - Program counter
      */
 	execute({ reg, cpu }) {
-		let n = (Number(this.s1) >>> 21) << 23;
+		let n = (Number(this.s1) << 23) >>> 21;
 		//exception table base addr: 0xF0010080
 		let addr = 0xf0010080 + n;
 		//sxb s9, sxo s10
