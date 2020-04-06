@@ -11,9 +11,9 @@ test("Test assembly", () => {
     (!p0) add r1 = r1, r2 #another comment
     addl r1 = r0, 0
     add r1 = r0, 0x1000
-    Add R1 = r2, 69
-    nop: nop
-    mov: 
+	Add R1 = r2, 69
+	asdf2: nop
+    asdf3: 
     mov r1 = r2   
     li r3 = 255
     li r1 = -255
