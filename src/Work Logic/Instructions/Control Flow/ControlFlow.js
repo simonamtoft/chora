@@ -14,7 +14,7 @@ class ControlFLow {
 	 * @param {string}          fields.s2   - Source register 2.
      */
 	constructor({ name, pred, d, op, s1, s2 }) {
-		this.type = (s1 === undefined && s2 === undefined) ? "implicit" : isNaN(s1) ? (s2 ? "single_reg" : "two_reg") : "immediate";
+		this.type = (s1 === undefined && s2 === undefined) ? "implicit" : isNaN(s1) ? (!s2 ? "single_reg" : "two_reg") : "immediate";
 		this.name = name;
 		this.pred = pred;
 		this.d = d;
@@ -44,7 +44,7 @@ class ControlFLow {
 		throw new Error("Missing execute handler for", this);
 	}
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.s1} ${this.s2 ? this.s2 : ""}`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.s1 ? this.s1 : ""} ${this.s2 ? this.s2 : ""}`;
 	}
 }
 

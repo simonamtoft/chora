@@ -66,6 +66,7 @@ class Assembler {
 	}
 
 	parse(line) {
+		if(/^\s*$/i.test(line)) return true;
 		let insts = line.split("||");
 		let bundle = { is_data: false, data: null, offset: this.offset, instructions: [] };
 		let idx = this.bundles.push(bundle) - 1;
@@ -100,7 +101,7 @@ class Assembler {
 			let neg = match[2] === "!";
 			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
 			let type = match[4].toLowerCase();
-			match = inst.match(getRegEx(type));
+			match = inst.split(type)[1].match(getRegEx(type));
 			
 			// Check if inst is a proper instruction
 			if (!instTypes.includes(type)) {
@@ -196,7 +197,7 @@ class Assembler {
 			let StackInst 	= { pred: predicate, s1:  ops[0] };
 			let StoreInst 	= { pred: predicate, ra:  ops[0], imm: ops[1], rs:  ops[2] };
 			let BcopyInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4] };
-
+			
 			// Pick inst from its name/type
 			switch (type) {
 				// BinaryArithmetics
