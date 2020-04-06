@@ -45,7 +45,7 @@ class Mts {
 		reg[this.sd] = reg[this.rs1];
 	}
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.sd} = ${this.rs1}`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.sd} = ${this.rs1}`;
 	}
 }
 

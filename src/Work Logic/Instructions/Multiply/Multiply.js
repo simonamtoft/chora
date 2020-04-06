@@ -27,7 +27,7 @@ class Multiply {
 	}
 
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.rs1}, ${this.rs2}`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.rs1}, ${this.rs2}`;
 	}
 }
 export default Multiply;

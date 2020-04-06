@@ -3,7 +3,7 @@ import { getInstType } from "./typeStrings";
 // All instruction regular expressions
 const regEx = {
 	// Label, pred, type
-	"first" : [/^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s*/,						"label: (ps) type"],
+	"first" : [/^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s*/i,						"label: (ps) type"],
 
 	// Normal instructions (new)
 	"bin" 	: [/(r\d{1,2})\s*=\s*(r\d{1,2})\s*,\s*(\w+)$/i, 							"rd = rs1, op2"],

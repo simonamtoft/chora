@@ -32,7 +32,7 @@ class StackControl {
 	}
 	
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.s1}`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.s1}`;
 	}
 }
 

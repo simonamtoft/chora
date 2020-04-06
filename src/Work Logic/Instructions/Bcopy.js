@@ -56,7 +56,7 @@ class Bcopy {
 	}
 
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.rd} = ${this.rs1}, ${this.imm}, ${this.neg ? "~" : ""}${this.ps}`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.rd} = ${this.rs1}, ${this.imm}, ${this.neg ? "~" : ""}${this.ps}`;
 	}
 
 }

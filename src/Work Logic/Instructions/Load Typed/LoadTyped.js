@@ -29,7 +29,7 @@ class LoadTyped {
 		throw new Error("Missing execute handler for", this);
 	}
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.rd} = [${this.ra} + ${this.imm}]`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.rd} = [${this.ra} + ${this.imm}]`;
 	}
 }
 export default LoadTyped;

@@ -43,7 +43,7 @@ test("toString", () => {
 		rs1: "r2",
 		op2: 0x0FFF
 	});
-	expect(""+a).toBe("(p0) add r1 = r2, 4095");
+	expect(""+a).toBe("add r1 = r2, 4095");
 });
 test("Add instructions", () => {
 	// lazy deep-copy

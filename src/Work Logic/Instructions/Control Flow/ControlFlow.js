@@ -44,7 +44,7 @@ class ControlFLow {
 		throw new Error("Missing execute handler for", this);
 	}
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111})` : ""} ${this.name} ${this.s1 ? this.s1 : ""} ${this.s2 ? this.s2 : ""}`;
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.s1 ? this.s1 : ""} ${this.s2 ? this.s2 : ""}`;
 	}
 }
 
