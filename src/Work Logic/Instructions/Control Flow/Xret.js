@@ -30,7 +30,7 @@ class Xret extends ControlFlow {
 		// To-Do: figure out voodoo
 		//sxb s9, sxo s10
 		cpu.base = reg.s9;
-		cpu.pc = reg.s10; //should be offset(sxb) + sxo, but as we don't have cache.
+		cpu.pc = reg.s10 + 4; //should be offset(sxb) + sxo, but as we don't have cache.
 	}
 }
 

@@ -28,7 +28,7 @@ class Call extends ControlFlow {
      */
 	execute({ reg, cpu }) {
 		// To-Do: figure out vodoo way of executing next 3 instructions before jumping.
-		let addr = this.type === "immediate" ? (Number(this.s1) >>> 21) << 23 : reg[this.s1];
+		let addr = this.type === "immediate" ? (Number(this.s1) >>> 0) << 0 : reg[this.s1];
 		//srb s7, sro s8
 		reg.s7 = cpu.base;
 		reg.s8 = cpu.pc;

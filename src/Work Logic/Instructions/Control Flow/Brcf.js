@@ -28,9 +28,10 @@ class Brcf extends ControlFlow {
      */
 	execute({ reg, cpu }) {
 		// To-Do: figure out vodoo way of executing next 2 instructions before jumping.
-		let addr = this.type === "immediate" ? (Number(this.s1) >> 21) << 23 : reg[this.s1];
+		let addr = this.type === "immediate" ? (Number(this.s1) >> 0) << 0 : reg[this.s1];
+		let offset = this.type === "two_reg" ? reg[this.s2] : 0;
 		cpu.base = addr;
-		cpu.pc = addr;
+		cpu.pc = addr + offset;
 	}
 }
 

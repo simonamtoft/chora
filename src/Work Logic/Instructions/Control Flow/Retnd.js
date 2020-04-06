@@ -29,7 +29,7 @@ class Retnd extends ControlFlow {
 	execute({ reg, cpu }) {
 		//srb s7, sro s8
 		cpu.base = reg.s7;
-		cpu.pc = reg.s8; //should be offset(sxb) + sxo, but as we don't have cache.
+		cpu.pc = reg.s8 + 4; //should be offset(sxb) + sxo, but as we don't have cache.
 	}
 }
 

@@ -30,7 +30,7 @@ class Ret extends ControlFlow {
 		// To-Do: figure out voodoo
 		//srb s7, sro s8
 		cpu.base = reg.s7;
-		cpu.pc = reg.s8; //should be offset(srb) + sro, but as we don't have cache.
+		cpu.pc = reg.s8 + 4; //should be offset(srb) + sro, but as we don't have cache. Also +4 is to set it to the next instruction.
 	}
 }
 
