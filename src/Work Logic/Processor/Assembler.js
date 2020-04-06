@@ -101,7 +101,7 @@ class Assembler {
 			let neg = match[2] === "!";
 			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
 			let type = match[4].toLowerCase();
-			match = inst.split(match[4])[1].match(getRegEx(type));
+			match = inst.split(match[0])[1].match(getRegEx(type));
 			
 			// Check if inst is a proper instruction
 			if (!instTypes.includes(type)) {
