@@ -1,6 +1,6 @@
 import Sens from "./Sens";
-import Sfree from "./Sens";
-import Sres from "./Sens";
-import Sspill from "./Sens";
+import Sfree from "./Sfree";
+import Sres from "./Sres";
+import Sspill from "./Sspill";
 
 export { Sens, Sfree, Sres, Sspill };
