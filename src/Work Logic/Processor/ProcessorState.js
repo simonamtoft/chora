@@ -20,8 +20,9 @@ class ProcessorState {
 			"p6" : 0, "p7" : 0
 		};
 		this.mem = {
-			"BASE_ADDR": 0x0,
-			"MAX_SIZE": 0x00200000 // 2MiB
+			"TEXT_END" 	: 0,
+			"BASE_ADDR"	: 0x0,
+			"MAX_SIZE"	: 0x00200000 // 2MiB
 		};
 		this.cpu = {
 			"base": 0,
@@ -32,8 +33,9 @@ class ProcessorState {
 	reset() {
 		this.history = [];
 		this.mem = {
-			"BASE_ADDR": 0x0,
-			"MAX_SIZE": 0x00200000 // 2MiB
+			"TEXT_END" 	: 0,
+			"BASE_ADDR"	: 0x0,
+			"MAX_SIZE"	: 0x00200000 // 2MiB
 		};
 		this.reg = {
 			// General-purpose registers

@@ -143,9 +143,10 @@ const RenderMemoryTable = (memory, pagenumber, pageRows) => {
 	let endAddr = pagenumber*pageRows*4;
 
 	// We don't want to display these fields:
-	gm_temp = memory;
+	gm_temp = Object.assign({}, memory);
 	delete gm_temp["BASE_ADDR"];
 	delete gm_temp["MAX_SIZE"];
+	delete gm_temp["TEXT_END"];
 
 	for (let i = startAddr; i < endAddr; i+= 4) {
 		i <= maxSize ? rows.push(MemoryRow(gm_temp, i)) : rows.push(emptyRow(i));

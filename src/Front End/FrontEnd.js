@@ -36,6 +36,7 @@ const FrontEnd = (props) => {
 						runClick = {props.runClick}
 						prevClick = {props.prevClick}
 						resetClick = {props.resetClick}
+						dumpClick = {props.dumpClick}
 						consoleOutput = {props.consoleOutput}
 						registers = {props.registers}
 						pc = {props.pc}
@@ -55,6 +56,7 @@ FrontEnd.propTypes = {
 	stepClick		: PropTypes.func,
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
+	dumpClick		: PropTypes.func,
 	bundles			: PropTypes.object,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,

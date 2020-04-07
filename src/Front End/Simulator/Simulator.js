@@ -28,6 +28,7 @@ const Simulator = (props) => {
 					runClick = {props.runClick}
 					prevClick = {props.prevClick}
 					resetClick = {props.resetClick}
+					dumpClick = {props.dumpClick}
 					pc = {props.pc}
 					bundles = {props.bundles}
 				/>
@@ -57,6 +58,7 @@ Simulator.propTypes = {
 	stepClick		: PropTypes.func,
 	prevClick 		: PropTypes.func,
 	resetClick 		: PropTypes.func,
+	dumpClick		: PropTypes.func,
 	bundles			: PropTypes.object,
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,

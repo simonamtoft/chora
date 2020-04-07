@@ -68,7 +68,7 @@ class Assembler {
 	parse(line) {
 		if(/^\s*$/i.test(line)) return true;
 		let insts = line.split("||");
-		let bundle = { is_data: false, data: null, offset: this.offset, instructions: [] };
+		let bundle = { is_data: false, data: null, offset: this.offset, instructions: [], size: 0 };
 		let idx = this.bundles.push(bundle) - 1;
 		
 		/* Perhaps change to is_data and and different regex for .word, .string etc. */
@@ -154,8 +154,9 @@ class Assembler {
 
 			if (label) this.labels[label] = idx;
 			bundle.instructions.push(i);
-			this.offset += is_long_imm ? 8 : 4;
+			bundle["size"] += is_long_imm ? 8 : 4;
 		}
+		this.offset += bundle["size"];
 		return true;
 	}
 

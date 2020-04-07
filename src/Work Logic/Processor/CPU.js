@@ -47,9 +47,10 @@ class CPU {
 	 */
 	populate(bundles){
 		this.reset();
-		let base_set = false;
-		for(let bundle of bundles){
-			let addr = bundle.offset;
+		let bundle, addr, base_set = false;
+
+		for(bundle of bundles){
+			addr = bundle.offset;
 			if(bundle.is_data){
 				switch(bundle.data.type){
 					case "word":
@@ -71,6 +72,11 @@ class CPU {
 				this.setMem(addr, bundle);
 			}
 		}
+
+		if (bundle === undefined)
+			return false;
+
+		this.state.mem["TEXT_END"] = Number(addr) + bundle.size;
 		return true;
 	}
 

@@ -3,10 +3,11 @@ import PropTypes from "prop-types";
 import "../../CSS/Buttons.css";
 
 const buttonCSS = [
-	"btn button run col-3", 
-	"btn button step col-3", 
-	"btn button prev col-3",
-	"btn button reset col-3"
+	"btn button run col-2", 
+	"btn button step col-2", 
+	"btn button prev col-2",
+	"btn button reset col-2",
+	"btn button dump col-2",
 ];
 
 /**
@@ -23,6 +24,7 @@ const DisplayButtons = (props) => {
 		<div className="button-container">
 			{forwardBtn(props.bundles, props.pc, props.runClick, props.stepClick)}
 			{backwardsBtn(props.history, props.prevClick, props.resetClick)}
+			<button type ="button" className={buttonCSS[4]} onClick = {props.dumpClick}>Dump</button>
 		</div>  
 	);
 };
@@ -94,6 +96,7 @@ DisplayButtons.propTypes = {
 	stepClick	: PropTypes.func,
 	prevClick 	: PropTypes.func,
 	resetClick 	: PropTypes.func,
+	dumpClick	: PropTypes.func,
 };
 
 

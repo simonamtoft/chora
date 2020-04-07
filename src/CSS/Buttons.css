@@ -3,6 +3,7 @@
 	--step-color: #008CBA;
 	--prev-color: #008CBA;
 	--reset-color: #FF6347;
+	--dump-color: black;
 }
 
 .button-container {
@@ -40,6 +41,9 @@
 .reset {
 	border: 2px solid var(--reset-color);
 }
+.dump {
+	border: 2px solid var(--dump-color);
+}
 .page-btn {
 	border: 2px solid var(--step-color);
 	/*margin: 4px 2px;
@@ -62,6 +66,9 @@
 }
 .reset:hover {
 	background-color: var(--reset-color);
+}
+.dump:hover {
+	background-color: var(--dump-color);
 }
 .page-btn:hover {
 	background-color: var(--step-color);

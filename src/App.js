@@ -24,11 +24,10 @@ class App extends Component {
 		console.log("Run Assembler");
 		if (!this.assembler.run(editor)) {
 			console.log(this.assembler.error);
-			this.forceUpdate(); // need this here to make sure simulator tab is disabled.
-			return;
+		} else {
+			console.log("Assembler ran successfully");
+			this.cpu.populate(this.assembler.bundles);
 		}
-		console.log("Assembler ran successfully");
-		this.cpu.populate(this.assembler.bundles);
 		this.forceUpdate();
 	}
 
@@ -70,6 +69,31 @@ class App extends Component {
 		this.forceUpdate(); // To re-render
 	}
 
+	dumpBtn = () => {
+		let mem = this.cpu.getMem();
+		let dump = new Uint8Array(mem["TEXT_END"]);
+		
+		for (let i = 0; i < mem["TEXT_END"]; i += 4) {
+			dump[i] = mem[i+3];
+			dump[i+1] = mem[i+2];
+			dump[i+2] = mem[i+1];
+			dump[i+3] = mem[i];	
+		}
+
+		let file = new Blob([dump], {type: "text/plain"});
+		let a = document.createElement("a"), url = URL.createObjectURL(file);
+		a.href = url;
+		a.download = "dump.o";
+		document.body.appendChild(a);
+		a.click();
+		setTimeout(function() {
+			document.body.removeChild(a);
+			window.URL.revokeObjectURL(url);  
+		}, 0); 
+		
+	}
+
+
 	render() {
 		document.body.style.overflowY = "hidden";
 		return (
@@ -83,6 +107,7 @@ class App extends Component {
 					runClick={this.runBtn}
 					prevClick={this.prevBtn}
 					resetClick={this.resetBtn}
+					dumpClick = {this.dumpBtn}
 					consoleOutput={this.state.consoleOutput}
 					pc={this.cpu.getPC()}
 					bundles={this.cpu.bundles}
