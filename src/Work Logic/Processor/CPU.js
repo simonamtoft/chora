@@ -6,12 +6,15 @@ class CPU {
 		this.state = new ProcessorState();
 		this.history = [];
 		this.bundles = {};
+		this.pending_branch = null;
+		window.state = this.state;
 	}
 
 	reset() {
 		this.state.reset();
 		this.history = [];
 		this.bundles = {};
+		this.pending_branch = null;
 	}
 
 	getPC() {
@@ -25,6 +28,19 @@ class CPU {
 		this.state.updateHistory();
 		for(let i of bundle){
 			this.execute(i.instruction);
+		}
+		if(this.pending_branch){
+			if(this.pending_branch.delay !== 0){
+				this.pending_branch.delay--;
+			} else {
+				if(this.pending_branch.inst.name === "br"){
+					this.state.cpu.pc = this.pending_branch.pc;
+				} else {
+					this.state.cpu.pc -= 4;
+				}
+				this.pending_branch.inst.execute(this.state);
+				this.pending_branch = null;
+			}
 		}
 		return true;
 	}
@@ -98,14 +114,28 @@ class CPU {
 	*/
 	execute(inst) {
 		if ( ((inst.pred & 0b1000) >>> 3) !== this.state.reg[`p${inst.pred & 0b0111}`] ) {
-			inst.execute(this.state);
-		} else if (cfTypes.includes(inst.name)) {
+			if(!cfTypes.includes(inst.name) || inst.name.includes("nd")){
+				inst.execute(this.state);
+			} else {
+				let delay = 0;
+				switch(inst.name){
+					case "br":
+						delay = 2;
+						break;
+					default:
+						delay = 3;
+						break;
+				}
+				this.pending_branch = { delay, inst, pc: this.state.cpu.pc };
+				this.state.cpu.pc += 4;
+			}
+		} else if (cfTypes.includes(inst.name)){
 			this.state.cpu.pc += 4;
 		}
 
 		if(binTypes.includes(inst.name) && inst.type === "l") {
 			this.state.cpu.pc += 8;
-		} else if (!cfTypes.includes(inst.name)) {
+		} else if(!cfTypes.includes(inst.name)){
 			this.state.cpu.pc += 4;
 		}
 		this.setReadReg();
