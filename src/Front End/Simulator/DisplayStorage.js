@@ -77,8 +77,8 @@ class DisplayStorage extends Component {
 					<div role="tabpanel" className="tab-pane" id="gm">
 						{RenderMemoryTable(this.props.memory, this.state.pagenumber, this.state.pageRows)}
 						<div>
-							<button type="button" className="btn button page-btn col-4" onClick={this.decPage}>Prev Page</button>
-							<button type="button" className="btn button page-btn col-4" onClick={this.incPage}>Next Page</button>
+							<button type="button" className="btn button page-btn col-4" onClick={this.decPage}>Prev</button>
+							<button type="button" className="btn button page-btn col-4" onClick={this.incPage}>Next</button>
 							<button type="button" className="btn button page-btn col-4" onClick={this.jumpPage}>Jump</button>
 						</div>
 					</div>

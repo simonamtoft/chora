@@ -27,13 +27,11 @@ class Callnd extends ControlFlow {
      * @param {number}                  state.cpu.pc    - Program counter
      */
 	execute({ reg, cpu }) {
-		let addr = this.type === "immediate" ? (Number(this.s1) << 23) >>> 21 : reg[this.s1];
-		//srb s7, sro s8
-		reg.s7 = cpu.base;
-		reg.s8 = cpu.pc;
-
+		let addr = this.type === "immediate" ? this.s1 : reg[this.s1];
+		reg.s7 = cpu.base;	// srb
+		reg.s8 = cpu.pc;	// sro
 		cpu.base = addr;
-		cpu.pc = addr; // should be offset(addr) but as we have no cache...
+		cpu.pc = addr; 		// should be offset(addr) but as we have no cache...
 	}
 }
 

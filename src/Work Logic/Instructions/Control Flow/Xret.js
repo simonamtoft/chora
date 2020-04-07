@@ -27,7 +27,6 @@ class Xret extends ControlFlow {
      * @param {number}                  state.cpu.pc    - Program counter
      */
 	execute({ reg, cpu }) {
-		// To-Do: figure out voodoo
 		//sxb s9, sxo s10
 		cpu.base = reg.s9;
 		cpu.pc = reg.s10 + 4; //should be offset(sxb) + sxo, but as we don't have cache.

@@ -34,7 +34,8 @@ class ControlFLow {
 				break;
 			case "immediate":
 				this.s1 &= 0x3FFFFF;
-				this.binary = compile_imm(this.pred, this.op, this.d, this.s1);
+				this.s1 = (Number(this.s1) << 10) >> 8;
+				this.binary = compile_imm(this.pred, this.op, this.d, this.s1 >> 2);
 				break;
 			default:
 				throw new Error(`Unexpected type in ${this.name}`);
@@ -44,7 +45,8 @@ class ControlFLow {
 		throw new Error("Missing execute handler for", this);
 	}
 	toString(){
-		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.s1 ? this.s1 : ""} ${this.s2 ? this.s2 : ""}`;
+		let s1 = this.s1 ? isNaN(this.s1) ? this.s1 : this.s1 >> 2 : "";
+		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${s1} ${this.s2 ? this.s2 : ""}`;
 	}
 }
 
