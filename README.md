@@ -8,12 +8,7 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 4. npm start
 
 # To-Do
-1. Instructions 
-    1. Implement StackControl ~~with a proper StackCache~~.
-    2. Implement ControlFlow
-        1. Figure out how to make the delay slots work...
-2. Implement assembler: [Assembler Example](https://softwareengineering.stackexchange.com/questions/324587/write-an-assembler-in-c-why-writing-a-machine-code-translator-for-a-low-level)
-    1. ControlFlow missing (stack?)
-4. CodeMirror
-5. Fix all the copy pasta JSDoc
-6. Find an icon and replace the existing one (browser tab)
+1. StackControl
+2. CodeMirror
+3. Fix all the copy pasta JSDoc
+4. Find an icon and replace the existing one (browser tab)
