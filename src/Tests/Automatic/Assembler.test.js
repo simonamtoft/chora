@@ -49,4 +49,5 @@ test("Test run", () => {
 	expect(cpu.state.reg.r2).toBe(246);
 	expect(cpu.state.reg.r1).toBe(123);
 	expect(cpu.state.reg.r0).toBe(0);
+	expect(cpu.state.reg.p0).toBe(1);
 });
