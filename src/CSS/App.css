@@ -16,3 +16,7 @@ a.nav-link:hover {
 	height: 95%;
 	overflow-y: hidden;
 }
+
+.CodeMirror {
+	height: 95vh;
+}

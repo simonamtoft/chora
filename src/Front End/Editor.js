@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import CodeMirror from "react-codemirror";
 import PropTypes from "prop-types";
 import "../../node_modules/codemirror/lib/codemirror.css";
-import "../CSS/Editor.css";
+import "../../node_modules/codemirror/mode/javascript/javascript";
 
 class Editor extends Component{
 	constructor(props) {
@@ -10,7 +10,7 @@ class Editor extends Component{
 		this.state = {
 			code: "",
 			readOnly: false,
-			mode: "markdown",
+			mode: "javascript",
 		};
 
 		this.updateCode = this.updateCode.bind(this);
