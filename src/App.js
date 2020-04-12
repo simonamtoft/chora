@@ -110,6 +110,7 @@ class App extends Component {
 					pc={this.cpu.getPC()}
 					bundles={this.cpu.bundles}
 					error={this.assembler.error}
+					numMap={this.assembler.numMap}
 				/>
 			</div>
 		);

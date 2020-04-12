@@ -13,34 +13,13 @@ import { instTypes, binTypes, allowedPipelineTwo, pseudoTypes, pseudoMapping, cf
 import { regStr, allRegStr, sregMap } from "../../Helpers/regStrings";
 import { getRegEx, getRegExError } from "../../Helpers/regEx";
 
-/**
- * Removes empty lines and comments
- * @param 	{string} 	editor 		- User input editor 
- * @returns {array}		output		- Array of lines that are not empty or comments
- */
-const cleanInput = (editor) => {
-	let input = editor.split(/(?:\r?\n)|;/);
-	let output = [];
-	for (let i = 0; i < input.length; ++i) {
-		let line = input[i].split("#", 1)[0].trim(); // Remove comments
-		let only_label = line.match(/^\w+:$/);
-		if (line) {
-			if (only_label && i + 1 < input.length) {
-				input[i + 1] = only_label[0] + " " + input[i + 1];
-			} else if (!only_label && line) {
-				output.push(line);
-			}
-		}
-	}
-	return output;
-};
-
 class Assembler {
 	constructor() {
 		this.bundles = [];
 		this.labels = {};
 		this.offset = 0;
 		this.error = [];
+		this.numMap = [];
 	}
 
 	reset() {
@@ -48,12 +27,13 @@ class Assembler {
 		this.labels = {};
 		this.offset = 0;
 		this.error = [];
+		this.numMap = [];
 	}
 
 	// should add debouncing :)
 	run(editor) {
 		this.reset();
-		let input = cleanInput(editor);
+		let input = this.cleanInput(editor);
 		for (let line of input)
 			this.parse(line);
 		for (let bundle of this.bundles) {
@@ -68,6 +48,7 @@ class Assembler {
 		for (let key in this.error)
 			if (this.error[key] !== "fine") return false;
 		this.error = [];
+		console.log(this.numMap);
 		return true;
 	}
 
@@ -198,6 +179,29 @@ class Assembler {
 		}
 		return true;
 	}
+
+	/**
+	 * Removes empty lines and comments
+	 * @param 	{string} 	editor 		- User input editor 
+	 * @returns {array}		output		- Array of lines that are not empty or comments
+	 */
+	cleanInput = (editor) => {
+		let input = editor.split(/(?:\r?\n)|;/);
+		let output = [];
+		for (let i = 0; i < input.length; ++i) {
+			let line = input[i].split("#", 1)[0].trim(); // Remove comments
+			let only_label = line.match(/^\w+:$/);
+			if (line) {
+				if (only_label && i + 1 < input.length) {
+					input[i + 1] = only_label[0] + " " + input[i + 1];
+				} else if (!only_label && line) {
+					output.push(line);
+				}
+				this.numMap[output.length-1] = i+1;
+			}
+		}
+		return output;
+	};
 
 	compileBundle(bundle) {
 		for (let i in bundle.instructions) {

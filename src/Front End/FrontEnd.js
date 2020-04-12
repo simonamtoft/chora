@@ -13,7 +13,7 @@ const FrontEnd = (props) => {
 	// fix it so it displays correct line number instead of
 	if (props.error.length) { 
 		let errMes = "";
-		for (let i in props.error) props.error[i] === "fine" ? lol++ : errMes += `${Number(i)+1}: ` + props.error[i] + "\n";
+		for (let i in props.error) props.error[i] === "fine" ? lol++ : errMes += `L${props.numMap[i]}: ` + props.error[i] + "\n";
 		click = () => { alert(errMes); };
 		toggle = "";
 	}
@@ -68,7 +68,8 @@ FrontEnd.propTypes = {
 	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
 	memory 			: PropTypes.object,
-	error			: PropTypes.arrayOf(String)
+	error			: PropTypes.arrayOf(String),
+	numMap			: PropTypes.array,
 };
 
 export default FrontEnd;
