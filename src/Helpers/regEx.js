@@ -8,7 +8,7 @@ const regEx = {
 	// Normal instructions (new)
 	"bin" 	: [/^(r\d{1,2})\s*=\s*(r\d{1,2})\s*,\s*(\w+)$/i, 							"rd = rs1, op2"],
 	"comp"	: [/^(p\d)\s*=\s*(r\d{1,2})\s*,\s*(r?(?:0x)?(?:0b)?\d+)$/i,					"pd = rs1, op2"],
-	"load"	: [/^(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*((?:0x)?(?:0b)?\d+)\]$/i,  		"rd = [rs + imm]"],
+	"load"	: [/^(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\w+)\]$/i,  		"rd = [rs + imm]"],
 	"store"	: [/^\[(r\d{1,2})\s*\+\s*((?:0x)?(?:0b)?\d+)\]\s*=\s*(r\d{1,2})$/i,			"[rd + imm] = rs"],
 	"mul"	: [/^(r\d{1,2})\s*,\s*(r\d{1,2})$/i,											"rs1, rs2"],
 	"stack"	: [/^((?:0x)?(?:0b)?\d+)\s?$/i,												"imm"],

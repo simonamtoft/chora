@@ -9,7 +9,7 @@ import { Sbc, Sbl, Sbm, Sbs, Shc, Shl, Shm, Shs, Swc, Swl, Swm, Sws } from "../I
 import Bcopy from "../Instructions/Bcopy";
 import Mfs from "../Instructions/Mfs";
 import Mts from "../Instructions/Mts";
-import { instTypes, binTypes, allowedPipelineTwo, pseudoTypes, pseudoMapping, cfTypes } from "../../Helpers/typeStrings";
+import { instTypes, binTypes, allowedPipelineTwo, pseudoTypes, pseudoMapping, cfTypes, loadTypes } from "../../Helpers/typeStrings";
 import { regStr, allRegStr, sregMap } from "../../Helpers/regStrings";
 import { getRegEx, getRegExError } from "../../Helpers/regEx";
 
@@ -60,7 +60,7 @@ class Assembler {
 		
 		/* Perhaps change to is_data and and different regex for .word, .string etc. */
 		//Figure out how to handle base and pc when a .word n+4 is injected into the asm as that indicates a code block that is n bytes...
-		let is_word = line.match(/^(?:(\w+):)?(?:\s+)?\.word\s+((?:0[bx])?\d+)$/i);
+		let is_word = line.match(/^(?:(\w+):)?(?:\s+)?\.word\s+((?:(?:0[bx])|-?)?\d+)$/i);
 		if(is_word) {
 			bundle.is_data = true;
 			bundle.data = {type: "word", value: Number(is_word[2])};
@@ -168,7 +168,15 @@ class Assembler {
 						} else {
 							instruction.ops[i] = String(target >> 2);
 						}
-					} else {
+					} else if(loadTypes.includes(instruction.type)){
+						let shift = 0;
+						if(instruction.type.includes("w"))
+							shift = 2;
+						else if(instruction.type.includes("h"))
+							shift = 1;
+						instruction.ops[i] = String(target >> shift);
+					}
+					else {
 						instruction.ops[i] = String(target);
 					}
 				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {

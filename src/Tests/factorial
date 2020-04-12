@@ -1,0 +1,37 @@
+n: .word 10
+
+.word 24
+main:
+	lwm r3 = [r0 + n]
+    call factorial
+    li r29 = 0x900
+    mts ss = r29
+    mts st = r29
+    mov r1 = r3
+
+.word 96
+factorial:
+	sres 2
+    mfs r4 = sro
+    mfs r5 = srb
+    sws [r0 + 0] = r3
+    shs [r0 + 2] = r4
+    shs [r0 + 3] = r5
+    cmple p1 = r3, r0
+    (p1) brnd base_case
+    sub r3 = r3, 1
+    callnd factorial
+    mov r29 = r3
+    lws r3 = [r0 + 0]
+    lhs r4 = [r0 + 2]
+    lhs r5 = [r0 + 3]
+    mts sro = r4
+    mts srb = r5
+    sfree 2
+    mul r3, r29
+    mfs r3 = sl
+    retnd
+   	base_case:
+    sfree 2
+    li r3 = 1
+    retnd

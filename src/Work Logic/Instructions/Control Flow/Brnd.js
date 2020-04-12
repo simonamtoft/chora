@@ -28,7 +28,7 @@ class Brnd extends ControlFlow {
      */
 	execute({ reg, cpu }) {
 		let addr = this.type === "immediate" ? this.s1: reg[this.s1];
-		cpu.pc += (this.type === "immediate" ? cpu.pc + addr : addr);
+		cpu.pc = (this.type === "immediate" ? cpu.pc + addr : addr);
 	}
 }
 
