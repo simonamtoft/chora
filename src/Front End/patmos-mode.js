@@ -9,7 +9,7 @@ import CodeMirror from "codemirror";
 
 	CodeMirror.defineMode("patmos", (config, parserConfig) => {
 		let regexFromWords = (words, ins) => {
-			return new RegExp("^(?:" + words.join("|") + ")$", ins);;
+			return new RegExp("^(?:" + words.join("|") + ")$", ins);
 		};
 
 		let instTypes = regexFromWords([
@@ -63,7 +63,7 @@ import CodeMirror from "codemirror";
 			let ch = stream.next();
 
 			// Eat entire comment
-			if (ch == "#") {
+			if (ch === "#") {
 				stream.skipToEnd();
 				return "comment";
 			}
@@ -94,7 +94,7 @@ import CodeMirror from "codemirror";
 				let word = stream.current();
 
 				// Use different colors for types, registers and keywords
-				if (style == "variable") {
+				if (style === "variable") {
 					if (keywords.test(word)) style = "keyword";
 					else if (instTypes.test(word)) style = "builtin";
 					else if (registers.test(word)) style = "variable-2";

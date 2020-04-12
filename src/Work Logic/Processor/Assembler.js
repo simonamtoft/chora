@@ -55,14 +55,13 @@ class Assembler {
 		this.reset();
 		let input = cleanInput(editor);
 		for (let line of input)
-			if(!this.parse(line))
-				return false;
+			this.parse(line);
 		for (let bundle of this.bundles) {
-			if(!this.resolveOperands(bundle))
-				return false;
-			this.compileBundle(bundle);
+			if(this.resolveOperands(bundle))
+				this.compileBundle(bundle);
 		}
-		return true;
+		if(this.error.length === 0) return true;
+		return false;
 	}
 
 	parse(line) {

@@ -7,9 +7,14 @@ import Simulator from "./Simulator/Simulator";
  * FrontEnd: Handles the entire front end of Chora. Splits into two tabs: Editor and Simulator.
  */
 const FrontEnd = (props) => {
-	let simcs = "nav-link";
-	if (props.error.length) 
-		simcs += " disabled";
+	let click, toggle = "tab";
+
+	if (props.error.length) { 
+		let errMes = "";
+		for (let i in props.error) errMes += `${i}: ` + props.error[i] + "\n";
+		click = () => { alert(errMes); };
+		toggle = "";
+	}
 
 	return (
 		<Fragment>
@@ -18,7 +23,7 @@ const FrontEnd = (props) => {
 					<a href="#editor" className="nav-link active" data-toggle="tab" role="tab">Editor</a>
 				</li>
 				<li className="nav-item ">
-					<a href="#simulator" className={simcs} data-toggle="tab" role="tab">Simulator</a>
+					<a href="#simulator" className="nav-link" onClick={click} data-toggle={toggle} role="tab">Simulator</a>
 				</li>
 			</ul>
 
