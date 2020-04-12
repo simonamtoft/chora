@@ -1,3 +1,7 @@
+:root {
+	--font: "Consolas";
+}
+
 .nav-tabs .nav-link.active {
 	color: #008CBA;
 	background-color: white;
@@ -5,6 +9,13 @@
 
 a.nav-link {
 	color: black;
+	font-size: 16px;
+	font-family: var(--font);
+}
+
+.table {
+	font-family: var(--font);
+	font-size: 16px;
 }
 
 a.nav-link:hover {
@@ -19,4 +30,6 @@ a.nav-link:hover {
 
 .CodeMirror {
 	height: 95vh;
+	font-size: 16px;
+	font-family: var(--font);
 }

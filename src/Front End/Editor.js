@@ -11,6 +11,7 @@ class Editor extends Component{
 			code: "",
 			readOnly: false,
 			mode: "patmos",
+			lint: true,
 		};
 
 		this.updateCode = this.updateCode.bind(this);

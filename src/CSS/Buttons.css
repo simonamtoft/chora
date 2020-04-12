@@ -15,6 +15,8 @@
  */
 .button {
 	transition-duration: 0.2s;
+	font-size: 16px; 
+	font-family: var(--font);;
 	/*
 	background-color: white; 
 	color: black; 
@@ -22,7 +24,6 @@
 	text-align: center;
 	text-decoration: none;
 	display: inline-block;
-	font-size: 16px;
 	margin: 4px 2px;
 	width: 33%;
 	cursor: pointer;*/
