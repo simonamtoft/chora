@@ -5,6 +5,8 @@ import CodeMirror from "codemirror";
 }) ((CodeMirror) => {
 	"use strict";
 
+	// declare global: JSHINT!!!
+
 	CodeMirror.defineMode("patmos", (config, parserConfig) => {
 		let regexFromWords = (words, ins) => {
 			return new RegExp("^(?:" + words.join("|") + ")$", ins);;
@@ -102,8 +104,50 @@ import CodeMirror from "codemirror";
 		};
 	});
 
-	CodeMirror.registerHelper("lint", "patmos", (text) => {
-		// do lint stuff here..
-	});
+	// inspiration from codemirror.net/addon/lint/javascript-lint.js 
+	// let validator = (text, options) => {
+	// 	if(!window.JSHINT) {
+	// 		if (window.console) {
+	// 			window.console.error("Error: window. not defined, CodeMirror Patmos-mode linting cannot run.");
+	// 		}
+	// 		return [];
+	// 	}
+	// 	if (!options.indent) // JSHint error.character actually is a column index, this fixes underlining on lines using tabs for indentation
+	// 		options.indent = 1; // JSHint default value is 4
+	// 	JSHINT(text, options, options.globals);
+	// 	let errors = JSHINT.data().errors, result = [];
+	// 	if (errors) parseErrors(errors, result);
+	// 	return result;
+	// };
+
+	// let parseErrors = (errors, output) => {
+	// 	for ( let i = 0; i < errors.length; i++) {
+	// 		let error = errors[i];
+	// 		if (error) {
+	// 			if (error.line <= 0) {
+	// 				if (window.console)
+	// 					window.console.warn("Cannot display JSHint error (invalid line " + error.line + ")", error);
+	// 				continue;
+	// 			}
+
+	// 			let start = error.character - 1, end = start + 1;
+				
+	// 			if (error.evidence) {
+	// 				let index = error.evidence.substring(start).search(/.\b/);
+	// 				if (index > -1) end += index;
+	// 			}
+
+	// 			// Convert to format expected by validation service
+	// 			output.push({
+	// 				message: error.reason,
+	// 				severity: error.code ? (error.code.startsWith('W') ? "warning" : "error") : "error",
+	// 				from: CodeMirror.Pos(error.line - 1, start),
+	// 				to: CodeMirror.Pos(error.line - 1, end)
+	// 			});
+	// 		}
+	// 	}
+	// };
+
+	// CodeMirror.registerHelper("lint", "patmos", validator);
 });
   
