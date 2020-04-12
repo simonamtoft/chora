@@ -7,13 +7,11 @@ import Simulator from "./Simulator/Simulator";
  * FrontEnd: Handles the entire front end of Chora. Splits into two tabs: Editor and Simulator.
  */
 const FrontEnd = (props) => {
-	let click, toggle = "tab";
-	let lol = 0;
+	let click, toggle = "tab", errMes = "";
 
 	// fix it so it displays correct line number instead of
 	if (props.error.length) { 
-		let errMes = "";
-		for (let i in props.error) props.error[i] === "fine" ? lol++ : errMes += `L${props.numMap[i]}: ` + props.error[i] + "\n";
+		for (let i in props.error) errMes += props.error[i] === "fine" ? "" : `L${props.numMap[i]}: ` + props.error[i] + "\n";
 		click = () => { alert(errMes); };
 		toggle = "";
 	}
