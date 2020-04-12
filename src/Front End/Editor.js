@@ -2,7 +2,8 @@ import React, { Component } from "react";
 import CodeMirror from "react-codemirror";
 import PropTypes from "prop-types";
 import "../../node_modules/codemirror/lib/codemirror.css";
-import "../../node_modules/codemirror/mode/patmos/patmos";
+import "./patmos-mode";
+//import "../../node_modules/codemirror/mode/patmos/patmos";
 
 class Editor extends Component{
 	constructor(props) {
