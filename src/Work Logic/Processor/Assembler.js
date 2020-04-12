@@ -60,8 +60,15 @@ class Assembler {
 			if(this.resolveOperands(bundle))
 				this.compileBundle(bundle);
 		}
-		if(this.error.length === 0) return true;
-		return false;
+		return this.checkErr();
+	}
+
+	// if no errors, erase error array
+	checkErr() {
+		for (let key in this.error)
+			if (this.error[key] !== "fine") return false;
+		this.error = [];
+		return true;
 	}
 
 	parse(line) {
@@ -484,6 +491,9 @@ class Assembler {
 				cInst.binary[0] |= 1 << 31;
 			}
 			bundle.instructions[i].instruction = cInst;
+
+			let idx = bundle.offset/4;
+			if (!this.error[idx]) this.error[idx] = "fine";
 		}
 	}
 }
