@@ -163,7 +163,7 @@ class Assembler {
 				} else if (Object.keys(this.labels).includes(op)) {
 					let target = this.bundles[this.labels[op]].offset;
 					if(cfTypes.includes(instruction.type)){
-						if(instruction.type.includes("br")){
+						if(["br", "brnd"].includes(instruction.type)){
 							instruction.ops[i] = String((target-bundle.offset) >> 2);
 						} else {
 							instruction.ops[i] = String(target >> 2);
