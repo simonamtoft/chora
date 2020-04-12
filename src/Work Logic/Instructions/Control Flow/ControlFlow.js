@@ -34,8 +34,8 @@ class ControlFLow {
 				break;
 			case "immediate":
 				this.s1 &= 0x3FFFFF;
+				this.binary = compile_imm(this.pred, this.op, this.d, this.s1);
 				this.s1 = (Number(this.s1) << 10) >> 8;
-				this.binary = compile_imm(this.pred, this.op, this.d, this.s1 >> 2);
 				break;
 			default:
 				throw new Error(`Unexpected type in ${this.name}`);
