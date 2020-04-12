@@ -25,10 +25,10 @@ class Swl extends StoreTyped {
      */
 	execute({ reg, mem }) {
 		let addr = reg[this.ra] + (this.imm << 2);
-		mem[addr+3] = (reg[this.rs] >> 24) & 0xFF;
-		mem[addr+2] = (reg[this.rs] >> 16) & 0xFF;
-		mem[addr+1] = (reg[this.rs] >> 8) & 0xFF;
-		mem[addr]   = (reg[this.rs]) & 0xFF;
+		mem[addr+0] = (reg[this.rs] >> 24) & 0xFF;
+		mem[addr+1] = (reg[this.rs] >> 16) & 0xFF;
+		mem[addr+2] = (reg[this.rs] >> 8) & 0xFF;
+		mem[addr+3] = (reg[this.rs]) & 0xFF;
 	}
 }
 

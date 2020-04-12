@@ -52,9 +52,11 @@ class CPU {
 
 	// Run all instructions.
 	run() {
+		console.time("Execution time");
 		while(this.bundles[this.state.cpu.pc]){
 			this.step();
 		}
+		console.timeEnd("Execution time");
 	}
 
 	/**
@@ -70,10 +72,10 @@ class CPU {
 			if(bundle.is_data){
 				switch(bundle.data.type){
 					case "word":
-						this.state.mem[addr + 0] = bundle.data.value & 0xFF;
-						this.state.mem[addr + 1] = (bundle.data.value >> 8) & 0xFF;
-						this.state.mem[addr + 2] = (bundle.data.value >> 16) & 0xFF;
-						this.state.mem[addr + 3] = (bundle.data.value >> 24) & 0xFF;
+						this.state.mem[addr + 3] = bundle.data.value & 0xFF;
+						this.state.mem[addr + 2] = (bundle.data.value >> 8) & 0xFF;
+						this.state.mem[addr + 1] = (bundle.data.value >> 16) & 0xFF;
+						this.state.mem[addr + 0] = (bundle.data.value >> 24) & 0xFF;
 						break;
 					default:
 						return false;
@@ -100,10 +102,10 @@ class CPU {
 		let o = 0;
 		for(let inst of bundle.instructions){
 			for(let int of inst.instruction.binary){
-				this.state.mem[addr + o + 0] = int & 0xFF;
-				this.state.mem[addr + o + 1] = (int >> 8) & 0xFF;
-				this.state.mem[addr + o + 2] = (int >> 16) & 0xFF;
-				this.state.mem[addr + o + 3] = (int >> 24) & 0xFF;
+				this.state.mem[addr + o + 3] = int & 0xFF;
+				this.state.mem[addr + o + 2] = (int >> 8) & 0xFF;
+				this.state.mem[addr + o + 1] = (int >> 16) & 0xFF;
+				this.state.mem[addr + o + 0] = (int >> 24) & 0xFF;
 				o += 4;
 			}
 		}

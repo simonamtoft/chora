@@ -25,8 +25,8 @@ class Shm extends StoreTyped {
      */
 	execute({ reg, mem }) {
 		let addr = reg[this.ra] + (this.imm << 1);
-		mem[addr+1] = (reg[this.rs] >> 8) & 0xFF;
-		mem[addr]   = (reg[this.rs]) & 0xFF;
+		mem[addr+0] = (reg[this.rs] >> 8) & 0xFF;
+		mem[addr+1] = (reg[this.rs]) & 0xFF;
 	}
 }
 

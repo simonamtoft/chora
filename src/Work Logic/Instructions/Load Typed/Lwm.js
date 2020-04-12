@@ -25,10 +25,10 @@ class Lwm extends LoadTyped {
    */
 	execute({ reg, mem }) {
 		let address = reg[this.ra] + (this.imm << 2);
-		let hh = mem[address + 3];
-		let hl = mem[address + 2];
-		let lh = mem[address + 1];
-		let ll = mem[address];
+		let hh = mem[address + 0];
+		let hl = mem[address + 1];
+		let lh = mem[address + 2];
+		let ll = mem[address + 3];
 
 		reg[this.rd] = (hh << 24) | (hl << 16) | (lh << 8) | ll;
 	}

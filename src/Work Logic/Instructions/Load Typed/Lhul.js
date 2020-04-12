@@ -25,8 +25,8 @@ class Lhul extends LoadTyped {
    */
 	execute({ reg, mem }) {
 		let address = reg[this.ra] + (this.imm << 1);
-		let hi = mem[address + 1];
-		let lo = mem[address];
+		let hi = mem[address + 0];
+		let lo = mem[address + 1];
 	
 		reg[this.rd] = (hi << 8) | lo;
 	}

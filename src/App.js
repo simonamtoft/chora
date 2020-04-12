@@ -72,13 +72,13 @@ class App extends Component {
 		let dump = new Uint8Array(mem["TEXT_END"]);
 		
 		for (let i = 0; i < mem["TEXT_END"]; i += 4) {
-			dump[i] = mem[i+3];
-			dump[i+1] = mem[i+2];
-			dump[i+2] = mem[i+1];
-			dump[i+3] = mem[i];	
+			dump[i] = mem[i];
+			dump[i+1] = mem[i+1];
+			dump[i+2] = mem[i+2];
+			dump[i+3] = mem[i+3];	
 		}
 
-		let file = new Blob([dump], {type: "text/plain"});
+		let file = new Blob([dump], {type: "application/octet-stream"});
 		let a = document.createElement("a"), url = URL.createObjectURL(file);
 		a.href = url;
 		a.download = "dump.o";

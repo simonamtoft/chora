@@ -25,8 +25,8 @@ class Lhs extends LoadTyped {
    */
 	execute({ reg, mem }) {
 		let address = reg[this.ra] + (this.imm << 1);
-		let hi = mem[reg["s6"] + address + 1];
-		let lo = mem[reg["s6"] + address];
+		let hi = mem[reg["s6"] + address + 0];
+		let lo = mem[reg["s6"] + address + 1];
 	
 		reg[this.rd] = (((hi << 8) | lo) << 16) >> 16;
 	}

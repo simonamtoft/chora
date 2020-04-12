@@ -60,10 +60,11 @@ class Assembler {
 		
 		/* Perhaps change to is_data and and different regex for .word, .string etc. */
 		//Figure out how to handle base and pc when a .word n+4 is injected into the asm as that indicates a code block that is n bytes...
-		let is_word = line.match(/\.word\s+((?:0[bx])?\d+)$/i);
+		let is_word = line.match(/^(?:(\w+):)?(?:\s+)?\.word\s+((?:0[bx])?\d+)$/i);
 		if(is_word) {
 			bundle.is_data = true;
-			bundle.data = {type: "word", value: Number(is_word[1])};
+			bundle.data = {type: "word", value: Number(is_word[2])};
+			if(is_word[1]) this.labels[is_word[1]] = idx;
 			this.offset += 4;
 			return true;
 		}
@@ -89,7 +90,7 @@ class Assembler {
 			let pred = match[3] ? Number(match[3].toLowerCase().replace("p", "")) : 0;
 			let type = match[4].toLowerCase();
 			if (type === "halt") type = "nop";
-			match = inst.split(match[0])[1].match(getRegEx(type));
+			match = inst.replace(match[0], "").match(getRegEx(type));
 			
 			// Check if inst is a proper instruction
 			if (!instTypes.includes(type)) {
@@ -121,8 +122,9 @@ class Assembler {
 
 				// Get the original instruction and get its match
 				let basic = pseudoMapping[ptype].replace(/{(\d+)}/g, (_, n) => match[n]);
-				type = basic.match(getRegEx("first"))[4].toLowerCase();
-				match = basic.match(getRegEx(type));
+				match = basic.match(getRegEx("first"));
+				type = match[4].toLowerCase();
+				match = basic.replace(match[0], "").match(getRegEx(type));
 			}
 
 			// Define the instruction
