@@ -13,6 +13,6 @@ Type "npm run test" in the cmd when the scope is the root folder of the repo.
 
 # To-Do
 1. StackControl
-2. CodeMirror
+2. CodeMirror linting to display error instead of alert
 3. Fix all the copy pasta JSDoc
 4. Find an icon and replace the existing one (browser tab)
