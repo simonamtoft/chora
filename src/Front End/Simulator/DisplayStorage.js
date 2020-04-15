@@ -24,7 +24,7 @@ class DisplayStorage extends Component {
 	}
 
 	updateDimensions() {
-		let pageRows = Math.floor((window.innerHeight - 185) / 35);
+		let pageRows = Math.floor((window.innerHeight - 180) / 33);
 		this.setState({ 
 			pageRows	: pageRows,
 			maxPage		: Math.ceil(maxSize / (pageRows*4)),

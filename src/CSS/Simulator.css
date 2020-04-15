@@ -16,7 +16,7 @@
 }
 
 .code-container {
-	flex: 0.85;
+	flex: 1;
 	overflow-y: scroll;
 }
 
@@ -25,19 +25,13 @@
 	height: 95vh;
 }
 
-.console-container {
-	resize: none;
-	overflow-y: scroll;
-	flex: 0.15;
-}
-
 .current-inst {
 	background-color: #008CBA;
 	color: white;
 }
 
 .addrInput {
-	line-height: 1; 
+	line-height: 1;
 	margin: 0; 
 	padding: 0;
 	resize: none;

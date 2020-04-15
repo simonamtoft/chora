@@ -42,7 +42,6 @@ const FrontEnd = (props) => {
 						prevClick = {props.prevClick}
 						resetClick = {props.resetClick}
 						dumpClick = {props.dumpClick}
-						consoleOutput = {props.consoleOutput}
 						registers = {props.registers}
 						pc = {props.pc}
 						bundles = {props.bundles}
@@ -63,7 +62,6 @@ FrontEnd.propTypes = {
 	resetClick 		: PropTypes.func,
 	dumpClick		: PropTypes.func,
 	bundles			: PropTypes.object,
-	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
 	memory 			: PropTypes.object,
 	error			: PropTypes.arrayOf(String),

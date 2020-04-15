@@ -9,9 +9,6 @@ class App extends Component {
 		super(props);
 		this.cpu = new CPU();
 		this.assembler = new Assembler();
-		this.state = {
-			consoleOutput: "",
-		};
 	}
 
 	/**
@@ -27,16 +24,6 @@ class App extends Component {
 			this.cpu.populate(this.assembler.bundles);
 		}
 		this.forceUpdate();
-	}
-
-	/**
-	 * Adds input to consoleOutput and goes to new line
-	 * @param {string | number} 	line 	- Line to be added to consoleOutput
-	 */
-	addConsoleOutput = (line) => {
-		this.setState((prevState) => ({
-			consoleOutput: prevState.consoleOutput + line + "\n"
-		}));
 	}
 
 	/**
@@ -106,7 +93,6 @@ class App extends Component {
 					prevClick={this.prevBtn}
 					resetClick={this.resetBtn}
 					dumpClick = {this.dumpBtn}
-					consoleOutput={this.state.consoleOutput}
 					pc={this.cpu.getPC()}
 					bundles={this.cpu.bundles}
 					error={this.assembler.error}

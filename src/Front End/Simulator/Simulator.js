@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import DisplayButtons from "./DisplayButtons";
-import DisplayConsole from "./DisplayConsole";
 import DisplayStorage from "./DisplayStorage";
 import DisplayCode from "./DisplayCode";
 import "../../CSS/Simulator.css";
@@ -36,9 +35,6 @@ const Simulator = (props) => {
 					pc = {props.pc}
 					bundles = {props.bundles}
 				/>
-				<DisplayConsole
-					consoleOutput = {props.consoleOutput}
-				/>
 			</div>
 
 			<div className="col-4 col-xl-3 reg-container sim-child">
@@ -60,7 +56,6 @@ Simulator.propTypes = {
 	resetClick 		: PropTypes.func,
 	dumpClick		: PropTypes.func,
 	bundles			: PropTypes.object,
-	consoleOutput 	: PropTypes.string,
 	registers 		: PropTypes.object,
 	memory 			: PropTypes.object,
 };
