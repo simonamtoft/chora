@@ -129,7 +129,8 @@ class Assembler {
 
 			// Define the instruction
 			let i = { pred: { p: pred, n: neg }, type, ops: match.slice(1), original: inst.replace(/\s+/gi, " ") };
-			let is_long_imm = (binTypes.includes(type) && (Number(i.ops[2]) > 0xFFF));
+			// eslint-disable-next-line
+			let is_long_imm = (binTypes.includes(type) && Number(i.ops[2]) && (Number(i.ops[2]) > 0xFFF) || ["nor", "shadd", "shadd2"].includes(type));
 			
 			// Check if pipelined/bundled correctly
 			if (insts.length === 2) {
