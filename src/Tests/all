@@ -55,7 +55,7 @@ b5: callnd b6
 nop 
 nop 
 nop
-b6: # ret (crashes the program)
+b6: 
 
 # Multiply
 mul 	r8, r6				# s2 = -40
@@ -73,3 +73,8 @@ sres    6
 sfree 	4
 sres	4
 sspill 	1
+
+
+# Missing load/store
+
+# Missing pseudo instructions
