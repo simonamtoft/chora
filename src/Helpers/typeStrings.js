@@ -3,7 +3,8 @@ const pseudoTypes = [
 ];
 const binTypes = [
 	"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
-	"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2"
+	"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "or", "ori", "orl",
+	"and", "andi", "andl",
 ];
 const compTypes = [
 	"btest", "btesti", "cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", 

@@ -212,7 +212,12 @@ class Assembler {
 		}
 		return output;
 	};
-
+	
+	/**
+	 * compileBundle creates a new instance of an instruction class for every instruction in
+	 * the input bundle (one or two instructions). Also sets the binary field of the Object
+	 * @param {*} bundle - One or two instructions.
+	 */
 	compileBundle(bundle) {
 		for (let i in bundle.instructions) {
 			let cInst;
