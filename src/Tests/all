@@ -1,11 +1,75 @@
-# Stuff
+# This test runs through all instruction 
+
+# Initialize some registers
 add r2 = r0, 100
-add r3 = r0, 15
+add r3 = r0, 3
 add r4 = r0, 6
-add r10 = r0, 15
+add r10 = r0, 27
+add r15 = r0, 1
+add r22 = r0, 15
 add r30 = r0, 10
 
-# One of each instruction
-addi 	r1 = r0, 20
-and 	r5 = r30, r10
-nor  	r6 = r2, 90
+# Binary Arithmetics
+addi 	r1 = r0, 20		# r1 = 20
+and 	r5 = r30, r10	# r5 = 10
+nor  	r6 = r4, 1		# r6 = -8
+or		r7 = r2, r3		# r7 = ????
+shadd   r8 = r15, r3 	# r8 = 5 
+shadd2 	r9 = r15, r3 	# r9 = 7
+sli  	r11 = r3, 3		# r11 = 24
+sr		r12 = r4, 2		# r12 = 1
+sra		r13 = r6, 2		# r13 = -2
+sub		r22 = r10, r1 	# r22 = 7
+
+# Compare
+cmpeq 	p1 = r15, r12		# p1 = 1, (s0 = 3)
+cmpneq 	p2 = r8, r9			# p2 = 1, (s0 = 7)
+cmplt	p1 = r9, r8			# p1 = 0, (s0 = 5)
+cmple	p3 = r15, r12		# p3 = 1, (s0 = 13)
+cmpult 	p4 = r3, r22		# p4 = 1, (s0 = 29)
+cmpule	p4 = r10, r4 		# p4 = 0, (s0 = 13)
+btest	p5 = r22, 2			# p5 = 1, (s0 = 45)
+
+# Control Flow
+br b1
+nop
+nop
+nop
+b1: brcf b2
+nop
+nop
+nop
+b2: brcfnd b3
+nop
+nop
+nop
+b3: brnd b4
+nop
+nop
+nop
+b4: call b5
+nop 
+nop 
+nop
+b5: callnd b6
+nop 
+nop 
+nop
+b6: # ret (crashes the program)
+
+# Multiply
+mul 	r8, r6				# s2 = -40
+mulu 	r8, r6				# s2 = ?? (should this be 40 or a very big positive number)
+
+
+# Predicate
+pand 	p7 = p0, p2			# p7 = 1 (s0 = 173)
+por		p7 = p6, p1			# p7 = 0 (s0 = 45)
+pxor 	p6 = p0, p6			# p6 = 1 (s0 = 109)
+
+
+# Stack Control
+sres    6
+sfree 	4
+sres	4
+sspill 	1
