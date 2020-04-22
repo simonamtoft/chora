@@ -20,9 +20,9 @@ const storeTypes = [
 const mulTypes = [
 	"mul", "mulu"	
 ];
-// not implemented ?
 const stackTypes = [
-	"sens", "sfree", "sres", "sspill"
+	"sens", "sfree", "sres", "sspill",
+	"sspillr", "sensr",
 ];
 const predTypes = [
 	"pand", "por", "pxor"

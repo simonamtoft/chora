@@ -5,14 +5,12 @@ import CodeMirror from "codemirror";
 }) ((CodeMirror) => {
 	"use strict";
 
-	// declare global: JSHINT!!!
-
 	CodeMirror.defineMode("patmos", (config, parserConfig) => {
-		let regexFromWords = (words, ins) => {
-			return new RegExp("^(?:" + words.join("|") + ")$", ins);
+		let getRegex = (w, i) => {
+			return new RegExp("^(?:" + w.join("|") + ")$", i);
 		};
 
-		let instTypes = regexFromWords([
+		let instTypes = getRegex([
 			/* Normal Instructions */
 			// BA
 			"add", "addi", "addl", "sub", "subi", "subl", "xor", "xori", "xorl", "sl", "sli", "sll",
@@ -29,7 +27,7 @@ import CodeMirror from "codemirror";
 			// Multiply
 			"mul", "mulu", 
 			// Stack Control
-			"sens", "sfree", "sres", "sspill",
+			"sens", "sfree", "sres", "sspill", 	"sspillr", "sensr",
 			// Predicate
 			"pand", "por", "pxor",
 			// Move types
@@ -45,7 +43,7 @@ import CodeMirror from "codemirror";
 			"mov", "clr", "neg", "not", "li", "nop", "isodd", "pmov", "pnot", "pset", "pclr",
 		], "i");
 
-		let registers = regexFromWords([
+		let registers = getRegex([
 		// General-purpose
 			"r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7", "r8", "r9", "r10", 
 			"r11", "r12", "r13", "r14", "r15", "r16", "r17", "r18", "r19", "r20", 
@@ -59,7 +57,7 @@ import CodeMirror from "codemirror";
 			"sl", "sh", "ss", "st", "srb", "sro", "sxb", "sxo",
 		], "");
 
-		let keywords = regexFromWords([".word"], "i");
+		let keywords = getRegex([".word"], "i");
 
 		let normal = (stream, state) => {
 			let ch = stream.next();

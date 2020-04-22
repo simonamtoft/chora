@@ -440,6 +440,7 @@ class Assembler {
 
 				// Stack Control
 				case "sens":
+				case "sensr":
 					cInst = new Sens(StackInst);
 					break;
 				case "sfree":
@@ -449,6 +450,7 @@ class Assembler {
 					cInst = new Sres(StackInst);
 					break;
 				case "sspill":
+				case "sspillr":
 					cInst = new Sspill(StackInst);
 					break;
 
