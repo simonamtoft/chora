@@ -179,7 +179,7 @@ class Assembler {
 					else {
 						instruction.ops[i] = String(target);
 					}
-				} else if (instruction.type === "bcopy" && op === "~" && Number(i) === 3) {
+				} else if (instruction.type === "bcopy" && op === "!" && Number(i) === 3) {
 					continue;
 				} else if (isNaN(op)) {
 					this.error[idx] = "Can't resolve operands";
