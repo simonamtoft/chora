@@ -59,10 +59,10 @@ class Assembler {
 		
 		/* Perhaps change to is_data and and different regex for .word, .string etc. */
 		//Figure out how to handle base and pc when a .word n+4 is injected into the asm as that indicates a code block that is n bytes...
-		let is_word = line.match(/^(?:(\w+):)?(?:\s+)?\.word\s+((?:(?:0[bx])|-?)?\d+)$/i);
+		let is_word = line.match(/^(?:(\w+):)?(?:\s+)?\.word\s+([^\s]+)$/i);
 		if(is_word) {
 			bundle.is_data = true;
-			bundle.data = {type: "word", value: Number(is_word[2])};
+			bundle.data = {type: "word", value: is_word[2]};
 			if(is_word[1]) this.labels[is_word[1]] = idx;
 			this.offset += 4;
 			return true;
@@ -151,6 +151,21 @@ class Assembler {
 
 	resolveOperands(bundle) {
 		let idx = bundle.offset/4;
+
+		if(bundle.is_data){
+			let multi = bundle.data.value.match(/^(\S+)([+-])(\S+)$/i);
+			
+			if (Object.keys(this.labels).includes(bundle.data.value)){
+				bundle.data.value = this.bundles[this.labels[bundle.data.value]].offset;
+			}else if(multi && Object.keys(this.labels).includes(multi[1]) && Object.keys(this.labels).includes(multi[3])){
+				let t1 = this.bundles[this.labels[multi[1]]].offset;
+				let t2 = this.bundles[this.labels[multi[3]]].offset;
+				bundle.data.value = multi[2] === "+" ? t1 + t2: t1 - t2 ;
+			} else {
+				bundle.data.value = Number(bundle.data.value);
+			}
+		}
+
 		for (let instruction of bundle.instructions) {
 			for (let i in instruction.ops) {
 				let op = instruction.ops[i];
