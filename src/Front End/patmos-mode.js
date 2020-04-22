@@ -19,8 +19,8 @@ import CodeMirror from "codemirror";
 			"sr", "sri", "srl", "sra", "srai", "sral", "nor", "norl", "shadd", "shadd2", "or", "ori", "orl",
 			"and", "andi", "andl",
 			// Compare
-			"btest", "btesti", "cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", 
-			"cmpneq", "cmpneqi", "cmpule", "cmpulei", "cmpult", "cmpulti",
+			"btest", "btesti", "cmpeq", "cmpieq", "cmple", "cmpile", "cmplt", "cmpilt", 
+			"cmpneq", "cmpineq", "cmpule", "cmpiule", "cmpult", "cmpiult",
 			// Load
 			"lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 
 			"lhm", "lhs", "lhuc", "lhul", "lhum", "lhus", "lwc", "lwl", "lwm", "lws",
@@ -36,7 +36,8 @@ import CodeMirror from "codemirror";
 			"mts", "mfs",
 			// Control Flow
 			"callnd", "call", "brnd", "br", "brcfnd", "brcf", "trap",
-			"retnd", "ret", "xretnd", "xret",
+			"retnd", "ret", "xretnd", "xret", "callndr", "callr", 
+			"brndr", "brr", "brcfr", "brcfndr",
 			// Bit copy
 			"bcopy",
 
