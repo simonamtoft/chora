@@ -12,7 +12,7 @@ const regEx = {
 	"store"	: [/^\[(r\d{1,2})\s*\+\s*((?:0x)?(?:0b)?\d+)\]\s*=\s*(r\d{1,2})$/i,				"[rd + imm] = rs"],
 	"mul"	: [/^(r\d{1,2})\s*,\s*(r\d{1,2})$/i,											"rs1, rs2"],
 	"stack"	: [/^((?:0x)?(?:0b)?\d+)\s?$/i,													"imm"],
-	"pred"	: [/^(p\d)\s*=\s*(p\d)\s*,\s*(p\d)$/i,											"pd = ps1, ps2"],
+	"pred"	: [/^(p\d)\s*=\s*(!?p\d)\s*,\s*(!?p\d)$/i,										"pd = ps1, ps2"],
 	"cf"	: [/^\s*(\w*),?\s*(\w*)$/i,														"label"],
 	"mts"	: [/^(sro|srb|sxo|sxb|sl|sh|ss|st|s\d{1,2})\s*=\s*(r\d{1,2})$/i,				"sd = rs"],
 	"mfs"	: [/^(r\d{1,2})\s*=\s*(sro|srb|sxo|sxb|sl|sh|ss|st|s\d{1,2})$/i,				"rd = ss"],		
