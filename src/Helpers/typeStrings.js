@@ -7,8 +7,8 @@ const binTypes = [
 	"and", "andi", "andl",
 ];
 const compTypes = [
-	"btest", "btesti", "cmpeq", "cmpeqi", "cmple", "cmplei", "cmplt", "cmplti", 
-	"cmpneq", "cmpneqi", "cmpule", "cmpulei", "cmpult", "cmpulti"
+	"btest", "btesti", "cmpeq", "cmpieq", "cmple", "cmpile", "cmplt", "cmpilt", 
+	"cmpneq", "cmpineq", "cmpule", "cmpiule", "cmpult", "cmpiult"
 ];
 const loadTypes = [
 	"lbc", "lbl", "lbm", "lbs", "lbuc", "lbul", "lbum", "lbus", "lhc", "lhl", 

@@ -297,27 +297,27 @@ class Assembler {
 					cInst = new Btest(CompareInst);
 					break;
 				case "cmpeq":
-				case "cmpeqi":
+				case "cmpieq":
 					cInst = new Cmpeq(CompareInst);
 					break;
 				case "cmple":
-				case "cmplei":
+				case "cmpile":
 					cInst = new Cmple(CompareInst);
 					break;
 				case "cmplt":
-				case "cmplti":
+				case "cmpilt":
 					cInst = new Cmplt(CompareInst);
 					break;
 				case "cmpneq":
-				case "cmpneqi":
+				case "cmpineq":
 					cInst = new Cmpneq(CompareInst);
 					break;
 				case "cmpule":
-				case "cmpulei":
+				case "cmpiule":
 					cInst = new Cmpule(CompareInst);
 					break;
 				case "cmpult":
-				case "cmpulti":
+				case "cmpiult":
 					cInst = new Cmpult(CompareInst);
 					break;
 
