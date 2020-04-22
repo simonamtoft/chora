@@ -51,7 +51,7 @@ import CodeMirror from "codemirror";
 			// Predicate
 			"p0", "p1", "p2", "p3", "p4", "p5", "p6", "p7",
 			// Special-purpose
-			"s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", 
+			"s0", "s1", "s2", "s3", "s4", "s5", "s6", "s7", "s8", "s9", 
 			"s10", "s11", "s12", "s13", "s14", "s15",
 			// Special names
 			"sl", "sh", "ss", "st", "srb", "sro", "sxb", "sxo",
