@@ -453,21 +453,27 @@ class Assembler {
 
 				// Control Flow 
 				case "br":
+				case "brr":
 					cInst = new Br(ControlInst);
 					break;
 				case "brcf":
+				case "brcfr":
 					cInst = new Brcf(ControlInst);
 					break;
 				case "brcfnd":
+				case "brcfndr":
 					cInst = new Brcfnd(ControlInst);
 					break;
 				case "brnd":
+				case "brndr":
 					cInst = new Brnd(ControlInst);
 					break;
 				case "call":
+				case "callr":
 					cInst = new Call(ControlInst);
 					break;
 				case "callnd":
+				case "callndr":
 					cInst = new Callnd(ControlInst);
 					break;
 				case "ret":

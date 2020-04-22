@@ -32,7 +32,13 @@ const moveTypes = [
 ];
 const cfTypes = [
 	"callnd", "call", "brnd", "br", "brcfnd", "brcf", "trap",
-	"retnd", "ret", "xretnd", "xret"
+	"retnd", "ret", "xretnd", "xret",
+
+	// Single reg
+	"callndr", "callr", "brndr", "brr",
+
+	// Two reg
+	"brcfr", "brcfndr"
 ];
 const bitCopyTypes = [
 	"bcopy"
