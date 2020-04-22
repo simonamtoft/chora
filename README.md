@@ -12,7 +12,6 @@ Type "npm start" in the cmd when the scope is the root folder of the repo.
 Type "npm run test" in the cmd when the scope is the root folder of the repo. 
 
 # To-Do
-1. StackControl
-2. CodeMirror linting to display error instead of alert
-3. Fix all the copy pasta JSDoc
-4. Find an icon and replace the existing one (browser tab)
+1. CodeMirror linting to display error instead of alert
+2. Fix all the copy pasta JSDoc
+3. Find an icon and replace the existing one (browser tab)
