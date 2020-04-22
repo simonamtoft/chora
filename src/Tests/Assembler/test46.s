@@ -46,7 +46,7 @@ foo:		sres     512;
 		nop;
 		nop;
 		sfree    512;
-		ret     r30, r31;
+		ret;
 		nop;
 		nop;
 		nop;
