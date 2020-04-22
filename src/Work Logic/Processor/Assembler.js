@@ -196,7 +196,7 @@ class Assembler {
 	 * @returns {array}		output		- Array of lines that are not empty or comments
 	 */
 	cleanInput = (editor) => {
-		let lines = editor.split(/(?:\r?\n)/);
+		let lines = editor.replace(/~/gi, "!").split(/(?:\r?\n)/);
 		let output = [];
 		for (let i = 0; i < lines.length; ++i) {
 			let line = lines[i].split("#", 1)[0].trim(); // Remove comments

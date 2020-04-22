@@ -16,7 +16,7 @@ const regEx = {
 	"cf"	: [/^\s*(\w*),?\s*(\w*)$/i,														"label"],
 	"mts"	: [/^(sro|srb|sxo|sxb|sl|sh|ss|st|s\d{1,2})\s*=\s*(r\d{1,2})$/i,				"sd = rs"],
 	"mfs"	: [/^(r\d{1,2})\s*=\s*(sro|srb|sxo|sxb|sl|sh|ss|st|s\d{1,2})$/i,				"rd = ss"],		
-	"bcopy"	: [/^(r\d{1,2})\s*=\s*(r\d{1,2}),\s*((?:0x)?(?:0b)?\d+),\s*(~{0,1})(p\d)$/i,	"rd = rs, imm, ps"],
+	"bcopy"	: [/^(r\d{1,2})\s*=\s*(r\d{1,2}),\s*((?:0x)?(?:0b)?\d+),\s*(!{0,1})(p\d)$/i,	"rd = rs, imm, [!]ps"],
 
 	// Pseudo instructions
 	"p1"	: [/^([rp]\d{1,2})\s*=\s*([rp]\d{1,2})$/i, 										"mov, isodd, pmov"],
@@ -25,11 +25,11 @@ const regEx = {
 	"pmov"	: [/ /i, ""],
 	"clr"	: [/^([rp]\d{1,2})$/i, 															"rd/pd"],
 	"neg"	: [/^(r\d{1,2})\s*=\s*-\s*(r\d{1,2})$/i,										"rd = -rs"],
-	"not"	: [/^(r\d{1,2})\s*=\s*~\s*(r\d{1,2})$/i,										"rd = ~rs"],
+	"not"	: [/^(r\d{1,2})\s*=\s*!\s*(r\d{1,2})$/i,										"rd = !rs"],
 	"li"	: [/^(r\d{1,2})\s*=\s*(-{0,1}(?:0x)?(?:0b)?\d+)$/i,								"rd = imm"],
 	"nop" 	: [/^\s*$/i,																	"nop"],
 	"pset"	: [/^(p\d)\s*=\s*(\d)$/i,														"pd = binary"],
-	"pnot"	: [/^(p\d)\s*=\s*~\s*(p\d)$/i,													"pd = ~ps"],
+	"pnot"	: [/^(p\d)\s*=\s*!\s*(p\d)$/i,													"pd = !ps"],
 	"pclr"	: [/^(p\d)\s*=\s*(0)$/i,														"pd = 0"],
 };
 
