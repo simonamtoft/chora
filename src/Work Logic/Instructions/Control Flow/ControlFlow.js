@@ -14,7 +14,7 @@ class ControlFLow {
 	 * @param {string}          fields.s2   - Source register 2.
      */
 	constructor({ name, pred, d, op, s1, s2 }) {
-		this.type = (s1 === undefined && s2 === undefined) ? "implicit" : isNaN(s1) ? (!s2 ? "single_reg" : "two_reg") : "immediate";
+		this.type = (!s1 && !s2) ? "implicit" : (isNaN(s1) ? (!s2 ? "single_reg" : "two_reg") : "immediate");
 		this.name = name;
 		this.pred = pred;
 		this.d = d;
