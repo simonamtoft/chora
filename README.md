@@ -3,16 +3,23 @@ A JavaScript simulator of the [Patmos ISA](http://patmos.compute.dtu.dk/), devel
 
 # Setup Chora
 First install NodeJS and clone the repository from GitHub.
-Then run "npm i" in the cmd when in the root folder of the repository to install dependencies. 
+Then install dependencies in the root folder of the repository with
+```
+npm i 
+```
 
-## Open Chora in browser
-Type "npm start" in the cmd when the scope is the root folder of the repo. 
+## Run Chora as browser application
+Open cmd and change scope to root folder of Chora and run
+```
+npm start
+```
 
 ## Run JEST tests
-Type "npm run test" in the cmd when the scope is the root folder of the repo. 
+Open cmd and change scope to root folder of Chora and run
+```
+npm run test
+```
 
 # To-Do
-1. StackControl
-2. CodeMirror linting to display error instead of alert
-3. Fix all the copy pasta JSDoc
-4. Find an icon and replace the existing one (browser tab)
+1. Fix all the copy pasta JSDoc
+2. Find an icon and replace the existing one (browser tab)
