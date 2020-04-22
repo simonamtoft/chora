@@ -515,7 +515,7 @@ class Assembler {
 				cInst.binary[0] = 0x05400000;
 				cInst.toString = () => {return ""; };
 			}
-			if (i === 0 && bundle.instructions.length === 2) {
+			if (Number(i) === 0 && bundle.instructions.length === 2) {
 				cInst.binary[0] |= 1 << 31;
 			}
 			bundle.instructions[i].instruction = cInst;
