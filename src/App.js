@@ -68,7 +68,7 @@ class App extends Component {
 		let file = new Blob([dump], {type: "application/octet-stream"});
 		let a = document.createElement("a"), url = URL.createObjectURL(file);
 		a.href = url;
-		a.download = "dump.o";
+		a.download = "chora.o";
 		document.body.appendChild(a);
 		a.click();
 		setTimeout(function() {

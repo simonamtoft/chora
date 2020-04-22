@@ -20,6 +20,9 @@ const regEx = {
 
 	// Pseudo instructions
 	"p1"	: [/^([rp]\d{1,2})\s*=\s*([rp]\d{1,2})$/i, 										"mov, isodd, pmov"],
+	"mov"	: [/ /i, ""],
+	"isodd"	: [/ /i, ""],
+	"pmov"	: [/ /i, ""],
 	"clr"	: [/^([rp]\d{1,2})$/i, 															"rd/pd"],
 	"neg"	: [/^(r\d{1,2})\s*=\s*-\s*(r\d{1,2})$/i,										"rd = -rs"],
 	"not"	: [/^(r\d{1,2})\s*=\s*~\s*(r\d{1,2})$/i,										"rd = ~rs"],
