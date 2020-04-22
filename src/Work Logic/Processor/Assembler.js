@@ -48,7 +48,6 @@ class Assembler {
 		for (let key in this.error)
 			if (this.error[key] !== "fine") return false;
 		this.error = [];
-		console.log(this.numMap);
 		return true;
 	}
 
