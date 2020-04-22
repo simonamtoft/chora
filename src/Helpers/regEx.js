@@ -6,7 +6,7 @@ const regEx = {
 	"first" : [/^(?!#)(?:(\w+):\s*)?(?:\((!?)(p\d)\)\s+)?(\w+)\s*/i,						"label: (ps) type"],
 
 	// Normal instructions (new)
-	"bin" 	: [/^(r\d{1,2})\s*=\s*(r\d{1,2})\s*,\s*(\w+)$/i, 								"rd = rs1, op2"],
+	"bin" 	: [/^(r\d{1,2})\s*=\s*(r\d{1,2})\s*,\s*\(?([^()\s]+)\)?$/i, 								"rd = rs1, op2"],
 	"comp"	: [/^(p\d)\s*=\s*(r\d{1,2})\s*,\s*(r?(?:0x)?(?:0b)?\d+)$/i,						"pd = rs1, op2"],
 	"load"	: [/^(r\d{1,2})\s*=\s*\[(r\d{1,2})\s*\+\s*(\w+)\]$/i,  							"rd = [rs + imm]"],
 	"store"	: [/^\[(r\d{1,2})\s*\+\s*((?:0x)?(?:0b)?\d+)\]\s*=\s*(r\d{1,2})$/i,				"[rd + imm] = rs"],
@@ -21,14 +21,14 @@ const regEx = {
 	// Pseudo instructions
 	"p1"	: [/^([rp]\d{1,2})\s*=\s*([rp]\d{1,2})$/i, 										"mov, isodd, pmov"],
 	"mov"	: [/ /i, ""],
-	"isodd"	: [/ /i, ""],
 	"pmov"	: [/ /i, ""],
+	"isodd"	: [/^(p\d)\s*=\s*(r\d{1,2})$/i, 												"pd = rd"],
 	"clr"	: [/^([rp]\d{1,2})$/i, 															"rd/pd"],
 	"neg"	: [/^(r\d{1,2})\s*=\s*-\s*(r\d{1,2})$/i,										"rd = -rs"],
 	"not"	: [/^(r\d{1,2})\s*=\s*!\s*(r\d{1,2})$/i,										"rd = !rs"],
-	"li"	: [/^(r\d{1,2})\s*=\s*(-?(?:0x)?(?:0b)?\d+)$/i,								"rd = imm"],
+	"li"	: [/^(r\d{1,2})\s*=\s*(\(?([^()\s]+)\)?)$/i,									"rd = imm"],
 	"nop" 	: [/^\s*$/i,																	"nop"],
-	"pset"	: [/^(p\d)\s*=\s*(\d)$/i,														"pd = binary"],
+	"pset"	: [/^(p\d)\s*=\s*1$/i,															"pd = 1"],
 	"pnot"	: [/^(p\d)\s*=\s*!\s*(p\d)$/i,													"pd = !ps"],
 	"pclr"	: [/^(p\d)\s*=\s*(0)$/i,														"pd = 0"],
 };

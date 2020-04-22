@@ -156,12 +156,20 @@ class Assembler {
 			for (let i in instruction.ops) {
 				let op = instruction.ops[i];
 				let op_lc = op.toLowerCase();
+				let multi = op.match(/^(\S+)([+-])(\S+)$/i);
 				if (sregMap[op_lc]) {
 					instruction.ops[i] = sregMap[op_lc];
 				} else if (allRegStr.includes(op_lc)) {
 					instruction.ops[i] = op_lc;
-				} else if (Object.keys(this.labels).includes(op)) {
-					let target = this.bundles[this.labels[op]].offset;
+				} else if (Object.keys(this.labels).includes(op) || (multi && Object.keys(this.labels).includes(multi[1]) && Object.keys(this.labels).includes(multi[3]))) {
+					let target;
+					if(multi){
+						let t1 = this.bundles[this.labels[multi[1]]].offset;
+						let t2 = this.bundles[this.labels[multi[3]]].offset;
+						target = multi[2] === "+" ? t1 + t2: t1 - t2 ;
+					} else {
+						target = this.bundles[this.labels[op]].offset;
+					}
 					if(cfTypes.includes(instruction.type)){
 						if(["br", "brnd"].includes(instruction.type)){
 							instruction.ops[i] = String((target-bundle.offset) >> 2);

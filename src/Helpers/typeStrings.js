@@ -83,7 +83,7 @@ const getInstType = (type) => {
 		stack	: stackTypes.includes(type),
 		pred 	: predTypes.includes(type),
 		cf 		: cfTypes.includes(type),
-		p1		: type === "mov" || type === "isodd" || type === "pmov",
+		p1		: type === "mov" || type === "pmov"
 	};
 	
 	keys = Object.keys(instTypeStr);
