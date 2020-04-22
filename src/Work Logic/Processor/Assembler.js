@@ -233,7 +233,7 @@ class Assembler {
 			let PredInst 	= { pred: predicate, pd:  ops[0], ps1: ops[1], ps2: ops[2] };
 			let StackInst 	= { pred: predicate, s1:  ops[0] };
 			let StoreInst 	= { pred: predicate, ra:  ops[0], imm: ops[1], rs:  ops[2] };
-			let BcopyInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], imm: ops[2], neg: ops[3], ps: ops[4] };
+			let BcopyInst 	= { pred: predicate, rd:  ops[0], rs1: ops[1], imm: ops[2], ps: ops[3] };
 
 			// Pick inst from its name/type
 			switch (type) {
