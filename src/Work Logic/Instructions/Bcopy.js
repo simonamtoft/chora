@@ -50,7 +50,7 @@ class Bcopy {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg }) {
-		let shift = (this.neg !== undefined) === (reg[this.ps] === 1) ? 0 : 1; // Handle negation of p-register
+		let shift = (this.ps[0] === "!") === (reg[this.ps.replace("!","")] === 1) ? 0 : 1; // Handle negation of p-register
 		reg[this.rd] = (reg[this.rs1] & ~(1 << this.imm)) | (shift << this.imm);
 	}
 
