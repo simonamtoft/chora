@@ -196,18 +196,21 @@ class Assembler {
 	 * @returns {array}		output		- Array of lines that are not empty or comments
 	 */
 	cleanInput = (editor) => {
-		let input = editor.split(/(?:\r?\n)|;/);
+		let lines = editor.split(/(?:\r?\n)/);
 		let output = [];
-		for (let i = 0; i < input.length; ++i) {
-			let line = input[i].split("#", 1)[0].trim(); // Remove comments
-			let only_label = line.match(/^\w+:$/);
-			if (line) {
-				if (only_label && i + 1 < input.length) {
-					input[i + 1] = only_label[0] + " " + input[i + 1];
-				} else if (!only_label && line) {
-					output.push(line);
+		for (let i = 0; i < lines.length; ++i) {
+			let line = lines[i].split("#", 1)[0].trim(); // Remove comments
+			let insts = line.split(";");
+			for (let j = 0; j < insts.length; ++j){
+				let only_label = insts[j].match(/^\w+:$/);
+				if (line) {
+					if (only_label && i + 1 < lines.length) {
+						lines[i + 1] = only_label[0] + " " + lines[i + 1];
+					} else if (!only_label && insts[j]) {
+						output.push(insts[j]);
+					}
+					this.numMap[output.length-1] = i+1;
 				}
-				this.numMap[output.length-1] = i+1;
 			}
 		}
 		return output;
