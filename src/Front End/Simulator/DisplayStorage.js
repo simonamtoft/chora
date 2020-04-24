@@ -164,9 +164,9 @@ const RenderMemoryTable = (memory, pagenumber, pageRows, hex) => {
 	for (let i = startAddr; i < endAddr; i+= 4) {
 		if (i <= maxSize) {
 			if (hex) {
-				gm_temp[i] ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(zeroRowHex(i));
+				gm_temp[i] !== undefined ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(zeroRowHex(i));
 			} else {
-				gm_temp[i] ? rows.push(MemoryRowDec(gm_temp, i)) : rows.push(zeroRowDec(i));
+				gm_temp[i] !== undefined ? rows.push(MemoryRowDec(gm_temp, i)) : rows.push(zeroRowDec(i));
 			}
 		} else {
 			rows.push(emptyRow(i));
@@ -214,7 +214,7 @@ const zeroRowDec = (key) => {
 			<td>0</td>
 		</tr>
 	);
-}
+};
 
 const zeroRowHex = (key) => {
 	return(
@@ -226,7 +226,7 @@ const zeroRowHex = (key) => {
 			<td>0x00</td>
 		</tr>
 	);
-}
+};
 
 /**
  * MemoryRow: Returns one row of the memory table.
@@ -258,7 +258,7 @@ const MemoryRowHex = (memory, key) => {
 			<td>{intToHex(memory[`${key+3}`], 2)}</td>
 		</tr>
 	);
-}
+};
 
 /**
  * RegRow: Returns one row of the register table.
