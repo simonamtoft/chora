@@ -22,7 +22,7 @@ class Sspill extends StackControl {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg  }) {
-		let n = Number(this.type === "r" ? reg[this.s1] : this.s1) << 2;
+		let n = Number(this.type === "r" ? reg[this.s1] : this.s1 << 2);
 		reg["s5"] -= n;
 		// not emulating the actual spill from cache to mem.
 	}

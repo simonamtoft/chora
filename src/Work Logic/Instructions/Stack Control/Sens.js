@@ -22,7 +22,7 @@ class Sens extends StackControl {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg }) {
-		let n = Number(this.type === "r" ? reg[this.s1] : this.s1) << 2; // Word size to byte size
+		let n = Number(this.type === "r" ? reg[this.s1] : this.s1 << 2); // Word size to byte size
 		reg["s5"] = Math.max(reg["s5"], reg["s6"] + n);
         
 		/*
