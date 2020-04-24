@@ -1,5 +1,6 @@
 import ProcessorState from "./ProcessorState";
 import { binTypes, cfTypes } from "../../Helpers/typeStrings";
+import { allRegStr } from "../../Helpers/regStrings";
 
 class CPU {
 	constructor() {
@@ -26,9 +27,40 @@ class CPU {
 		if(!bundle)
 			return false;
 		this.state.updateHistory();
-		for(let i of bundle){
-			this.execute(i.instruction);
+
+		if(bundle.length === 2){
+			// slight spaghetti to ensure that bundles like (p0) addi r1 = r0, 5 || (p0) addi r2 = r1, 5; work
+			let conflicts = {};
+			for(let op of bundle[0].ops){
+				if(allRegStr.includes(op) && bundle[1].ops.includes(op)){
+					conflicts[op] = {};
+				}
+			}
+			// store original values
+			for(let conflict in conflicts){
+				conflicts[conflict].prev = this.state.reg[conflict];
+			}
+			// execute
+			this.execute(bundle[0].instruction);
+			console.log(conflicts, this.state.reg);
+			// store and reset
+			for(let conflict in conflicts){
+				conflicts[conflict].next = this.state.reg[conflict];
+				if(conflicts[conflict].prev !== conflicts[conflict].next){
+					this.state.reg[conflict] = conflicts[conflict].prev;
+				}
+			}
+			// execute
+			this.execute(bundle[1].instruction);
+			// recover
+			for(let conflict in conflicts){
+				this.state.reg[conflict] = conflicts[conflict].next;
+			}
+
+		} else {
+			this.execute(bundle[0].instruction);
 		}
+
 		if(this.pending_branch){
 			if(this.pending_branch.delay !== 0){
 				this.pending_branch.delay--;
