@@ -1,8 +1,9 @@
 #
-# Expected Result: undefined label
+# Expected Result: 
+#		ALERT "L6: Can't resolve operands" 
 #
 
-                .word   12;
-                call    x;
-                nop;
-                nop;
+		.word   12;
+		call    x;
+		nop;
+		nop;

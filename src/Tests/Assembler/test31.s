@@ -1,5 +1,7 @@
 #
-# Expected Result: r2 = 52
+# Expected Result: 
+#		r1 = 52
+#		r2 = 52
 #
 
 		.word   x-f

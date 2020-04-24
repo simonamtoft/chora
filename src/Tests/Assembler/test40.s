@@ -1,8 +1,20 @@
 #
-# Expected Result: r8 = 0x210 & r9 = 0x210 & r10 = 0x10 & r11 = 0xe0 & r12 = 0xe0 & r13 = 0x210 & r14 = 0x100
+# Expected Result
+#		r1 = 256
+#		r2 = 528
+#		r3 = 0x12345678
+#		r4 = 0x3A4B5C6D
+#		r5 = 0xABCDEF01
+#		r8 = 0x210
+#		r9 = 0x210
+#		r10 = 0x10
+#		r11 = 0xe0 
+#		r12 = 0xe0 
+#		r13 = 0x210 
+#		r14 = 0x100
 #
 
-                .word   136;
+		.word   136;
 		addi    r1  = r0, 0x100;
 		addi    r2  = r0, 0x210;
 		add     r3  = r0, 0x12345678;
