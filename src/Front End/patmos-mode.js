@@ -3,7 +3,7 @@ import CodeMirror from "codemirror";
 ((mod) => {
 	mod(CodeMirror);
 }) ((CodeMirror) => {
-	"use strict";
+	//"use strict";
 
 	CodeMirror.defineMode("patmos", (config, parserConfig) => {
 		let getRegex = (w, i) => {

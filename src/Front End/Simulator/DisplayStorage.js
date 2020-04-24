@@ -33,13 +33,11 @@ class DisplayStorage extends Component {
 		});
 	}
 
-	UNSAFE_componentWillMount() {
-		this.updateDimensions();
-	}
-
 	componentDidMount() {
+		this.updateDimensions();
 		window.addEventListener("resize", this.updateDimensions);
 	}
+	
 	componentWillUnmount() {
 		window.removeEventListener("resize", this.updateDimensions);
 	}
