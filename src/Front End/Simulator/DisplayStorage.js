@@ -12,15 +12,17 @@ class DisplayStorage extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			pagenumber: 1,
-			pageRows : 0,
-			maxPage : 0,
+			pagenumber	: 1,
+			pageRows 	: 0,
+			maxPage 	: 0,
+			hex			: false,
 		};
 
 		this.incPage = this.incPage.bind(this);
 		this.decPage = this.decPage.bind(this);
 		this.jumpPage = this.jumpPage.bind(this);
 		this.updateDimensions = this.updateDimensions.bind(this);
+		this.toggleHex = this.toggleHex.bind(this);
 	}
 
 	updateDimensions() {
@@ -58,6 +60,10 @@ class DisplayStorage extends Component {
 			this.setState(() => ({ pagenumber: Math.floor(des)+1 }));
 	}
 
+	toggleHex() {
+		this.setState((prevState) => ({ hex : prevState.hex ? false : true }));
+	}
+
 	render() {
 		return(
 			<div>
@@ -75,11 +81,18 @@ class DisplayStorage extends Component {
 						{RenderRegTable(this.props.registers)}
 					</div>
 					<div role="tabpanel" className="tab-pane" id="gm">
-						{RenderMemoryTable(this.props.memory, this.state.pagenumber, this.state.pageRows)}
+						{RenderMemoryTable(this.props.memory, this.state.pagenumber, this.state.pageRows, this.state.hex)}
 						<div>
 							<button type="button" className="btn button page-btn col-4" onClick={this.decPage}>Prev</button>
 							<button type="button" className="btn button page-btn col-4" onClick={this.incPage}>Next</button>
 							<button type="button" className="btn button page-btn col-4" onClick={this.jumpPage}>Jump</button>
+						</div>
+						<div>
+							<button type="button" className="btn button page-btn col-12" onClick={this.toggleHex}>
+								{
+									this.state.hex ? "Change to decimal" : "Change to hexadecimal"
+								}
+							</button>
 						</div>
 					</div>
 				</div>
@@ -136,7 +149,7 @@ const RenderRegTable = (registers) => {
  * RenderMemoryTable: Returns the memory table with columns Address, +0, +1, +2, +3
  * @param {Object} props.memory		- Object containing the memory of the program. 
  */
-const RenderMemoryTable = (memory, pagenumber, pageRows) => {
+const RenderMemoryTable = (memory, pagenumber, pageRows, hex) => {
 	let gm_temp, rows = [];
 
 	let startAddr = (pagenumber-1)*pageRows*4;
@@ -149,7 +162,15 @@ const RenderMemoryTable = (memory, pagenumber, pageRows) => {
 	delete gm_temp["TEXT_END"];
 
 	for (let i = startAddr; i < endAddr; i+= 4) {
-		i <= maxSize ? rows.push(MemoryRow(gm_temp, i)) : rows.push(emptyRow(i));
+		if (i <= maxSize) {
+			if (hex) {
+				gm_temp[i] ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(zeroRowHex(i));
+			} else {
+				gm_temp[i] ? rows.push(MemoryRowDec(gm_temp, i)) : rows.push(zeroRowDec(i));
+			}
+		} else {
+			rows.push(emptyRow(i));
+		}
 	}
 
 	// Return table
@@ -183,14 +204,38 @@ const emptyRow = (key) => {
 	);
 };
 
+const zeroRowDec = (key) => {
+	return(
+		<tr key={key}>
+			<td>{intToHex(key, 8)}</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+			<td>0</td>
+		</tr>
+	);
+}
+
+const zeroRowHex = (key) => {
+	return(
+		<tr key={key}>
+			<td>{intToHex(key, 8)}</td>
+			<td>0x00</td>
+			<td>0x00</td>
+			<td>0x00</td>
+			<td>0x00</td>
+		</tr>
+	);
+}
+
 /**
  * MemoryRow: Returns one row of the memory table.
  * @param {Object} memory - Object containing the global memory of the program. 
  */
-const MemoryRow = (memory, key) => {
+const MemoryRowDec = (memory, key) => {
 	return(
 		<tr key={key}>
-			<td>{intToHex(key)}</td>
+			<td>{intToHex(key, 8)}</td>
 			<td>{memory[`${key}`]}</td>
 			<td>{memory[`${key+1}`]}</td>
 			<td>{memory[`${key+2}`]}</td>
@@ -198,6 +243,22 @@ const MemoryRow = (memory, key) => {
 		</tr>
 	);
 };
+
+/**
+ * MemoryRow: Returns one row of the memory table in hexadecimal.
+ * @param {Object} memory - Object containing the global memory of the program. 
+ */
+const MemoryRowHex = (memory, key) => {
+	return(
+		<tr key={key}>
+			<td>{intToHex(key, 8)}</td>
+			<td>{intToHex(memory[`${key}`], 2)}</td>
+			<td>{intToHex(memory[`${key+1}`], 2)}</td>
+			<td>{intToHex(memory[`${key+2}`], 2)}</td>
+			<td>{intToHex(memory[`${key+3}`], 2)}</td>
+		</tr>
+	);
+}
 
 /**
  * RegRow: Returns one row of the register table.
@@ -212,7 +273,7 @@ const RegRow = (letter, idx, registers) => {
 		<tr key={`${letter}${idx}`}>
 			<td>{letter}{idx}</td>
 			<td>{val}</td>
-			<td>{intToHex(val)}</td>
+			<td>{intToHex(val, 8)}</td>
 		</tr>
 	);
 };
