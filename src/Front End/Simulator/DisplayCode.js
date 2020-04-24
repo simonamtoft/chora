@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { intToHex } from "../../Helpers/misc";
+import { intToHexStr } from "../../Helpers/misc";
 import "../../CSS/Simulator.css";
 
 /**
@@ -56,7 +56,7 @@ const MachineRow = (bundle, pc, addr) => {
 	for(let i of bundle){
 		rows.push(
 			<tr key={idx} className={color} >
-				<td>{intToHex(i.instruction.binary[0], 8)}</td>
+				<td>{intToHexStr(i.instruction.binary[0], 8)}</td>
 				<td>{i.instruction.toString()}</td>
 				<td>{i.original}</td>
 			</tr>
