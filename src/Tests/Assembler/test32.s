@@ -1,5 +1,5 @@
 #
-# Expected Result: r2 = 1
+# Expected Result: r2 = 48
 #
 
                 .word   68;
@@ -14,7 +14,7 @@
 		nop;
                 nop;
                 .word   52;
-x:              add     r2 = r0, 1;
+x:              add     r2 = r0, r1;
                 halt;
                 nop;
                 nop;
