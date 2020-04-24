@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
-import { intToHex } from "../../Helpers/misc";
+import { intToHex, intToHexStr } from "../../Helpers/misc";
 import "../../CSS/Simulator.css";
 import "../../CSS/Buttons.css";
 import "../../CSS/App.css";
@@ -163,10 +163,10 @@ const RenderMemoryTable = (memory, pagenumber, pageRows, hex) => {
 
 	for (let i = startAddr; i < endAddr; i+= 4) {
 		if (i <= maxSize) {
-			if (hex) {
-				gm_temp[i] !== undefined ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(zeroRowHex(i));
+			if (gm_temp[i] === undefined) {
+				rows.push(zeroRow(i));
 			} else {
-				gm_temp[i] !== undefined ? rows.push(MemoryRowDec(gm_temp, i)) : rows.push(zeroRowDec(i));
+				hex ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(MemoryRowDec(gm_temp, i));
 			}
 		} else {
 			rows.push(emptyRow(i));
@@ -204,26 +204,14 @@ const emptyRow = (key) => {
 	);
 };
 
-const zeroRowDec = (key) => {
+const zeroRow = (key) => {
 	return(
 		<tr key={key}>
-			<td>{intToHex(key, 8)}</td>
+			<td>{intToHexStr(key, 8)}</td>
 			<td>0</td>
 			<td>0</td>
 			<td>0</td>
 			<td>0</td>
-		</tr>
-	);
-};
-
-const zeroRowHex = (key) => {
-	return(
-		<tr key={key}>
-			<td>{intToHex(key, 8)}</td>
-			<td>0x00</td>
-			<td>0x00</td>
-			<td>0x00</td>
-			<td>0x00</td>
 		</tr>
 	);
 };
@@ -235,7 +223,7 @@ const zeroRowHex = (key) => {
 const MemoryRowDec = (memory, key) => {
 	return(
 		<tr key={key}>
-			<td>{intToHex(key, 8)}</td>
+			<td>{intToHexStr(key, 8)}</td>
 			<td>{memory[`${key}`]}</td>
 			<td>{memory[`${key+1}`]}</td>
 			<td>{memory[`${key+2}`]}</td>
@@ -251,7 +239,7 @@ const MemoryRowDec = (memory, key) => {
 const MemoryRowHex = (memory, key) => {
 	return(
 		<tr key={key}>
-			<td>{intToHex(key, 8)}</td>
+			<td>{intToHexStr(key, 8)}</td>
 			<td>{intToHex(memory[`${key}`], 2)}</td>
 			<td>{intToHex(memory[`${key+1}`], 2)}</td>
 			<td>{intToHex(memory[`${key+2}`], 2)}</td>
@@ -273,7 +261,7 @@ const RegRow = (letter, idx, registers) => {
 		<tr key={`${letter}${idx}`}>
 			<td>{letter}{idx}</td>
 			<td>{val}</td>
-			<td>{intToHex(val, 8)}</td>
+			<td>{intToHexStr(val, 8)}</td>
 		</tr>
 	);
 };
