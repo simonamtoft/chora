@@ -9,8 +9,6 @@ export const compile_reg = (pred, pd, ps1, ps2, func) => {
 	ps1 = ps1[0] === "!" ? 0b1000 | parseReg(ps1) : parseReg(ps1);
 	ps2 = ps2[0] === "!" ? 0b1000 | parseReg(ps2) : parseReg(ps2);
 
-	console.log(ps2);
-
 	binary[0] |= pred << 27;
 	binary[0] |= 0b01000 << 22;
 	binary[0] |= pd << 17;
