@@ -37,10 +37,10 @@ test("Sws instruction", () => {
 	expect(a.name).toBe("sws");
 	expect(a.binary[0]).toBe(0x0AC0117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+3]).toBe(0x12);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+2]).toBe(0x34);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+1]).toBe(0x56);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)  ]).toBe(0x78);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+0]).toBe(0x12);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+1]).toBe(0x34);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+2]).toBe(0x56);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 2)+3]).toBe(0x78);
 });
 test("Swm instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -56,10 +56,10 @@ test("Swm instruction", () => {
 	expect(a.name).toBe("swm");
 	expect(a.binary[0]).toBe(0x0AC6117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+3]).toBe(0x12);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+2]).toBe(0x34);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+1]).toBe(0x56);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+0]).toBe(0x12);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+1]).toBe(0x34);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+2]).toBe(0x56);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+3]).toBe(0x78);
 });
 test("Swl instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -75,10 +75,10 @@ test("Swl instruction", () => {
 	expect(a.name).toBe("swl");
 	expect(a.binary[0]).toBe(0x0AC2117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+3]).toBe(0x12);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+2]).toBe(0x34);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+1]).toBe(0x56);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+0]).toBe(0x12);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+1]).toBe(0x34);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+2]).toBe(0x56);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+3]).toBe(0x78);
 });
 test("Swc instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -94,10 +94,10 @@ test("Swc instruction", () => {
 	expect(a.name).toBe("swc");
 	expect(a.binary[0]).toBe(0x0AC4117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+3]).toBe(0x12);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+2]).toBe(0x34);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)+1]).toBe(0x56);
-	expect(state.mem[state.reg.r1 + (0x7F << 2)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+0]).toBe(0x12);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+1]).toBe(0x34);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+2]).toBe(0x56);
+	expect(state.mem[state.reg.r1 + (0x7F << 2)+3]).toBe(0x78);
 });
 test("Shs instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -113,10 +113,10 @@ test("Shs instruction", () => {
 	expect(a.name).toBe("shs");
 	expect(a.binary[0]).toBe(0x0AC8117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)+0]).toBe(0x56);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)+1]).toBe(0x78);
 	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)+2]).toBe(undefined);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)+1]).toBe(0x56);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)  ]).toBe(0x78);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
 });
 test("Shm instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -132,10 +132,10 @@ test("Shm instruction", () => {
 	expect(a.name).toBe("shm");
 	expect(a.binary[0]).toBe(0x0ACE117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+0]).toBe(0x56);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+1]).toBe(0x78);
 	expect(state.mem[state.reg.r1 + (0x7F << 1)+2]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)+1]).toBe(0x56);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
 });
 test("Shl instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -151,10 +151,10 @@ test("Shl instruction", () => {
 	expect(a.name).toBe("shl");
 	expect(a.binary[0]).toBe(0x0ACA117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+0]).toBe(0x56);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+1]).toBe(0x78);
 	expect(state.mem[state.reg.r1 + (0x7F << 1)+2]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)+1]).toBe(0x56);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
 });
 test("Shc instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -170,10 +170,10 @@ test("Shc instruction", () => {
 	expect(a.name).toBe("shc");
 	expect(a.binary[0]).toBe(0x0ACC117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+0]).toBe(0x56);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+1]).toBe(0x78);
 	expect(state.mem[state.reg.r1 + (0x7F << 1)+2]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)+1]).toBe(0x56);
-	expect(state.mem[state.reg.r1 + (0x7F << 1)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F << 1)+3]).toBe(undefined);
 });
 test("Sbs instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -189,10 +189,10 @@ test("Sbs instruction", () => {
 	expect(a.name).toBe("sbs");
 	expect(a.binary[0]).toBe(0x0AD0117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)+3]).toBe(undefined);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)+2]).toBe(undefined);
-	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)+1]).toBe(undefined);
 	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)  ]).toBe(0x78);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)+1]).toBe(undefined);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)+2]).toBe(undefined);
+	expect(state.mem[state.reg.s6 + state.reg.r1 + (0x7F)+3]).toBe(undefined);
 });
 test("Sbm instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -208,10 +208,10 @@ test("Sbm instruction", () => {
 	expect(a.name).toBe("sbm");
 	expect(a.binary[0]).toBe(0x0AD6117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+3]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+2]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+1]).toBe(undefined);
 	expect(state.mem[state.reg.r1 + (0x7F)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F)+1]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F)+2]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F)+3]).toBe(undefined);
 });
 test("Sbl instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -227,10 +227,10 @@ test("Sbl instruction", () => {
 	expect(a.name).toBe("sbl");
 	expect(a.binary[0]).toBe(0x0AD2117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+3]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+2]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+1]).toBe(undefined);
 	expect(state.mem[state.reg.r1 + (0x7F)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F)+1]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F)+2]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F)+3]).toBe(undefined);
 });
 test("Sbc instruction", () => {
 	let a, state = JSON.parse(JSON.stringify(initial_state));
@@ -246,8 +246,8 @@ test("Sbc instruction", () => {
 	expect(a.name).toBe("sbc");
 	expect(a.binary[0]).toBe(0x0AD4117F | 0);
 	expect(a.binary[1]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+3]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+2]).toBe(undefined);
-	expect(state.mem[state.reg.r1 + (0x7F)+1]).toBe(undefined);
 	expect(state.mem[state.reg.r1 + (0x7F)  ]).toBe(0x78);
+	expect(state.mem[state.reg.r1 + (0x7F)+1]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F)+2]).toBe(undefined);
+	expect(state.mem[state.reg.r1 + (0x7F)+3]).toBe(undefined);
 });
