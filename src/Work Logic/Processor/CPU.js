@@ -41,8 +41,7 @@ class CPU {
 				conflicts[conflict].prev = this.state.reg[conflict];
 			}
 			// execute
-			this.execute(bundle[0].instruction);
-			console.log(conflicts, this.state.reg);
+			this.execute(bundle[1].instruction);
 			// store and reset
 			for(let conflict in conflicts){
 				conflicts[conflict].next = this.state.reg[conflict];
@@ -51,7 +50,7 @@ class CPU {
 				}
 			}
 			// execute
-			this.execute(bundle[1].instruction);
+			this.execute(bundle[0].instruction);
 			// recover
 			for(let conflict in conflicts){
 				this.state.reg[conflict] = conflicts[conflict].next;
