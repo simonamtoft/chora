@@ -38,19 +38,24 @@ class CPU {
 			if(allRegStr.includes(op) && bundle[1].ops.includes(op)){
 				conflicts[op] = {};
 			}
-		}
-		// store original values
-		for(let conflict in conflicts){
-			conflicts[conflict].prev = this.state.reg[conflict];
-		}
-		// execute
-		this.execute(bundle[0].instruction);
-		console.log(conflicts, this.state.reg);
-		// store and reset
-		for(let conflict in conflicts){
-			conflicts[conflict].next = this.state.reg[conflict];
-			if(conflicts[conflict].prev !== conflicts[conflict].next){
-				this.state.reg[conflict] = conflicts[conflict].prev;
+			// store original values
+			for(let conflict in conflicts){
+				conflicts[conflict].prev = this.state.reg[conflict];
+			}
+			// execute
+			this.execute(bundle[1].instruction);
+			// store and reset
+			for(let conflict in conflicts){
+				conflicts[conflict].next = this.state.reg[conflict];
+				if(conflicts[conflict].prev !== conflicts[conflict].next){
+					this.state.reg[conflict] = conflicts[conflict].prev;
+				}
+			}
+			// execute
+			this.execute(bundle[0].instruction);
+			// recover
+			for(let conflict in conflicts){
+				this.state.reg[conflict] = conflicts[conflict].next;
 			}
 		}
 		// execute

@@ -1,7 +1,7 @@
 #
 # Expected Result: 
-#		base = 0x0000001c
-#		pc = 0x00000044 
+#		base = 0x0000002c
+#		pc = 0x00000050
 #		r0 = 41 
 #
 

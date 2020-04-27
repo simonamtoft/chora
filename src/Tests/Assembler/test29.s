@@ -1,8 +1,8 @@
 #
 # Expected Result: 
 #		r1 = 9
-#		r2 = 9
-#		p-reg = 00001001
+#		r2 = 1
+#		p-reg = 00000001
 #
 
 		.word   36;

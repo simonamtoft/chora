@@ -162,7 +162,7 @@ const RenderMemoryTable = (memory, pagenumber, pageRows, hex) => {
 	for (let i = startAddr; i < endAddr; i+= 4) {
 		if (i <= maxSize) {
 			if (gm_temp[i] === undefined) {
-				rows.push(zeroRow(i));
+				rows.push(zeroRow(i, hex));
 			} else {
 				hex ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(MemoryRowDec(gm_temp, i));
 			}
@@ -202,14 +202,14 @@ const emptyRow = (key) => {
 	);
 };
 
-const zeroRow = (key) => {
+const zeroRow = (key, hex) => {
 	return(
 		<tr key={key}>
 			<td>{intToHexStr(key, 8)}</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
-			<td>0</td>
+			<td>{hex ? "00" : "0"}</td>
+			<td>{hex ? "00" : "0"}</td>
+			<td>{hex ? "00" : "0"}</td>
+			<td>{hex ? "00" : "0"}</td>
 		</tr>
 	);
 };

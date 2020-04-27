@@ -43,6 +43,17 @@ class Mts {
      */
 	execute({ reg }) {
 		reg[this.sd] = reg[this.rs1];
+		if(this.sd === "s0"){
+			reg[this.sd] &= 0xFF;
+			reg["p0"] = 1;
+			reg["p1"] = reg["s0"] >> 1;
+			reg["p2"] = reg["s0"] >> 2;
+			reg["p3"] = reg["s0"] >> 3;
+			reg["p4"] = reg["s0"] >> 4;
+			reg["p5"] = reg["s0"] >> 5;
+			reg["p6"] = reg["s0"] >> 6;
+			reg["p7"] = reg["s0"] >> 7;
+		}
 	}
 	toString(){
 		return `${this.pred ? `(${this.pred&0b1000 ? "!" : ""}p${this.pred&0b0111}) ` : ""}${this.name} ${this.sd} = ${this.rs1}`;

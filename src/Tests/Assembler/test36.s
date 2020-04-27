@@ -1,6 +1,7 @@
 #
 # Expected Result
 #		r2 = 1
+#		p  = 00000101
 #
 
 		.word   48;
