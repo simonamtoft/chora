@@ -8,7 +8,7 @@ class App extends Component {
 	constructor(props) {
 		super(props);
 		this.cpu = new CPU();
-		this.assembler = new Assembler();
+		this.a = new Assembler();
 	}
 
 	/**
@@ -19,9 +19,9 @@ class App extends Component {
 	editorUpdate = (editor) => {
 		console.clear();
 		console.log("Run Assembler");
-		if (this.assembler.run(editor)) {
+		if (this.a.run(editor)) {
 			console.log("Assembler ran successfully");
-			this.cpu.populate(this.assembler.bundles);
+			this.cpu.populate(this.a.bundles);
 		}
 		this.forceUpdate();
 	}
@@ -44,16 +44,26 @@ class App extends Component {
 		this.forceUpdate(); // To re-render
 	}
 
+	/**
+	 * Reset button pressed. Resets program execution:
+	 * Sets pc = 0, resets mem and registers and goes to first bundle
+	 */
 	resetBtn = () => {
-		this.cpu.populate(this.assembler.bundles);
+		this.cpu.populate(this.a.bundles);
 		this.forceUpdate(); // To re-render
 	}
 
+	/**
+	 * Prev button pressed. Reverts the execution of the last bundle executed.
+	 */
 	prevBtn = () => {
 		this.cpu.prev();
 		this.forceUpdate(); // To re-render
 	}
 
+	/**
+	 * Dump button pressed. Saves the binary stream to a file.
+	 */
 	dumpBtn = () => {
 		let mem = this.cpu.getMem();
 		let dump = new Uint8Array(mem["TEXT_END"]);
@@ -78,7 +88,6 @@ class App extends Component {
 		
 	}
 
-
 	render() {
 		document.body.style.overflowY = "hidden";
 		return (
@@ -95,8 +104,8 @@ class App extends Component {
 					dumpClick = {this.dumpBtn}
 					pc={this.cpu.getPC()}
 					bundles={this.cpu.bundles}
-					error={this.assembler.error}
-					numMap={this.assembler.numMap}
+					error={this.a.error}
+					numMap={this.a.numMap}
 				/>
 			</div>
 		);
