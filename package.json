@@ -2,7 +2,7 @@
   "name": "chora",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/chora/",
+  "homepage": "https://amtoft.dev",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
