@@ -87,11 +87,17 @@ class CPU {
 
 	// Run all instructions.
 	run() {
-		console.time("Execution time");
+		let n = 0;
+		let start, end;
+		start = performance.now();
 		while(this.bundles[this.state.cpu.pc]){
 			this.step();
+			n++;
 		}
-		console.timeEnd("Execution time");
+		end = performance.now();
+		console.log(n, "bundles executed in", end-start, "ms.");
+		console.log(n/((end-start)/1000), "bundles pr. second.");
+
 	}
 
 	/**
