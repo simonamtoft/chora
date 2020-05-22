@@ -1,19 +1,16 @@
 # This test runs through all instruction 
 
 # Initialize some registers
-add r2 = r0, 100
-add r3 = r0, 3
-add r4 = r0, 6
-add r10 = r0, 27
-add r15 = r0, 1
-add r22 = r0, 15
+add r2 = r0, 100 || add r3 = r0, 3 
+add r4 = r0, 6 || add r10 = r0, 27
+add r15 = r0, 1 || add r22 = r0, 15
 add r30 = r0, 10
 
 # Binary Arithmetics
 addi 	r1 = r0, 20		# r1 = 20
 and 	r5 = r30, r10	# r5 = 10
 nor  	r6 = r4, 1		# r6 = -8
-or		r7 = r2, r3		# r7 = ????
+or		r7 = r2, r3
 shadd   r8 = r15, r3 	# r8 = 5 
 shadd2 	r9 = r15, r3 	# r9 = 7
 sli  	r11 = r3, 3		# r11 = 24
@@ -78,17 +75,44 @@ mfs r26 = srb
 
 # Store Typed
 sbc [r2 + 127] = r3
-sbl [] =
-sbm [] =
-sbs [] =
-shc [] =
-shm [] =
-shs [] =
-swc [] =
-swl [] =
-swm [] =
-sws [] =	
+sbl [r2 + 127] = r3
+sbm [r2 + 127] = r3
+sbs [r2 + 127] = r3
+shc [r2 + 2] = r3
+shl [r2 + 2] = r3
+shm [r2 + 2] = r3
+shs [r2 + 2] = r3
+swc [r2 + 2] = r3
+swl [r2 + 2] = r3
+swm [r2 + 2] = r3
+sws [r2 + 2] = r3
 
-# Missing load/store
+# Load Typed
+lbc 	r16 = [r2 + 127]
+lbl 	r17 = [r2 + 127]
+lbm 	r18 = [r2 + 127]
+lbs 	r19 = [r2 + 127]
+lbuc 	r20 = [r2 + 127]
+lbul 	r21 = [r2 + 127]
+lbum 	r23 = [r2 + 127]
+lhc 	r24 = [r2 + 2]
+lhl 	r25 = [r2 + 2]
+lhm  	r27 = [r2 + 2]
+lhs  	r28 = [r2 + 2]
+lhuc 	r29 = [r2 + 2]
+lhul 	r31 = [r2 + 2]
+lhum 	r16 = [r2 + 2]
+lhus	r17 = [r2 + 2]
+lwc	 	r18 = [r2 + 2]
+lwl 	r19 = [r2 + 2]
+lwm 	r20 = [r2 + 2]
+lws 	r21 = [r2 + 2]
+
+# Bit Copy
+bcopy r2 = r0, 4, p0
+
+# Move 
+mfs r3 = s0
+mts s1 = r3
 
 # Missing pseudo instructions
