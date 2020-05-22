@@ -58,15 +58,13 @@ nop
 b6: 
 
 # Multiply
-mul 	r8, r6				# s2 = -40
-mulu 	r8, r6				# s2 = ?? (should this be 40 or a very big positive number)
-
+mul 	r8, r6
+mulu 	r8, r6
 
 # Predicate
 pand 	p7 = p0, p2			# p7 = 1 (s0 = 173)
 por		p7 = p6, p1			# p7 = 0 (s0 = 45)
 pxor 	p6 = p0, p6			# p6 = 1 (s0 = 109)
-
 
 # Stack Control
 sres    6
@@ -74,6 +72,22 @@ sfree 	4
 sres	4
 sspill 	1
 
+# Special Moves
+mts srb = r5
+mfs r26 = srb
+
+# Store Typed
+sbc [] =
+sbl [] =
+sbm [] =
+sbs [] =
+shc [] =
+shm [] =
+shs [] =
+swc [] =
+swl [] =
+swm [] =
+sws [] =
 
 # Missing load/store
 
