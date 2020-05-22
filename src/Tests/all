@@ -77,7 +77,7 @@ mts srb = r5
 mfs r26 = srb
 
 # Store Typed
-sbc [] =
+sbc [r2 + 127] = r3
 sbl [] =
 sbm [] =
 sbs [] =
@@ -87,7 +87,7 @@ shs [] =
 swc [] =
 swl [] =
 swm [] =
-sws [] =
+sws [] =	
 
 # Missing load/store
 
