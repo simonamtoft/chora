@@ -161,7 +161,7 @@ const RenderMemoryTable = (memory, pagenumber, pageRows, hex) => {
 
 	for (let i = startAddr; i < endAddr; i+= 4) {
 		if (i <= maxSize) {
-			if (gm_temp[i] === undefined) {
+			if (gm_temp[i] === undefined && gm_temp[i+1] === undefined && gm_temp[i+2] === undefined && gm_temp[i+3] === undefined) {
 				rows.push(zeroRow(i, hex));
 			} else {
 				hex ? rows.push(MemoryRowHex(gm_temp, i)) : rows.push(MemoryRowDec(gm_temp, i));
@@ -219,13 +219,20 @@ const zeroRow = (key, hex) => {
  * @param {Object} memory - Object containing the global memory of the program. 
  */
 const MemoryRowDec = (memory, key) => {
+	let row = [
+		memory[`${key}`] === undefined ? 0 : memory[`${key}`], 
+		memory[`${key+1}`] === undefined ? 0 : memory[`${key+1}`], 
+		memory[`${key+2}`] === undefined ? 0 : memory[`${key+2}`], 
+		memory[`${key+3}`] === undefined ? 0 : memory[`${key+3}`], 
+	];
+
 	return(
 		<tr key={key}>
 			<td>{intToHexStr(key, 8)}</td>
-			<td>{memory[`${key}`]}</td>
-			<td>{memory[`${key+1}`]}</td>
-			<td>{memory[`${key+2}`]}</td>
-			<td>{memory[`${key+3}`]}</td>
+			<td>{row[0]}</td>
+			<td>{row[1]}</td>
+			<td>{row[2]}</td>
+			<td>{row[3]}</td>
 		</tr>
 	);
 };
@@ -235,13 +242,20 @@ const MemoryRowDec = (memory, key) => {
  * @param {Object} memory - Object containing the global memory of the program. 
  */
 const MemoryRowHex = (memory, key) => {
+	let row = [
+		memory[`${key}`] === undefined ? 0 : memory[`${key}`], 
+		memory[`${key+1}`] === undefined ? 0 : memory[`${key+1}`], 
+		memory[`${key+2}`] === undefined ? 0 : memory[`${key+2}`], 
+		memory[`${key+3}`] === undefined ? 0 : memory[`${key+3}`], 
+	];
+
 	return(
 		<tr key={key}>
 			<td>{intToHexStr(key, 8)}</td>
-			<td>{intToHex(memory[`${key}`], 2)}</td>
-			<td>{intToHex(memory[`${key+1}`], 2)}</td>
-			<td>{intToHex(memory[`${key+2}`], 2)}</td>
-			<td>{intToHex(memory[`${key+3}`], 2)}</td>
+			<td>{intToHex(row[0], 2)}</td>
+			<td>{intToHex(row[1], 2)}</td>
+			<td>{intToHex(row[2], 2)}</td>
+			<td>{intToHex(row[3], 2)}</td>
 		</tr>
 	);
 };
