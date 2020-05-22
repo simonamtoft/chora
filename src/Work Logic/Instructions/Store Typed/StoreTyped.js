@@ -20,7 +20,7 @@ class StoreTyped {
 		this.type = type;
 		this.ra = ra;
 		this.rs = rs;
-		this.imm = imm & 0x7F;
+		this.imm = toUint32(imm) & 0x7F;
 		this.binary = compile_reg(pred, type, ra, rs, imm);
 	}
 

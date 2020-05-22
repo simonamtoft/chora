@@ -24,8 +24,8 @@ class Sbs extends StoreTyped {
      * @param {Object.<string, number>} state.reg    - Registers
      */
 	execute({ reg, mem }) {
-		let addr = reg["s6"] + reg[this.ra] + this.imm;
-		mem[addr] = (reg[this.rs]) & 0xFF;
+		let addr = reg["s6"] + reg[this.ra] + (this.imm);
+		mem[addr]   = (reg[this.rs]) & 0xFF;
 	}
 }
 
