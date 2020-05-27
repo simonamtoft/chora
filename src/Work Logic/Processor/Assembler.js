@@ -67,7 +67,6 @@ class Assembler {
 			this.offset += 4;
 			return true;
 		}
-		
 
 		if (insts.length > 2) {
 			this.error[idx] = "Only two instructions per bundle allowed!";
@@ -157,7 +156,7 @@ class Assembler {
 			
 			if (Object.keys(this.labels).includes(bundle.data.value)){
 				bundle.data.value = this.bundles[this.labels[bundle.data.value]].offset;
-			}else if(multi && Object.keys(this.labels).includes(multi[1]) && Object.keys(this.labels).includes(multi[3])){
+			} else if (multi && Object.keys(this.labels).includes(multi[1]) && Object.keys(this.labels).includes(multi[3])){
 				let t1 = this.bundles[this.labels[multi[1]]].offset;
 				let t2 = this.bundles[this.labels[multi[3]]].offset;
 				bundle.data.value = multi[2] === "+" ? t1 + t2: t1 - t2 ;

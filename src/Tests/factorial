@@ -1,6 +1,5 @@
 n: .word 10
-
-.word 24
+.word 28
 main:
 	lwm r3 = [r0 + n]
     call factorial
@@ -31,7 +30,7 @@ factorial:
     mul r3, r29
     mfs r3 = sl
     retnd
-   	base_case:
+base_case:
     sfree 2
     li r3 = 1
     retnd
