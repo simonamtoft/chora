@@ -19,10 +19,9 @@ const regEx = {
 	"bcopy"	: [/^(r\d{1,2})\s*=\s*(r\d{1,2}),\s*((?:0x)?(?:0b)?\d+),\s*(!?p\d)$/i,	"rd = rs, imm, [!]ps"],
 
 	// Pseudo instructions
-	"p1"	: [/^([rp]\d{1,2})\s*=\s*([rp]\d{1,2})$/i, 										"mov, isodd, pmov"],
-	"mov"	: [/ /i, ""],
-	"pmov"	: [/ /i, ""],
-	"isodd"	: [/^(p\d)\s*=\s*(r\d{1,2})$/i, 												"pd = rd"],
+	"mov"	: [/^(r\d{1,2})\s*=\s*(r\d{1,2})$/i, 											"rd = rs"],
+	"pmov"	: [/^(p\d)\s*=\s*(p\d)$/i, 														"pd = ps"],
+	"isodd"	: [/^(p\d)\s*=\s*(r\d{1,2})$/i, 												"pd = rs"],
 	"clr"	: [/^([rp]\d{1,2})$/i, 															"rd/pd"],
 	"neg"	: [/^(r\d{1,2})\s*=\s*-\s*(r\d{1,2})$/i,										"rd = -rs"],
 	"not"	: [/^(r\d{1,2})\s*=\s*!\s*(r\d{1,2})$/i,										"rd = !rs"],
