@@ -33,6 +33,7 @@ class CPU {
 
 	dualIssue(bundle) {
 		// slight spaghetti to ensure that bundles like (p0) addi r1 = r0, 5 || (p0) addi r2 = r1, 5; work
+		let pc = this.state.cpu.pc;
 		let conflicts = {};
 		for(let op of bundle[0].ops){
 			if(allRegStr.includes(op) && bundle[1].ops.includes(op)){
@@ -64,6 +65,7 @@ class CPU {
 		for(let conflict in conflicts){
 			this.state.reg[conflict] = conflicts[conflict].next;
 		}
+		this.state.cpu.pc = pc + 8;
 	}
 
 	handlePendingBranch() {
