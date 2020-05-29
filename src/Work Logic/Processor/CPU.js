@@ -28,12 +28,14 @@ class CPU {
 		this.state.updateHistory();
 		bundle.length === 2 ? this.dualIssue(bundle) : this.execute(bundle[0].instruction);
 		if (this.pending_branch) this.handlePendingBranch();
+		console.log(this.state.cpu.pc);
 		return true;
 	}
 
 	dualIssue(bundle) {
 		// slight spaghetti to ensure that bundles like (p0) addi r1 = r0, 5 || (p0) addi r2 = r1, 5; work
 		let conflicts = {};
+		let pc = this.state.cpu.pc;
 		for(let op of bundle[0].ops){
 			if(allRegStr.includes(op) && bundle[1].ops.includes(op)){
 				conflicts[op] = {};
@@ -58,12 +60,13 @@ class CPU {
 				this.state.reg[conflict] = conflicts[conflict].next;
 			}
 		}
-		// execute
-		this.execute(bundle[1].instruction);
-		// recover
-		for(let conflict in conflicts){
-			this.state.reg[conflict] = conflicts[conflict].next;
-		}
+		this.state.cpu.pc = pc + 8;
+		// // execute
+		// this.execute(bundle[1].instruction);
+		// // recover
+		// for(let conflict in conflicts){
+		// 	this.state.reg[conflict] = conflicts[conflict].next;
+		// }
 	}
 
 	handlePendingBranch() {
@@ -170,17 +173,13 @@ class CPU {
 						break;
 				}
 				this.pending_branch = { delay, inst, pc: this.state.cpu.pc };
-				this.state.cpu.pc += 4;
 			}
-		} else if (cfTypes.includes(inst.name)){
+		} 
+		
+		if (binTypes.includes(inst.name) && inst.type === "l") {
 			this.state.cpu.pc += 4;
 		}
-
-		if(binTypes.includes(inst.name) && inst.type === "l") {
-			this.state.cpu.pc += 8;
-		} else if(!cfTypes.includes(inst.name)){
-			this.state.cpu.pc += 4;
-		}
+		this.state.cpu.pc += 4;
 		this.setReadReg();
 	}
 
