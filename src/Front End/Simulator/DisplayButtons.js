@@ -62,7 +62,7 @@ const forwardBtn = (bundles, pc, runClick, stepClick) => {
 /**
  * backwardsBtn: Handles the two buttons "Prev" and "Reset".
  * Disables the buttons if no instructions has been executed yet.
- * @param {number} 	pc 			- Current CPU program counter
+ * @param {} 		history		- Current CPU program counter
  * @param {func} 	prevClick 	- Button prev clicked handler
  * @param {func} 	resetClick 	- Button reset clicked handler
  */

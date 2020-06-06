@@ -190,6 +190,10 @@ const RenderMemoryTable = (memory, pagenumber, pageRows, hex) => {
 	);
 };
 
+/**
+ * emtpyRow: Returns an empty row in the memory table
+ * @param {number} key 	- The start byte address of the memory row
+ */
 const emptyRow = (key) => {
 	return(
 		<tr key={key}>
@@ -202,6 +206,11 @@ const emptyRow = (key) => {
 	);
 };
 
+/**
+ * emtpyRow: Returns a row with zeros in the memory table
+ * @param {number} key 	- The start byte address of the memory row
+ * @param {boolean} hex - Wheter to display in hexadecimal or not
+ */
 const zeroRow = (key, hex) => {
 	return(
 		<tr key={key}>

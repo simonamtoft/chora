@@ -11,11 +11,6 @@ class App extends Component {
 		this.a = new Assembler();
 	}
 
-	/**
-	 * Handles code editor updates.
-	 * Resets CPU and runs assembler to generate instruction que and labels.
-	 * @param {string} 	editor 	- User input instructions
-	 */
 	editorUpdate = (editor) => {
 		console.clear();
 		console.log("Run Assembler");
@@ -26,36 +21,21 @@ class App extends Component {
 		this.forceUpdate();
 	}
 
-	/**
-	 * Step one instruction, if any left to execute
-	 * @field que : All instructions
-	 * @field queLength: Amount of instructions
-	 */
 	stepBtn = () => {
 		this.cpu.step();
 		this.forceUpdate(); // To re-render
 	}
 
-	/**
-	 * Run button pressed. Runs remaining instructions.
-	 */
 	runBtn = () => {
 		this.cpu.run();
 		this.forceUpdate(); // To re-render
 	}
 
-	/**
-	 * Reset button pressed. Resets program execution:
-	 * Sets pc = 0, resets mem and registers and goes to first bundle
-	 */
 	resetBtn = () => {
 		this.cpu.populate(this.a.bundles);
 		this.forceUpdate(); // To re-render
 	}
 
-	/**
-	 * Prev button pressed. Reverts the execution of the last bundle executed.
-	 */
 	prevBtn = () => {
 		this.cpu.prev();
 		this.forceUpdate(); // To re-render
