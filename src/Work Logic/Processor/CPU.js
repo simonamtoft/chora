@@ -5,7 +5,6 @@ import { allRegStr } from "../../Helpers/regStrings";
 class CPU {
 	constructor() {
 		this.state = new ProcessorState();
-		this.history = [];
 		this.bundles = {};
 		this.pending_branch = null;
 		window.state = this.state;
@@ -13,7 +12,6 @@ class CPU {
 
 	reset() {
 		this.state.reset();
-		this.history = [];
 		this.bundles = {};
 		this.pending_branch = null;
 	}

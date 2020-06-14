@@ -1,7 +1,0 @@
-add r1 = r0, 10	
-lwc r10 = [r1 + 1]
-add r1 = r0, 10		# nop shouldn't be inserted before this
-add r1 = r0, 10	
-lwc r10 = [r1 + 1]
-add r1 = r10, 10	# nop should be inserted before this
-add r1 = r0, 10	

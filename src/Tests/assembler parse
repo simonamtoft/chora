@@ -43,8 +43,7 @@ mts sxb = r7
 mts sxo = r8
 
 
-
-# Check wrong des register
+# Check wrong des register (should give errors)
 add p1 = r0, 10
 cmpneq r2 = r1, 5
 pand s2 = p0, p1
