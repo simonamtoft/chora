@@ -23,6 +23,6 @@ npm run test
 # To-Do
 1. Fix all the copy pasta JSDoc
 2. Find an icon and replace the existing one (browser tab)
-3. Fix bugs (When having a bundle before error, fucks up offset)
+3. Fix bugs (When having a bundle before error, offset is wrong)
 4. Move pending branch to processor state and update history
 5. Make long immediates show in machine code also
